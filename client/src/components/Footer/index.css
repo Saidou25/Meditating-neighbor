@@ -1,0 +1,9 @@
+.footer {
+    background-color: black;
+    color: white;
+    height: 150px;
+}
+.footer-item {
+    padding-top: 3%;
+   text-align: center;
+}

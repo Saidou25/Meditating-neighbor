@@ -1,0 +1,63 @@
+.container-main {
+    height: 100vh;
+}
+.signup-login {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2%;
+    padding-right: 2%;
+}
+.signup,
+.login {
+    background-color: black;
+    color: white;
+    margin: 2px;
+}
+.parallax {
+  background-image: url("../../assets/images/bowlcroped2.jpeg");
+   height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.second {
+    background-image: url("../../assets/images/bowlandbudha.jpeg");
+ min-height: 50%;
+background-attachment: fixed;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+.third {
+    background-image: url("../../assets/images/buddha.jpeg");
+    min-height: 100%;
+   background-attachment: fixed;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+.welcome {
+    background-color: #111;
+    color: #fff;
+   padding: 3%;
+    font-size: 20px;
+    letter-spacing: 10px;
+    text-align: center;
+}
+.cont {
+    padding: 20%;
+    text-align: center;
+}
+.container-landing {
+    background-color: black;
+}
+.text-title {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 3%;
+}
+.first-title {
+    text-align: center;
+}
