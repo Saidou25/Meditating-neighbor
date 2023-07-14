@@ -6,6 +6,7 @@ const Navbar = () => {
         <>
         <CustomLink to="/" className="nav-item">landingPage</CustomLink>
         <CustomLink to="/Signup" className="nav-item">signup</CustomLink>
+        <CustomLink to="/Map" className="nav-item">map</CustomLink>
         </>
     );
     function CustomLink({ to, children, ...props }) {
