@@ -9,19 +9,24 @@ const LandingPage = () => {
       <div className="parallax">
         <div className="signup-login">
           <Link to="/Signup">
-            <button className="btn signup rounded-0">Sinup</button>
+            <button className="btn signup rounded-0" type="button">
+              Sinup
+            </button>
           </Link>
           <Link to="/Login">
             <button className="btn login rounded-0">Login</button>
           </Link>
+          <Link to="/Map">
+            <button className="btn login rounded-0">site</button>
+          </Link>
         </div>
         <div className="cont">
-          <span className="welcome text-white">Welcome to TMI</span>
+          <span className="welcome">Welcome to TMI</span>
         </div>
       </div>
       <div className="container-landing">
         <div className="text-title text-light">
-          <h3 className="first-title mb-5">
+          <h3 className="first-title text-light mb-5">
             Where is the nearest TMI meditator?
           </h3>
           <p>
@@ -44,7 +49,7 @@ const LandingPage = () => {
       <div className="second"></div>
       <div className="container-landing">
         <div className="text-title text-light">
-          <h3 className="first-title mb-5">
+          <h3 className="first-title  text-light mb-5">
             Where is the nearest TMI meditator?
           </h3>
           <p>

@@ -6,7 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Map from "./components/Map";
-// import "bootswatch/dist/lux/bootstrap.min.css";
+import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
 
 function App() {

@@ -4,7 +4,7 @@ import "./index.css";
 const Footer = () => {
     return (
         <div className="footer">
-            <h3 className="footer-item">I am the Footer </h3>
+            <h3 className="footer-item text-light">I am the Footer </h3>
         </div>
        
         
