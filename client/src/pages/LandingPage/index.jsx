@@ -7,17 +7,12 @@ const LandingPage = () => {
   return (
     <main className="container-main">
       <div className="parallax">
-        <div className="signup-login">
-          <Link to="/Signup">
-            <button className="btn signup rounded-0" type="button">
-              Sinup
-            </button>
+        <div className="login-signup">
+          <Link to="/LoginSignup" className="signup-link">
+            <button className="btn btn-text  signup rounded-0">login/ signup</button>
           </Link>
-          <Link to="/Login">
-            <button className="btn login rounded-0">Login</button>
-          </Link>
-          <Link to="/Map">
-            <button className="btn login rounded-0">site</button>
+          <Link to="/Map" className="site-link">
+            <button className="btn site rounded-0">site</button>
           </Link>
         </div>
         <div className="cont">

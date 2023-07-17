@@ -1,3 +1,14 @@
 .navbar {
     background-color: black;
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+.btn-logout {
+    background-color: black;
+    border: none;
+    color: white;
 }

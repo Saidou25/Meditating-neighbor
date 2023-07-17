@@ -1,24 +1,36 @@
 import React, { useState } from "react";
-import { ADD_LOCATION } from "../../utils/mutations";
-import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
-import { useMutation, useQuery } from "@apollo/client";
+import { geoCentroid } from "d3-geo";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
+  Annotation,
 } from "react-simple-maps";
+import { ADD_LOCATION } from "../../utils/mutations";
+import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
+import { useMutation, useQuery } from "@apollo/client";
+import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import API from "../../utils/API";
+import allStates from "../../data/allstates.json";
 import "./index.css";
 
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
+const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
+const offsets = {
+  VT: [50, -8],
+  NH: [34, 2],
+  MA: [30, -1],
+  RI: [28, 2],
+  CT: [35, 10],
+  NJ: [34, 1],
+  DE: [33, 0],
+  MD: [47, 10],
+  DC: [49, 21],
+};
 
-const Map = () => {
+const Usa = () => {
   const [location, setLocation] = useState("");
   const [notSupported, setNotSupported] = useState("");
   // Set state for the longitude and latitude
@@ -34,15 +46,18 @@ const Map = () => {
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  // console.log("locations", locations);
 
   const markers = [];
   for (let location of locations) {
+    const city = location.city;
+    const longitude = location.longitude;
+    const latitude = location.latitude;
+
     const coordin = {
-      city: location.city,
-      coordinates: [location.longitude, location.latitude],
+      city: city,
+      coordinates: [longitude, latitude],
     };
-    markers.push(coordin);
+  markers.push(coordin);
   };
 
   const city = result[0]?.name;
@@ -54,7 +69,6 @@ const Map = () => {
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const username = me.username;
-  console.log("username", username);
 
   const [addLocation] = useMutation(ADD_LOCATION, {
     update(cache, { data: { addLocation } }) {
@@ -121,6 +135,7 @@ const Map = () => {
   if (err || locationsError) {
     return <>{error.toString()}</>;
   }
+
   return (
     <>
       <Navbar />
@@ -145,14 +160,10 @@ const Map = () => {
       </div>
       {result.length ? (
         <div className="result bg-primary pt-5">
-          {city}, {state}, {country}. longitude: {longitude}, latitude:{" "}
-          {latitude} {/* </div> */}
-          <p className="save-text bg-primary mt-5">
-            {/* Would you like to save your location? */}
-          </p>
+         You are located in {city}, {state}, {country}.
           <div className="location-save bg-primary">
             <button
-              className="btn-location-save text-white "
+              className="btn-location-save text-white mt-5"
               type="button"
               onClick={handleSubmit}
             >
@@ -164,36 +175,84 @@ const Map = () => {
         <></>
       )}
       <div className="map-container bg-primary">
-        <ComposableMap
-          data-tip=""
-          // projection="geoAlbersUsa"
-          className="map"
-        >
-          <ZoomableGroup center={[0, 0]} zoom={1}>
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => (
-                  <Geography key={geo.rsmKey} geography={geo} />
-                ))
-              }
-            </Geographies>
-            {markers.map(({ city, coordinates }) => (
-              <Marker key={city} coordinates={coordinates}>
-                <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
-                <text
-                  textAnchor="middle"
-                  // y={markerOffset}
-                  // style={{ fontFamily: "system-ui", fill: "#fff" }}
-                >
-                  {/* {city} */}
-                </text>
-              </Marker>
-            ))}
-          </ZoomableGroup>
+        <ComposableMap projection="geoAlbersUsa" className="map">
+          <Geographies geography={geoUrl}>
+            {({ geographies }) => (
+              <>
+                {geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    // stroke="#FFF"
+                    geography={geo}
+                    // fill="#DDD"
+                  />
+                ))}
+                {geographies.map((geo) => {
+                  const centroid = geoCentroid(geo);
+                  const cur = allStates.find((s) => s.val === geo.id);
+                  return (
+                    <g key={geo.rsmKey + "-name"}>
+                      {cur &&
+                        centroid[0] > -160 &&
+                        centroid[0] < -67 &&
+                        (Object.keys(offsets).indexOf(cur.id) === -1 ? (
+                          <Marker coordinates={centroid}
+                          style={{
+                            default: {
+                              fill: "#000000",
+                            },
+                            hover: {
+                              fill: "#f69c26",
+                            },
+                            pressed: {
+                              fill: "#eeebea",
+                            },
+                          }}>
+                            <text y="2" textAnchor="middle">
+                              {cur.id}
+                            </text>
+                          </Marker>
+                        ) : (
+                          <Annotation
+                            subject={centroid}
+                            dx={offsets[cur.id][0]}
+                            dy={offsets[cur.id][1]}
+                          >
+                            <text
+                              x={4}
+                              fontSize={14}
+                              alignmentBaseline="middle"
+                              
+                            >
+                              {cur.id}
+                            </text>
+                          </Annotation>
+                        ))}
+                    </g>
+                  );
+                })}
+              </>
+            )}
+          </Geographies>
+          {/* <Markers> */}
+          {markers.map(({ city, coordinates }) => (
+            <Marker key={city} coordinates={coordinates}>
+              <circle r={1} fill="#fff" />
+              {/* <text
+                textAnchor="middle"
+                // y={markerOffset}
+                style={{ fontFamily: "system-ui", fill: "#fff" }}
+              >
+                {city}
+              </text> */}
+            </Marker>
+          ))}
+          {/* </Markers> */}
         </ComposableMap>
       </div>
       <Footer />
     </>
   );
 };
-export default Map;
+
+export default Usa;

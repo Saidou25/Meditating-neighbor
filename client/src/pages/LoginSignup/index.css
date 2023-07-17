@@ -1,0 +1,17 @@
+.container-loginsignup {
+    height: 100vh;
+}
+.container-nav {
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto; 
+    padding-top: 10%;
+    /* background-color: rgba(19, 3, 3, 0.3); */
+}
+
+#nav-login,
+#nav-signup
+ {
+    margin-top: 2%;
+    padding: 4%;
+}

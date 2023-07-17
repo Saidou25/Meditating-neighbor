@@ -1,12 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from "../../utils/auth";
 import "./index.css";
+
+
 const Navbar = () => {
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+    console.log("logout success!");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link className="navbar-brand text-light" to="/">
-          Navbar
+          meditating neighbor
         </Link>
         <button
           className="navbar-toggler"
@@ -19,23 +28,32 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav me-auto">
+        <div>
+          <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link active text-light" to="/Map">
+              <Link className="nav-link text-light fs-4" to="/Map">
                 map
-                <span className="visually-hidden">(current)</span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/Login">
-                login
+              <Link className="nav-link text-light fs-4" to="/Usa">
+                usa
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/Signup">
-                signup
+              <Link className="nav-link text-light fs-4" to="/Neighbors">
+                neighbors
               </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-light fs-4" to="/LoginSignup">
+                login/signup
+              </Link>
+              </li>
+              <li className="nav-item">
+                <button className="btn-logout show-hide fs-3" onClick={logout}>
+                  logout
+                </button>
             </li>
           </ul>
         </div>

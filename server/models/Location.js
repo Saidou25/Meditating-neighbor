@@ -1,38 +1,35 @@
 const { Schema, model } = require("mongoose");
 
 const locationSchema = new Schema({
-username: {
+  username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
-longitude: {
-    type: String,
+  longitude: {
+    type: Number,
     required: true,
     minlength: 5,
   },
   latitude: {
-    type: String,
+    type: Number,
     required: true,
     minlength: 5,
   },
   city: {
     type: String,
     required: true,
-    minlength: 5,
   },
   state: {
     type: String,
     required: true,
-    minlength: 5,
   },
   country: {
     type: String,
     required: true,
-    minlength: 5,
-  }
+  },
 });
 
-const Location = model("location", locationSchema);
+const Location = model("Location", locationSchema);
 
 module.exports = Location;

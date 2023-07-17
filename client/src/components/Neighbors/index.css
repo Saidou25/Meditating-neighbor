@@ -1,0 +1,15 @@
+.container-neighbors {
+    height: 100vh;
+}
+.locations-list-title {
+    text-align: center;
+    padding: 5%;
+}
+
+.card-locations {
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 2%;
+    background-color: rgba(16, 14, 14, 0.4) !important;
+}

@@ -1,21 +1,25 @@
 .container-main {
   height: 100vh;
 }
-.signup-login {
+.login-signup {
   display: flex;
   justify-content: flex-end;
   padding-top: 2%;
   padding-right: 2%;
 }
-.signup,
-.login {
+.signup-link,
+.site-link {
   background-color: black;
-  color: white;
-  margin: 2px;
+  margin: 1px;
+}
+.signup,
+.site {
+  font-size: 1.2rem;
+  color: white !important;
 }
 .signup:hover,
-.login:hover {
-  color: goldenrod;
+.site:hover {
+  color: rgb(241, 207, 139) !important;
 }
 .parallax {
   background-image: url("../../assets/images/bowlcroped2.jpeg");
