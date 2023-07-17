@@ -14,6 +14,8 @@ import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import allStates from "../../data/allstates.json";
+import Spinner from "../Spinner";
+
 import "./index.css";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -39,6 +41,9 @@ const Usa = () => {
   // Set state for the search result and the search query
   const [result, setResult] = useState({});
   const [error, setError] = useState("");
+  // set state for progress bar
+  const [value, setValue] = useState("10");
+  const [showProgressBar, setShowProgressBar] = useState("");
 
   const {
     data: locationsData,
@@ -53,19 +58,18 @@ const Usa = () => {
     const longitude = location.longitude;
     const latitude = location.latitude;
 
-    const coordin = {
+    const coordinatesObj = {
       city: city,
       coordinates: [longitude, latitude],
     };
-  markers.push(coordin);
-  };
+    markers.push(coordinatesObj);
+  }
 
   const city = result[0]?.name;
   const state = result[0]?.state;
   const country = result[0]?.country;
 
   // query locations from backend and pushing to [markers] to display meditators location on map
-
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const username = me.username;
@@ -83,6 +87,25 @@ const Usa = () => {
       }
     },
   });
+  // function for progress bar
+  const move = () => {
+    let i = 0;
+    if (i === 0) {
+      i = 1;
+      let width = 10;
+      const id = setInterval(frame, 30);
+      function frame() {
+        if (width >= 97) {
+          clearInterval(id);
+          i = 0;
+        } else {
+          width++;
+          // dynamically setting width for progress bar
+          setValue(width);
+        }
+      }
+    }
+  };
 
   const searchCity = (longitude, latitude) => {
     API.search(longitude, latitude)
@@ -91,9 +114,11 @@ const Usa = () => {
   };
   // geolocate user with getCurrentPosition methode
   const getLocation = () => {
+    setShowProgressBar("show");
+    // setProgress("40% completed");
     if (navigator.geolocation) {
       setLocation(navigator.geolocation.getCurrentPosition(showPosition));
-      console.log("location", location);
+      move();
     } else {
       setNotSupported("Geolocation is not supported by this browser.");
       console.log("not supported", notSupported);
@@ -106,10 +131,11 @@ const Usa = () => {
     const lon = position.coords.longitude;
     setLongitude(lon);
     searchCity(lon, lat);
+    setValue("100");
+    setShowProgressBar("");
   };
 
   const handleSubmit = async () => {
-    console.log(typeof longitude);
     try {
       const { data } = await addLocation({
         variables: {
@@ -130,7 +156,7 @@ const Usa = () => {
   };
 
   if (loading || loadingLocations) {
-    return <>loading...</>;
+    return <Spinner />;
   }
   if (err || locationsError) {
     return <>{error.toString()}</>;
@@ -147,33 +173,31 @@ const Usa = () => {
         >
           locate me
         </button>
-        <div className="progress">
-          <div
-            className="progress-bar progress-bar-striped progress-bar-animated"
-            role="progressbar"
-            aria-valuenow="75"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            // style="width: 75%;"
-          ></div>
-        </div>
       </div>
-      {result.length ? (
-        <div className="result bg-primary pt-5">
-         You are located in {city}, {state}, {country}.
-          <div className="location-save bg-primary">
+      {showProgressBar === "show" && (
+        <div className="bar bg-primary pt-5">
+          <div id="myProgress">
+            <div id="myBar" style={{ width: `${value}%` }}>{`${value}%`}</div>
+          </div>
+        </div>
+      )}
+      {result.length && (
+        <>
+          <div className="result bg-primary pt-5">
+            You are located in {city}, {state}, {country}.
+          </div>
+          <div className="container-btn bg-primary">
             <button
-              className="btn-location-save text-white mt-5"
+              className="btn-coordinates text-white "
               type="button"
               onClick={handleSubmit}
             >
               save my location
             </button>
           </div>
-        </div>
-      ) : (
-        <></>
+        </>
       )}
+
       <div className="map-container bg-primary">
         <ComposableMap projection="geoAlbersUsa" className="map">
           <Geographies geography={geoUrl}>
@@ -196,18 +220,20 @@ const Usa = () => {
                         centroid[0] > -160 &&
                         centroid[0] < -67 &&
                         (Object.keys(offsets).indexOf(cur.id) === -1 ? (
-                          <Marker coordinates={centroid}
-                          style={{
-                            default: {
-                              fill: "#000000",
-                            },
-                            hover: {
-                              fill: "#f69c26",
-                            },
-                            pressed: {
-                              fill: "#eeebea",
-                            },
-                          }}>
+                          <Marker
+                            coordinates={centroid}
+                            style={{
+                              default: {
+                                fill: "#000000",
+                              },
+                              hover: {
+                                fill: "#f69c26",
+                              },
+                              pressed: {
+                                fill: "#eeebea",
+                              },
+                            }}
+                          >
                             <text y="2" textAnchor="middle">
                               {cur.id}
                             </text>
@@ -222,7 +248,6 @@ const Usa = () => {
                               x={4}
                               fontSize={14}
                               alignmentBaseline="middle"
-                              
                             >
                               {cur.id}
                             </text>

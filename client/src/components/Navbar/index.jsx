@@ -30,31 +30,41 @@ const Navbar = () => {
         </button>
         <div>
           <ul className="navbar-nav">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Map">
                 map
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Usa">
                 usa
               </Link>
             </li>
+            {/* <li className="nav-item">
+              <Link className="nav-link text-light fs-4" to="/ProgressBar">
+              ProgressBar
+              </Link>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Neighbors">
                 neighbors
               </Link>
             </li>
-            <li className="nav-item">
+            {Auth.loggedIn ? (
+               <li className="nav-item">
+               <button className="btn-logout" onClick={logout}>
+                 <div className="logout text-light">logout</div>
+               </button>
+           </li>
+            ) : (
+              <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/LoginSignup">
                 login/signup
               </Link>
               </li>
-              <li className="nav-item">
-                <button className="btn-logout show-hide fs-3" onClick={logout}>
-                  logout
-                </button>
-            </li>
+            )}
+            
+             
           </ul>
         </div>
       </div>

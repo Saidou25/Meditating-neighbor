@@ -5,7 +5,7 @@
   }
   .result {
     text-align: center;
-    padding-top: 2%;
+    /* padding-top: 7%; */
     font-size: 1.3rem;
     color: white;
     
@@ -20,20 +20,37 @@
     width: 200px;
     background-color: black;
     margin-top: 5%;
+    margin-bottom: 2%;
+    padding: 1%;
     border-width: 0;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   .btn-location-save {
     border-radius: 25px;
     width: 200px;
     background-color: black;
-    /* margin-top: 5%; */
+    padding: 1%;
     border-width: 0;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   .container-btn {
     display: flex;
     justify-content: center;
-   
   }
+  #myProgress {
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 25px;
+    background-color: #ddd;
+  } 
   
+   #myBar {
+    /* width: 10%; */
+    height: 30px;
+    border-radius: 25px;
+    background-color: orange;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+ }  

@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import LoginSignup from "./pages/LoginSignup";
 import Map from "./components/Map";
 import Usa from "./components/Usa";
+// import ProgressBar from "./components/ProgressBar";
 import Neighbors from "./components/Neighbors";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/LoginSignup" element={<LoginSignup />} />
             <Route path="/Map" element={<Map />} />
             <Route path="/Usa" element={<Usa />} />
+            {/* <Route path="/ProgressBar" element={<ProgressBar />} /> */}
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
