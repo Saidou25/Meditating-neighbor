@@ -167,21 +167,21 @@ const Usa = () => {
       <Navbar />
       <div className="container-btn bg-primary">
         <button
-          className="btn-coordinates text-white "
+          className="btn-coordinates text-white"
           type="button"
           onClick={getLocation}
         >
           locate me
         </button>
       </div>
-      {showProgressBar === "show" && (
-        <div className="bar bg-primary pt-5">
+      {showProgressBar === "show" && !result.length && (
+        <div className="bar bg-primary">
           <div id="myProgress">
             <div id="myBar" style={{ width: `${value}%` }}>{`${value}%`}</div>
           </div>
         </div>
       )}
-      {result.length && (
+      {result.length && !showProgressBar && (
         <>
           <div className="result bg-primary pt-5">
             You are located in {city}, {state}, {country}.
@@ -192,7 +192,7 @@ const Usa = () => {
               type="button"
               onClick={handleSubmit}
             >
-              save my location
+              save location
             </button>
           </div>
         </>

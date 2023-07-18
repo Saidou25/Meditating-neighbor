@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
-// import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -41,34 +41,29 @@ const Login = () => {
       password: "",
     });
   };
-//   if (loading) return <Spinner />;
+  if (loading) return <Spinner />;
   return (
     <>
+     <div className="container-signup g-0"></div>
       <div className="signup-login-error">
         {error && (
-          <div className="my-3 p-3 bg-warning text-white mt-5">
+          <div className="my-3 p-3 bg-warning text-primary">
             {error.message}
           </div>
         )}
       </div>
-      {/* <div className="bg-image"> */}
         <main className="container-login g-0">
-          {/* <div className="card login"> */}
-            {/* <h4 className="card-header header-login text-primary-emphasis p-4">
-              Login
-            </h4> */}
-            {/* <div className="card-body p-3"> */}
               {data ? (
                 <p>
                   Success! You may now head{" "}
-                  <Link to="/Dashboard">to your Dashboard.</Link>
+                  <Link to="/Usa">to your Dashboard.</Link>
                 </p>
               ) : (
-                <form onSubmit={handleFormSubmit}>
-                  <label className="form-label1 text-primary-emphasis mb-4 mt-0">Email</label>
+                <form className="login-form" onSubmit={handleFormSubmit}>
+                  <label className="form-label-login mb-4 mt-5">Email</label>
                   <br />
                   <input
-                    className="form-input mb-4"
+                    className="form-input mt-2 mb-2"
                     placeholder="Your email"
                     name="email"
                     type="email"
@@ -76,10 +71,10 @@ const Login = () => {
                     onChange={handleChange}
                   />{" "}
                   <br />
-                  <label className="form-label1 text-primary-emphasis mb-4 mt-0">Password</label>
+                  <label className="form-label-login  mb-4 mt-4">Password</label>
                   <br />
                   <input
-                    className="form-input mt-3"
+                    className="form-input mt-2 mb-2"
                     placeholder="******"
                     name="password"
                     type="password"
@@ -91,7 +86,7 @@ const Login = () => {
                   </div>
                   <div className="btn-position">
                   <button
-                    className="btn btn-primary btn-login rounded-0 mt-5"
+                    className="btn btn-login bg-primary  text-light rounded-0 mt-5 mb-5"
                     style={{ cursor: "pointer" }}
                     type="submit"
                   >

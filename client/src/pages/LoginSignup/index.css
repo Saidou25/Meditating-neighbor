@@ -1,17 +1,28 @@
 .container-loginsignup {
-    height: 100vh;
+  height: 100vh;
 }
 .container-nav {
-    width: 60%;
-    margin-right: auto;
-    margin-left: auto; 
-    padding-top: 10%;
-    /* background-color: rgba(19, 3, 3, 0.3); */
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 10%;
+}
+.nav {
+  background-color: rgba(236, 120, 11, 0.4);
+  /* border-width: 0 !important; */
+  border-color: transparent !important;
+  /* border-style: none !important; */
 }
 
-#nav-login,
-#nav-signup
- {
-    margin-top: 2%;
-    padding: 4%;
+#nav-login-tab,
+#nav-signup-tab {
+  border-width: 0 !important;
+  /* border-style: none !important; */
+  border-color: transparent !important;
+}
+.active {
+  /* background-color: rgba(236, 120, 11, 0.4) !important; */
+  background-color: orange !important;
+  border-style: none !important;
+  border-color: transparent !important;
 }

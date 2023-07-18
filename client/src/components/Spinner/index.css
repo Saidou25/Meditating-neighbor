@@ -1,7 +1,7 @@
 
 .container-spinner {
-    margin-top: 30%;
-    margin-bottom: 60%;
+    height: 100vh;
+    
 }
 .spinner-border {
     width: 50px;
@@ -9,6 +9,6 @@
 }
 .loading {
     text-align: center;
-    font-size: 1.5rem;
-    color: white;
+    font-size: 2rem;
+    color: orange;
 }

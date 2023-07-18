@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
-// import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -44,7 +44,7 @@ const Signup = () => {
     }
   };
 
-  //   if (loading) return <Spinner />;
+    if (loading) return <Spinner />;
 
   if (confirm === true) {
     return (
@@ -66,19 +66,19 @@ const Signup = () => {
       <div className="container-signup g-0">
         <div className="signup-login-error">
           {error && (
-            <div className="my-3 p-3 bg-warning text-white mt-5">
+            <div className="my-3 p-3 bg-warning text-primary">
               {error.message}
             </div>
           )}
         </div>
         <div className="bg-image" alt="care">
-                <form onSubmit={handleFormSubmit}>
-                  <label className="form-label text-primary mb-4 mt-0">
+                <form className="signup-form" onSubmit={handleFormSubmit}>
+                  <label className="form-label-signup mb-4 mt-5">
                     Username
                   </label>
                   <br />
                   <input
-                    className="form-input"
+                    className="form-input mt-2 mb-2"
                     placeholder="choose a username..."
                     name="username"
                     type="username"
@@ -86,10 +86,10 @@ const Signup = () => {
                     onChange={(e) => setUsename(e.target.value)}
                   />
                   <br />
-                  <label className="form-label text-primary mb-4">Email</label>
+                  <label className="form-label-signup mb-4 mt-4">Email</label>
                   <br />
                   <input
-                    className="form-input"
+                    className="form-input mt-2 mb-2"
                     placeholder="your email.."
                     name="email"
                     type="email"
@@ -97,12 +97,12 @@ const Signup = () => {
                     onChange={handleChange}
                   />
                   <br />
-                  <label className="form-label  text-primary mb-4">
+                  <label className="form-label-signup mb-4 mt-4">
                     Password
                   </label>
                   <br />
                   <input
-                    className="form-input"
+                    className="form-input mt-2 mb-2"
                     placeholder="******"
                     name="password"
                     type="password"

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from "../../utils/auth";
 import Footer from "../../components/Footer";
 import "./index.css";
 
@@ -11,6 +12,20 @@ const LandingPage = () => {
           <Link to="/LoginSignup" className="signup-link">
             <button className="btn btn-text  signup rounded-0">login/ signup</button>
           </Link>
+
+          {/* {Auth.loggedIn ? (
+               <li className="nav-item">
+               <button className="btn-logout" onClick={logout}>
+                 <div className="logout text-light">logout</div>
+               </button>
+           </li>
+            ) : (
+              <li className="nav-item">
+              <Link className="nav-link text-light fs-4" to="/LoginSignup">
+                login/signup
+              </Link>
+              </li>
+            )} */}
           <Link to="/USA" className="site-link">
             <button className="btn site rounded-0">site</button>
           </Link>
@@ -20,8 +35,8 @@ const LandingPage = () => {
         </div>
       </div>
       <div className="container-landing">
-        <div className="text-title text-light">
-          <h3 className="first-title text-light mb-5">
+        <div className="text-title fs-4">
+          <h3 className="first-title text-secondary mb-5">
             Where is the nearest TMI meditator?
           </h3>
           <p>
@@ -43,8 +58,8 @@ const LandingPage = () => {
       </div>
       <div className="second"></div>
       <div className="container-landing">
-        <div className="text-title text-light">
-          <h3 className="first-title  text-light mb-5">
+        <div className="text-title fs-4">
+          <h3 className="first-title text-secondary mb-5">
             Where is the nearest TMI meditator?
           </h3>
           <p>

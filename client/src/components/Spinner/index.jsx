@@ -3,7 +3,7 @@ import "./index.css";
 
 const Spinner = () => {
   return (
-    <div className="container-spinner">
+    <div className="container-spinner bg-primary">
       <div className="d-flex justify-content-center align-items-center">
         <div className="spinner-border" role="status">
           <span className="sr-only"></span>
