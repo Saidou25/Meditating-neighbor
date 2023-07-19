@@ -26,9 +26,15 @@ const LandingPage = () => {
               </Link>
               </li>
             )} */}
+            {Auth.loggedIn() ? (
           <Link to="/USA" className="site-link">
             <button className="btn site rounded-0">site</button>
           </Link>
+            ) : (
+              <div className="error">
+                You need to be loggedin...
+                </div>
+            )}
         </div>
         <div className="cont">
           <span className="welcome">Welcome to TMI</span>

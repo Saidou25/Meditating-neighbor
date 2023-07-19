@@ -11,7 +11,7 @@ const Signup = () => {
 
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsename] = useState("");
+  const [username, setUsername] = useState("");
   const [confirm, setConfirm] = useState(false);
 
   const [addUser, { error, loading }] = useMutation(ADD_USER);
@@ -83,7 +83,7 @@ const Signup = () => {
                     name="username"
                     type="username"
                     value={username}
-                    onChange={(e) => setUsename(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   <br />
                   <label className="form-label-signup mb-4 mt-4">Email</label>

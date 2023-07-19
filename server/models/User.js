@@ -20,14 +20,13 @@ const userSchema = new Schema({
     unique: true,
     minlength: 5,
   },
-  avatarUrl: {
-    type: String,
-    required: false,
-    unique: true,
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: "profile",
   },
   location: {
     type: Schema.Types.ObjectId,
-    ref: "Location",
+    ref: "location",
   },
 });
 

@@ -1,23 +1,29 @@
-const { Location, User } = require("../models");
+const { Location, User, Profile } = require("../models");
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("location");
+      return User.find().populate("location").populate("profile");
     },
     user: async (_, args) => {
-      return User.findOne({ id: args._id }).populate("location");
+      return User.findOne({ id: args._id }).populate("location").populate("profile");
     },
     me: async (_, _args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("location");
+        return User.findOne({ _id: context.user._id }).populate("location").populate("profile");
       }
     },
     locations: async () => {
       return await Location.find();
     },
+    profiles: async () => {
+      return await Profile.find();
+    },
+    profile: async () => {
+      return await Profile.findOneAndUpdate({ id: args._id });
+    }
   },
 
   Mutation: {
@@ -57,14 +63,27 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-    updateUser: async (_, args) => {
-      return await User.findOneAndUpdate(
+    addProfile: async (_, args, context) => {
+      if (context.user) {
+        const profile = await Profile.create({
+          username: args.username,
+          avatarUrl: args.avatarUrl
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $set: { profile: profile._id } },
+          { new: true }
+        );
+        return profile;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    updateProfile: async (_, args) => {
+      return await Profile.findOneAndUpdate(
         { _id: args.id },
         {
           username: args.username,
-          email: args.email,
           avatarUrl: args.avatarUrl,
-          location: location,
         },
         { new: true }
       );

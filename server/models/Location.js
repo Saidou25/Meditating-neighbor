@@ -4,7 +4,6 @@ const locationSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
   },
   longitude: {
     type: Number,
@@ -30,6 +29,6 @@ const locationSchema = new Schema({
   },
 });
 
-const Location = model("Location", locationSchema);
+const Location = model("location", locationSchema);
 
 module.exports = Location;

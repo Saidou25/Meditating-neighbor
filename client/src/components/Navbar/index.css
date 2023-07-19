@@ -8,6 +8,9 @@
     display: flex;
     align-items: center;
 }
+.icon-nav {
+    border-radius: 50%;
+}
 .btn-logout {
     background-color: black;
     border: none;

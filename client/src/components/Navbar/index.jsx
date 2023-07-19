@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../../utils/queries";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -10,6 +12,9 @@ const Navbar = () => {
     Auth.logout();
     console.log("logout success!");
   };
+  const { data } = useQuery(QUERY_ME);
+  const me = data?.me || [];
+  const savedUrl = me.profile?.avatarUrl;
 
   return (
     <nav className="navbar navbar-expand-lg">
@@ -32,12 +37,12 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Map">
-              map
+                map
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/ProfPics">
-              pics
+                pics
               </Link>
             </li>
             <li className="nav-item">
@@ -45,7 +50,7 @@ const Navbar = () => {
                 usa
               </Link>
             </li>
-            
+
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Neighbors">
                 nearby
@@ -66,7 +71,12 @@ const Navbar = () => {
             )}
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Profile">
-                <img src={profileIcon} alt="profile icon" height={43} />
+                <img
+                  className="icon-nav"
+                  src={!savedUrl ? profileIcon : savedUrl}
+                  alt="profile icon"
+                  height={43}
+                />
               </Link>
             </li>
           </ul>

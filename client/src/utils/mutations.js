@@ -23,16 +23,21 @@ export const ADD_USER = gql`
     }
   }
 `;
-export const UPDATE_USER = gql`
-  mutation updateUser($username: String!, $email: String!, $avatarUrl: String) {
-    updateUser(username: $username, email: $email, avatarUrl: $avatarUrl) {
-      token
-      user {
-        _id
-        username
-        avatarUrl
-        location
-      }
+export const ADD_PROFILE = gql`
+  mutation addProfile($username: String!, $avatarUrl: String!) {
+    addProfile(username: $username, avatarUrl: $avatarUrl) {
+      _id
+      username
+      avatarUrl
+    }
+  }
+`;
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($id: String!, $username: String!, $avatarUrl: String) {
+    updateProfile(id: $id, username: $username, avatarUrl: $avatarUrl) {
+      _id
+      username
+      avatarUrl
     }
   }
 `;
