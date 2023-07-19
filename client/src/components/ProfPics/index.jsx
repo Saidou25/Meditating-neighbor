@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
-import { QUERY_ME } from "../../utils/queries";
+import { QUERY_ME,QUERY_USERS } from "../../utils/queries";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
@@ -11,6 +11,12 @@ import "./index.css";
 const ProfPics = () => {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
+
+  const {
+    data: usersData,
+  } = useQuery(QUERY_USERS);
+  const users = usersData?.users || [];
+  // console.log(users)
 
   const { data } = useQuery(QUERY_ME);
   const me = data?.me || [];

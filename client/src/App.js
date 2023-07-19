@@ -16,6 +16,7 @@ import LoginSignup from "./pages/LoginSignup";
 import Map from "./components/Map";
 import Usa from "./components/Usa";
 import ProfPics from "./components/ProfPics";
+import ProfileList from "./components/ProfileList";
 import Profile from "./components/Profile";
 import Neighbors from "./components/Neighbors";
 import "bootswatch/dist/lux/bootstrap.min.css";
@@ -59,6 +60,7 @@ function App() {
             <Route path="/Map" element={<Map />} />
             <Route path="/Usa" element={<Usa />} />
             <Route path="/ProfPics" element={<ProfPics />} />
+            <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/" element={<LandingPage />} />

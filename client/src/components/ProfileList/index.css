@@ -1,0 +1,20 @@
+/* .container-neighbors {
+    height: 100vh;
+} */
+.locations-list-title {
+    text-align: center;
+    padding: 5%;
+}
+
+.profiles-column {
+    display: flex;
+    justify-content: center;
+}
+.card-locations {
+    /* width: 20%; */
+    border-width: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 2%;
+    /* background-color: rgba(0, 0, 0, 0.4) !important; */
+}

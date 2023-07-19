@@ -54,7 +54,6 @@ const Map = () => {
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const username = me.username;
-  console.log("username", username);
 
   const [addLocation] = useMutation(ADD_LOCATION, {
     update(cache, { data: { addLocation } }) {

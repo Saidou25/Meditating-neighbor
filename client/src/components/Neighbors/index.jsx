@@ -1,51 +1,45 @@
 import React from "react";
-import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
+import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import ProfileList from "../ProfileList";
 import "./index.css";
 
 const Neighbors = () => {
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
-  const username = me.username;
-  // console.log("username", username);
-
-  const {
-    data: locationData,
-    locationLoading,
-    locationError,
-  } = useQuery(QUERY_LOCATIONS);
-  const locations = locationData?.locations || [];
-  // console.log("locations", allLocations);
+  const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
+  const users = usersData?.users || [];
 
   // Calculates distance between user's geolocation and other user's
   const seventyFiveMiles = [];
   const overSeventyFiveMiles = [];
 
-  const distance = (myLat, myLon, location) => {
+  const distance = (myLat, myLon, user) => {
     const r = 6371; // km
     const p = Math.PI / 180;
-    const usersLat = location.latitude;
-    const usersLon = location.longitude;
+    const userLat = user.location.latitude;
+    const userLon = user.location.longitude;
 
     const a =
       0.5 -
-      Math.cos((usersLat - myLat) * p) / 2 +
+      Math.cos((userLat - myLat) * p) / 2 +
       (Math.cos(myLat * p) *
-        Math.cos(usersLat * p) *
-        (1 - Math.cos((usersLon - myLon) * p))) /
+        Math.cos(userLat * p) *
+        (1 - Math.cos((userLon - myLon) * p))) /
         2;
 
     const distance2 = 2 * r * Math.asin(Math.sqrt(a)) * 0.62;
+
+    // building a distance object to push users data and pass data around in components
     const distanceObj = {
       distance2: distance2,
-      username: location.username,
-      city: location.city,
-      state: location.state,
-      country: location.country,
+      username: user.username,
+      city: user.location.city,
+      state: user.location.state,
+      country: user.location.country,
+      avatarUrl: user.profile?.avatarUrl,
     };
-// conditionally pushing the object distance to arrays for "within a radius display"
+    // conditionally pushing the object distance to arrays for "within a radius display"
     distance2 <= 50
       ? seventyFiveMiles.push(distanceObj)
       : overSeventyFiveMiles.push(distanceObj);
@@ -53,77 +47,33 @@ const Neighbors = () => {
     return 2 * r * Math.asin(Math.sqrt(a));
   };
 
-  // getting user's coordinates(longitutde and latitude)
-  const myLocation = locations.filter(
-    (location) => location.username === username
-  );
-  const myLat = myLocation[0]?.latitude;
-  const myLon = myLocation[0]?.longitude;
+  // // getting user's coordinates(longitutde and latitude)
+  const myLat = me.location?.latitude;
+  const myLon = me.location?.longitude;
 
   // gathering each user info and send data to distance()
-  for (let location of locations) {
-    distance(myLat, myLon, location);
+  for (let user of users) {
+    distance(myLat, myLon, user);
   }
 
-  if (loading || locationLoading) {
+  if (loading || usersLaoding) {
     return <>loading...</>;
   }
-  if (err || locationError) {
+  if (err || usersError) {
     return (
       <>
-        {err.toString()} {locationError.toString()}
+        {err.toString()} {usersError.toString()}
       </>
     );
   }
 
   return (
     <>
-      <Navbar />
-      <div className="container-neighbors bg-primary">
-        <h3 className="locations-list-title text-white">
-          Within a 75 miles radius
-        </h3>
-        {seventyFiveMiles &&
-          seventyFiveMiles.map((distanceObj) => (
-            <div key={distanceObj.username} className="card card-locations">
-              <div className="card-header">
-                <p className="location text-light">{distanceObj.username}</p>
-              </div>
-              <div className="card-body">
-                <p className="location text-light">
-                  {distanceObj.distance2} miles
-                </p>
-                <p className="location text-light">{distanceObj.city}</p>
-                <p className="location text-light">{distanceObj.state}</p>
-                <p className="location text-light">{distanceObj.country}</p>
-                <p className="location text-light">{distanceObj.longitude}</p>
-                <p className="location text-light">{distanceObj.latitude}</p>
-              </div>
-            </div>
-          ))}
-        <h3 className="locations-list-title text-white">
-          Over a 75 miles radius
-        </h3>
-        {overSeventyFiveMiles &&
-          overSeventyFiveMiles.map((distanceObj) => (
-            <div key={distanceObj._id} className="card card-locations">
-              <div className="card-header">
-                <p className="location text-light">{distanceObj.username}</p>
-              </div>
-              <div className="card-body">
-                <p className="location text-light">
-                  {distanceObj.distance2} miles
-                </p>
-                <p className="location text-light">{distanceObj.city}</p>
-                <p className="location text-light">{distanceObj.state}</p>
-                <p className="location text-light">{distanceObj.country}</p>
-                <p className="location text-light">{distanceObj.longitude}</p>
-                <p className="location text-light">{distanceObj.latitude}</p>
-              </div>
-            </div>
-          ))}
-      </div>
-      <Footer />
+      <ProfileList
+        seventyFiveMiles={seventyFiveMiles}
+        overSeventyFiveMiles={overSeventyFiveMiles}
+        me={me}
+      />
     </>
   );
 };
