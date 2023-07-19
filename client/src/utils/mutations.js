@@ -23,6 +23,19 @@ export const ADD_USER = gql`
     }
   }
 `;
+export const UPDATE_USER = gql`
+  mutation updateUser($username: String!, $email: String!, $avatarUrl: String) {
+    updateUser(username: $username, email: $email, avatarUrl: $avatarUrl) {
+      token
+      user {
+        _id
+        username
+        avatarUrl
+        location
+      }
+    }
+  }
+`;
 
 export const ADD_LOCATION = gql`
   mutation addLocation(

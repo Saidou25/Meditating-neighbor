@@ -20,6 +20,11 @@ const userSchema = new Schema({
     unique: true,
     minlength: 5,
   },
+  avatarUrl: {
+    type: String,
+    required: false,
+    unique: true,
+  },
   location: {
     type: Schema.Types.ObjectId,
     ref: "Location",

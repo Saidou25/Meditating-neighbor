@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
+import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
-
 
 const Navbar = () => {
   const logout = (event) => {
@@ -30,39 +30,45 @@ const Navbar = () => {
         </button>
         <div>
           <ul className="navbar-nav">
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Map">
-                map
+              map
               </Link>
-            </li> */}
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-light fs-4" to="/ProfPics">
+              pics
+              </Link>
+            </li>
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Usa">
                 usa
               </Link>
             </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/ProgressBar">
-              ProgressBar
-              </Link>
-            </li> */}
+            
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Neighbors">
-                neighbors
+                nearby
               </Link>
             </li>
             {Auth.loggedIn ? (
-               <li className="nav-item">
-               <button className="btn-logout" onClick={logout}>
-                 <div className="logout text-light">logout</div>
-               </button>
-           </li>
+              <li className="nav-item">
+                <button className="btn-logout" onClick={logout}>
+                  <div className="logout text-light">logout</div>
+                </button>
+              </li>
             ) : (
               <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/LoginSignup">
-                login/signup
-              </Link>
+                <Link className="nav-link text-light fs-4" to="/LoginSignup">
+                  login/signup
+                </Link>
               </li>
             )}
+            <li className="nav-item">
+              <Link className="nav-link text-light fs-4" to="/Profile">
+                <img src={profileIcon} alt="profile icon" height={43} />
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

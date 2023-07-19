@@ -1,0 +1,32 @@
+.container-profile {
+  height: 100vh;
+}
+.container-card {
+  padding-top: 15%;
+}
+.profile-card {
+  width: 350px;
+  min-height: 400px;
+  margin-right: auto;
+  margin-left: auto;
+  /* background-color: rgba(22, 20, 17, 0.463); */
+}
+.profile-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: rgb(200, 142, 56, 0.05); */
+
+}
+.profile-icon {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  display: flex;
+  justify-content: center;
+}
+.profile-p,
+.profile-footer,
+.profile-header
+ {
+  text-align: center;
+}

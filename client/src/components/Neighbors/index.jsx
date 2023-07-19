@@ -57,8 +57,8 @@ const Neighbors = () => {
   const myLocation = locations.filter(
     (location) => location.username === username
   );
-  const myLat = myLocation[0].latitude;
-  const myLon = myLocation[0].longitude;
+  const myLat = myLocation[0]?.latitude;
+  const myLon = myLocation[0]?.longitude;
 
   // gathering each user info and send data to distance()
   for (let location of locations) {

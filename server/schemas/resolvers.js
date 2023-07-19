@@ -22,22 +22,22 @@ const resolvers = {
 
   Mutation: {
     addUser: async (_, args) => {
-        const user = await User.create(args);
-        const token = signToken(user);
-        return { token, user };
-      },
-      login: async (_, { email, username, password }) => {
-        const user = await User.findOne(email ? { email } : { username });
-        if (!user) {
-          throw new AuthenticationError("No user with this email found!");
-        }
-        const correctPw = await user.isCorrectPassword(password);
-        if (!correctPw) {
-          throw new AuthenticationError("Incorrect password!");
-        }
-        const token = signToken(user);
-        return { token, user };
-      },
+      const user = await User.create(args);
+      const token = signToken(user);
+      return { token, user };
+    },
+    login: async (_, { email, username, password }) => {
+      const user = await User.findOne(email ? { email } : { username });
+      if (!user) {
+        throw new AuthenticationError("No user with this email found!");
+      }
+      const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        throw new AuthenticationError("Incorrect password!");
+      }
+      const token = signToken(user);
+      return { token, user };
+    },
     addLocation: async (_, args, context) => {
       if (context.user) {
         const location = await Location.create({
@@ -56,6 +56,18 @@ const resolvers = {
         return location;
       }
       throw new AuthenticationError("You need to be logged in!");
+    },
+    updateUser: async (_, args) => {
+      return await User.findOneAndUpdate(
+        { _id: args.id },
+        {
+          username: args.username,
+          email: args.email,
+          avatarUrl: args.avatarUrl,
+          location: location,
+        },
+        { new: true }
+      );
     },
   },
 };
