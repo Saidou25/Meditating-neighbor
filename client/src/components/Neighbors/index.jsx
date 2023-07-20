@@ -37,7 +37,7 @@ const Neighbors = () => {
       city: user.location.city,
       state: user.location.state,
       country: user.location.country,
-      avatarUrl: user.profile?.avatarUrl,
+      avatarUrl: user.avatar?.avatarUrl,
     };
     // conditionally pushing the object distance to arrays for "within a radius display"
     distance2 <= 50

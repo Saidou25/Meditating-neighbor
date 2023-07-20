@@ -7,9 +7,9 @@ const typeDefs = gql`
     email: String!
     password: String!
     location: Location
-    profile: Profile
+    avatar: Avatar
   }
-  type Profile {
+  type Avatar {
     _id: ID!
     username: String
     avatarUrl: String
@@ -33,19 +33,19 @@ const typeDefs = gql`
 
   type Query {
     users: [User]!
-    user(id: String!): User
-    me: User
+    user(id: String!): User!
+    me: User!
     locations: [Location]!
-    profiles: [Profile]!
-    profile(id: String!): Profile
+    avatars: [Avatar]!
+    avatar(id: String!): Avatar!
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String, password: String): Auth
-    addProfile(username: String!, avatarUrl: String!): Profile
-    deleteProfile(id: String!): Profile
-    updateProfile(id: String!, username: String!, avatarUrl: String): Profile
+    addAvatar(username: String!, avatarUrl: String!): Avatar
+    deleteAvatar(id: String!): Avatar
+    updateAvatar(id: String!, username: String!, avatarUrl: String): Avatar
     addLocation(
       username: String!
       longitude: Float!

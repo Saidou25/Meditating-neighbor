@@ -18,9 +18,9 @@ const ProfileList = (props) => {
         <div className="row card-row">
           {seventyFiveMiles &&
             seventyFiveMiles.map((distanceObj) => (
-              <div className="col-3 card-column">
+              <div key={distanceObj.username} className="col-3 card-column">
                 <div className="card card-locations bg-primary">
-                  <div key={distanceObj.username} className="card-body">
+                  <div className="card-body">
                     <div className="row profiles-row">
                       <div className="col-12 profiles-column">
                         {!distanceObj.avatarUrl ? (
@@ -66,9 +66,9 @@ const ProfileList = (props) => {
         <div className="row card-row">
         {overSeventyFiveMiles &&
           overSeventyFiveMiles.map((distanceObj) => (
-            <div className="col-3 card-column">
+            <div key={distanceObj.username} className="col-3 card-column">
               <div className="card card-locations bg-primary">
-                <div key={distanceObj.username} className="card-body">
+                <div className="card-body">
                   <div className="row profiles-row">
                     <div className="col-12 profiles-column">
                       {!distanceObj.avatarUrl ? (

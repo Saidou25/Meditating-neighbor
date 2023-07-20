@@ -1,5 +1,5 @@
 const Location = require("./Location");
 const User = require("./User")
-const Profile = require("./Profile")
+const Avatar = require("./Avatar")
 
-module.exports = {  User, Location, Profile };
+module.exports = {  User, Location, Avatar };

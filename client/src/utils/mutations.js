@@ -23,27 +23,27 @@ export const ADD_USER = gql`
     }
   }
 `;
-export const ADD_PROFILE = gql`
-  mutation addProfile($username: String!, $avatarUrl: String!) {
-    addProfile(username: $username, avatarUrl: $avatarUrl) {
+export const ADD_AVATAR = gql`
+  mutation addAvatar($username: String!, $avatarUrl: String!) {
+    addAvatar(username: $username, avatarUrl: $avatarUrl) {
       _id
       username
       avatarUrl
     }
   }
 `;
-export const UPDATE_PROFILE = gql`
-  mutation updateProfile($id: String!, $username: String!, $avatarUrl: String) {
-    updateProfile(id: $id, username: $username, avatarUrl: $avatarUrl) {
+export const UPDATE_AVATAR = gql`
+  mutation updateAvatar($id: String!, $username: String!, $avatarUrl: String) {
+    updateAvatar(id: $id, username: $username, avatarUrl: $avatarUrl) {
       _id
       username
       avatarUrl
     }
   }
 `;
-export const DELETE_PROFILE = gql`
-  mutation deleteProfile($id: String!) {
-    deleteProfile(id: $id) {
+export const DELETE_AVATAR = gql`
+  mutation deleteAvatar($id: String!) {
+    deleteAvatar(id: $id) {
       _id
       username
       avatarUrl

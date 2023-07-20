@@ -5,7 +5,9 @@
     text-align: center;
     padding: 5%;
 }
-
+.container-pic {
+    border-radius: 50%;
+}
 .profiles-column {
     display: flex;
     justify-content: center;

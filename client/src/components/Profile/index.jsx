@@ -26,15 +26,9 @@ const Profile = () => {
               <h3>{me.username}</h3>
             </div>
             <div className="profile-icon">
-              <div>
                 <Avatar me={me} />
-                {/* src={profileIcon}
-              alt="profile icon"
-              className="profile-icon"
-              style={{ width: 200, height: 200 }} */}
-              </div>
             </div>
-            <div className="card-body profile-body">
+            <div className="card-body profile-body mt-5">
               <p className="profile-p">{me.email}</p>
               <p className="profile-p">
                 {me.location?.city} {me.location?.state} {me.location?.country}

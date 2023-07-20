@@ -14,7 +14,7 @@ const Navbar = () => {
   };
   const { data } = useQuery(QUERY_ME);
   const me = data?.me || [];
-  const savedUrl = me.profile?.avatarUrl;
+  const savedUrl = me.avatar?.avatarUrl;
 
   return (
     <nav className="navbar navbar-expand-lg">
@@ -40,11 +40,11 @@ const Navbar = () => {
                 map
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Avatar">
                 avatar
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Usa">
                 usa

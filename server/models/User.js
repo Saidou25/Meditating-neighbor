@@ -20,9 +20,9 @@ const userSchema = new Schema({
     unique: true,
     minlength: 5,
   },
-  profile: {
+  avatar: {
     type: Schema.Types.ObjectId,
-    ref: "profile",
+    ref: "avatar",
   },
   location: {
     type: Schema.Types.ObjectId,

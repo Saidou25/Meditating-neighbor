@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { ADD_PROFILE, DELETE_PROFILE } from "../../utils/mutations";
+import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 import { storage } from "../../firebase";
-
+import trash from "../../assets/images/trash.png";
 import {
   getDownloadURL,
   ref,
@@ -17,23 +17,24 @@ import "./index.css";
 const ProfPics = () => {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
-  // const [stor, setImageRef] = useState(null);
+  const [isShown, setIsShown] = useState(false);
+  const [cancel, setCancel] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [savedUrl, setSavedUrl] = useState(null);
+  const [avatarId, setAvatarId] = useState(null);
+  const [me, setMe] = useState(null);
 
   const { data } = useQuery(QUERY_ME);
-  const me = data?.me || [];
-  const savedUrl = me.profile?.avatarUrl;
-  const profileId = me.profile?._id;
-  console.log(profileId);
 
-  const [addProfile] = useMutation(ADD_PROFILE);
-  const [deleteProfile] = useMutation(DELETE_PROFILE);
+  const [addAvatar] = useMutation(ADD_AVATAR);
+  const [deleteAvatar] = useMutation(DELETE_AVATAR);
 
   const add = async (url) => {
     if (url?.length) {
       setUrl(url);
 
       try {
-        const { data } = await addProfile({
+        const { data } = await addAvatar({
           variables: {
             avatarUrl: url,
             username: me.username,
@@ -73,7 +74,7 @@ const ProfPics = () => {
   };
   const imageRef = ref(storage, savedUrl);
 
-  const deleteAvatar = () => {
+  const deleteObjAvatar = () => {
     // setImageRef(imageRef);
 
     deleteObject(imageRef)
@@ -84,52 +85,147 @@ const ProfPics = () => {
         console.log(error);
       });
   };
-  const removeProfile = async () => {
+  const removeAvatar = async () => {
     try {
-      const { data } = await deleteProfile({
-        variables: { id: profileId },
+      const { data } = await deleteAvatar({
+        variables: { id: avatarId },
       });
-      if (data) { console.log("removed profile")};
+      if (data) {
+        console.log("removed avatar");
+      }
     } catch (error) {
       console.log(error);
     }
-    deleteAvatar();
+    deleteObjAvatar();
+  };
+  const handleSubmit = (e) => {
+    if (e === "add") {
+      setIsShown((current) => !current);
+      setCancel((current) => !current);
+      setEdit((current) => !current);
+    }
   };
 
+  useEffect(() => {
+    if (data) {
+      const meData = data?.me || [];
+      const avatarUrl = meData.avatar?.avatarUrl;
+      setSavedUrl(avatarUrl);
+      setMe(meData);
+      setAvatarId(meData.avatar?._id);
+    }
+  }, [data]);
+
   return (
-    <div className="container-avatar">
-      {!url && savedUrl && (
-        <img
-          className="container-pic mb-5"
-          src={savedUrl}
-          alt="profile icon"
-          style={{ width: 200, height: 200 }}
-        />
-      )}
-      {!url && !savedUrl && (
-        <img
-          className="container-pic mb-5"
-          src={profileIcon}
-          alt="profile icon"
-          style={{ width: 200, height: 200 }}
-        />
-      )}
-      {url && (
-        <img
-          className="container-pic mb-5"
-          src={url}
-          alt="profile icon"
-          style={{ width: 200, height: 200 }}
-        />
-      )}
-      <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-      <button type="btn" onClick={uploadImage}>
-        submit
-      </button>
-      <button type="btn" onClick={removeProfile}>
-        delete
-      </button>
-    </div>
+    <>
+      <div className="container-avatar">
+        <div className="container-pic mb-3">
+          {!url && savedUrl && (
+            <div
+              className="bg-image"
+              // src={savedUrl}
+              alt="profile icon"
+              style={{
+                backgroundImage: `url(${savedUrl})`,
+                height: "300px",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              <div className="trash">
+                <img
+                  className="trash-icon bg-light"
+                  src={trash}
+                  alt="trash icon"
+                  height={53}
+                  onClick={removeAvatar}
+                />
+              </div>
+            </div>
+          )}
+          {!url && !savedUrl && (
+            <div
+              className="bg-image"
+              alt="profile icon"
+              style={{
+                backgroundImage: `url(${profileIcon})`,
+              }}
+            ></div>
+          )}
+          {url && (
+            <div
+              className="bg-image"
+              // src={savedUrl}
+              alt="profile icon"
+              style={{
+                backgroundImage: `url(${url})`,
+                height: "300px",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              <div className="trash">
+                <img
+                  className="trash-icon bg-light"
+                  src={trash}
+                  alt="trash icon"
+                  height={53}
+                  onClick={removeAvatar}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="row g-0 container-avatar ">
+          {!avatarId?.length ? (
+            <>
+              <div className="col-4 choose-file">
+                <button
+                  className="btn btn-addaprofile bg-primary rounded-0 text-light"
+                  type="submit"
+                  onClick={() => handleSubmit("add")}
+                >
+                  {cancel === true ? <>cancel</> : <>add picture</>}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+            <div className="col-4 choose-file">
+              <button
+                className="btn btn-uploadprofile bg-primary rounded-0 text-light"
+                type="submit"
+                onClick={() => handleSubmit("add")}
+              >
+                {edit === true ? <>cancel</> : <>edit</>}
+              </button>
+              </div>
+            </>
+          )}
+          {isShown ? (
+            <>
+              <div className="col-4 choose-file">
+                <label htmlFor="file-button" className="file-label">
+                  select file
+                </label>
+                <input
+                  type="file"
+                  id="file-button"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </div>
+              <div className="col-4 choose-file ">
+                <button
+                  className="btn btn-uploadprofile bg-primary rounded-0 text-light"
+                  type="submit"
+                  onClick={uploadImage}
+                >
+                  save
+                </button>
+              </div>
+            </>
+          ) : null}
+        </div>
+      </div>
+    </>
   );
 };
 export default ProfPics;
