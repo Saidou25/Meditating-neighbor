@@ -67,7 +67,8 @@ const resolvers = {
       if (context.user) {
         const profile = await Profile.create({
           username: args.username,
-          avatarUrl: args.avatarUrl
+          avatarUrl: args.avatarUrl,
+          // avatarName: args.avatarName
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -84,6 +85,7 @@ const resolvers = {
         {
           username: args.username,
           avatarUrl: args.avatarUrl,
+          // avatarName: args.avatarName
         },
         { new: true }
       );

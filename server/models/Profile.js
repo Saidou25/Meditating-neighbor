@@ -12,6 +12,11 @@ const profileSchema = new Schema({
     required: true,
     unique: true,
   },
+  // avatarName: {
+  //   type: String,
+  //   required: true,
+  //   unique: true,
+  // },
 });
 
 const Profile = model("profile", profileSchema);

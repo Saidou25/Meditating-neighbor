@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../../utils/queries";
-import ProfPics from "../ProfPics";
+import Avatar from "../Avatar";
 import Spinner from "../Spinner";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
@@ -27,7 +27,7 @@ const Profile = () => {
             </div>
             <div className="profile-icon">
               <div>
-                <ProfPics me={me} />
+                <Avatar me={me} />
                 {/* src={profileIcon}
               alt="profile icon"
               className="profile-icon"

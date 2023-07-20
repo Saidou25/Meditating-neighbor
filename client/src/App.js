@@ -15,7 +15,7 @@ import Login from "./pages/Login";
 import LoginSignup from "./pages/LoginSignup";
 import Map from "./components/Map";
 import Usa from "./components/Usa";
-import ProfPics from "./components/ProfPics";
+import Avatar from "./components/Avatar";
 import ProfileList from "./components/ProfileList";
 import Profile from "./components/Profile";
 import Neighbors from "./components/Neighbors";
@@ -59,7 +59,7 @@ function App() {
             <Route path="/LoginSignup" element={<LoginSignup />} />
             <Route path="/Map" element={<Map />} />
             <Route path="/Usa" element={<Usa />} />
-            <Route path="/ProfPics" element={<ProfPics />} />
+            <Route path="/Avatar" element={<Avatar />} />
             <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Neighbors" element={<Neighbors />} />

@@ -41,8 +41,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/ProfPics">
-                pics
+              <Link className="nav-link text-light fs-4" to="/Avatar">
+                avatar
               </Link>
             </li>
             <li className="nav-item">

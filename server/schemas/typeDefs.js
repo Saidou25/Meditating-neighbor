@@ -11,8 +11,9 @@ const typeDefs = gql`
   }
   type Profile {
     _id: ID!
-    avatarUrl: String
     username: String
+    avatarUrl: String
+    
   }
 
   type Location {
