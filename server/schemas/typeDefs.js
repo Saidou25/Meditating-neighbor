@@ -44,6 +44,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String, password: String): Auth
     addProfile(username: String!, avatarUrl: String!): Profile
+    deleteProfile(id: String!): Profile
     updateProfile(id: String!, username: String!, avatarUrl: String): Profile
     addLocation(
       username: String!

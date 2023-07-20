@@ -7,6 +7,7 @@ export const QUERY_USERS = gql`
       username
       email
       profile {
+        _id
         username
         avatarUrl
       }
@@ -29,6 +30,7 @@ export const QUERY_USER = gql`
       username
       email
       profile {
+        _id
         username
         avatarUrl
       }
@@ -51,6 +53,7 @@ export const QUERY_ME = gql`
       username
       email
       profile {
+        _id
         username
         avatarUrl
       }

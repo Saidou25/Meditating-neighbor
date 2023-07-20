@@ -90,6 +90,9 @@ const resolvers = {
         { new: true }
       );
     },
+    deleteProfile: async (_, args) => {
+      return Profile.findOneAndDelete({ id: args._id });
+    }
   },
 };
 

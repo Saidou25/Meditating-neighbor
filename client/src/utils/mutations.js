@@ -41,6 +41,15 @@ export const UPDATE_PROFILE = gql`
     }
   }
 `;
+export const DELETE_PROFILE = gql`
+  mutation deleteProfile($id: String!) {
+    deleteProfile(id: $id) {
+      _id
+      username
+      avatarUrl
+    }
+  }
+`;
 
 export const ADD_LOCATION = gql`
   mutation addLocation(
