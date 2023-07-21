@@ -35,8 +35,10 @@
     font-weight: bold;
 }
 .bg-image {
-    width: 300px;
-    height: 150px;
+    /* width: 300px;
+    height: 150px; */
+    width: 200px;
+    height: 200px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -48,13 +50,13 @@
   .trash {
     float: right;
     margin-top: 3%;
-    margin-right: 5%;
-    /* font-size: 1.2rem; */
+    margin-right: -7%;
     border-color: black;
     
 }
 .trash-icon {
-      /* border: solid; */
-      border-color: black;
+      /* border: solid !important; */
+      border-width: 3px !important;
+      border-color: black !important;
     border-radius: 50%;
   }

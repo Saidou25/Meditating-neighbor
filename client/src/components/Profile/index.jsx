@@ -30,7 +30,7 @@ const Profile = () => {
             </div>
             <div className="card-body profile-body mt-5">
               <p className="profile-p">{me.email}</p>
-              <p className="profile-p">
+              <p className="profile-p ">
                 {me.location?.city} {me.location?.state} {me.location?.country}
               </p>
             </div>

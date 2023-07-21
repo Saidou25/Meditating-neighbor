@@ -14,11 +14,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(17, 11, 1, 0.4);
+  /* background-color: rgba(17, 11, 1, 0.4); */
 }
 .profile-p,
 .profile-footer,
 .profile-header
 {
   text-align: center;
+  
 }

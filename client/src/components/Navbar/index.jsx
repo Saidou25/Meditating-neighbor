@@ -40,11 +40,11 @@ const Navbar = () => {
                 map
               </Link>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Avatar">
                 avatar
               </Link>
-            </li> */}
+            </li>
             <li className="nav-item">
               <Link className="nav-link text-light fs-4" to="/Usa">
                 usa

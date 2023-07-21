@@ -11,6 +11,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
@@ -23,6 +24,7 @@ const ProfPics = () => {
   const [savedUrl, setSavedUrl] = useState(null);
   const [avatarId, setAvatarId] = useState(null);
   const [me, setMe] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { data } = useQuery(QUERY_ME);
 
@@ -41,6 +43,8 @@ const ProfPics = () => {
           },
         });
         if (data) {
+          setLoading(false);
+          console.log("setting loading to false");
           console.log(`seccess adding ${me.username}`);
         }
       } catch (err) {
@@ -55,6 +59,8 @@ const ProfPics = () => {
     if (image === null) {
       return;
     }
+    setLoading(true);
+    console.log("setting loading to true");
     const imageRef = ref(storage, `images/${image.name + v4()}`);
     uploadBytes(imageRef, image)
       .then(() => {
@@ -84,6 +90,8 @@ const ProfPics = () => {
       .catch((error) => {
         console.log(error);
       });
+    setUrl(null);
+    setSavedUrl(null);
   };
   const removeAvatar = async () => {
     try {
@@ -123,11 +131,9 @@ const ProfPics = () => {
           {!url && savedUrl && (
             <div
               className="bg-image"
-              // src={savedUrl}
               alt="profile icon"
               style={{
                 backgroundImage: `url(${savedUrl})`,
-                height: "300px",
                 backgroundRepeat: "no-repeat",
               }}
             >
@@ -154,11 +160,9 @@ const ProfPics = () => {
           {url && (
             <div
               className="bg-image"
-              // src={savedUrl}
               alt="profile icon"
               style={{
                 backgroundImage: `url(${url})`,
-                height: "300px",
                 backgroundRepeat: "no-repeat",
               }}
             >
@@ -189,14 +193,14 @@ const ProfPics = () => {
             </>
           ) : (
             <>
-            <div className="col-4 choose-file">
-              <button
-                className="btn btn-uploadprofile bg-primary rounded-0 text-light"
-                type="submit"
-                onClick={() => handleSubmit("add")}
-              >
-                {edit === true ? <>cancel</> : <>edit</>}
-              </button>
+              <div className="col-4 choose-file">
+                <button
+                  className="btn btn-uploadprofile bg-primary rounded-0 text-light"
+                  type="submit"
+                  onClick={() => handleSubmit("add")}
+                >
+                  {edit === true ? <>cancel</> : <>edit</>}
+                </button>
               </div>
             </>
           )}
@@ -218,7 +222,7 @@ const ProfPics = () => {
                   type="submit"
                   onClick={uploadImage}
                 >
-                  save
+                  {loading === true ? <ButtonSpinner /> : <>save</>}
                 </button>
               </div>
             </>
