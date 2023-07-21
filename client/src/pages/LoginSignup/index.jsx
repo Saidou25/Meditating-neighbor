@@ -1,16 +1,22 @@
 import React from "react";
 import Login from "../Login";
 import Signup from "../Signup";
-import Navbar from "../../components/Navbar";
+import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import "./index.css";
 
 const LoginSignup = () => {
   return (
     <>
-      <Navbar />
       <div className="container-loginsignup bg-primary">
         <div className="container-nav">
+      <div className="go-back d-flex justify-content-center">
+        <Link to="/">
+          <button type="btn" className="btn-go-back text-white">
+            go back
+          </button>
+        </Link>
+      </div>
           <nav>
             <div className="nav nav-tabs" id="nav-tab" role="tablist">
               <button

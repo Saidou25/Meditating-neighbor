@@ -11,6 +11,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+// import { FaEnvelope, FaPhone, FaIdBadge, FaHome, FaTrashAlt } from "react-icons/fa";
 import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -44,6 +45,9 @@ const ProfPics = () => {
         });
         if (data) {
           setLoading(false);
+          setCancel((current) => !current);
+
+
           console.log("setting loading to false");
           console.log(`seccess adding ${me.username}`);
         }
@@ -165,6 +169,7 @@ const ProfPics = () => {
                 backgroundImage: `url(${url})`,
                 backgroundRepeat: "no-repeat",
               }}
+              
             >
               <div className="trash">
                 <img

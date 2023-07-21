@@ -51,12 +51,12 @@
     float: right;
     margin-top: 3%;
     margin-right: -7%;
-    border-color: black;
     
 }
 .trash-icon {
-      /* border: solid !important; */
-      border-width: 3px !important;
-      border-color: black !important;
-    border-radius: 50%;
+    padding: 3px; 
+    border-width: 3px !important;
+    border-color: black !important;
+    border-radius: 50% ;
+      
   }

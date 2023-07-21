@@ -13,12 +13,12 @@ const ProfileList = (props) => {
       <Navbar />
       <div className="container-neighbors bg-primary">
         <h3 className="locations-list-title text-white">
-          Within a 75 miles radius
+         {seventyFiveMiles.length ? (<>Within a 75 miles radius</>) : (<></>)} 
         </h3>
         <div className="row card-row">
           {seventyFiveMiles &&
-            seventyFiveMiles.map((distanceObj) => (
-              <div key={distanceObj.username} className="col-3 card-column">
+            seventyFiveMiles.map((distanceObj, index) => (
+              <div key={index} className="col-3 card-column">
                 <div className="card card-locations bg-primary">
                   <div className="card-body">
                     <div className="row profiles-row">
@@ -65,8 +65,8 @@ const ProfileList = (props) => {
         </h3>
         <div className="row card-row">
         {overSeventyFiveMiles &&
-          overSeventyFiveMiles.map((distanceObj) => (
-            <div key={distanceObj.username} className="col-3 card-column">
+          overSeventyFiveMiles.map((distanceObj, index) => (
+            <div key={index} className="col-3 card-column">
               <div className="card card-locations bg-primary">
                 <div className="card-body">
                   <div className="row profiles-row">

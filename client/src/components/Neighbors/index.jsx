@@ -5,6 +5,8 @@ import ProfileList from "../ProfileList";
 import "./index.css";
 
 const Neighbors = () => {
+  // const [noUserYet, setNoUserYet] = useState(true);
+  let noUserYet = "true";
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
@@ -51,10 +53,12 @@ const Neighbors = () => {
   const myLat = me.location?.latitude;
   const myLon = me.location?.longitude;
 
-  // gathering each user info and send data to distance()
-  for (let user of users) {
+  // gathering each user info (exept signed user) and send data to distance()
+  const AllUsersButMe = users.filter((user) => user.username !== me.username);
+
+  for (let user of AllUsersButMe) {
     distance(myLat, myLon, user);
-  }
+  };
 
   if (loading || usersLaoding) {
     return <>loading...</>;
@@ -65,6 +69,9 @@ const Neighbors = () => {
         {err.toString()} {usersError.toString()}
       </>
     );
+  }
+  if (noUserYet === "false") {
+    <h1>No user yet</h1>;
   }
 
   return (

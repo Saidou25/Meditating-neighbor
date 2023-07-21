@@ -44,7 +44,6 @@ const Usa = () => {
   // set state for progress bar
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
-
   const {
     data: locationsData,
     locationsError,
@@ -181,19 +180,21 @@ const Usa = () => {
           </div>
         </div>
       )}
-      {result.length && !showProgressBar && (
+      {(result.length && !showProgressBar) && (
         <>
           <div className="result bg-primary pt-5">
             You are located in {city}, {state}, {country}.
           </div>
           <div className="container-btn bg-primary">
-            <button
+            {(result[0]?.country === "US") ? (
+              <button
               className="btn-coordinates text-white "
               type="button"
               onClick={handleSubmit}
             >
               save location
             </button>
+            ) : ( <></>)}
           </div>
         </>
       )}

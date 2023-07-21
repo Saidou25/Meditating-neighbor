@@ -5,36 +5,36 @@ import Footer from "../../components/Footer";
 import "./index.css";
 
 const LandingPage = () => {
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+    console.log("logout success!");
+  };
+
   return (
     <main className="container-main">
       <div className="parallax">
         <div className="login-signup">
-          <Link to="/LoginSignup" className="signup-link">
-            <button className="btn btn-text  signup rounded-0">login/ signup</button>
-          </Link>
-
-          {/* {Auth.loggedIn ? (
-               <li className="nav-item">
-               <button className="btn-logout" onClick={logout}>
-                 <div className="logout text-light">logout</div>
-               </button>
-           </li>
-            ) : (
-              <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/LoginSignup">
-                login/signup
-              </Link>
-              </li>
-            )} */}
-            {Auth.loggedIn() ? (
+          {!Auth.loggedIn() ? (
+            <Link to="/LoginSignup" className="signup-link">
+              <button
+                className="btn btn-text signup rounded-0"
+              >
+                    login/ signup
+              </button>
+            </Link>
+          ) : (
+            <div to="/" className="signup-link">
+              <button className="btn btn-text signup rounded-0"  onClick={logout}>
+                logout
+              </button>
+            </div>
+          )}
+          {Auth.loggedIn() && (
           <Link to="/USA" className="site-link">
             <button className="btn site rounded-0">site</button>
           </Link>
-            ) : (
-              <div className="error">
-                You need to be loggedin...
-                </div>
-            )}
+          )}
         </div>
         <div className="cont">
           <span className="welcome">Welcome to TMI</span>

@@ -12,77 +12,134 @@ const Navbar = () => {
     Auth.logout();
     console.log("logout success!");
   };
+
   const { data } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const savedUrl = me.avatar?.avatarUrl;
 
-  return (
-    <nav className="navbar navbar-expand-lg">
-      <div className="container-fluid">
-        <Link className="navbar-brand text-light" to="/">
-          meditating neighbor
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div>
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/Map">
-                map
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/Avatar">
-                avatar
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/Usa">
-                usa
-              </Link>
-            </li>
+  const dropDownLinks = [
+    {
+      linkName: "Usa",
+      linkTo: "/Usa",
+    },
+    {
+      linkName: "Map",
+      linkTo: "/Map",
+    },
+    {
+      linkName: "Europe(coming soon)",
+      linkTo: "/",
+    },
+    {
+      linkName: "Austalia(coming soon)",
+      linkTo: "/",
+    },
+    {
+      linkName: "UK(coming soon",
+      linkTo: "/",
+    },
+  ];
 
-            <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/Neighbors">
-                nearby
-              </Link>
-            </li>
-            {Auth.loggedIn ? (
+  return (
+    <>
+      <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            TMIWORLD
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav me-auto">
+              {/* <li className="nav-item">
+                <Link className="nav-link active" to="">
+                  Home
+                  <span className="visually-hidden">(current)</span>
+                </Link>
+              </li> */}
               <li className="nav-item">
-                <button className="btn-logout" onClick={logout}>
-                  <div className="logout text-light">logout</div>
-                </button>
-              </li>
-            ) : (
-              <li className="nav-item">
-                <Link className="nav-link text-light fs-4" to="/LoginSignup">
-                  login/signup
+                <Link className="nav-link" to="/Neighbors">
+                  nearby
                 </Link>
               </li>
-            )}
-            <li className="nav-item">
-              <Link className="nav-link text-light fs-4" to="/Profile">
-                <img
-                  className="icon-nav"
-                  src={!savedUrl ? profileIcon : savedUrl}
-                  alt="profile icon"
-                  height={43}
-                />
-              </Link>
-            </li>
-          </ul>
+              {/* <li className="nav-item">
+                <Link className="nav-link" to="">
+                  retreats
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="">
+                  news
+                </Link>
+              </li> */}
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  to=""
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  search country
+                </Link>
+                <div className="dropdown-menu">
+                  {dropDownLinks &&
+                    dropDownLinks.map((dropDownLink, index) => (
+                      <div key={index} className="drop-div">
+                        <Link
+                          className="dropdown-item"
+                          to={`${dropDownLink.linkTo}`}
+                        >
+                          {dropDownLink.linkName}
+                        </Link>
+                      </div>
+                    ))}
+                  <div className="dropdown-divider"></div>
+                  <Link className="dropdown-item" to="">
+                    Separated link
+                  </Link>
+                </div>
+              </li>
+              
+              {Auth.loggedIn() ? (
+                 <li className="nav-item">
+                 <button className="nav-link" onClick={logout}>
+                  <div className="logout">
+                    logout
+                    </div>
+                </button>
+               </li>
+              ) : (
+                <li className="nav-item">
+                <Link className="nav-link" to="/LoginSignup">
+                  login
+                </Link>
+              </li>
+              )}
+              <li className="nav-item">
+                <Link className="nav-link text-light fs-4" to="/Profile">
+                  <img
+                    className="icon-nav"
+                    src={!savedUrl ? profileIcon : savedUrl}
+                    alt="profile icon"
+                  />
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 export default Navbar;
