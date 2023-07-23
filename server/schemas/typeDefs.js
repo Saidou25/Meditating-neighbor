@@ -11,8 +11,8 @@ const typeDefs = gql`
   }
   type Avatar {
     _id: ID!
-    username: String
-    avatarUrl: String
+    username: String!
+    avatarUrl: String!
     
   }
 

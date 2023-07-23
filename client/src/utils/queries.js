@@ -82,3 +82,21 @@ export const QUERY_LOCATIONS = gql`
     }
   }
 `;
+export const QUERY_AVATARS = gql`
+  query avatars {
+    avatars {
+      _id
+      username
+      avatarUrl
+    }
+  }
+`;
+export const QUERY_AVATAR = gql`
+  query avatar($id: String!) {
+    avatar(id: $id) {
+      _id
+      username
+      avatarUrl
+    }
+  }
+`;

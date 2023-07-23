@@ -16,6 +16,7 @@ const Navbar = () => {
   const { data } = useQuery(QUERY_ME);
   const me = data?.me || [];
   const savedUrl = me.avatar?.avatarUrl;
+  
 
   const dropDownLinks = [
     {
@@ -45,7 +46,10 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            TMIWORLD
+            <div className="row tmiworld">
+              <div className="col-6 tmi g-0">TMI</div>
+              <div className="col-6 world g-0">WORLD</div>
+            </div>
           </Link>
           <button
             className="navbar-toggler"
@@ -67,7 +71,7 @@ const Navbar = () => {
                 </Link>
               </li> */}
               <li className="nav-item">
-                <Link className="nav-link" to="/Neighbors">
+                <Link className="nav-link fs-4" to="/Neighbors">
                   nearby
                 </Link>
               </li>
@@ -83,7 +87,7 @@ const Navbar = () => {
               </li> */}
               <li className="nav-item dropdown">
                 <Link
-                  className="nav-link dropdown-toggle"
+                  className="nav-link fs-4 dropdown-toggle"
                   data-bs-toggle="dropdown"
                   to=""
                   role="button"
@@ -97,7 +101,7 @@ const Navbar = () => {
                     dropDownLinks.map((dropDownLink, index) => (
                       <div key={index} className="drop-div">
                         <Link
-                          className="dropdown-item"
+                          className="dropdown-item fs-4"
                           to={`${dropDownLink.linkTo}`}
                         >
                           {dropDownLink.linkName}
@@ -110,21 +114,19 @@ const Navbar = () => {
                   </Link>
                 </div>
               </li>
-              
+
               {Auth.loggedIn() ? (
-                 <li className="nav-item">
-                 <button className="nav-link" onClick={logout}>
-                  <div className="logout">
-                    logout
-                    </div>
-                </button>
-               </li>
+                <li className="nav-item">
+                  <button className="nav-link" onClick={logout}>
+                    <div className="logout">logout</div>
+                  </button>
+                </li>
               ) : (
                 <li className="nav-item">
-                <Link className="nav-link" to="/LoginSignup">
-                  login
-                </Link>
-              </li>
+                  <Link className="nav-link fs-4" to="/LoginSignup">
+                    login
+                  </Link>
+                </li>
               )}
               <li className="nav-item">
                 <Link className="nav-link text-light fs-4" to="/Profile">

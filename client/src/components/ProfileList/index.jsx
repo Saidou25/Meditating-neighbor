@@ -13,7 +13,7 @@ const ProfileList = (props) => {
       <Navbar />
       <div className="container-neighbors bg-primary">
         <h3 className="locations-list-title text-white">
-         {seventyFiveMiles.length ? (<>Within a 75 miles radius</>) : (<></>)} 
+          {seventyFiveMiles.length ? <>Within a 75 miles radius</> : <></>}
         </h3>
         <div className="row card-row">
           {seventyFiveMiles &&
@@ -25,14 +25,14 @@ const ProfileList = (props) => {
                       <div className="col-12 profiles-column">
                         {!distanceObj.avatarUrl ? (
                           <img
-                            className="container-pic mb-5"
+                            className="container-pic mb-4"
                             src={profileIcon}
                             alt="profile icon"
                             style={{ width: 150, height: 150 }}
                           />
                         ) : (
                           <img
-                            className="container-pic mb-3"
+                            className="container-pic mb-4"
                             src={distanceObj.avatarUrl}
                             alt="profile icon"
                             style={{ width: 150, height: 150 }}
@@ -42,16 +42,6 @@ const ProfileList = (props) => {
                       <div className="col-12 profiles-column">
                         <p className="location text-light">
                           {distanceObj.username}
-                        </p>
-                      </div>
-                      <div className="col-12 profiles-column">
-                        <p className="location text-light">
-                          {distanceObj.city}
-                        </p>
-                      </div>
-                      <div className="col-12 profiles-column">
-                        <p className="location text-light">
-                          {distanceObj.state}
                         </p>
                       </div>
                     </div>
@@ -64,46 +54,40 @@ const ProfileList = (props) => {
           Over a 75 miles radius
         </h3>
         <div className="row card-row">
-        {overSeventyFiveMiles &&
-          overSeventyFiveMiles.map((distanceObj, index) => (
-            <div key={index} className="col-3 card-column">
-              <div className="card card-locations bg-primary">
-                <div className="card-body">
-                  <div className="row profiles-row">
-                    <div className="col-12 profiles-column">
-                      {!distanceObj.avatarUrl ? (
-                        <img
-                          className="container-pic mb-5"
-                          src={profileIcon}
-                          alt="profile icon"
-                          style={{ width: 150, height: 150 }}
-                        />
-                      ) : (
-                        <img
-                          className="container-pic mb-5"
-                          src={distanceObj.avatarUrl}
-                          alt="profile icon"
-                          style={{ width: 150, height: 150 }}
-                        />
-                      )}
-                    </div>
-                    <div className="col-12 profiles-column">
-                      <p className="location text-light">
-                        {distanceObj.username}
-                      </p>
-                    </div>
-                    <div className="col-12 profiles-column">
-                      <p className="location text-light">{distanceObj.city}</p>
-                    </div>
-                    <div className="col-12 profiles-column">
-                      <p className="location text-light">{distanceObj.state}</p>
+          {overSeventyFiveMiles &&
+            overSeventyFiveMiles.map((distanceObj, index) => (
+              <div key={index} className="col-3 card-column">
+                <div className="card card-locations bg-primary">
+                  <div className="card-body">
+                    <div className="row profiles-row">
+                      <div className="col-12 profiles-column">
+                        {!distanceObj.avatarUrl ? (
+                          <img
+                            className="container-pic mb-4"
+                            src={profileIcon}
+                            alt="profile icon"
+                            style={{ width: 150, height: 150 }}
+                          />
+                        ) : (
+                          <img
+                            className="container-pic mb-4"
+                            src={distanceObj.avatarUrl}
+                            alt="profile icon"
+                            style={{ width: 150, height: 150 }}
+                          />
+                        )}
+                      </div>
+                      <div className="col-12 profiles-column">
+                        <p className="location text-light">
+                          {distanceObj.username}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
       </div>
       <Footer />
     </>

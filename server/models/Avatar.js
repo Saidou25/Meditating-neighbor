@@ -1,10 +1,10 @@
 const { Schema, model } = require("mongoose");
-const bcrypt = require("bcrypt");
 
 const avatarSchema = new Schema({
   username: {
     type: String,
     required: "Please choose a username",
+    unique: true,
     trim: true,
   },
   avatarUrl: {

@@ -12,7 +12,6 @@ const Profile = () => {
   const { data, loading } = useQuery(QUERY_ME);
   const me = data?.me || [];
 
-
   if (loading) {
     return <Spinner />;
   }

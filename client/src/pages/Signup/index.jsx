@@ -44,7 +44,7 @@ const Signup = () => {
     }
   };
 
-    if (loading) return <Spinner />;
+  if (loading) return <Spinner />;
 
   if (confirm === true) {
     return (
@@ -64,66 +64,60 @@ const Signup = () => {
   return (
     <>
       <div className="container-signup g-0">
-        <div className="signup-login-error">
-          {error && (
-            <div className="my-3 p-3 bg-warning text-primary">
-              {error.message}
-            </div>
-          )}
-        </div>
-        <div className="bg-image" alt="care">
-                <form className="signup-form" onSubmit={handleFormSubmit}>
-                  <label className="form-label-signup mb-4 mt-5">
-                    Username
-                  </label>
-                  <br />
-                  <input
-                    className="form-input mt-2 mb-2"
-                    placeholder="choose a username..."
-                    name="username"
-                    type="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                  <br />
-                  <label className="form-label-signup mb-4 mt-4">Email</label>
-                  <br />
-                  <input
-                    className="form-input mt-2 mb-2"
-                    placeholder="your email.."
-                    name="email"
-                    type="email"
-                    value={email}
-                    onChange={handleChange}
-                  />
-                  <br />
-                  <label className="form-label-signup mb-4 mt-4">
-                    Password
-                  </label>
-                  <br />
-                  <input
-                    className="form-input mt-2 mb-2"
-                    placeholder="******"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <br />
+        {error && (
+          <div className="signup-login-error p-4 bg-warning text-primary">
+            {error.message}
+          </div>
+        )}
+        <div className="container-login g-0">
+          <form className="signup-form" onSubmit={handleFormSubmit}>
+            <label className="form-label-signup mb-4 mt-5">Username</label>
+            <br />
+            <input
+              className="form-input mt-2 mb-2"
+              placeholder="choose a username..."
+              name="username"
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <br />
+            <label className="form-label-signup mb-4 mt-4">Email</label>
+            <br />
+            <input
+              className="form-input mt-2 mb-2"
+              placeholder="your email.."
+              name="email"
+              type="email"
+              value={email}
+              onChange={handleChange}
+            />
+            <br />
+            <label className="form-label-signup mb-4 mt-4">Password</label>
+            <br />
+            <input
+              className="form-input mt-2 mb-2"
+              placeholder="******"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <br />
 
-                  <div className="btn-position">
-                    <button
-                      className="btn btn-primary btn-signup rounded-0 mt-5"
-                      type="button"
-                      style={{ cursor: "pointer" }}
-                      onClick={handleFormSubmit}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
+            <div className="btn-position">
+              <button
+                className="btn btn-signup text-light rounded-0 mt-5"
+                type="button"
+                style={{ cursor: "pointer" }}
+                onClick={handleFormSubmit}
+              >
+                Submit
+              </button>
             </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 };

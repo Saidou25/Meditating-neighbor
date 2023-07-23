@@ -17,27 +17,32 @@ const LandingPage = () => {
         <div className="login-signup">
           {!Auth.loggedIn() ? (
             <Link to="/LoginSignup" className="signup-link">
-              <button
-                className="btn btn-text signup rounded-0"
-              >
-                    login/ signup
+              <button className="btn btn-text signup rounded-0">
+                login/ signup
               </button>
             </Link>
           ) : (
             <div to="/" className="signup-link">
-              <button className="btn btn-text signup rounded-0"  onClick={logout}>
+              <button
+                className="btn btn-text signup rounded-0"
+                onClick={logout}
+              >
                 logout
               </button>
             </div>
           )}
           {Auth.loggedIn() && (
-          <Link to="/USA" className="site-link">
-            <button className="btn site rounded-0">site</button>
-          </Link>
+            <Link to="/USA" className="site-link">
+              <button className="btn site rounded-0">site</button>
+            </Link>
           )}
         </div>
-        <div className="cont">
+        {/* <div className="contwelcome">
           <span className="welcome">Welcome to TMI</span>
+        </div> */}
+        <div className="row landing-tmiworld">
+          <div className="col-6 landing-tmi g-0">TMI</div>
+          <div className="col-6 landing-world g-0">WORLD</div>
         </div>
       </div>
       <div className="container-landing">

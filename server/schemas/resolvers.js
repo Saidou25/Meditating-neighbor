@@ -8,11 +8,15 @@ const resolvers = {
       return User.find().populate("location").populate("avatar");
     },
     user: async (_, args) => {
-      return User.findOne({ id: args._id }).populate("location").populate("avatar");
+      return User.findOne({ id: args._id })
+        .populate("location")
+        .populate("avatar");
     },
     me: async (_, _args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("location").populate("avatar");
+        return User.findOne({ _id: context.user._id })
+          .populate("location")
+          .populate("avatar");
       }
     },
     locations: async () => {
@@ -23,7 +27,7 @@ const resolvers = {
     },
     avatar: async () => {
       return await Avatar.findOneAndUpdate({ id: args._id });
-    }
+    },
   },
 
   Mutation: {
@@ -68,7 +72,6 @@ const resolvers = {
         const avatar = await Avatar.create({
           username: args.username,
           avatarUrl: args.avatarUrl,
-          // avatarName: args.avatarName
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -85,14 +88,13 @@ const resolvers = {
         {
           username: args.username,
           avatarUrl: args.avatarUrl,
-          // avatarName: args.avatarName
         },
         { new: true }
       );
     },
-    deleteAvatar: async (_, args) => {
-      return Avatar.findOneAndDelete({ id: args._id });
-    }
+    deleteAvatar: async (_, args, context) => {
+      return await Avatar.findByIdAndDelete({ _id: args.id });
+    },
   },
 };
 

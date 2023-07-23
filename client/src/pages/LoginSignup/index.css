@@ -23,19 +23,16 @@
 }
 .nav {
   background-color: rgba(236, 120, 11, 0.4);
-  /* border-width: 0 !important; */
   border-color: transparent !important;
-  /* border-style: none !important; */
 }
 
 #nav-login-tab,
 #nav-signup-tab {
   border-width: 0 !important;
-  /* border-style: none !important; */
+  font-weight: 600;
   border-color: transparent !important;
 }
 .active {
-  /* background-color: rgba(236, 120, 11, 0.4) !important; */
   background-color: orange !important;
   border-style: none !important;
   border-color: transparent !important;
