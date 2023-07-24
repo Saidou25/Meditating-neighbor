@@ -21,7 +21,6 @@ const Navbar = () => {
   const avatars = avatarsData?.avatars || [];
   const myAvatar = avatars.filter((avatar) => avatar.username === username);
   const savedUrl = myAvatar[0]?.avatarUrl;
-  console.log("saved url from nav", savedUrl);
 
   const dropDownLinks = [
     {

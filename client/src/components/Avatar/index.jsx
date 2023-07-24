@@ -28,9 +28,6 @@ const ProfPics = () => {
   const username = me?.username;
   const { data } = useQuery(QUERY_ME);
 
-  const { data: avatarData } = useQuery(QUERY_AVATARS);
-  // const [deleteAvatar, { deleteError }] = useMutation(DELETE_AVATAR);
-
   const [addAvatar, { addError }] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
       try {
@@ -121,7 +118,6 @@ const ProfPics = () => {
   const imageRef = ref(storage, `${toDelete}`);
 
   const deleteObjAvatar = () => {
-    // setImageRef(imageRef);
     deleteObject(imageRef)
       .then(() => {
         console.log(`${imageRef} deleted`);
@@ -132,7 +128,6 @@ const ProfPics = () => {
     setUrl(null);
     setSavedUrl(null);
   };
-  // console.log('avatar id from 150',me?.avatar?.username, avatarId);
 
   const removeAvatar = async () => {
     console.log("avatar id from 152", avatarId);
@@ -160,15 +155,22 @@ const ProfPics = () => {
       setEdit((current) => !current);
     }
   };
+  const { data: avatarsData } = useQuery(QUERY_AVATARS);
   useEffect(() => {
-    if (avatarData && data) {
+    if (data && avatarsData) {
       const meData = data?.me || [];
-      const avatarUrl = meData.avatar?.avatarUrl;
-      setSavedUrl(avatarUrl);
+      const username = meData.username;
+
+      const avatars = avatarsData?.avatars || [];
+      const myAvatar = avatars.filter((avatar) => avatar.username === username);
+      const myAvatarUrl = myAvatar[0]?.avatarUrl;
+
+      setSavedUrl(myAvatarUrl);
       setMe(meData);
-      setAvatarId(meData.avatar?._id);
+      setAvatarId(myAvatar[0]?._id);
+      console.log(myAvatar[0]?._id)
     }
-  }, [data, avatarData]);
+  }, [data, avatarsData]);
 
   return (
     <>
