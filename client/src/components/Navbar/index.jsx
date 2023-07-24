@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { QUERY_ME } from "../../utils/queries";
+import { QUERY_ME, QUERY_AVATARS } from "../../utils/queries";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -12,11 +12,16 @@ const Navbar = () => {
     Auth.logout();
     console.log("logout success!");
   };
-
   const { data } = useQuery(QUERY_ME);
   const me = data?.me || [];
-  const savedUrl = me.avatar?.avatarUrl;
-  
+  const username = me.username;
+
+  // getting user's avatar by filtering [avatars] so profile picture in navbar can be updated right away
+  const { data: avatarsData } = useQuery(QUERY_AVATARS);
+  const avatars = avatarsData?.avatars || [];
+  const myAvatar = avatars.filter((avatar) => avatar.username === username);
+  const savedUrl = myAvatar[0]?.avatarUrl;
+  console.log("saved url from nav", savedUrl);
 
   const dropDownLinks = [
     {

@@ -93,7 +93,7 @@ const resolvers = {
       );
     },
     deleteAvatar: async (_, args, context) => {
-      return await Avatar.findByIdAndDelete({ _id: args.id });
+      return await Avatar.findOneAndDelete({ _id: args.id });
     },
   },
 };

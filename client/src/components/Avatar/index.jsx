@@ -11,7 +11,6 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
-// import { FaEnvelope, FaPhone, FaIdBadge, FaHome, FaTrashAlt } from "react-icons/fa";
 import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -30,51 +29,43 @@ const ProfPics = () => {
   const { data } = useQuery(QUERY_ME);
 
   const { data: avatarData } = useQuery(QUERY_AVATARS);
-  const [addAvatar, { addError }] = useMutation(ADD_AVATAR);
-  const [deleteAvatar, { deleteError }] = useMutation(DELETE_AVATAR);
+  // const [deleteAvatar, { deleteError }] = useMutation(DELETE_AVATAR);
 
-  // const [addAvatar, { addError }] = useMutation(ADD_AVATAR, {
-  //   update(cache, { data: { addAvatar } }) {
-  //     try {
-  //       const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
-  //       console.log("avatars from 41", avatars);
-  //       cache.writeQuery({
-  //         query: QUERY_AVATARS,
-  //         data: {
-  //           data: { avatars: [addAvatar, ...avatars] },
-  //         },
-  //       });
-  //       console.log("success from 48");
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //     const { me } = cache.readQuery({ query: QUERY_ME });
-  //     cache.writeQuery({
-  //       query: QUERY_ME,
-  //       data: {
-  //         me: { ...me, avatar: { ...me.avatar, addAvatar } },
-  //       },
-  //     });
-  //   },
-  // });
-  // const [deleteAvatar, { deletError }] = useMutation(DELETE_AVATAR, {
-  //   update(cache, { data: { deleteAvatar } }) {
-  //     try {
-  //       const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
-  //       console.log("avatarUrls from 65", avatars)
-  //       cache.writeQuery({
-  //         query: QUERY_AVATARS,
-  //         data: {
-  //           avatarUrls: [
-  //             avatars.filter((avatar) => avatar._id !== deleteAvatar._id),
-  //           ],
-  //         },
-  //       });
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }
-  // });
+  const [addAvatar, { addError }] = useMutation(ADD_AVATAR, {
+    update(cache, { data: { addAvatar } }) {
+      try {
+        const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
+        console.log("avatars from 41", avatars);
+        cache.writeQuery({
+          query: QUERY_AVATARS,
+          data: { avatars: [addAvatar, ...avatars] },
+          variables: { avatarUrl: url, username: username },
+        });
+        console.log("success from 48");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
+  const [deleteAvatar] = useMutation(DELETE_AVATAR, {
+    update(cache, { data: { deleteAvatar } }) {
+      try {
+        const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
+        console.log("avatarUrls from 65", avatars)
+        cache.writeQuery({
+          query: QUERY_AVATARS,
+          data: {
+            avatars: [
+              avatars.filter((avatar) => avatar._id !== deleteAvatar._id),
+            ],
+          },
+        });
+        console.log('avatar urls', avatars);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
 
   const add = async (url) => {
     if (url?.length) {
@@ -129,7 +120,6 @@ const ProfPics = () => {
   const toDelete = storageRef.fullPath;
   const imageRef = ref(storage, `${toDelete}`);
 
-  
   const deleteObjAvatar = () => {
     // setImageRef(imageRef);
     deleteObject(imageRef)
@@ -145,19 +135,23 @@ const ProfPics = () => {
   // console.log('avatar id from 150',me?.avatar?.username, avatarId);
 
   const removeAvatar = async () => {
-    
-    console.log('avatar id from 152', avatarId);
+    console.log("avatar id from 152", avatarId);
     try {
       const { data } = await deleteAvatar({
         variables: { id: avatarId, username: username, avatarUrl: savedUrl },
       });
       if (data) {
-        console.log(`removed avatar for ${me?.username} with the avatar id of ${avatarId}`);
+        console.log(
+          `removed avatar for ${me?.username} with the avatar id of ${avatarId}`
+        );
+        setUrl(null);
+        setSavedUrl(null);
       }
     } catch (error) {
       console.log(error);
     }
     deleteObjAvatar();
+   
   };
   const handleSubmit = (e) => {
     if (e === "add") {
@@ -175,11 +169,11 @@ const ProfPics = () => {
       setAvatarId(meData.avatar?._id);
     }
   }, [data, avatarData]);
-  
+
   return (
     <>
       <div className="container-avatar">
-        {(addError || deleteError) && (
+        {(addError) && (
           <div className="col-12 my-3 bg-danger text-white p-3">
             Something went wrong...
           </div>

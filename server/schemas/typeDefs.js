@@ -10,9 +10,9 @@ const typeDefs = gql`
     avatar: Avatar
   }
   type Avatar {
-    _id: ID!
-    username: String!
-    avatarUrl: String!
+    _id: ID
+    username: String
+    avatarUrl: String
     
   }
 
@@ -36,14 +36,14 @@ const typeDefs = gql`
     user(id: String!): User!
     me: User!
     locations: [Location]!
-    avatars: [Avatar]!
+    avatars: [Avatar]
     avatar(id: String!): Avatar!
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String, password: String): Auth
-    addAvatar(username: String!, avatarUrl: String!): Avatar
+    addAvatar(username: String, avatarUrl: String): Avatar
     deleteAvatar(id: String!): Avatar
     updateAvatar(id: String!, username: String!, avatarUrl: String): Avatar
     addLocation(

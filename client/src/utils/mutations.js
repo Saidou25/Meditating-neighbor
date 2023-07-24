@@ -24,7 +24,7 @@ export const ADD_USER = gql`
   }
 `;
 export const ADD_AVATAR = gql`
-  mutation addAvatar($username: String!, $avatarUrl: String!) {
+  mutation addAvatar($username: String, $avatarUrl: String) {
     addAvatar(username: $username, avatarUrl: $avatarUrl) {
       _id
       username
