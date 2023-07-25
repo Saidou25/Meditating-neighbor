@@ -174,29 +174,7 @@ const ProfPics = () => {
           </div>
         )}
         <div className="container-pic mb-3">
-          {!url && savedUrl && (
-            <div
-              className="bg-image"
-              alt="profile icon"
-              style={{
-                backgroundImage: `url(${savedUrl})`,
-                backgroundRepeat: "no-repeat",
-              }}
-            >
-              <div className="trash">
-                <img
-                  className="trash-icon bg-light"
-                  src={trash}
-                  alt="trash icon"
-                  height={53}
-                  onClick={() => {
-                    removeAvatar();
-                  }}
-                />
-              </div>
-            </div>
-          )}
-          {!url && !savedUrl && (
+          {!savedUrl && (
             <div
               className="bg-image"
               alt="profile icon"
@@ -205,27 +183,31 @@ const ProfPics = () => {
               }}
             ></div>
           )}
-          {url && (
-            <div
-              className="bg-image"
-              alt="profile icon"
-              style={{
-                backgroundImage: `url(${url})`,
-                backgroundRepeat: "no-repeat",
-              }}
-            >
-              <div className="trash">
-                <img
-                  className="trash-icon bg-light"
-                  src={trash}
-                  alt="trash icon"
-                  height={53}
-                  onClick={() => {
-                    removeAvatar();
-                  }}
-                />
+          {savedUrl && (
+            <>
+              <div
+                className="bg-image"
+                alt="profile icon"
+                style={{
+                  backgroundImage: `url(${savedUrl})`,
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                {savedUrl && isEdit === false && (
+                  <div className="trash">
+                    <img
+                      className="trash-icon bg-light"
+                      src={trash}
+                      alt="trash icon"
+                      height={53}
+                      onClick={() => {
+                        removeAvatar();
+                      }}
+                    />
+                  </div>
+                )}
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="row g-0 container-avatar ">
@@ -273,7 +255,7 @@ const ProfPics = () => {
                   type="submit"
                   onClick={() => {
                     uploadImage();
-                    setLoading(true)
+                    setLoading(true);
                     savedUrl && removeAvatar(savedUrl);
                   }}
                 >

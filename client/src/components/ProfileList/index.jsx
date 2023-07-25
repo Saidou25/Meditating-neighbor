@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import ProfileModal from "../ProfileModal";
+// import ProfilePortal from "../ProfilePortal";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
