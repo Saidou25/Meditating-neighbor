@@ -60,3 +60,7 @@
     border-radius: 50% ;
       
   }
+  .save-error {
+    text-align: center;
+    padding: 2%;
+  }

@@ -25,6 +25,7 @@ const ProfPics = () => {
   const [avatarId, setAvatarId] = useState(null);
   const [me, setMe] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const username = me?.username;
   const { data } = useQuery(QUERY_ME);
 
@@ -82,12 +83,23 @@ const ProfPics = () => {
     } else {
       console.log("url not ready");
     }
+    setUrl(null);
+    setImage(null);
   };
 
   const uploadImage = () => {
+    
     if (image === null) {
+      setError('no image selected');
+      // setLoading(false);
       return;
-    }
+    };
+    if (savedUrl) {
+      removeAvatar(savedUrl);
+      console.log("saved url removing", savedUrl);
+    };
+    console.log('following');
+    setError("");
     setLoading(true);
     console.log("setting loading to true");
     const imageRef = ref(storage, `images/${image.name + v4()}`);
@@ -210,6 +222,9 @@ const ProfPics = () => {
             </>
           )}
         </div>
+        {error && (
+            <div className="save-error bg-danger text-light">{error}</div>
+          )}
         <div className="row g-0 container-avatar ">
           {!savedUrl?.length && (
             <>
@@ -230,7 +245,7 @@ const ProfPics = () => {
                 <button
                   className="btn btn-uploadprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => handleSubmit("add")}
+                  onClick={() => {handleSubmit("add"); setError("")}}
                 >
                   {isEdit === true ? <>cancel</> : <>edit</>}
                 </button>
@@ -253,11 +268,7 @@ const ProfPics = () => {
                 <button
                   className="btn btn-uploadprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => {
-                    uploadImage();
-                    setLoading(true);
-                    savedUrl && removeAvatar(savedUrl);
-                  }}
+                  onClick={uploadImage}
                 >
                   {loading === true ? <ButtonSpinner /> : <>save</>}
                 </button>
