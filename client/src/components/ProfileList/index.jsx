@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import ProfileModal from "../ProfileModal";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
@@ -46,6 +47,12 @@ const ProfileList = (props) => {
                       </div>
                     </div>
                   </div>
+                  <div className="card-footer">
+                    <ProfileModal
+                      username={distanceObj.username}
+                      avatarUrl={distanceObj.avatarUrl}
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -83,6 +90,12 @@ const ProfileList = (props) => {
                         </p>
                       </div>
                     </div>
+                  </div>
+                  <div className="card-footer">
+                    <ProfileModal
+                      username={distanceObj.username}
+                      avatarUrl={distanceObj.avatarUrl}
+                    />
                   </div>
                 </div>
               </div>

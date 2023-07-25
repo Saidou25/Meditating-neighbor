@@ -19,8 +19,8 @@ const ProfPics = () => {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
   const [isShown, setIsShown] = useState(false);
-  const [cancel, setCancel] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [savedUrl, setSavedUrl] = useState(null);
   const [avatarId, setAvatarId] = useState(null);
   const [me, setMe] = useState(null);
@@ -37,7 +37,7 @@ const ProfPics = () => {
           data: { avatars: [addAvatar, ...avatars] },
           variables: { avatarUrl: url, username: username },
         });
-        console.log("success from 48");
+        console.log("success from 48", data);
       } catch (e) {
         console.error(e);
       }
@@ -74,7 +74,6 @@ const ProfPics = () => {
         });
         if (data) {
           setLoading(false);
-          setCancel((current) => !current);
           console.log(`success adding ${me.username}`);
         }
       } catch (err) {
@@ -102,7 +101,8 @@ const ProfPics = () => {
           .catch((error) => {
             console.log(error.message, "error getting the image url");
           });
-        setImage(null);
+        // setImage(null);
+        handleSubmit("add");
       })
       .catch((error) => {
         console.log(error.message);
@@ -122,7 +122,6 @@ const ProfPics = () => {
       });
     setUrl(null);
     setSavedUrl(null);
-    // setAvatarId(null);
   };
 
   const removeAvatar = async () => {
@@ -136,7 +135,6 @@ const ProfPics = () => {
         );
         setUrl(null);
         setSavedUrl(null);
-        // setAvatarId(null);
       }
     } catch (error) {
       console.log(error);
@@ -146,8 +144,8 @@ const ProfPics = () => {
   const handleSubmit = (e) => {
     if (e === "add") {
       setIsShown((current) => !current);
-      setCancel((current) => !current);
-      setEdit((current) => !current);
+      setIsCanceled((current) => !current);
+      setIsEdit((current) => !current);
     }
   };
   const { data: avatarsData } = useQuery(QUERY_AVATARS);
@@ -191,10 +189,8 @@ const ProfPics = () => {
                   src={trash}
                   alt="trash icon"
                   height={53}
-                  onClick={() => {removeAvatar();
-                    setUrl(null);
-                    setCancel((current) => !current);
-                    setIsShown(false)
+                  onClick={() => {
+                    removeAvatar();
                   }}
                 />
               </div>
@@ -224,10 +220,8 @@ const ProfPics = () => {
                   src={trash}
                   alt="trash icon"
                   height={53}
-                  onClick={() => {removeAvatar();
-                    setUrl(null);
-                    setCancel((current) => !current);
-                    setIsShown(false)
+                  onClick={() => {
+                    removeAvatar();
                   }}
                 />
               </div>
@@ -235,7 +229,7 @@ const ProfPics = () => {
           )}
         </div>
         <div className="row g-0 container-avatar ">
-          {!savedUrl?.length ? (
+          {!savedUrl?.length && (
             <>
               <div className="col-4 choose-file">
                 <button
@@ -243,11 +237,12 @@ const ProfPics = () => {
                   type="submit"
                   onClick={() => handleSubmit("add")}
                 >
-                  {cancel === true ? <>cancel</> : <>add picture</>}
+                  {isCanceled === true ? <>cancel</> : <>add picture</>}
                 </button>
               </div>
             </>
-          ) : (
+          )}
+          {savedUrl?.length && (
             <>
               <div className="col-4 choose-file">
                 <button
@@ -255,7 +250,7 @@ const ProfPics = () => {
                   type="submit"
                   onClick={() => handleSubmit("add")}
                 >
-                  {edit === true ? <>cancel</> : <>edit</>}
+                  {isEdit === true ? <>cancel</> : <>edit</>}
                 </button>
               </div>
             </>
@@ -278,8 +273,8 @@ const ProfPics = () => {
                   type="submit"
                   onClick={() => {
                     uploadImage();
-                    handleSubmit("add");
-                    savedUrl && (removeAvatar(savedUrl));
+                    setLoading(true)
+                    savedUrl && removeAvatar(savedUrl);
                   }}
                 >
                   {loading === true ? <ButtonSpinner /> : <>save</>}
