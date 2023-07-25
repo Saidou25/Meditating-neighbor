@@ -8,7 +8,7 @@ import {
   Annotation,
 } from "react-simple-maps";
 import { ADD_LOCATION } from "../../utils/mutations";
-import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
+import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
@@ -44,6 +44,10 @@ const Usa = () => {
   // set state for progress bar
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
+
+  const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
+  const users = usersData?.users || [];
+  console.log("users", users.length);
   const {
     data: locationsData,
     locationsError,
@@ -180,21 +184,23 @@ const Usa = () => {
           </div>
         </div>
       )}
-      {(result.length && !showProgressBar) && (
+      {result.length && !showProgressBar && (
         <>
           <div className="result bg-primary pt-5">
             You are located in {city}, {state}, {country}.
           </div>
           <div className="container-btn bg-primary">
-            {(result[0]?.country === "US") ? (
+            {result[0]?.country === "US" ? (
               <button
-              className="btn-coordinates text-white "
-              type="button"
-              onClick={handleSubmit}
-            >
-              save location
-            </button>
-            ) : ( <></>)}
+                className="btn-coordinates text-white "
+                type="button"
+                onClick={handleSubmit}
+              >
+                save location
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         </>
       )}
@@ -276,6 +282,9 @@ const Usa = () => {
           {/* </Markers> */}
         </ComposableMap>
       </div>
+      {/* <div className="count bg-primary"> */}
+      <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
+      {/* </div> */}
       <Footer />
     </>
   );

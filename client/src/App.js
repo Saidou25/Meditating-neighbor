@@ -19,8 +19,6 @@ import Avatar from "./components/Avatar";
 import ProfileList from "./components/ProfileList";
 import Profile from "./components/Profile";
 import ProfileModal from "./components/ProfileModal";
-import ProfilePortal from "./components/ProfilePortal";
-import ModalContent from "./components/ModalContent";
 import Neighbors from "./components/Neighbors";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
@@ -78,8 +76,6 @@ function App() {
             <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/ProfileModal" element={<ProfileModal />} />
-            <Route path="/ProfilePortal" element={<ProfilePortal />} />
-            <Route path="/ModalContent" element={<ModalContent />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
