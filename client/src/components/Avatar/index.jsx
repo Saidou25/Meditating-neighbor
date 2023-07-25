@@ -32,7 +32,6 @@ const ProfPics = () => {
     update(cache, { data: { addAvatar } }) {
       try {
         const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
-        console.log("avatars from 41", avatars);
         cache.writeQuery({
           query: QUERY_AVATARS,
           data: { avatars: [addAvatar, ...avatars] },
@@ -48,7 +47,6 @@ const ProfPics = () => {
     update(cache, { data: { deleteAvatar } }) {
       try {
         const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
-        console.log("avatarUrls from 65", avatars)
         cache.writeQuery({
           query: QUERY_AVATARS,
           data: {
@@ -57,11 +55,10 @@ const ProfPics = () => {
             ],
           },
         });
-        console.log('avatar urls', avatars);
       } catch (e) {
         console.error(e);
       }
-    }
+    },
   });
 
   const add = async (url) => {
@@ -78,9 +75,7 @@ const ProfPics = () => {
         if (data) {
           setLoading(false);
           setCancel((current) => !current);
-
-          console.log("setting loading to false");
-          console.log(`seccess adding ${me.username}`);
+          console.log(`success adding ${me.username}`);
         }
       } catch (err) {
         console.log(err);
@@ -127,10 +122,10 @@ const ProfPics = () => {
       });
     setUrl(null);
     setSavedUrl(null);
+    // setAvatarId(null);
   };
 
   const removeAvatar = async () => {
-    console.log("avatar id from 152", avatarId);
     try {
       const { data } = await deleteAvatar({
         variables: { id: avatarId, username: username, avatarUrl: savedUrl },
@@ -141,12 +136,12 @@ const ProfPics = () => {
         );
         setUrl(null);
         setSavedUrl(null);
+        // setAvatarId(null);
       }
     } catch (error) {
       console.log(error);
     }
     deleteObjAvatar();
-   
   };
   const handleSubmit = (e) => {
     if (e === "add") {
@@ -168,14 +163,14 @@ const ProfPics = () => {
       setSavedUrl(myAvatarUrl);
       setMe(meData);
       setAvatarId(myAvatar[0]?._id);
-      console.log(myAvatar[0]?._id)
+      console.log(myAvatar[0]?._id);
     }
   }, [data, avatarsData]);
 
   return (
     <>
       <div className="container-avatar">
-        {(addError) && (
+        {addError && (
           <div className="col-12 my-3 bg-danger text-white p-3">
             Something went wrong...
           </div>
@@ -196,7 +191,11 @@ const ProfPics = () => {
                   src={trash}
                   alt="trash icon"
                   height={53}
-                  onClick={removeAvatar}
+                  onClick={() => {removeAvatar();
+                    setUrl(null);
+                    setCancel((current) => !current);
+                    setIsShown(false)
+                  }}
                 />
               </div>
             </div>
@@ -225,14 +224,18 @@ const ProfPics = () => {
                   src={trash}
                   alt="trash icon"
                   height={53}
-                  onClick={removeAvatar}
+                  onClick={() => {removeAvatar();
+                    setUrl(null);
+                    setCancel((current) => !current);
+                    setIsShown(false)
+                  }}
                 />
               </div>
             </div>
           )}
         </div>
         <div className="row g-0 container-avatar ">
-          {!avatarId?.length ? (
+          {!savedUrl?.length ? (
             <>
               <div className="col-4 choose-file">
                 <button
@@ -273,7 +276,11 @@ const ProfPics = () => {
                 <button
                   className="btn btn-uploadprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={uploadImage}
+                  onClick={() => {
+                    uploadImage();
+                    handleSubmit("add");
+                    savedUrl && (removeAvatar(savedUrl));
+                  }}
                 >
                   {loading === true ? <ButtonSpinner /> : <>save</>}
                 </button>

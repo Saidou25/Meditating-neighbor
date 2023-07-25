@@ -39,11 +39,23 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        avatars: {
+          merge(existing, imcoming) {
+            return imcoming;
+          }
+        }
+      }
+    }
+  }
+})
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 function App() {
