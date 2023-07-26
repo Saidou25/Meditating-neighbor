@@ -91,17 +91,13 @@ const ProfPics = () => {
     
     if (image === null) {
       setError('no image selected');
-      // setLoading(false);
       return;
     };
     if (savedUrl) {
       removeAvatar(savedUrl);
-      console.log("saved url removing", savedUrl);
     };
-    console.log('following');
     setError("");
     setLoading(true);
-    console.log("setting loading to true");
     const imageRef = ref(storage, `images/${image.name + v4()}`);
     uploadBytes(imageRef, image)
       .then(() => {
@@ -113,7 +109,6 @@ const ProfPics = () => {
           .catch((error) => {
             console.log(error.message, "error getting the image url");
           });
-        // setImage(null);
         handleSubmit("add");
       })
       .catch((error) => {

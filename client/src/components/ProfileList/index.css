@@ -16,3 +16,14 @@
     border-width: 0;
     margin-bottom: 2%;
 }
+.icon-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 25%;
+}
+.btn-profile {
+    display: flex;
+    align-items: flex-end !important;
+    padding: 0 !important;
+    font-size: 1.2rem !important;
+}

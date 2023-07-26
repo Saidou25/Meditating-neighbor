@@ -4,30 +4,28 @@ import { QUERY_USERS } from "../../utils/queries";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
+import { FaEllipsisH } from "react-icons/fa";
 import "./index.css";
 
 const ProfileList = (props) => {
   const seventyFiveMiles = props.seventyFiveMiles;
   const overSeventyFiveMiles = props.overSeventyFiveMiles;
+
   const [avatarUrl, setAvatarUrl] = useState("");
   const [username, setUsername] = useState("");
 
-  console.log("username", username);
-  console.log("avatarUrl", avatarUrl);
-
   const [user, setUser] = useState("");
-  console.log("user", user);
   const { data: usersData } = useQuery(QUERY_USERS);
 
   const contact = () => {
-    console.log('contact requested');
+    console.log("contact requested from, ", props.me.email);
   };
 
   useEffect(() => {
     if (usersData && username) {
       const users = usersData?.users || [];
       const selectedUser = users.filter((user) => user.username === username);
-      setUser(selectedUser[0]?.username);
+      setUser(selectedUser[0]);
     }
   }, [usersData, username]);
 
@@ -38,12 +36,26 @@ const ProfileList = (props) => {
         <h3 className="locations-list-title text-white">
           {seventyFiveMiles.length ? <>Within a 75 miles radius</> : <></>}
         </h3>
+
         <div className="row card-row">
           {seventyFiveMiles &&
             seventyFiveMiles.map((distanceObj, index) => (
               <div key={index} className="col-3 card-column">
                 <div className="card card-locations bg-primary">
                   <div className="card-body">
+                    <div className="icon-container">
+                      <button
+                        className="btn btn-profile "
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        onClick={() => {
+                          setAvatarUrl(distanceObj.avatarUrl);
+                          setUsername(distanceObj.username);
+                        }}
+                      >
+                        <FaEllipsisH className="icon" />
+                      </button>
+                    </div>
                     <div className="row profiles-row">
                       <div className="col-12 profiles-column">
                         {!distanceObj.avatarUrl ? (
@@ -63,29 +75,12 @@ const ProfileList = (props) => {
                         )}
                       </div>
                       <div className="col-12 profiles-column">
-                        <p className="location text-light">
+                        <p className="location text-light fs-4">
                           {distanceObj.username}
                         </p>
                       </div>
                     </div>
                   </div>
-                  {/* <div className="card-footer">
-                    <ProfileModal
-                      username={distanceObj.username}
-                      avatarUrl={distanceObj.avatarUrl}
-                    />
-                  </div> */}
-                  <button
-                    className="btn bg-primary text-light"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
-                    onClick={() => {
-                      setAvatarUrl(distanceObj.avatarUrl);
-                      setUsername(distanceObj.username);
-                    }}
-                  >
-                    look
-                  </button>
                 </div>
               </div>
             ))}
@@ -99,6 +94,19 @@ const ProfileList = (props) => {
               <div key={index} className="col-3 card-column">
                 <div className="card card-locations bg-primary">
                   <div className="card-body">
+                  <div className="icon-container">
+                      <button
+                        className="btn btn-profile "
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        onClick={() => {
+                          setAvatarUrl(distanceObj.avatarUrl);
+                          setUsername(distanceObj.username);
+                        }}
+                      >
+                        <FaEllipsisH className="icon" />
+                      </button>
+                    </div>
                     <div className="row profiles-row">
                       <div className="col-12 profiles-column">
                         {!distanceObj.avatarUrl ? (
@@ -118,13 +126,13 @@ const ProfileList = (props) => {
                         )}
                       </div>
                       <div className="col-12 profiles-column">
-                        <p className="location text-light">
+                        <p className="location text-light fs-4">
                           {distanceObj.username}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <button
+                  {/* <button
                     className="btn bg-primary text-light"
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
@@ -133,8 +141,8 @@ const ProfileList = (props) => {
                       setUsername(distanceObj.username);
                     }}
                   >
-                    look
-                  </button>
+                    view profile
+                  </button> */}
                 </div>
               </div>
             ))}
@@ -154,7 +162,7 @@ const ProfileList = (props) => {
                 <>
                   <div className="modal-header">
                     <h3 className="modal-title fs-5" id="staticBackdropLabel">
-                      {user}
+                      {user.username}
                     </h3>
                     <button
                       type="button"
@@ -164,13 +172,38 @@ const ProfileList = (props) => {
                     ></button>
                   </div>
                   <div className="modal-body">
-                    {username?.length ? <>{username}</> : <>no username</>}
-                    <img
-                      className="container-pic mb-4"
-                      src={avatarUrl}
-                      alt="profile icon"
-                      style={{ width: 150, height: 150 }}
-                    />
+                    <div className="row">
+                      <div className="col-6">
+                        {" "}
+                        {user.avatar?.avatarUrl ? (
+                          <img
+                            className="container-pic mb-4"
+                            src={avatarUrl}
+                            alt="profile icon"
+                            style={{ width: 150, height: 150 }}
+                          />
+                        ) : (
+                          <img
+                            className="container-pic mb-4"
+                            src={profileIcon}
+                            alt="profile icon"
+                            style={{ width: 150, height: 150 }}
+                          />
+                        )}
+                      </div>
+                      <div className="col-6">
+                        {" "}
+                        <div className="location">
+                          <p>teacher(TMI)</p>
+                          <p>meditating since: 2010</p>
+                          <p>frequency: 7hrs/week</p>
+                          <p>
+                            leaves in {user.location?.city},{" "}
+                            {user.location?.state}, {user.location?.country}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
                 <div className="modal-footer">
@@ -185,9 +218,12 @@ const ProfileList = (props) => {
                   >
                     Close
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={contact}>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={contact}
+                  >
                     request friendship
-
                   </button>
                 </div>
               </div>
