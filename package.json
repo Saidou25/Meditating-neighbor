@@ -11,6 +11,11 @@
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saidou25/Meditating-neighbor.git"
+  },
+  "homepage": "https://github.com/Saidou25/Meditating-neighbor#readme",
   "keywords": [],
   "author": "",
   "license": "ISC",
