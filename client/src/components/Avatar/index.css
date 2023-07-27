@@ -1,66 +1,102 @@
-.container-avatar
- {
-    margin-top: 30px;
+.container-avatar {
+  margin-top: 30px;
 }
-.container-pic {
-    display: flex;
-    justify-content: center;
+.pic {
+  display: flex;
+  justify-content: center;
+}
+.bg-image-profile {
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  margin-top: 4%;
+  border-radius: 50%;
+  margin-bottom: 7%;
+}
+.trash {
+  float: right;
+  margin-top: 3%;
+  margin-right: -7%;
+}
+.trash-icon {
+  padding: 3px;
+  border-width: 3px !important;
+  border-color: black !important;
+  border-radius: 50%;
 }
 .choose-file {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .btn-addaprofile,
 .btn-uploadprofile {
-    width: 100%;
-    padding: 1px;
-    border-width: 0;
-    transition: 0.5s;
+  width: 100%;
+  padding: 1px;
+  border-width: 0;
+  transition: 0.5s;
 }
 #file-button {
-    display: none;
+  display: none;
 }
 .file-label {
-    transition: 0.5s;
-    /* border-radius: 25px; */
-    width: 100%;
-    background-color: black;
-    padding: 14px;
-    border-width: 0;
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    text-transform: uppercase;
-    display: block;
-    font-weight: bold;
+  transition: 0.5s;
+  width: 100%;
+  padding: 14px;
+  border-width: 0;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  font-weight: bold;
 }
-.bg-image {
-    /* width: 300px;
-    height: 150px; */
-    width: 200px;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    margin-top: 4%;
-    border-radius: 50%;
-    margin-bottom: 7%;
-  }
-  .trash {
-    float: right;
-    margin-top: 3%;
-    margin-right: -7%;
-    
+
+.save-error {
+  text-align: center;
+  padding: 2%;
 }
-.trash-icon {
-    padding: 3px; 
-    border-width: 3px !important;
-    border-color: black !important;
-    border-radius: 50% ;
-      
+@media screen and (max-width: 1600px) {
+  .bg-image-profile {
+    width: 150px;
+    height: 150px;
   }
-  .save-error {
-    text-align: center;
-    padding: 2%;
+  .trash-icon {
+    padding: 3px;
+    border-width: 2px !important;
+    height: 40px;
   }
+}
+@media screen and (max-width: 992px) {
+  .bg-image-profile {
+    width: 100px;
+    height: 100px;
+  }
+  .trash-icon {
+    padding: 3px;
+    border-width: 1px !important;
+    height: 30px;
+  }
+}
+@media screen and (max-width: 414px) {
+  .bg-image-profile {
+    width: 70px;
+    height: 70px;
+  }
+  .trash-icon {
+    padding: 3px;
+    border-width: 1px !important;
+    height: 25px;
+  }
+  .btn-addaprofile,
+.btn-uploadprofile {
+  font-size: 0.7rem !important;
+  /* height: 20px; */
+}
+.file-label {
+  font-size: 0.7rem !important;
+}
+}

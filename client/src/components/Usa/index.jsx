@@ -47,7 +47,6 @@ const Usa = () => {
 
   const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
-  console.log("users", users.length);
   const {
     data: locationsData,
     locationsError,
@@ -158,7 +157,7 @@ const Usa = () => {
     }
   };
 
-  if (loading || loadingLocations) {
+  if (loading || loadingLocations || usersLoading) {
     return <Spinner />;
   }
   if (err || locationsError) {
@@ -168,7 +167,8 @@ const Usa = () => {
   return (
     <>
       <Navbar />
-      <div className="container-btn bg-primary">
+      {/* <div className="container-fluid main-usa px-0"> */}
+      <div className="btn-locate bg-primary">
         <button
           className="btn-coordinates text-white"
           type="button"
@@ -189,7 +189,7 @@ const Usa = () => {
           <div className="result bg-primary pt-5">
             You are located in {city}, {state}, {country}.
           </div>
-          <div className="container-btn bg-primary">
+          <div className="btn-locate bg-primary">
             {result[0]?.country === "US" ? (
               <button
                 className="btn-coordinates text-white "
@@ -282,7 +282,6 @@ const Usa = () => {
           {/* </Markers> */}
         </ComposableMap>
       </div>
-      {/* <div className="count bg-primary"> */}
       <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
       {/* </div> */}
       <Footer />

@@ -1,4 +1,4 @@
-.container-main {
+.main {
   height: 100vh;
 }
 .login-signup {
@@ -71,7 +71,7 @@
   background-image: url("../../assets/images/bowlandbudha.jpeg");
   min-height: 50%;
   background-attachment: fixed;
-  background-position: center;
+  background-position: cover;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -82,4 +82,9 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
 }

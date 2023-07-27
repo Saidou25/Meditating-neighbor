@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { ADD_LOCATION } from "../../utils/mutations";
-import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
+import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
+  // ZoomableGroup,
 } from "react-simple-maps";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import API from "../../utils/API";
+import Spinner from "../Spinner";
 import "./index.css";
 
 const geoUrl =
@@ -27,6 +28,9 @@ const Map = () => {
   // Set state for the search result and the search query
   const [result, setResult] = useState({});
   const [error, setError] = useState("");
+
+  const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
+  const users = usersData?.users || [];
 
   const {
     data: locationsData,
@@ -114,8 +118,8 @@ const Map = () => {
     }
   };
 
-  if (loading || loadingLocations) {
-    return <>loading...</>;
+  if (loading || loadingLocations || usersLoading) {
+    return <Spinner />;
   }
   if (err || locationsError) {
     return <>{error.toString()}</>;
@@ -168,7 +172,7 @@ const Map = () => {
           // projection="geoAlbersUsa"
           className="map"
         >
-          <ZoomableGroup center={[0, 0]} zoom={1}>
+          {/* <ZoomableGroup center={[0, 0]} zoom={1}> */}
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => (
@@ -188,9 +192,10 @@ const Map = () => {
                 </text>
               </Marker>
             ))}
-          </ZoomableGroup>
+          {/* </ZoomableGroup> */}
         </ComposableMap>
       </div>
+      <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
       <Footer />
     </>
   );

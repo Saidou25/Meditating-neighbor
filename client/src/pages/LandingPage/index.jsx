@@ -12,7 +12,7 @@ const LandingPage = () => {
   };
 
   return (
-    <main className="container-main">
+    <main className="container-fluid main">
       <div className="parallax">
         <div className="login-signup">
           {!Auth.loggedIn() ? (

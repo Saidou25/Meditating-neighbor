@@ -55,9 +55,6 @@ const Signup = () => {
         <h2 className="col-12 signup-success d-flex justify-content-center">
           Success!
         </h2>
-        <p className="col-12 signup-success d-flex justify-content-center">
-          Let's now head to your dashboard...
-        </p>
       </main>
     );
   }

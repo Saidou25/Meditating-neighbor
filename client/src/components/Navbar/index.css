@@ -33,13 +33,18 @@
     display: flex;
     align-items: center;
   }
+  .dropdown-menu {
+    font-size: 1rem !important;
+  }
   .logout {
     text-transform: uppercase;
-    /* font-size: 1rem; */
     font-size: 1.25rem;
     font-weight: 600;
     padding-top: 0.715rem;
     padding-bottom: 0.715rem;
+  }
+  .nav-link {
+    font-size: 1.25rem !important;
   }
   @media screen and (max-width: 992px) {
     .navbar-expand-lg {
@@ -50,4 +55,17 @@
         flex-basis: 100% !important;
         flex-grow: 1 !important;
     }
+}
+@media screen and (max-width: 414px) {
+  .container-pic {
+      width: 80px;
+      height: 80px;
+  }
+  .nav-link,
+  .logout {
+    font-size: 1rem !important;
+  }
+  .dropdown-menu {
+    font-size: 0.9rem !important;
+  }
 }

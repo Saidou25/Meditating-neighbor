@@ -174,16 +174,16 @@ const ProfPics = () => {
 
   return (
     <>
-      <div className="container-avatar">
-        {addError && (
+      <div className="container-fluid avatar">
+        {/* {addError && (
           <div className="col-12 my-3 bg-danger text-white p-3">
             Something went wrong...
           </div>
-        )}
-        <div className="container-pic mb-3">
+        )} */}
+        <div className="container pic mb-3">
           {!savedUrl && (
             <div
-              className="bg-image"
+              className="bg-image-profile"
               alt="profile icon"
               style={{
                 backgroundImage: `url(${profileIcon})`,
@@ -193,7 +193,7 @@ const ProfPics = () => {
           {savedUrl && (
             <>
               <div
-                className="bg-image"
+                className="bg-image-profile"
                 alt="profile icon"
                 style={{
                   backgroundImage: `url(${savedUrl})`,
@@ -220,14 +220,14 @@ const ProfPics = () => {
         {error && (
             <div className="save-error bg-danger text-light">{error}</div>
           )}
-        <div className="row g-0 container-avatar ">
+        <div className="row g-0 container-avatar mt-5">
           {!savedUrl?.length && (
             <>
               <div className="col-4 choose-file">
                 <button
                   className="btn btn-addaprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => handleSubmit("add")}
+                  onClick={() => {handleSubmit("add"); setError("")}}
                 >
                   {isCanceled === true ? <>cancel</> : <>add picture</>}
                 </button>
@@ -249,7 +249,7 @@ const ProfPics = () => {
           )}
           {isShown ? (
             <>
-              <div className="col-4 choose-file">
+              <div className="col-4 choose-file bg-primary">
                 <label htmlFor="file-button" className="file-label">
                   select file
                 </label>

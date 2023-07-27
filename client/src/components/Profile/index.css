@@ -1,25 +1,37 @@
-.container-profile {
+.profile {
   height: 100vh;
+  padding-top: 12%;
+
 }
-.container-card {
-  padding-top: 15%;
-}
+
 .profile-card {
-  width: 500px;
-  min-height: 400px;
+  width: 30%;
+  height: auto;
   margin-right: auto;
   margin-left: auto;
+  background-color: black !important;
 }
 .profile-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* background-color: rgba(17, 11, 1, 0.4); */
+  /* background-color: rgba(241, 158, 14, 1) !important; */
 }
 .profile-p,
 .profile-footer,
 .profile-header
 {
   text-align: center;
+}
+@media screen and (max-width: 1600px) {
+  .profile-card {
+    width: 40%;
+  }
+}
+@media screen and (max-width: 414px) {
   
+  .profile-card {
+    width: 96%;
+    margin-top: 205
+  }
 }

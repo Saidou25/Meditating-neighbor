@@ -63,19 +63,19 @@ const ProfileList = (props) => {
                             className="container-pic mb-4"
                             src={profileIcon}
                             alt="profile icon"
-                            style={{ width: 150, height: 150 }}
+                            // style={{ width: 150, height: 150 }}
                           />
                         ) : (
                           <img
                             className="container-pic mb-4"
                             src={distanceObj.avatarUrl}
                             alt="profile icon"
-                            style={{ width: 150, height: 150 }}
+                            // style={{ width: 150, height: 150 }}
                           />
                         )}
                       </div>
                       <div className="col-12 profiles-column">
-                        <p className="location text-light fs-4">
+                        <p className="location text-light">
                           {distanceObj.username}
                         </p>
                       </div>
@@ -114,19 +114,19 @@ const ProfileList = (props) => {
                             className="container-pic mb-4"
                             src={profileIcon}
                             alt="profile icon"
-                            style={{ width: 150, height: 150 }}
+                            // style={{ width: 150, height: 150 }}
                           />
                         ) : (
                           <img
                             className="container-pic mb-4"
                             src={distanceObj.avatarUrl}
                             alt="profile icon"
-                            style={{ width: 150, height: 150 }}
+                            // style={{ width: 150, height: 150 }}
                           />
                         )}
                       </div>
                       <div className="col-12 profiles-column">
-                        <p className="location text-light fs-4">
+                        <p className="location text-light">
                           {distanceObj.username}
                         </p>
                       </div>
@@ -147,7 +147,7 @@ const ProfileList = (props) => {
               </div>
             ))}
         </div>
-        <>
+       
           <div
             className="modal fade"
             id="staticBackdrop"
@@ -229,7 +229,6 @@ const ProfileList = (props) => {
               </div>
             </div>
           </div>
-        </>
       </div>
       <Footer />
     </>

@@ -1,12 +1,27 @@
-.fa-check {
+.container-success {
+  height: 50vh;
+}
+.appointment-success {
+  display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+}
+.fa-check {
+  margin-top: -7%;
+  margin-bottom: 5%;
+  padding-bottom: 0 !important;
   font-size: 4rem;
-  height: 70px;
-  width: 70px;
+  height: 90px !important;
+  width: 90px !important;
   border-radius: 50%;
   color: white;
   background-color: green;
+  border: solid !important;
+  border-color: white !important;
+  border-width: 7px !important;
+}
+.signup-success {
+  height: 0 !important;
 }
 .signup-login-error {
   text-align: center;

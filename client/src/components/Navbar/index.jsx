@@ -75,7 +75,7 @@ const Navbar = () => {
                 </Link>
               </li> */}
               <li className="nav-item">
-                <Link className="nav-link fs-4" to="/Neighbors">
+                <Link className="nav-link" to="/Neighbors">
                   nearby
                 </Link>
               </li>
@@ -91,7 +91,7 @@ const Navbar = () => {
               </li> */}
               <li className="nav-item dropdown">
                 <Link
-                  className="nav-link fs-4 dropdown-toggle"
+                  className="nav-link dropdown-toggle"
                   data-bs-toggle="dropdown"
                   to=""
                   role="button"
@@ -105,7 +105,7 @@ const Navbar = () => {
                     dropDownLinks.map((dropDownLink, index) => (
                       <div key={index} className="drop-div">
                         <Link
-                          className="dropdown-item fs-4"
+                          className="dropdown-item"
                           to={`${dropDownLink.linkTo}`}
                         >
                           {dropDownLink.linkName}

@@ -20,8 +20,8 @@ const Neighbors = () => {
   const distance = (myLat, myLon, user) => {
     const r = 6371; // km
     const p = Math.PI / 180;
-    const userLat = user.location.latitude;
-    const userLon = user.location.longitude;
+    const userLat = user.location?.latitude;
+    const userLon = user.location?.longitude;
 
     const a =
       0.5 -
@@ -36,9 +36,9 @@ const Neighbors = () => {
     const distanceObj = {
       distance2: distance2,
       username: user.username,
-      city: user.location.city,
-      state: user.location.state,
-      country: user.location.country,
+      city: user.location?.city,
+      state: user.location?.state,
+      country: user.location?.country,
       avatarUrl: user.avatar?.avatarUrl,
     };
     // conditionally pushing the object distance to arrays for "within a radius display"

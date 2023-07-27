@@ -1,3 +1,7 @@
+.main-usa {
+height: 100vh;
+
+}
 .map-container {
     background-color: black;
     padding-top: 5%;
@@ -33,7 +37,7 @@
     border-width: 0;
     font-size: 1.3rem;
   }
-  .container-btn {
+  .btn-locate {
     display: flex;
     justify-content: center;
   }
@@ -60,3 +64,16 @@
   padding-bottom: 5%;
   padding-left: 10%;
  }
+ @media screen and (max-width: 414px) {
+  /* .main-usa {
+    height: auto;
+    } */
+    .result {
+      padding-top: 2% !important;
+      padding-bottom: 2% !important;
+      font-size: 1rem;
+    }
+    .btn-coordinates {
+      font-size: 1rem;
+    }
+}
