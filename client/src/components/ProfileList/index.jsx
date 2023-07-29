@@ -32,8 +32,8 @@ const ProfileList = (props) => {
   return (
     <>
       <Navbar />
-      <div className="container-neighbors bg-primary">
-        <h3 className="locations-list-title text-white">
+      <div className="container-fluid neighbors bg-primary">
+        <h3 className="locations-list-title text-white py-5">
           {seventyFiveMiles.length ? <>Within a 75 miles radius</> : <></>}
         </h3>
 
@@ -63,14 +63,12 @@ const ProfileList = (props) => {
                             className="container-pic mb-4"
                             src={profileIcon}
                             alt="profile icon"
-                            // style={{ width: 150, height: 150 }}
                           />
                         ) : (
                           <img
                             className="container-pic mb-4"
                             src={distanceObj.avatarUrl}
                             alt="profile icon"
-                            // style={{ width: 150, height: 150 }}
                           />
                         )}
                       </div>
@@ -85,7 +83,7 @@ const ProfileList = (props) => {
               </div>
             ))}
         </div>
-        <h3 className="locations-list-title text-white">
+        <h3 className="locations-list-title text-white py-5">
           Over a 75 miles radius
         </h3>
         <div className="row card-row">
@@ -230,7 +228,9 @@ const ProfileList = (props) => {
             </div>
           </div>
       </div>
+      <div className="profile-footer bg-primary">
       <Footer />
+      </div>
     </>
   );
 };

@@ -1,7 +1,10 @@
-/* .map-container {
+.main-map {
+  height: 100vh;
+  padding-top: 15%;
+}
+.map {
   background-color: black;
-  padding-top: 5%;
-  padding-bottom: 8%;
+  /* padding-bottom: 8%; */
 }
 .result {
   text-align: center;
@@ -33,5 +36,10 @@
 .container-btn {
   display: flex;
   justify-content: center;
- 
-} */
+}
+.count-map {
+  margin-left: 10%;
+  padding-top: 5%;
+  padding-bottom: 30%;
+}
+

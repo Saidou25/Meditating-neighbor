@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Spinner from "../../components/Spinner";
+import Footer from "../../components/Footer";
 import Auth from "../../utils/auth";
 import "./index.css";
 

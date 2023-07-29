@@ -167,7 +167,7 @@ const Usa = () => {
   return (
     <>
       <Navbar />
-      {/* <div className="container-fluid main-usa px-0"> */}
+      <div className="container-fluid main-usa bg-primary px-0">
       <div className="btn-locate bg-primary">
         <button
           className="btn-coordinates text-white"
@@ -283,8 +283,10 @@ const Usa = () => {
         </ComposableMap>
       </div>
       <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
-      {/* </div> */}
+      </div>
+      <div className="profile-footer bg-primary">
       <Footer />
+      </div>
     </>
   );
 };

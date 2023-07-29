@@ -35,7 +35,7 @@ const Profile = () => {
           <div className="card-footer profile-footer">footer</div>
         </div>
       </div>
-      <div className="profile-footer">
+      <div className="profile-footer bg-primary">
       <Footer />
       </div>
     </div>

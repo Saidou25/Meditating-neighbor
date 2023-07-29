@@ -18,7 +18,6 @@ import "./index.css";
 const geoUrl =
   "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
 
-
 const Map = () => {
   const [location, setLocation] = useState("");
   const [notSupported, setNotSupported] = useState("");
@@ -47,7 +46,7 @@ const Map = () => {
       coordinates: [location.longitude, location.latitude],
     };
     markers.push(coordin);
-  };
+  }
 
   const city = result[0]?.name;
   const state = result[0]?.state;
@@ -127,76 +126,40 @@ const Map = () => {
   return (
     <>
       <Navbar />
-      <div className="container-btn bg-primary">
-        <button
-          className="btn-coordinates text-white "
-          type="button"
-          onClick={getLocation}
-        >
-          locate me
-        </button>
-        <div className="progress">
-          <div
-            className="progress-bar progress-bar-striped progress-bar-animated"
-            role="progressbar"
-            aria-valuenow="75"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            // style="width: 75%;"
-          ></div>
-        </div>
-      </div>
-      {result.length ? (
-        <div className="result bg-primary pt-5">
-          {city}, {state}, {country}. longitude: {longitude}, latitude:{" "}
-          {latitude} {/* </div> */}
-          <p className="save-text bg-primary mt-5">
-            {/* Would you like to save your location? */}
-          </p>
-          <div className="location-save bg-primary">
-            <button
-              className="btn-location-save text-white "
-              type="button"
-              onClick={handleSubmit}
-            >
-              save my location
-            </button>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-      <div className="map-container bg-primary">
+      <div className="container-fluid main-map bg-primary">
+      <div className="map">
         <ComposableMap
           data-tip=""
-          // projection="geoAlbersUsa"
           className="map"
         >
-          {/* <ZoomableGroup center={[0, 0]} zoom={1}> */}
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => (
-                  <Geography key={geo.rsmKey} geography={geo} />
-                ))
-              }
-            </Geographies>
-            {markers.map(({ city, coordinates }) => (
-              <Marker key={city} coordinates={coordinates}>
-                <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
-                <text
-                  textAnchor="middle"
-                  // y={markerOffset}
-                  // style={{ fontFamily: "system-ui", fill: "#fff" }}
-                >
-                  {/* {city} */}
-                </text>
-              </Marker>
-            ))}
-          {/* </ZoomableGroup> */}
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography key={geo.rsmKey} geography={geo} />
+              ))
+            }
+          </Geographies>
+          {markers.map(({ city, coordinates }) => (
+            <Marker key={city} coordinates={coordinates}>
+              <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
+              <text
+                textAnchor="middle"
+                // y={markerOffset}
+                // style={{ fontFamily: "system-ui", fill: "#fff" }}
+              >
+                {/* {city} */}
+              </text>
+            </Marker>
+          ))}
         </ComposableMap>
       </div>
-      <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
-      <Footer />
+      <p className="count-map fs-4 bg-primary text-light">
+        {users?.length} users
+      </p>
+      </div>
+      <div className="profile-footer bg-primary">
+        <Footer />
+      </div>
     </>
   );
 };

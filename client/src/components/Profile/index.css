@@ -1,9 +1,7 @@
 .profile {
   height: 100vh;
   padding-top: 12%;
-
 }
-
 .profile-card {
   width: 30%;
   height: auto;
@@ -32,6 +30,18 @@
   
   .profile-card {
     width: 96%;
-    margin-top: 205
+    margin-top: 15%;
+  }
+}
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+ .profile-card {
+    width: 70%;
+    margin-top: 10%;
   }
 }

@@ -67,7 +67,9 @@ const LoginSignup = () => {
           </div>
         </div>
       </div>
+      <div className="profile-footer bg-primary">
       <Footer />
+      </div>
     </>
   );
 };

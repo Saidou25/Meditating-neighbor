@@ -1,6 +1,5 @@
 .main-usa {
 height: 100vh;
-
 }
 .map-container {
     background-color: black;
@@ -65,9 +64,9 @@ height: 100vh;
   padding-left: 10%;
  }
  @media screen and (max-width: 414px) {
-  /* .main-usa {
+  .main-usa {
     height: auto;
-    } */
+    }
     .result {
       padding-top: 2% !important;
       padding-bottom: 2% !important;
@@ -77,3 +76,15 @@ height: 100vh;
       font-size: 1rem;
     }
 }
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+/* @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+  
+      .count-p {
+        padding-bottom: 15%;
+      }
+} */
