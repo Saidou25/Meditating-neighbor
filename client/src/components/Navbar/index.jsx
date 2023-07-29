@@ -74,21 +74,13 @@ const Navbar = () => {
                   <span className="visually-hidden">(current)</span>
                 </Link>
               </li> */}
+              {Auth.loggedIn() && (
+                <>
               <li className="nav-item">
                 <Link className="nav-link" to="/Neighbors">
                   nearby
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="">
-                  retreats
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="">
-                  news
-                </Link>
-              </li> */}
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
@@ -97,7 +89,7 @@ const Navbar = () => {
                   role="button"
                   aria-haspopup="true"
                   aria-expanded="false"
-                >
+                  >
                   search country
                 </Link>
                 <div className="dropdown-menu">
@@ -118,7 +110,7 @@ const Navbar = () => {
                   </Link>
                 </div>
               </li>
-
+              </> )}
               {Auth.loggedIn() ? (
                 <li className="nav-item">
                   <button className="nav-link" onClick={logout}>
@@ -128,10 +120,11 @@ const Navbar = () => {
               ) : (
                 <li className="nav-item">
                   <Link className="nav-link fs-4" to="/LoginSignup">
-                    login
+                    login/signup
                   </Link>
                 </li>
               )}
+              {Auth.loggedIn() && (
               <li className="nav-item">
                 <Link className="nav-link text-light fs-4" to="/Profile">
                   <img
@@ -141,6 +134,7 @@ const Navbar = () => {
                   />
                 </Link>
               </li>
+              )}
             </ul>
           </div>
         </div>

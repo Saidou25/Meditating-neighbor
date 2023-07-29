@@ -8,15 +8,15 @@ import "./index.css";
 const LoginSignup = () => {
   return (
     <>
-      <div className="container-loginsignup bg-primary">
+      <div className="container-fluid loginsignup bg-primary">
         <div className="container-nav">
-      <div className="go-back d-flex justify-content-center">
-        <Link to="/">
-          <button type="btn" className="btn-go-back text-white">
-            go back
-          </button>
-        </Link>
-      </div>
+          <div className="go-back d-flex justify-content-center">
+            <Link to="/">
+              <button type="btn" className="btn-go-back text-white">
+                go back
+              </button>
+            </Link>
+          </div>
           <nav>
             <div className="nav nav-tabs" id="nav-tab" role="tablist">
               <button
@@ -68,7 +68,7 @@ const LoginSignup = () => {
         </div>
       </div>
       <div className="profile-footer bg-primary">
-      <Footer />
+        <Footer />
       </div>
     </>
   );

@@ -8,7 +8,6 @@ height: 100vh;
   }
   .result {
     text-align: center;
-    /* padding-top: 7%; */
     font-size: 1.3rem;
     color: white;
     
@@ -22,8 +21,6 @@ height: 100vh;
     border-radius: 25px;
     width: 250px;
     background-color: black;
-    margin-top: 6%;
-    margin-bottom: 2%;
     padding: 1px;
     border-width: 0;
     font-size: 1.3rem;
@@ -40,20 +37,22 @@ height: 100vh;
     display: flex;
     justify-content: center;
   }
-  #myProgress {
+  .myProgress {
     width: 50%;
     margin-right: auto;
     margin-left: auto;
     border-radius: 25px;
     background-color: #ddd;
   } 
-   #myBar {
-    /* width: 10%; */
-    height: 30px;
+   .myBar {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+    height: 40px;
     border-radius: 25px;
     background-color: orange;
-    text-align: center;
-    line-height: 30px;
+    /* text-align: center; */
+    /* line-height: 30px; */
     color: black;
  }  
 .count-p {
@@ -75,6 +74,22 @@ height: 100vh;
     .btn-coordinates {
       font-size: 1rem;
     }
+    .myProgress {
+      width: 50%;
+      margin-right: auto;
+      margin-left: auto;
+      border-radius: 25px;
+      background-color: #ddd;
+    } 
+     .myBar {
+      /* width: 10%; */
+      height: 20px;
+      border-radius: 25px;
+      background-color: orange;
+      text-align: center;
+      line-height: 30px;
+      color: black;
+   }  
 }
 /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
 

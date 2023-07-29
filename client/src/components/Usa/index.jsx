@@ -170,7 +170,7 @@ const Usa = () => {
       <div className="container-fluid main-usa bg-primary px-0">
       <div className="btn-locate bg-primary">
         <button
-          className="btn-coordinates text-white"
+          className="btn-coordinates text-white my-5"
           type="button"
           onClick={getLocation}
         >
@@ -178,21 +178,21 @@ const Usa = () => {
         </button>
       </div>
       {showProgressBar === "show" && !result.length && (
-        <div className="bar bg-primary">
-          <div id="myProgress">
-            <div id="myBar" style={{ width: `${value}%` }}>{`${value}%`}</div>
+        <div className="bar bg-primary mb-5">
+          <div className="myProgress">
+            <div className="myBar" style={{ width: `${value}%` }}>{`${value}%`}</div>
           </div>
         </div>
       )}
       {result.length && !showProgressBar && (
         <>
-          <div className="result bg-primary pt-5">
+          <div className="result bg-primary">
             You are located in {city}, {state}, {country}.
           </div>
           <div className="btn-locate bg-primary">
             {result[0]?.country === "US" ? (
               <button
-                className="btn-coordinates text-white "
+                className="btn-coordinates text-white my-5"
                 type="button"
                 onClick={handleSubmit}
               >
@@ -219,7 +219,7 @@ const Usa = () => {
                         fill: "#000000",
                       },
                       hover: {
-                        fill: "#f69c26",
+                        fill: "#f63b26",
                       },
                       pressed: {
                         fill: "#eeebea",
@@ -291,7 +291,7 @@ const Usa = () => {
           {/* </Markers> */}
         </ComposableMap>
       </div>
-      <p className="count-p fs-4 bg-primary text-light">{users?.length} users</p>
+      <p className="count-p fs-5 bg-primary text-light">{users?.length} users</p>
       </div>
       <div className="profile-footer bg-primary">
       <Footer />

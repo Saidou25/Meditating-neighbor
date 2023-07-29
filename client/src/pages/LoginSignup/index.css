@@ -1,6 +1,7 @@
-.container-loginsignup {
+.loginsignup {
   height: 100vh;
 }
+
 .go-back {
   margin-bottom: 10%;
 }
@@ -37,3 +38,12 @@
   border-style: none !important;
   border-color: transparent !important;
 }
+@media screen and (max-width: 640px) {
+  .loginsignup {
+    height: auto;
+  }
+  .container-nav {
+    width: 90%;
+    padding-bottom: 15%;
+  }
+} 

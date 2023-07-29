@@ -37,7 +37,9 @@ width: 100%;
   }
 }
 @media screen and (max-width: 414px) {
-  
+  .profile {
+  height: auto;
+}
   .profile-card {
     width: 96%;
     margin-top: 15%;

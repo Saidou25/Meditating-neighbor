@@ -27,7 +27,7 @@ const Profile = () => {
       <Navbar />
       <div className="container-fluid profile bg-primary">
         <div className="card profile-card">
-          <div className="card-header profile-header mt-5">
+          <div className="card-header profile-header mt-3">
             <h3>{me.username}</h3>
           </div>
           {/* <div className="profile-icon"> */}

@@ -135,7 +135,18 @@ const Map = () => {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo) => (
-                <Geography key={geo.rsmKey} geography={geo} />
+                <Geography key={geo.rsmKey} geography={geo} 
+                style={{
+                  default: {
+                    fill: "#000000",
+                  },
+                  hover: {
+                    fill: "#f63b26",
+                  },
+                  pressed: {
+                    fill: "#eeebea",
+                  },
+                }}/>
               ))
             }
           </Geographies>
@@ -153,7 +164,7 @@ const Map = () => {
           ))}
         </ComposableMap>
       </div>
-      <p className="count-map fs-4 bg-primary text-light">
+      <p className="count-map fs-5 bg-primary text-light">
         {users?.length} users
       </p>
       </div>

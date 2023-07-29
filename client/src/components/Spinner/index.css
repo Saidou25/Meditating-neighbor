@@ -1,10 +1,9 @@
 
 .container-spinner {
     height: 100vh;
-    
+    padding-top: 15%;
 }
 .spinner-border {
-    padding-top: 15%;
     width: 50px;
     height: 50px;
 }

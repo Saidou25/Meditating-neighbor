@@ -1,5 +1,8 @@
-.main {
+.container-main {
   height: 100vh;
+}
+.landing-nav {
+  display: none;
 }
 .login-signup {
   display: flex;
@@ -35,18 +38,6 @@
 .landing-tmiworld {
   margin-top: 7% !important;
 }
-/* .welcome {
-  background-color: #000;
-  color: #fff;
-  padding: 3%;
-  font-size: 20px;
-  letter-spacing: 10px;
-  text-align: center;
-} */
-/* .contwelcome {
-  padding: 20%;
-  text-align: center;
-} */
 .container-landing {
   background-color: black;
 }
@@ -71,7 +62,7 @@
   background-image: url("../../assets/images/bowlandbudha.jpeg");
   min-height: 50%;
   background-attachment: fixed;
-  background-position: cover;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -83,8 +74,34 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-@media only screen and (max-device-width: 1366px) {
+@media screen and (max-width: 640px) {
+  .container-main {
+    height: auto;
+  }
   .parallax {
     background-attachment: scroll;
+    width: 100%;
+    height: 400px;
   }
-}
+  .second {
+    background-attachment: scroll;
+    width: 100%;
+    height: 400px;
+  }
+  .third {
+    background-attachment: scroll;
+    width: 100%;
+    height: 400px;
+  }
+  .landing-footer {
+    background-color: black;
+  }
+  .signup-link,
+  .landing-tmi,
+  .landing-world {
+    display: none;
+  }
+  .landing-nav {
+    display: block ;
+  }
+} 

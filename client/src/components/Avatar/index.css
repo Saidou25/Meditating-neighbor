@@ -82,8 +82,8 @@
 }
 @media screen and (max-width: 992px) {
   .bg-image-profile {
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
   }
   .trash-icon {
     padding: 3px;
@@ -93,8 +93,8 @@
 }
 @media screen and (max-width: 414px) {
   .bg-image-profile {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin-top: 5%;
   }
   .trash-icon {
