@@ -39,8 +39,10 @@
   border-width: 0;
   transition: 0.5s;
 }
-#file-button {
-  display: none;
+.btn-addaprofile:hover,
+.btn-uploadprofile:hover {
+  color: black !important;
+  background-color: orange !important;
 }
 .file-label {
   transition: 0.5s;
@@ -53,6 +55,14 @@
   text-transform: uppercase;
   display: block;
   font-weight: bold;
+}
+.file-label:hover {
+  color: black !important;
+  background-color: orange !important;
+}
+/* hidding default type=file setup */
+#file-button {
+  display: none;
 }
 
 .save-error {

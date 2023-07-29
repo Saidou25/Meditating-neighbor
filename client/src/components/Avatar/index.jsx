@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
 import { QUERY_ME, QUERY_AVATARS } from "../../utils/queries";
 import { storage } from "../../firebase";
-import trash from "../../assets/images/trash.png";
+import trash from "../../assets/images/trash.jpg";
 import {
   getDownloadURL,
   ref,

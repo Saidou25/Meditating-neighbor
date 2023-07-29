@@ -12,6 +12,13 @@ const Profile = () => {
   const { data, loading } = useQuery(QUERY_ME);
   const me = data?.me || [];
 
+  const editProfile = () => {
+    console.log("edit");
+  };
+  const deleteProfile = () => {
+    console.log("delete");
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -24,7 +31,7 @@ const Profile = () => {
             <h3>{me.username}</h3>
           </div>
           {/* <div className="profile-icon"> */}
-            <Avatar me={me} />
+          <Avatar me={me} />
           {/* </div> */}
           <div className="card-body profile-body mt-5">
             <p className="profile-p text-light">{me.email}</p>
@@ -32,11 +39,30 @@ const Profile = () => {
               {me.location?.city} {me.location?.state} {me.location?.country}
             </p>
           </div>
-          <div className="card-footer profile-footer">footer</div>
+          <div className="card-footer profile-footer mt-5">
+            <div className="row">
+              <div className="col-6 edit-column">
+                <button
+                  className="btn btn-edit bg-primary text-light"
+                  onClick={editProfile}
+                >
+                  edit
+                </button>
+              </div>
+              <div className="col-6 delete-column">
+                <button
+                  className="btn btn-delete bg-primary text-light"
+                  onClick={deleteProfile}
+                >
+                  delete
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="profile-footer bg-primary">
-      <Footer />
+        <Footer />
       </div>
     </div>
   );

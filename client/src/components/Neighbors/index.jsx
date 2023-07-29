@@ -2,6 +2,7 @@ import React from "react";
 import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
 import ProfileList from "../ProfileList";
+import Spinner from "../Spinner";
 import "./index.css";
 
 const Neighbors = () => {
@@ -63,7 +64,7 @@ const Neighbors = () => {
   };
 
   if (loading || usersLaoding) {
-    return <>loading...</>;
+    return <Spinner />;
   }
   if (err || usersError) {
     return (

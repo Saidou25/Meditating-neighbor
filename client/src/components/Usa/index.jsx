@@ -213,9 +213,18 @@ const Usa = () => {
                 {geographies.map((geo) => (
                   <Geography
                     key={geo.rsmKey}
-                    // stroke="#FFF"
                     geography={geo}
-                    // fill="#DDD"
+                    style={{
+                      default: {
+                        fill: "#000000",
+                      },
+                      hover: {
+                        fill: "#f69c26",
+                      },
+                      pressed: {
+                        fill: "#eeebea",
+                      },
+                    }}
                   />
                 ))}
                 {geographies.map((geo) => {

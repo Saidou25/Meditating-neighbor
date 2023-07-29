@@ -21,6 +21,16 @@
 {
   text-align: center;
 }
+.btn-edit,
+.btn-delete {
+width: 100%;
+}
+.btn-edit:hover,
+.btn-delete:hover {
+background-color: orange !important;
+color: black !important;
+width: 100%;
+}
 @media screen and (max-width: 1600px) {
   .profile-card {
     width: 40%;
