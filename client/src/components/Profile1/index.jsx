@@ -29,14 +29,8 @@ const Profile1 = () => {
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
         cache.writeQuery({
           query: QUERY_PROFILES,
-          data: { profiles: [...profiles, deleteProfile] },
-          variables: {
-            id: profileId,
-            username: me.username,
-            stage: myProfile.stage,
-            years: myProfile.years,
-            teacher: myProfile.teacher,
-          },
+          data: { profiles: [...profiles.filter((profile) => profile._id !== deleteProfile._id)] },
+        
         });
         console.log("success updating cache with deleteProfile");
       } catch (e) {
@@ -92,10 +86,9 @@ const Profile1 = () => {
               <></>
             )}
           </div>
-
           <div className="card-footer profile-footer mt-5">
             <div className="row">
-              <div className="col-6 edit-column">
+              <div className="col-12 edit-column">
                 {myProfile ? (
                   <Link
                     className="btn btn-edit bg-primary rounded-0 text-light"
@@ -116,18 +109,20 @@ const Profile1 = () => {
                   </Link>
                 )}
               </div>
-              <div className="col-6 delete-column">
-                <button
-                  className="btn btn-delete bg-primary rounded-0 text-light"
-                  onClick={removeProfile}
-                >
-                  delete
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
+        <p className="delete-text bg-primary text-light">
+          Click
+          <button
+            className="delete-btn bg-primary text-info"
+            onClick={removeProfile}
+          >
+            here
+          </button>{" "}
+          if you wish to delete your account.
+        </p>
       <div className="profile-footer bg-primary">
         <Footer />
       </div>

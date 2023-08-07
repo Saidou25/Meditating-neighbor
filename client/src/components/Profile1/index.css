@@ -21,15 +21,27 @@
   {
     text-align: center;
   }
+  .edit-column {
+    padding: 2% !important;
+  }
   .btn-edit,
   .btn-delete {
   width: 100%;
+ 
   }
   .btn-edit:hover,
   .btn-delete:hover {
   background-color: orange !important;
   color: black !important;
   width: 100%;
+  }
+  .delete-text {
+   padding-left: 8%;
+   padding-bottom: 10%;
+   /* padding-top: 10%; */
+  }
+  .delete-btn {
+    border: none;
   }
   @media screen and (max-width: 1600px) {
     .profile-card {
