@@ -23,6 +23,17 @@ export const ADD_USER = gql`
     }
   }
 `;
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(id: $id) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
 export const ADD_AVATAR = gql`
   mutation addAvatar($username: String, $avatarUrl: String) {
     addAvatar(username: $username, avatarUrl: $avatarUrl) {
@@ -75,6 +86,39 @@ export const ADD_LOCATION = gql`
       city
       state
       country
+    }
+  }
+`;
+export const ADD_PROFILE = gql`
+  mutation addProfile($username: String!, $stage: Int, $years: Int, $teacher: String) {
+    addProfile(username: $username, stage: $stage, years: $years, teacher: $teacher) {
+      _id
+      stage
+      teacher
+      years
+      username
+    }
+  }
+`;
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($id: String!, $username: String!, $stage: Int, $years: Int, $teacher: String) {
+    updateProfile(id: $id, username: $username, stage: $stage, years: $years, teacher: $teacher) {
+      _id
+      stage
+      teacher
+      years
+      username
+    }
+  }
+`;
+export const DELETE_PROFILE = gql`
+  mutation deleteProfile($id: String!) {
+    deleteProfile(id: $id) {
+      _id
+      stage
+      teacher
+      years
+      username
     }
   }
 `;

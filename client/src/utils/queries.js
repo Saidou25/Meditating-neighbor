@@ -11,6 +11,13 @@ export const QUERY_USERS = gql`
         username
         avatarUrl
       }
+      profile {
+        _id
+        username
+        stage
+        years
+        teacher
+      }
       location {
         _id
         username
@@ -34,6 +41,13 @@ export const QUERY_USER = gql`
         username
         avatarUrl
       }
+      profile {
+        _id
+        username
+        stage
+        years
+        teacher
+      }
       location {
         _id
         username
@@ -56,6 +70,13 @@ export const QUERY_ME = gql`
         _id
         username
         avatarUrl
+      }
+      profile {
+        _id
+        username
+        stage
+        years
+        teacher
       }
       location {
         _id
@@ -97,6 +118,28 @@ export const QUERY_AVATAR = gql`
       _id
       username
       avatarUrl
+    }
+  }
+`;
+export const QUERY_PROFILES = gql`
+  query profiles {
+    profiles {
+      _id
+      username
+      stage
+      years
+      teacher
+    }
+  }
+`;
+export const QUERY_PROFILE = gql`
+  query profile($id: String!) {
+    profile(id: $id) {
+      _id
+      uername
+      stage
+      years
+      teacher
     }
   }
 `;

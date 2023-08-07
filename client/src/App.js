@@ -17,9 +17,11 @@ import Map from "./components/Map";
 import Usa from "./components/Usa";
 import Avatar from "./components/Avatar";
 import ProfileList from "./components/ProfileList";
-import Profile from "./components/Profile";
+import Profile1 from "./components/Profile1";
 import ProfileModal from "./components/ProfileModal";
+import ProfileForm from "./components/ProfileForm";
 import Neighbors from "./components/Neighbors";
+import Success from "./components/Success";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
 
@@ -47,11 +49,16 @@ const cache = new InMemoryCache({
         avatars: {
           merge(existing, imcoming) {
             return imcoming;
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+        profiles: {
+          merge(existing, imcoming) {
+            return imcoming;
+          },
+        },
+      },
+    },
+  },
 })
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
@@ -74,9 +81,11 @@ function App() {
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
             <Route path="/ProfileList" element={<ProfileList />} />
-            <Route path="/Profile" element={<Profile />} />
+            <Route path="/Profile1" element={<Profile1 />} />
             <Route path="/ProfileModal" element={<ProfileModal />} />
+            <Route path="/ProfileForm" element={<ProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
+            <Route path="/Success" element={<Success />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
         </>

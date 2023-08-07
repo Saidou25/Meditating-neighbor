@@ -1,22 +1,27 @@
-const { Location, User, Avatar } = require("../models");
+const { Location, User, Avatar, Profile } = require("../models");
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("location").populate("avatar");
+      return User.find()
+        .populate("location")
+        .populate("avatar")
+        .populate("profile");
     },
     user: async (_, args) => {
       return User.findOne({ id: args._id })
         .populate("location")
-        .populate("avatar");
+        .populate("avatar")
+        .populate("profile");
     },
     me: async (_, _args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id })
           .populate("location")
-          .populate("avatar");
+          .populate("avatar")
+          .populate("profile");
       }
     },
     locations: async () => {
@@ -27,6 +32,12 @@ const resolvers = {
     },
     avatar: async () => {
       return await Avatar.findOneAndUpdate({ id: args._id });
+    },
+    profiles: async () => {
+      return await Profile.find();
+    },
+    profile: async () => {
+      return await Profile.findOne({ _id: args._id });
     },
   },
 
@@ -92,8 +103,37 @@ const resolvers = {
         { new: true }
       );
     },
-    deleteAvatar: async (_, args, context) => {
+    deleteAvatar: async (_, args) => {
       return await Avatar.findOneAndDelete({ _id: args.id });
+    },
+    addProfile: async (_, args, context) => {
+      if (context.user) {
+        const profile = await Profile.create({
+          username: args.username,
+          stage: args.stage,
+          years: args.years,
+          teacher: args.teacher,
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $set: { profile: profile._id } },
+          { new: true }
+        );
+        return profile;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    updateProfile: async (_, args) => {
+      return await Profile.findOneAndUpdate({
+        id: args._id,
+        username: args.username,
+        stage: args.stage,
+        years: args.years,
+        teacher: args.teacher,
+      });
+    },
+    deleteProfile: async (_, args) => {
+      return await Profile.findOneAndDelete({ _id: args.id });
     },
   },
 };

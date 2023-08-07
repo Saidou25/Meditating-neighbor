@@ -8,6 +8,7 @@ const typeDefs = gql`
     password: String!
     location: Location
     avatar: Avatar
+    profile: Profile
   }
   type Avatar {
     _id: ID
@@ -25,6 +26,13 @@ const typeDefs = gql`
     state: String!
     country: String
   }
+  type Profile {
+   _id: ID!
+   username: String
+   stage: Int
+   years: Int
+   teacher: String
+   }
 
   type Auth {
     token: ID!
@@ -33,11 +41,13 @@ const typeDefs = gql`
 
   type Query {
     users: [User]!
-    user(id: String!): User!
-    me: User!
+    user(id: String!): User
+    me: User
     locations: [Location]!
-    avatars: [Avatar]
+    avatars: [Avatar]!
     avatar(id: String!): Avatar!
+    profiles: [Profile]
+    profile(id: String!): Profile
   }
 
   type Mutation {
@@ -46,6 +56,9 @@ const typeDefs = gql`
     addAvatar(username: String, avatarUrl: String): Avatar
     deleteAvatar(id: String!): Avatar
     updateAvatar(id: String!, username: String!, avatarUrl: String): Avatar
+    addProfile(username: String, stage: Int, years: Int, teacher: String): Profile
+    updateProfile(id: String!, username: String, stage: Int, years: Int, teacher: String): Profile
+    deleteProfile(id: String!): Profile
     addLocation(
       username: String!
       longitude: Float!

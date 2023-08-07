@@ -45,11 +45,7 @@ const Login = () => {
   return (
     <>
       <div className="container-signup g-0"></div>
-      {error && (
-        <div className="signup-login-error p-4 bg-warning text-primary">
-          {error.message}
-        </div>
-      )}
+     
       <main className="container-login g-0">
         <form className="login-form" onSubmit={handleFormSubmit}>
           <label className="form-label-login mb-4 mt-5">Email</label>
@@ -75,6 +71,11 @@ const Login = () => {
           />{" "}
           <br />
           <div></div>
+          {error && (
+        <div className="signup-login-error p-4 bg-danger text-light mt-5">
+          {error.message}
+        </div>
+      )}
           <div className="btn-position">
             <button
               className="btn btn-login text-light rounded-0 mt-5 mb-5"
@@ -86,7 +87,31 @@ const Login = () => {
           </div>
         </form>
       </main>
+      {/* <div className="form-group">
+<label className="form-label mt-4">Floating labels</label>
+<div className="form-floating mb-3">
+  <input
+    type="email"
+    className="form-control"
+    id="floatingInput"
+    placeholder="name@example.com"
+  />
+  <label for="floatingInput">Email address</label>
+</div>
+<div className="form-floating">
+  <input
+    type="password"
+    className="form-control"
+    id="floatingPassword"
+    placeholder="Password"
+    autocomplete="off"
+  />
+  <label for="floatingPassword">Password</label>
+</div>
+</div> */}
     </>
   );
 };
 export default Login;
+
+

@@ -20,16 +20,18 @@ const userSchema = new Schema({
     unique: true,
     minlength: 5,
   },
-  avatar: 
-    {
-      type: Schema.Types.ObjectId,
-      ref: "avatar",
-    },
-  location: 
-    {
-      type: Schema.Types.ObjectId,
-      ref: "location",
-    },
+  avatar: {
+    type: Schema.Types.ObjectId,
+    ref: "avatar",
+  },
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: "location",
+  },
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: "profile",
+  },
 });
 
 userSchema.pre("save", async function (next) {

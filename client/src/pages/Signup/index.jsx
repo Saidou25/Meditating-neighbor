@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Spinner from "../../components/Spinner";
-import Footer from "../../components/Footer";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -62,11 +61,7 @@ const Signup = () => {
   return (
     <>
       <div className="container-signup g-0">
-        {error && (
-          <div className="signup-login-error p-4 bg-warning text-primary">
-            {error.message}
-          </div>
-        )}
+        
         <div className="container-login g-0">
           <form className="signup-form" onSubmit={handleFormSubmit}>
             <label className="form-label-signup mb-4 mt-5">Username</label>
@@ -102,7 +97,11 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <br />
-
+            {error && (
+          <div className="signup-login-error p-4 bg-danger text-light mt-5">
+            {error.message}
+          </div>
+        )}
             <div className="btn-position">
               <button
                 className="btn btn-signup text-light rounded-0 mt-5"

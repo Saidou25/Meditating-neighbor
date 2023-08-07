@@ -1,0 +1,20 @@
+.profile-form {
+    height: 100vh;
+}
+.main-form {
+    width: 40%;
+    margin: auto;
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+.btn-profile-form {
+    color: white !important;
+    background-color: black !important;
+}
+.btn-profile-form:hover {
+    color: black !important;
+    background-color: orange !important;
+}
+.profile-form-error {
+    text-align: center;
+}

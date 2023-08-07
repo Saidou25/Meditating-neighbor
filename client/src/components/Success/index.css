@@ -1,0 +1,20 @@
+.success {
+  height: 100vh;
+}
+.container-success {
+    padding-top: 20%;
+}
+.fa-success {
+  justify-content: center;
+  align-items: center;
+}
+.fa-check {
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  color: white;
+  background-color: green;
+}
