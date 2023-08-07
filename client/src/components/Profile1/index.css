@@ -1,5 +1,5 @@
 .profile {
-    height: 100vh;
+    /* height: 100vh; */
     padding-top: 12%;
   }
   .profile-card {
@@ -13,7 +13,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* background-color: rgba(241, 158, 14, 1) !important; */
   }
   .profile-p,
   .profile-footer,
@@ -35,14 +34,17 @@
   color: black !important;
   width: 100%;
   }
-  .delete-text {
-   padding-left: 8%;
-   padding-bottom: 10%;
-   /* padding-top: 10%; */
-  }
+.bottom-text {
+  margin: 10%;
+  margin-top: 10% !important;
+
+}
   .delete-btn {
     border: none;
   }
+  /* .profile-footer {
+    padding: 2%;
+  } */
   @media screen and (max-width: 1600px) {
     .profile-card {
       width: 40%;
@@ -55,6 +57,17 @@
     .profile-card {
       width: 96%;
       margin-top: 15%;
+    }
+    .bottom-text {
+      margin: 2%;
+      margin-top: 10%;
+      margin-bottom: 10%;
+    justify-content: center;
+    }
+    .profile-footer {
+     padding: 0;
+     width: 100%;
+     border-style: none !important;
     }
   }
   /* ----------- iPad 3, 4 and Pro 9.7" ----------- */

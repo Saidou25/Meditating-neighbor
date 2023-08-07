@@ -67,7 +67,7 @@
 
 .save-error {
   text-align: center;
-  padding: 2%;
+  padding: 2.5%;
 }
 @media screen and (max-width: 1600px) {
   .bg-image-profile {
@@ -103,11 +103,11 @@
     height: 25px;
   }
   .btn-addaprofile,
-.btn-uploadprofile {
-  font-size: 0.7rem !important;
-  /* height: 20px; */
-}
-.file-label {
-  font-size: 0.7rem !important;
-}
+  .btn-uploadprofile {
+    font-size: 0.7rem !important;
+    /* height: 20px; */
+  }
+  .file-label {
+    font-size: 0.7rem !important;
+  }
 }

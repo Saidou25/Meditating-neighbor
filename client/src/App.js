@@ -20,6 +20,7 @@ import ProfileList from "./components/ProfileList";
 import Profile1 from "./components/Profile1";
 import ProfileModal from "./components/ProfileModal";
 import ProfileForm from "./components/ProfileForm";
+import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import Neighbors from "./components/Neighbors";
 import Success from "./components/Success";
 import "bootswatch/dist/lux/bootstrap.min.css";
@@ -84,6 +85,7 @@ function App() {
             <Route path="/Profile1" element={<Profile1 />} />
             <Route path="/ProfileModal" element={<ProfileModal />} />
             <Route path="/ProfileForm" element={<ProfileForm />} />
+            <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/Success" element={<Success />} />
             <Route path="/" element={<LandingPage />} />
