@@ -67,6 +67,14 @@ const typeDefs = gql`
       state: String!
       country: String!
     ): Location
+    updateLocation(
+      id: String!
+      username: String!
+      longitude: Float!
+      latitude: Float!
+      city: String!
+      state: String!
+      country: String!): Location
   }
 `;
 

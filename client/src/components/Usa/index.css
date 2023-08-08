@@ -7,8 +7,8 @@ height: 100vh;
     padding-bottom: 3%;
   }
   .result {
-    text-align: center;
-    font-size: 1.3rem;
+    text-align: center; 
+   font-size: 1.3rem;
     color: white;
     
   }
@@ -19,23 +19,29 @@ height: 100vh;
   }
   .btn-coordinates {
     border-radius: 25px;
+    margin-top: 0 !important;
     width: 250px;
     background-color: black;
     padding: 1px;
     border-width: 0;
     font-size: 1.3rem;
   }
-  .btn-location-save {
+  .buttons-row {
+    padding-top: 5%;
+  }
+  /* .btn-location-save { 
     border-radius: 25px;
     width: 250px;
     background-color: black;
     padding: 1%;
     border-width: 0;
     font-size: 1.3rem;
-  }
-  .btn-locate {
+  } */
+  .btn-locate,
+  .buttons-row {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   .myProgress {
     width: 50%;
@@ -61,6 +67,16 @@ height: 100vh;
   padding-top: 3%;
   padding-bottom: 5%;
   padding-left: 10%;
+ }
+ .location-saved {
+  text-align: center;
+  font-size: 1.3rem;
+  color: black;
+ }
+ .location-saved-p {
+  width: 250px;
+  border-radius: 15px;
+  margin: auto;
  }
  @media screen and (max-width: 414px) {
   .main-usa {

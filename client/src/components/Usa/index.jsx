@@ -7,7 +7,7 @@ import {
   Marker,
   Annotation,
 } from "react-simple-maps";
-import { ADD_LOCATION } from "../../utils/mutations";
+import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import API from "../../utils/API";
@@ -44,6 +44,13 @@ const Usa = () => {
   // set state for progress bar
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
+  const [confirm, setConfirm] = useState(false);
+  const [confirm1, setConfirm1] = useState(false);
+  const [] = useState("");
+
+  const { data, loading, err } = useQuery(QUERY_ME);
+  const me = data?.me || [];
+  const username = me.username;
 
   const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
@@ -53,6 +60,11 @@ const Usa = () => {
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
+  const userLocation = locations.filter(
+    (location) => location.username === username
+  );
+  const myLocation = userLocation[0];
+  const locationId = myLocation?._id;
 
   const markers = [];
   for (let location of locations) {
@@ -72,9 +84,6 @@ const Usa = () => {
   const country = result[0]?.country;
 
   // query locations from backend and pushing to [markers] to display meditators location on map
-  const { data, loading, err } = useQuery(QUERY_ME);
-  const me = data?.me || [];
-  const username = me.username;
 
   const [addLocation] = useMutation(ADD_LOCATION, {
     update(cache, { data: { addLocation } }) {
@@ -89,6 +98,7 @@ const Usa = () => {
       }
     },
   });
+  const [updateLocation] = useMutation(UPDATE_LOCATION);
   // function for progress bar
   const move = () => {
     let i = 0;
@@ -97,7 +107,7 @@ const Usa = () => {
       let width = 10;
       const id = setInterval(frame, 30);
       function frame() {
-        if (width >= 97) {
+        if (width >= 100) {
           clearInterval(id);
           i = 0;
         } else {
@@ -136,6 +146,32 @@ const Usa = () => {
     setValue("100");
     setShowProgressBar("");
   };
+  const update = async () => {
+    console.log("loction id", locationId);
+    try {
+      const { data } = await updateLocation({
+        variables: {
+          id: locationId,
+          username: username,
+          longitude: longitude,
+          latitude: latitude,
+          city: city,
+          state: state,
+          country: country,
+        },
+      });
+      if (data) {
+        console.log("success updating location");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setConfirm1(true);
+    setResult({});
+    setTimeout(() => {
+      setConfirm1(false);
+    }, 4000);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -155,6 +191,11 @@ const Usa = () => {
     } catch (err) {
       console.log(err);
     }
+    setConfirm(true);
+    setResult({});
+    setTimeout(() => {
+      setConfirm(false);
+    }, 4000);
   };
 
   if (loading || loadingLocations || usersLoading) {
@@ -168,133 +209,156 @@ const Usa = () => {
     <>
       <Navbar />
       <div className="container-fluid main-usa bg-primary px-0">
-      <div className="btn-locate bg-primary">
-        <button
-          className="btn-coordinates text-white my-5"
-          type="button"
-          onClick={getLocation}
-        >
-          locate me
-        </button>
-      </div>
-      {showProgressBar === "show" && !result.length && (
-        <div className="bar bg-primary mb-5">
-          <div className="myProgress">
-            <div className="myBar" style={{ width: `${value}%` }}>{`${value}%`}</div>
+        <div className="row buttons-row">
+          <div className="col-12 btn-locate bg-primary">
+            <button
+              className="btn-coordinates text-white"
+              type="button"
+              onClick={getLocation}
+            >
+              locate me
+            </button>
           </div>
-        </div>
-      )}
-      {result.length && !showProgressBar && (
-        <>
-          <div className="result bg-primary">
-            You are located in {city}, {state}, {country}.
-          </div>
-          <div className="btn-locate bg-primary">
-            {result[0]?.country === "US" ? (
+          {showProgressBar === "show" && !result.length && (
+            <div className="col-12 bar bg-primary p-0 my-5">
+              <div className="myProgress">
+                <div
+                  className="myBar"
+                  style={{ width: `${value}%` }}
+                >{`${value}%`}</div>
+              </div>
+            </div>
+          )}
+          {result.length && !showProgressBar && (
+            <div className="col-12 result justify-content-center align-items-center bg-primary p-0 my-5">
+              You are located in {city}, {state}, {country}.
+            </div>
+          )}
+          {result[0]?.country === "US" && !myLocation && (
+            <div className=" col-12 btn-locate bg-primary">
               <button
-                className="btn-coordinates text-white my-5"
+                className="btn-coordinates text-white"
                 type="button"
                 onClick={handleSubmit}
               >
                 save location
               </button>
-            ) : (
-              <></>
-            )}
-          </div>
-        </>
-      )}
-
-      <div className="map-container bg-primary">
-        <ComposableMap projection="geoAlbersUsa" className="map">
-          <Geographies geography={geoUrl}>
-            {({ geographies }) => (
-              <>
-                {geographies.map((geo) => (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    style={{
-                      default: {
-                        fill: "#000000",
-                      },
-                      hover: {
-                        fill: "#f63b26",
-                      },
-                      pressed: {
-                        fill: "#eeebea",
-                      },
-                    }}
-                  />
-                ))}
-                {geographies.map((geo) => {
-                  const centroid = geoCentroid(geo);
-                  const cur = allStates.find((s) => s.val === geo.id);
-                  return (
-                    <g key={geo.rsmKey + "-name"}>
-                      {cur &&
-                        centroid[0] > -160 &&
-                        centroid[0] < -67 &&
-                        (Object.keys(offsets).indexOf(cur.id) === -1 ? (
-                          <Marker
-                            coordinates={centroid}
-                            style={{
-                              default: {
-                                fill: "#000000",
-                              },
-                              hover: {
-                                fill: "#f69c26",
-                              },
-                              pressed: {
-                                fill: "#eeebea",
-                              },
-                            }}
-                          >
-                            <text y="2" textAnchor="middle">
-                              {cur.id}
-                            </text>
-                          </Marker>
-                        ) : (
-                          <Annotation
-                            subject={centroid}
-                            dx={offsets[cur.id][0]}
-                            dy={offsets[cur.id][1]}
-                          >
-                            <text
-                              x={4}
-                              fontSize={14}
-                              alignmentBaseline="middle"
+            </div>
+          )}
+          {result[0]?.country === "US" && myLocation && (
+            <div className=" col-12 btn-locate bg-primary">
+              <button
+                className="btn-coordinates text-white"
+                type="button"
+                onClick={update}
+              >
+                update location
+              </button>
+            </div>
+          )}
+          {confirm && (
+            <div className="col-12 location-saved mt-5">
+              <p className="location-saved-p bg-success">location saved</p>
+            </div>
+          )}
+          {confirm1 && (
+            <div className="col-12 location-saved mt-5">
+              <p className="location-saved-p bg-success">location updated</p>
+            </div>
+          )}
+        </div>
+        <div className="map-container bg-primary">
+          <ComposableMap projection="geoAlbersUsa" className="map">
+            <Geographies geography={geoUrl}>
+              {({ geographies }) => (
+                <>
+                  {geographies.map((geo) => (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      style={{
+                        default: {
+                          fill: "#000000",
+                        },
+                        hover: {
+                          fill: "#f63b26",
+                        },
+                        pressed: {
+                          fill: "#eeebea",
+                        },
+                      }}
+                    />
+                  ))}
+                  {geographies.map((geo) => {
+                    const centroid = geoCentroid(geo);
+                    const cur = allStates.find((s) => s.val === geo.id);
+                    return (
+                      <g key={geo.rsmKey + "-name"}>
+                        {cur &&
+                          centroid[0] > -160 &&
+                          centroid[0] < -67 &&
+                          (Object.keys(offsets).indexOf(cur.id) === -1 ? (
+                            <Marker
+                              coordinates={centroid}
+                              style={{
+                                default: {
+                                  fill: "#000000",
+                                },
+                                hover: {
+                                  fill: "#f69c26",
+                                },
+                                pressed: {
+                                  fill: "#eeebea",
+                                },
+                              }}
                             >
-                              {cur.id}
-                            </text>
-                          </Annotation>
-                        ))}
-                    </g>
-                  );
-                })}
-              </>
-            )}
-          </Geographies>
-          {/* <Markers> */}
-          {markers.map(({ city, coordinates }) => (
-            <Marker key={city} coordinates={coordinates}>
-              <circle r={1} fill="#fff" />
-              {/* <text
+                              <text y="2" textAnchor="middle">
+                                {cur.id}
+                              </text>
+                            </Marker>
+                          ) : (
+                            <Annotation
+                              subject={centroid}
+                              dx={offsets[cur.id][0]}
+                              dy={offsets[cur.id][1]}
+                            >
+                              <text
+                                x={4}
+                                fontSize={14}
+                                alignmentBaseline="middle"
+                              >
+                                {cur.id}
+                              </text>
+                            </Annotation>
+                          ))}
+                      </g>
+                    );
+                  })}
+                </>
+              )}
+            </Geographies>
+            {/* <Markers> */}
+            {markers.map(({ city, coordinates }) => (
+              <Marker key={city} coordinates={coordinates}>
+                <circle r={1} fill="#fff" />
+                {/* <text
                 textAnchor="middle"
                 // y={markerOffset}
                 style={{ fontFamily: "system-ui", fill: "#fff" }}
               >
                 {city}
               </text> */}
-            </Marker>
-          ))}
-          {/* </Markers> */}
-        </ComposableMap>
-      </div>
-      <p className="count-p fs-5 bg-primary text-light">{users?.length} users</p>
+              </Marker>
+            ))}
+            {/* </Markers> */}
+          </ComposableMap>
+        </div>
+        <p className="count-p fs-5 bg-primary text-light">
+          {users?.length} users
+        </p>
       </div>
       <div className="profile-footer bg-primary">
-      <Footer />
+        <Footer />
       </div>
     </>
   );

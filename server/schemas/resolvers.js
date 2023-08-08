@@ -78,6 +78,20 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    updateLocation: async (_, args) => {
+      return await Location.findOneAndUpdate(
+        { _id: args._id },
+        {
+          username: args.username,
+          longitude: args.longitude,
+          latitude: args.latitude,
+          city: args.city,
+          state: args.state,
+          country: args.country,
+        },
+        { new: true }
+      );
+    },
     addAvatar: async (_, args, context) => {
       if (context.user) {
         const avatar = await Avatar.create({
@@ -125,7 +139,7 @@ const resolvers = {
     },
     updateProfile: async (_, args) => {
       return await Profile.findOneAndUpdate({
-        id: args._id,
+        _id: args.id,
         username: args.username,
         stage: args.stage,
         years: args.years,

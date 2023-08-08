@@ -89,9 +89,48 @@ export const ADD_LOCATION = gql`
     }
   }
 `;
+export const UPDATE_LOCATION = gql`
+  mutation updateLocation(
+    $id: String!
+    $username: String!
+    $longitude: Float!
+    $latitude: Float!
+    $city: String!
+    $state: String!
+    $country: String!
+  ) {
+    updateLocation(
+      id: $id
+      username: $username
+      longitude: $longitude
+      latitude: $latitude
+      city: $city
+      state: $state
+      country: $country
+    ) {
+      _id
+      username
+      longitude
+      latitude
+      city
+      state
+      country
+    }
+  }
+`;
 export const ADD_PROFILE = gql`
-  mutation addProfile($username: String!, $stage: Int, $years: Int, $teacher: String) {
-    addProfile(username: $username, stage: $stage, years: $years, teacher: $teacher) {
+  mutation addProfile(
+    $username: String!
+    $stage: Int
+    $years: Int
+    $teacher: String
+  ) {
+    addProfile(
+      username: $username
+      stage: $stage
+      years: $years
+      teacher: $teacher
+    ) {
       _id
       stage
       teacher
@@ -101,8 +140,20 @@ export const ADD_PROFILE = gql`
   }
 `;
 export const UPDATE_PROFILE = gql`
-  mutation updateProfile($id: String!, $username: String!, $stage: Int, $years: Int, $teacher: String) {
-    updateProfile(id: $id, username: $username, stage: $stage, years: $years, teacher: $teacher) {
+  mutation updateProfile(
+    $id: String!
+    $username: String!
+    $stage: Int
+    $years: Int
+    $teacher: String
+  ) {
+    updateProfile(
+      id: $id
+      username: $username
+      stage: $stage
+      years: $years
+      teacher: $teacher
+    ) {
       _id
       stage
       teacher

@@ -46,11 +46,12 @@ const ProfileForm = () => {
       setError("All fields need filled");
       return;
     }
-    // if (teacher !== "teacher" || teacher !== "meditator") {
-    //   console.log(teacher);
-    //   setError("Please answer 'teacher' or 'meditator'");
-    //   return;
-    // }
+    if (teacher === "teacher" || teacher === "meditator") {
+      console.log("good to go");
+    } else {
+      setError("Please answer 'teacher' or 'meditator'");
+      return;
+    }
     try {
       const { data } = await addProfile({
         variables: {
