@@ -8,16 +8,15 @@ const locationSchema = new Schema({
   longitude: {
     type: Number,
     required: true,
-    minlength: 5,
   },
   latitude: {
     type: Number,
     required: true,
-    minlength: 5,
   },
   city: {
     type: String,
     required: true,
+    unique: false
   },
   state: {
     type: String,

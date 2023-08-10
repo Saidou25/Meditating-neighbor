@@ -124,6 +124,11 @@ const Navbar = () => {
                   </Link>
                 </li>
               )}
+                <li className="nav-item">
+                <Link className="nav-link" to="/Notifications">
+                  notification
+                </Link>
+              </li>
               {Auth.loggedIn() && (
               <li className="nav-item">
                 <Link className="nav-link text-light fs-4" to="/Profile1">

@@ -10,6 +10,7 @@ import {
 import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
+import { v4 } from "uuid";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -46,7 +47,7 @@ const Usa = () => {
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [confirm1, setConfirm1] = useState(false);
-  const [] = useState("");
+
 
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
@@ -68,12 +69,16 @@ const Usa = () => {
 
   const markers = [];
   for (let location of locations) {
-    const city = location.city;
+    const city = {
+      id: v4(),
+      cityName: location.city
+    }
     const longitude = location.longitude;
     const latitude = location.latitude;
 
     const coordinatesObj = {
-      city: city,
+      city: city.cityName,
+      id: v4(),
       coordinates: [longitude, latitude],
     };
     markers.push(coordinatesObj);
@@ -147,7 +152,6 @@ const Usa = () => {
     setShowProgressBar("");
   };
   const update = async () => {
-    console.log("loction id", locationId);
     try {
       const { data } = await updateLocation({
         variables: {
@@ -339,15 +343,15 @@ const Usa = () => {
             </Geographies>
             {/* <Markers> */}
             {markers.map(({ city, coordinates }) => (
-              <Marker key={city} coordinates={coordinates}>
+              <Marker key={city.uuid} coordinates={coordinates}>
                 <circle r={1} fill="#fff" />
-                {/* <text
+                <text
                 textAnchor="middle"
                 // y={markerOffset}
                 style={{ fontFamily: "system-ui", fill: "#fff" }}
               >
                 {city}
-              </text> */}
+              </text>
               </Marker>
             ))}
             {/* </Markers> */}

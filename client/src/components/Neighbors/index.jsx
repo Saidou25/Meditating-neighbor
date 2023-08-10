@@ -1,6 +1,7 @@
 import React from "react";
 import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
+import { v4 } from "uuid";
 import ProfileList from "../ProfileList";
 import Spinner from "../Spinner";
 import "./index.css";
@@ -14,7 +15,7 @@ const Neighbors = () => {
   const users = usersData?.users || [];
   // console.log("users", users)
 
-  // Calculates distance between user's geolocation and other user's
+  // Calculates distance between user's geolocation and other users
   const seventyFiveMiles = [];
   const overSeventyFiveMiles = [];
 
@@ -34,8 +35,12 @@ const Neighbors = () => {
 
     const distance2 = 2 * r * Math.asin(Math.sqrt(a)) * 0.62;
     // building a distance object to push users data and pass data around in components
+    
     const distanceObj = {
+      id: v4(),
       distance2: distance2,
+      user: user,
+      me: me,
       username: user.username,
       city: user.location?.city,
       state: user.location?.state,

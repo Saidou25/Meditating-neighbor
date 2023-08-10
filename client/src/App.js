@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import LoginSignup from "./pages/LoginSignup";
 import Map from "./components/Map";
+import Notifications from "./components/Notifications";
 import Usa from "./components/Usa";
 import Avatar from "./components/Avatar";
 import ProfileList from "./components/ProfileList";
@@ -79,6 +80,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />
             <Route path="/Map" element={<Map />} />
+            <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
             <Route path="/ProfileList" element={<ProfileList />} />

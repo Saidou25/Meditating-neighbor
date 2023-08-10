@@ -15,13 +15,14 @@ const Profile1 = () => {
   const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);
 
   const me = data?.me || [];
+  // console.log("me", me.location.city);
   const profiles = profileData?.profiles || [];
   const userProfile = profiles.filter(
     (profile) => profile.username === me.username
   );
   const myProfile = userProfile[0];
   const profileId = myProfile?._id;
-  console.log("profile id", profileId);
+  // console.log("profile id", profileId);
 
   const [deleteProfile] = useMutation(DELETE_PROFILE, {
     variables: { id: profileId },
@@ -67,7 +68,7 @@ const Profile1 = () => {
       <Navbar />
       <div className="container-fluid profile bg-primary">
         <div className="row">
-          <div className="cot-12">
+          <div className="col-12">
             <div className="card profile-card">
               <div className="card-header profile-header mt-3">
                 <h3>{me.username}</h3>
@@ -84,19 +85,21 @@ const Profile1 = () => {
                     <p className="profile-p text-light">
                       Stage: {myProfile?.stage}
                     </p>
-                    <p className="profile-p text-light">
-                      Leaves in {me.location?.city}, {me.location?.state},{" "}
-                      {me.location?.country}
-                    </p>
                   </>
                 ) : (
                   <></>
                 )}
               </div>
+              {me.location && (
+                <p className="profile-p text-light">
+                Leaves in {me.location?.city}, {me.location?.state},{" "}
+                {me.location?.country}
+              </p>
+              )}
               <div className="card-footer profile-footer mt-5">
                 <div className="row">
                   <div className="col-12 edit-column">
-                    {myProfile ? (
+                    {profileId ? (
                       <Link
                         className="btn btn-edit bg-primary rounded-0 text-light"
                         //  onClick={editProfile}
@@ -134,9 +137,9 @@ const Profile1 = () => {
           </div>
         </div>
       </div>
-        <div className="profile-footer bg-primary">
-          <Footer />
-        </div>
+      <div className="profile-footer bg-primary">
+        <Footer />
+      </div>
     </div>
   );
 };

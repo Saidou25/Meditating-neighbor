@@ -173,3 +173,13 @@ export const DELETE_PROFILE = gql`
     }
   }
 `;
+export const ADD_REQUEST = gql`
+  mutation addRequest($myName: String, $email: String, $destinationName: String) {
+    addRequest(myName: $myName, email: $email, destinationName: $destinationName) {
+      _id
+      myName
+      email
+      destinationName
+    }
+  }
+`;

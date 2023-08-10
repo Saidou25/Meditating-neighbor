@@ -9,12 +9,12 @@ const typeDefs = gql`
     location: Location
     avatar: Avatar
     profile: Profile
+    requests: [Request]
   }
   type Avatar {
     _id: ID
     username: String
     avatarUrl: String
-    
   }
 
   type Location {
@@ -27,13 +27,18 @@ const typeDefs = gql`
     country: String
   }
   type Profile {
-   _id: ID!
-   username: String
-   stage: Int
-   years: Int
-   teacher: String
-   }
-
+    _id: ID!
+    username: String
+    stage: Int
+    years: Int
+    teacher: String
+  }
+  type Request {
+    _id: ID!
+    myName: String
+    email: String
+    destinationName: String
+  }
   type Auth {
     token: ID!
     user: User!
@@ -48,6 +53,8 @@ const typeDefs = gql`
     avatar(id: String!): Avatar!
     profiles: [Profile]
     profile(id: String!): Profile
+    request(id: String!): Request
+    requests: [Request]
   }
 
   type Mutation {
@@ -56,8 +63,19 @@ const typeDefs = gql`
     addAvatar(username: String, avatarUrl: String): Avatar
     deleteAvatar(id: String!): Avatar
     updateAvatar(id: String!, username: String!, avatarUrl: String): Avatar
-    addProfile(username: String, stage: Int, years: Int, teacher: String): Profile
-    updateProfile(id: String!, username: String, stage: Int, years: Int, teacher: String): Profile
+    addProfile(
+      username: String
+      stage: Int
+      years: Int
+      teacher: String
+    ): Profile
+    updateProfile(
+      id: String!
+      username: String
+      stage: Int
+      years: Int
+      teacher: String
+    ): Profile
     deleteProfile(id: String!): Profile
     addLocation(
       username: String!
@@ -74,7 +92,9 @@ const typeDefs = gql`
       latitude: Float!
       city: String!
       state: String!
-      country: String!): Location
+      country: String!
+    ): Location
+    addRequest(myName: String, email: String, destinationName: String): Request
   }
 `;
 

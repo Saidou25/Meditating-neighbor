@@ -1,4 +1,4 @@
-const { Location, User, Avatar, Profile } = require("../models");
+const { Location, User, Avatar, Profile, Request } = require("../models");
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
@@ -8,20 +8,23 @@ const resolvers = {
       return User.find()
         .populate("location")
         .populate("avatar")
-        .populate("profile");
+        .populate("profile")
+        .populate("requests");
     },
     user: async (_, args) => {
       return User.findOne({ id: args._id })
         .populate("location")
         .populate("avatar")
-        .populate("profile");
+        .populate("profile")
+        .populate("requests");
     },
     me: async (_, _args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id })
           .populate("location")
           .populate("avatar")
-          .populate("profile");
+          .populate("profile")
+          .populate("requests");
       }
     },
     locations: async () => {
@@ -38,6 +41,12 @@ const resolvers = {
     },
     profile: async () => {
       return await Profile.findOne({ _id: args._id });
+    },
+    requests: async () => {
+      return await Request.find();
+    },
+    request: async () => {
+      return await Request.findOne({ _id: args._id });
     },
   },
 
@@ -148,6 +157,22 @@ const resolvers = {
     },
     deleteProfile: async (_, args) => {
       return await Profile.findOneAndDelete({ _id: args.id });
+    },
+    addRequest: async (_, args, context) => {
+      if (context.user) {
+        const request = await Request.create({
+          myName: args.myName,
+          email: args.email,
+          destinationName: args.destinationName
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { requests: request._id } },
+          { new: true }
+        );
+        return request;
+      }
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 };

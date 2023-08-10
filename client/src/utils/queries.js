@@ -27,6 +27,12 @@ export const QUERY_USERS = gql`
         state
         country
       }
+      requests {
+      _id
+      myName
+      email
+      destinationName
+    }
     }
   }
 `;
@@ -57,6 +63,12 @@ export const QUERY_USER = gql`
         state
         country
       }
+      requests {
+      _id
+      myName
+      email
+      destinationName
+    }
     }
   }
 `;
@@ -87,6 +99,12 @@ export const QUERY_ME = gql`
         state
         country
       }
+      requests {
+      _id
+      myName
+      email
+      destinationName
+    }
     }
   }
 `;
@@ -140,6 +158,26 @@ export const QUERY_PROFILE = gql`
       stage
       years
       teacher
+    }
+  }
+`;
+export const QUERY_REQUESTS= gql`
+  query requests {
+    requests {
+      _id
+      myName
+      email
+      destinationName
+    }
+  }
+`;
+export const QUERY_REQUEST = gql`
+  query request($id: String!) {
+    request(id: $id) {
+      _id
+      myName
+      email
+      destinationName
     }
   }
 `;

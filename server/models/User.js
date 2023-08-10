@@ -32,6 +32,12 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "profile",
   },
+  requests: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Request",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
