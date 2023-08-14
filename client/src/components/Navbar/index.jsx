@@ -110,6 +110,11 @@ const Navbar = () => {
                   </Link>
                 </div>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Contacts">
+                  contacts
+                </Link>
+              </li>
               </> )}
               {Auth.loggedIn() ? (
                 <li className="nav-item">

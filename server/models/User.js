@@ -38,6 +38,18 @@ const userSchema = new Schema({
       ref: "Request",
     },
   ],
+  responses: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Response",
+    },
+  ],
+  contacts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Contact",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

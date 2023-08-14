@@ -15,14 +15,12 @@ const Profile1 = () => {
   const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);
 
   const me = data?.me || [];
-  // console.log("me", me.location.city);
   const profiles = profileData?.profiles || [];
   const userProfile = profiles.filter(
     (profile) => profile.username === me.username
   );
   const myProfile = userProfile[0];
   const profileId = myProfile?._id;
-  // console.log("profile id", profileId);
 
   const [deleteProfile] = useMutation(DELETE_PROFILE, {
     variables: { id: profileId },

@@ -183,3 +183,31 @@ export const ADD_REQUEST = gql`
     }
   }
 `;
+export const DELETE_REQUEST = gql`
+  mutation deleteRequest($id: String!) {
+    deleteRequest(id: $id) {
+      _id
+      myName
+      email
+      destinationName
+    }
+  }
+`;
+export const ADD_RESPONSE = gql`
+  mutation addResponse($toName: String, $email: String, $fromName: String) {
+    addResponse(toName: $toName, email: $email, fromName: $fromName) {
+      _id
+      fromName
+      email
+      toName
+    }
+  }
+`;
+export const ADD_CONTACT = gql`
+  mutation addContact($friendId: String) {
+    addContact(friendId: $friendId) {
+      _id
+      friendId
+    }
+  }
+`;

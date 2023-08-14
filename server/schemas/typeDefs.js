@@ -10,13 +10,14 @@ const typeDefs = gql`
     avatar: Avatar
     profile: Profile
     requests: [Request]
+    responses: [Response]
+    contacts: [Contact]
   }
   type Avatar {
     _id: ID
     username: String
     avatarUrl: String
   }
-
   type Location {
     _id: ID!
     username: String
@@ -39,11 +40,20 @@ const typeDefs = gql`
     email: String
     destinationName: String
   }
+  type Response {
+    _id: ID!
+    fromName: String
+    email: String
+    toName: String
+  }
+  type Contact {
+    _id: ID!
+    friendId: String
+  }
   type Auth {
     token: ID!
     user: User!
   }
-
   type Query {
     users: [User]!
     user(id: String!): User
@@ -53,8 +63,12 @@ const typeDefs = gql`
     avatar(id: String!): Avatar!
     profiles: [Profile]
     profile(id: String!): Profile
-    request(id: String!): Request
     requests: [Request]
+    request(id: String!): Request
+    responses: [Response]
+    response(id: String!): Response
+    contacts: [Contact]
+    contact(id: String!): Contact
   }
 
   type Mutation {
@@ -95,6 +109,9 @@ const typeDefs = gql`
       country: String!
     ): Location
     addRequest(myName: String, email: String, destinationName: String): Request
+    deleteRequest(id: String!): Request
+    addResponse(fromName: String, email: String, toName: String): Response
+    addContact(friendId: String): Contact
   }
 `;
 

@@ -9,6 +9,7 @@ import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Contacts from "./components/Contacts";
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -58,6 +59,11 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
+        requests: {
+          merge(existing, imcoming) {
+            return imcoming;
+          },
+        },
       },
     },
   },
@@ -76,6 +82,7 @@ function App() {
           <Routes>
             <Route path="/Navbar" element={<Navbar />} />
             <Route path="/Footer" element={<Footer />} />
+            <Route path="/Contacts" element={<Contacts />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />

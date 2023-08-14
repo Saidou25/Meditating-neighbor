@@ -168,7 +168,6 @@ const ProfPics = () => {
       setSavedUrl(myAvatarUrl);
       setMe(meData);
       setAvatarId(myAvatar[0]?._id);
-      console.log(myAvatar[0]?._id);
     }
   }, [data, avatarsData]);
 

@@ -28,11 +28,21 @@ export const QUERY_USERS = gql`
         country
       }
       requests {
-      _id
-      myName
-      email
-      destinationName
-    }
+        _id
+        myName
+        email
+        destinationName
+      }
+      responses {
+        _id
+        toName
+        email
+        fromName
+      }
+      contacts {
+        _id
+        friendId
+      }
     }
   }
 `;
@@ -64,11 +74,21 @@ export const QUERY_USER = gql`
         country
       }
       requests {
-      _id
-      myName
-      email
-      destinationName
-    }
+        _id
+        myName
+        email
+        destinationName
+      }
+      responses {
+        _id
+        toName
+        email
+        fromName
+      }
+      contacts {
+        _id
+        friendId
+      }
     }
   }
 `;
@@ -100,11 +120,21 @@ export const QUERY_ME = gql`
         country
       }
       requests {
-      _id
-      myName
-      email
-      destinationName
-    }
+        _id
+        myName
+        email
+        destinationName
+      }
+      responses {
+        _id
+        toName
+        email
+        fromName
+      }
+      contacts {
+        _id
+        friendId
+      }
     }
   }
 `;
@@ -161,7 +191,7 @@ export const QUERY_PROFILE = gql`
     }
   }
 `;
-export const QUERY_REQUESTS= gql`
+export const QUERY_REQUESTS = gql`
   query requests {
     requests {
       _id
@@ -178,6 +208,42 @@ export const QUERY_REQUEST = gql`
       myName
       email
       destinationName
+    }
+  }
+`;
+export const QUERY_RESPONSES = gql`
+  query responses {
+    responses {
+      _id
+      toName
+      email
+      fromName
+    }
+  }
+`;
+export const QUERY_RESPONSE = gql`
+  query response($id: String!) {
+    response(id: $id) {
+      _id
+      toName
+      email
+      fromName
+    }
+  }
+`;
+export const QUERY_CONTACTS = gql`
+  query contacts {
+    contacts {
+      _id
+      friendId
+    }
+  }
+`;
+export const QUERY_CONTACT = gql`
+  query contact($id: String!) {
+    contact(id: $id) {
+      _id
+      friendId
     }
   }
 `;

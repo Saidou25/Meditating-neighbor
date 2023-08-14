@@ -1,4 +1,12 @@
-const { Location, User, Avatar, Profile, Request } = require("../models");
+const {
+  Location,
+  User,
+  Avatar,
+  Profile,
+  Request,
+  Response,
+  Contact,
+} = require("../models");
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
@@ -9,14 +17,18 @@ const resolvers = {
         .populate("location")
         .populate("avatar")
         .populate("profile")
-        .populate("requests");
+        .populate("requests")
+        .populate("responses")
+        .populate("contacts");
     },
     user: async (_, args) => {
-      return User.findOne({ id: args._id })
+      return User.findOne({ _id: args._id })
         .populate("location")
         .populate("avatar")
         .populate("profile")
-        .populate("requests");
+        .populate("requests")
+        .populate("responses")
+        .populate("contacts");
     },
     me: async (_, _args, context) => {
       if (context.user) {
@@ -24,7 +36,9 @@ const resolvers = {
           .populate("location")
           .populate("avatar")
           .populate("profile")
-          .populate("requests");
+          .populate("requests")
+          .populate("responses")
+          .populate("contacts");
       }
     },
     locations: async () => {
@@ -47,6 +61,18 @@ const resolvers = {
     },
     request: async () => {
       return await Request.findOne({ _id: args._id });
+    },
+    responses: async () => {
+      return await Response.find();
+    },
+    response: async () => {
+      return await Response.findOne({ _id: args._id });
+    },
+    contacts: async () => {
+      return await Contact.find();
+    },
+    contact: async () => {
+      return await Contact.findOne({ _id: args._id });
     },
   },
 
@@ -163,7 +189,7 @@ const resolvers = {
         const request = await Request.create({
           myName: args.myName,
           email: args.email,
-          destinationName: args.destinationName
+          destinationName: args.destinationName,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -171,6 +197,39 @@ const resolvers = {
           { new: true }
         );
         return request;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteRequest: async (_, args) => {
+      return await Request.findOneAndDelete({ _id: args.id });
+    },
+    addResponse: async (_, args, context) => {
+      if (context.user) {
+        const response = await Response.create({
+          fromName: args.fromName,
+          email: args.email,
+          toName: args.toName,
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { responses: response._id } },
+          { new: true }
+        );
+        return response;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    addContact: async (_, args, context) => {
+      if (context.user) {
+        const contact = await Contact.create({
+          friendId: args.friendId,
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { contacts: contact._id } },
+          { new: true }
+        );
+        return contact;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
