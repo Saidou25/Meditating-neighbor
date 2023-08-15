@@ -111,6 +111,7 @@ const typeDefs = gql`
     addRequest(myName: String, email: String, destinationName: String): Request
     deleteRequest(id: String!): Request
     addResponse(fromName: String, email: String, toName: String): Response
+    deleteResponse(id: String!): Response
     addContact(friendId: String): Contact
   }
 `;

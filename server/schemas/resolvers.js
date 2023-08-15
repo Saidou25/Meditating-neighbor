@@ -219,6 +219,9 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    deleteResponse: async (_, args) => {
+      return await Response.findOneAndDelete({ _id: args.id });
+    },
     addContact: async (_, args, context) => {
       if (context.user) {
         const contact = await Contact.create({

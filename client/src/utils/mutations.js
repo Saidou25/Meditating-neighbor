@@ -203,6 +203,16 @@ export const ADD_RESPONSE = gql`
     }
   }
 `;
+export const DELETE_RESPONSE = gql`
+  mutation deleteResponse($id: String!) {
+    deleteResponse(id: $id) {
+      _id
+      fromName
+      email
+      toName
+    }
+  }
+`;
 export const ADD_CONTACT = gql`
   mutation addContact($friendId: String) {
     addContact(friendId: $friendId) {

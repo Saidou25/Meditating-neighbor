@@ -10,6 +10,7 @@ import {
 import {
   ADD_RESPONSE,
   DELETE_REQUEST,
+  DELETE_RESPONSE,
   ADD_CONTACT,
 } from "../../utils/mutations";
 import Navbar from "../Navbar";
@@ -19,12 +20,17 @@ import "./index.css";
 
 const Notifications = () => {
   const [requestId, setRequestId] = useState("");
+  const [responseId, setResponseId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
+  const [respondingUsersProfiles, setRespondingUsersProfiles] = useState([]);
+
   const [myContactRequestsToOthers, setMyContactRequestsToOthers] = useState(
     []
   );
   const [me, setMeData] = useState("");
   const [myRequests, setMyRequests] = useState([]);
+
+  const [addResponse] = useMutation(ADD_RESPONSE);
 
   const { data: meData } = useQuery(QUERY_ME);
 
@@ -33,6 +39,9 @@ const Notifications = () => {
 
   // query all requests
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
+
+  // query all responses
+  const { data: responsesData } = useQuery(QUERY_RESPONSES);
 
   // Updating the cache with newly created contact
   const [addContact] = useMutation(ADD_CONTACT, {
@@ -72,10 +81,32 @@ const Notifications = () => {
       }
     },
   });
+  // const [deleteResponse] = useMutation(DELETE_RESPONSE)
+  const [deleteResponse] = useMutation(DELETE_RESPONSE, {
+    variables: { id: responseId },
+    update(cache, { data: { deleteResponse } }) {
+      try {
+        const { responses } = cache.readQuery({ query: QUERY_RESPONSES });
+        cache.writeQuery({
+          query: QUERY_RESPONSES,
+          data: {
+            responses: responses.filter(
+              (response) => response._id !== deleteResponse._id
+            ),
+          },
+        });
+
+        console.log("success updating cache with delete response");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
   useEffect(() => {
-    if (requestsData && meData && usersData) {
+    if (requestsData && meData && usersData && responsesData) {
       const myData = meData?.me || [];
       const allRequests = requestsData?.requests || [];
+      const allResponses = responsesData?.responses || [];
       const users = usersData?.users || [];
 
       // filter all contact requests addressed to me
@@ -109,8 +140,61 @@ const Notifications = () => {
         toOthers.push(requestedUsers[0]);
         setMyContactRequestsToOthers(toOthers);
       }
+      const responders = [];
+      const myResponses = allResponses.filter(
+        (response) => response.toName === myData.username
+      );
+      for (let myResponse of myResponses) {
+        const myResponsesProfiles = users.filter(
+          (user) => user.username === myResponse.fromName
+        );
+        responders.push(myResponsesProfiles[0]);
+        setRespondingUsersProfiles(responders);
+      }
     }
-  }, [requestsData, meData, usersData]);
+  }, [requestsData, meData, usersData, responsesData]);
+
+  const response = async (user) => {
+    for (let response of user.responses) {
+      if (response.fromName === user.username) {
+        return;
+      }
+    }
+    try {
+      const { data } = await addResponse({
+        variables: {
+          fromName: me.username,
+          email: me.email,
+          toName: user.username,
+        },
+      });
+      if (data) {
+        console.log(
+          `${user.username}, ${me.username} has accepted your contact request`
+        );
+        console.log("success sending response");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const addFriend = async (user) => {
+    const id = user._id;
+    try {
+      const { data } = await addContact({
+        variables: {
+          friendId: id,
+        },
+      });
+      if (data) {
+        response(user);
+        console.log("success adding new contact", user.username);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const removeRequest = async (user) => {
     const myRequest = user.requests.filter(
@@ -133,17 +217,25 @@ const Notifications = () => {
       console.error(e);
     }
   };
+  const removeResponse = async (user) => {
+    const myData = meData?.me || [];
+    const myResponses = user.responses.filter(
+      (response) => response.toName === myData.username
+    );
 
-  const addFriend = async (user) => {
-    const id = user._id;
+    const responseId = myResponses[0]._id;
+
+    setResponseId(responseId);
     try {
-      const { data } = await addContact({
+      const { data } = await deleteResponse({
         variables: {
-          friendId: id,
+          id: responseId,
         },
       });
       if (data) {
-        console.log("success adding new contact", user.username);
+        console.log("success deleting request");
+        addFriend(user);
+        setRespondingUsersProfiles([]);
       }
     } catch (e) {
       console.error(e);
@@ -217,6 +309,45 @@ const Notifications = () => {
               </div>
             </div>
           ))}
+        {respondingUsersProfiles.length ? (
+          <>
+            <h3 className="request-title text-light bg-primary">
+              You have returns from your contact requests:
+            </h3>
+            {respondingUsersProfiles &&
+              respondingUsersProfiles.map((user) => (
+                <div
+                  key={user._id}
+                  className="row response-list bg-primary text-light"
+                >
+                  <div className="col-2">
+                    <img
+                      className="response-avatar"
+                      src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
+                      alt="profile avatar"
+                    />
+                  </div>
+                  <div className="col-10">
+                    <div className="row">
+                      <div className="col-8">
+                        <p>{user.username} has accepted your contact reques.</p>
+                      </div>
+                      <div className="col-3 d-flex justify-content-end">
+                        <button
+                          className="btn btn-accept"
+                          onClick={() => removeResponse(user)}
+                        >
+                          ok
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <Footer />
     </>

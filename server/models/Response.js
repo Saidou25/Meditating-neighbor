@@ -4,17 +4,14 @@ const responseSchema = new Schema({
   fromName: {
     type: String,
     trim: true,
-    required: true
   },
   email: {
     type: String,
     trim: true,
-    required: true
   },
   toName: {
     type: String,
     trim: true,
-    required: true
   },
 });
 

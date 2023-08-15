@@ -64,6 +64,11 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
+        responses: {
+          merge(existing, imcoming) {
+            return imcoming;
+          },
+        },
       },
     },
   },
