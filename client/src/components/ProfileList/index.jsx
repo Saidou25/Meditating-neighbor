@@ -19,8 +19,26 @@ const ProfileList = (props) => {
 
   const [user, setUser] = useState("");
   const { data: usersData } = useQuery(QUERY_USERS);
-  const [addRequest] = useMutation(ADD_REQUEST);
+  // const [addRequest] = useMutation(ADD_REQUEST);
 
+  // Updating the cache with newly created contact
+  const [addRequest] = useMutation(ADD_REQUEST, {
+    update(cache, { data: { addRequest } }) {
+      try {
+        const { me } = cache.readQuery({ query: QUERY_ME });
+        cache.writeQuery({
+          query: QUERY_ME,
+          data: {
+            me: { ...me, requests: [...me.requests, addRequest] },
+          },
+        });
+
+        console.log("success updating cache with add contact");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
   const contact = async () => {
     console.log(
       `${me.username} requests contact with ${user.username}. ${me.username} 's email is ${me.email} `
@@ -45,6 +63,7 @@ const ProfileList = (props) => {
     if (usersData && username) {
       const users = usersData?.users || [];
       const selectedUser = users.filter((user) => user.username === username);
+
       setUser(selectedUser[0]);
     }
   }, [usersData, username]);
@@ -242,13 +261,14 @@ const ProfileList = (props) => {
                 >
                   Close
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={contact}
-                >
-                  request friendship
-                </button>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={contact}
+                        >
+                          request friendship
+                        </button>
+                    
               </div>
             </div>
           </div>

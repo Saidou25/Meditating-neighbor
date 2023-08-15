@@ -18,39 +18,23 @@ import Footer from "../Footer";
 import "./index.css";
 
 const Notifications = () => {
-  let respondingUsersProfiles = [];
-
   const [requestId, setRequestId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
+  const [myContactRequestsToOthers, setMyContactRequestsToOthers] = useState(
+    []
+  );
   const [me, setMeData] = useState("");
+  const [myRequests, setMyRequests] = useState([]);
 
   const { data: meData } = useQuery(QUERY_ME);
 
   // query all users data
   const { data: usersData } = useQuery(QUERY_USERS);
-  const users = usersData?.users || [];
 
   // query all requests
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
 
-
-  //  query all responses and filter user responses from his/her contact requests to others
-  const { data: responsesData } = useQuery(QUERY_RESPONSES);
-  const responses = responsesData?.responses || [];
-
-  const responsesFromNames = responses.filter(
-    (response) => response.fromName === me.username
-  );
-
-  //  loop to all responses to get profiles of the people responding to contact requests and
-  //  push them into a list "respondingUsersProfiles" so they can be rendered thru a map()
-  for (let responseFromName of responsesFromNames) {
-    const respondingUsers = users.filter(
-      (user) => user.username === responseFromName.toName
-    );
-    respondingUsersProfiles.push(respondingUsers[0]);
-  }
- // Updating the cache with newly created contact
+  // Updating the cache with newly created contact
   const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
@@ -90,23 +74,40 @@ const Notifications = () => {
   });
   useEffect(() => {
     if (requestsData && meData && usersData) {
-      const me = meData?.me || [];
+      const myData = meData?.me || [];
       const allRequests = requestsData?.requests || [];
       const users = usersData?.users || [];
-      // filter all contact request addressed to me
+
+      // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
-        (request) => request.destinationName === me.username
+        (request) => request.destinationName === myData.username
       );
+
       const fromUsers = [];
       //  loop to all request to get profiles of the people requesting my contact and
-      //  push them into a list "requestingUsersProfiles" so they can be rendered thru a map()
+      //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
       for (let userRequest of requestsToMe) {
         const requestingUsers = users.filter(
           (user) => user.username === userRequest.myName
         );
         fromUsers.push(requestingUsers[0]);
         setRequestingUsersProfiles(fromUsers);
-        setMeData(me);
+        setMeData(myData);
+        setMyRequests(myData.requests);
+      }
+      const toOthers = [];
+      //  loop to all request to get profiles of the people i am requesting contact info from and
+      //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
+      const requestsFromMe = allRequests.filter(
+        (request) => request.myName === myData.username
+      );
+      // console.log("requests from me for others", requestsFromMe)
+      for (let requestFromMe of requestsFromMe) {
+        const requestedUsers = users.filter(
+          (user) => user.username === requestFromMe.destinationName
+        );
+        toOthers.push(requestedUsers[0]);
+        setMyContactRequestsToOthers(toOthers);
       }
     }
   }, [requestsData, meData, usersData]);
@@ -152,37 +153,33 @@ const Notifications = () => {
   return (
     <>
       <Navbar />
-      {/* <div className="container-fluid notification"> */}
-      {/* {myRequests.length ? (
-          <>
-            <h3 className="request-title text-light bg-primary">
-              You requested contact info:
-            </h3>
-            {myRequests &&
-              myRequests.map((user) => (
-                <div
-                  key={user._id}
-                  className="row response-list bg-primary text-light"
-                >
-                  <div className="col-2">
-                    <img
-                      className="response-avatar"
-                      src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
-                      alt="profile avatar"
-                    />
-                  </div>
-                  <div className="col-10">
-                    <p>
-                      Your contact request with {user.destinationName} is
-                      pending.
-                    </p>
-                  </div>
+      {myContactRequestsToOthers.length ? (
+        <>
+          <h3 className="request-title text-light bg-primary">
+            You requested contact info:
+          </h3>
+          {myContactRequestsToOthers &&
+            myContactRequestsToOthers.map((user) => (
+              <div
+                key={user._id}
+                className="row response-list bg-primary text-light"
+              >
+                <div className="col-2">
+                  <img
+                    className="response-avatar"
+                    src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
+                    alt="profile avatar"
+                  />
                 </div>
-              ))}
-          </>
-        ) : (
-          <></>
-        )} */}
+                <div className="col-10">
+                  <p>Your contact request with {user.username} is pending.</p>
+                </div>
+              </div>
+            ))}
+        </>
+      ) : (
+        <></>
+      )}
       {requestingUsersProfiles.length ? (
         <h3 className="request-title text-light bg-primary">
           Your contact info is requested:
