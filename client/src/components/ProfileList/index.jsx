@@ -68,6 +68,14 @@ const ProfileList = (props) => {
     }
   }, [usersData, username]);
 
+  const [pendingRequest, setPendingRequest] = useState(false);
+  const dothis = (distanceObj) => {
+    for (let request of me.requests) {
+      if (request.destinationName === distanceObj.username);
+      setPendingRequest(true);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -93,6 +101,7 @@ const ProfileList = (props) => {
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
                           setUsername(distanceObj.username);
+                          dothis(distanceObj);
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -144,7 +153,7 @@ const ProfileList = (props) => {
                         data-bs-target="#staticBackdrop"
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
-                          setUsername(distanceObj.username);
+                          setUsername(distanceObj);
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -250,30 +259,44 @@ const ProfileList = (props) => {
                 </div>
               </>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setAvatarUrl("");
-                    setUsername("");
-                  }}
-                >
-                  Close
-                </button>
-                        <button
-                          type="button"
-                          className="btn btn-primary"
-                          onClick={contact}
-                        >
-                          request friendship
-                        </button>
-                    
+                <div className="row row-modal-footer">
+                  <div className="col-6">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      onClick={() => {
+                        setAvatarUrl("");
+                        setUsername("");
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                  {pendingRequest === true ? (
+                    // <div className="col-6">
+                    <button type="button" className="col-6 btn btn-primary">
+                      pending
+                    </button>
+                  ) : (
+                    // </div>
+                    // <div className="col-6">
+                    <button
+                      type="button"
+                      className="col-6 btn btn-primary"
+                      onClick={contact}
+                    >
+                      request friendship
+                    </button>
+                    // </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="profile-footer bg-primary">
         <Footer />
       </div>

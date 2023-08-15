@@ -31,6 +31,10 @@
 .location {
     font-size: 1.2rem;
 }
+.row-modal-footer {
+    width: 100%;
+}
+
 
 @media screen and (max-width: 1200px) {
     .container-pic {
