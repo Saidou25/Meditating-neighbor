@@ -46,7 +46,7 @@ const Contacts = () => {
                 <img
                   className="response-avatar"
                   src={
-                    user.avatar.avatarUrl ? user.avatar.avatarUrl : profileIcon
+                    user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon
                   }
                   alt="profile avatar"
                 />

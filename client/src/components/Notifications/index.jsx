@@ -330,7 +330,11 @@ const Notifications = () => {
                   <div className="col-10">
                     <div className="row">
                       <div className="col-8">
-                        <p>{user.username} has accepted your contact reques.</p>
+                        <p>
+                          {user.username} has accepted your contact reques. Your
+                          email will only visible to {user.username} if you are
+                          ok
+                        </p>
                       </div>
                       <div className="col-3 d-flex justify-content-end">
                         <button

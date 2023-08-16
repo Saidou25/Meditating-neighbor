@@ -19,7 +19,6 @@ const ProfileList = (props) => {
 
   const [user, setUser] = useState("");
   const { data: usersData } = useQuery(QUERY_USERS);
-  // const [addRequest] = useMutation(ADD_REQUEST);
 
   // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
@@ -68,11 +67,56 @@ const ProfileList = (props) => {
     }
   }, [usersData, username]);
 
-  const [pendingRequest, setPendingRequest] = useState(false);
-  const dothis = (distanceObj) => {
-    for (let request of me.requests) {
-      if (request.destinationName === distanceObj.username);
-      setPendingRequest(true);
+  const [outgoingRequest, setOutgoingRequest] = useState(false);
+  // console.log("outgoing request", outgoingRequest);
+  const outgoing = (distanceObj) => {
+    const myOutRequest = me.requests.filter(
+      (request) => request.destinationName === distanceObj.user.username
+    );
+
+    if (myOutRequest.length) {
+      setOutgoingRequest(true);
+    }
+  };
+  const [incomingRequest, setIncomingRequest] = useState(false);
+  // console.log("incoming request", incomingRequest);
+  const incoming = (distanceObj) => {
+    for (let request of distanceObj.user.requests) {
+      if (request.destinationName === me.username);
+      setIncomingRequest(true);
+    }
+  };
+  const [incomingResponse, setIncomingResponse] = useState(false);
+  const isResponding = (distanceObj) => {
+    for (let response of distanceObj.user.responses) {
+      if (response.fromName === distanceObj.username) {
+        setIncomingResponse(true);
+      }
+    }
+  };
+  const [outgoingResponse, setOutgoingResponse] = useState(false);
+  // console.log("outgoingResponse", outgoingResponse);
+  const respondingToOther = (distanceObj) => {
+    // console.log("distance object", distanceObj);
+    // for (let response of distanceObj.user.responses) {
+    //   if (response.fromName === distanceObj.username) {
+    //     setOutgoingResponse(true);
+    //   }
+    // }
+  };
+  const [friends, setFriends] = useState(false);
+  const [ok, setOk] = useState(false);
+  const areWeFriends = (distanceObj) => {
+    for (let contact of distanceObj.user.contacts) {
+      if (contact.friendId === me._id) {
+        setFriends(true);
+        setOk(true);
+      }
+    }
+    for (let contact of me.contacts) {
+      if (contact.friendId === user._id) {
+        setOk(false);
+      }
     }
   };
 
@@ -81,7 +125,7 @@ const ProfileList = (props) => {
       <Navbar />
       <div className="container-fluid neighbors bg-primary">
         <h3 className="locations-list-title text-white py-5">
-          {seventyFiveMiles.length ? <>Within a 75 miles radius</> : <></>}
+          {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
         </h3>
 
         <div className="row card-row">
@@ -101,7 +145,11 @@ const ProfileList = (props) => {
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
                           setUsername(distanceObj.username);
-                          dothis(distanceObj);
+                          outgoing(distanceObj);
+                          incoming(distanceObj);
+                          isResponding(distanceObj);
+                          respondingToOther(distanceObj);
+                          areWeFriends(distanceObj);
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -135,7 +183,7 @@ const ProfileList = (props) => {
             ))}
         </div>
         <h3 className="locations-list-title text-white py-5">
-          Over a 75 miles radius
+          Over a 50 miles radius
         </h3>
         <div className="row card-row">
           {overSeventyFiveMiles &&
@@ -153,7 +201,12 @@ const ProfileList = (props) => {
                         data-bs-target="#staticBackdrop"
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
-                          setUsername(distanceObj);
+                          setUsername(distanceObj.username);
+                          outgoing(distanceObj);
+                          incoming(distanceObj);
+                          isResponding(distanceObj);
+                          respondingToOther(distanceObj);
+                          areWeFriends(distanceObj);
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -216,12 +269,12 @@ const ProfileList = (props) => {
                   <h3 className="modal-title fs-5" id="staticBackdropLabel">
                     {user.username}
                   </h3>
-                  <button
+                  {/* <button
                     type="button"
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  ></button>
+                  ></button> */}
                 </div>
                 <div className="modal-body">
                   <div className="row">
@@ -253,6 +306,7 @@ const ProfileList = (props) => {
                           leaves in {user.location?.city},{" "}
                           {user.location?.state}, {user.location?.country}
                         </p>
+                        {friends === true ? <p>email: {user.email}</p> : <></>}
                       </div>
                     </div>
                   </div>
@@ -268,35 +322,60 @@ const ProfileList = (props) => {
                       onClick={() => {
                         setAvatarUrl("");
                         setUsername("");
+                        setOutgoingRequest(false);
+                        setIncomingRequest(false);
+                        respondingToOther(false);
+                        setIncomingResponse(false);
+                        setFriends(false);
+                        setOk(false);
                       }}
                     >
                       Close
                     </button>
+                    {/* outgoingRequest === false &&
+                    incomingRequest === false &&
+                    incomingResponse === false */}
                   </div>
-                  {pendingRequest === true ? (
-                    // <div className="col-6">
+                  {friends === false &&
+                    (outgoingRequest === true ||
+                      incomingRequest === true ||
+                      incomingResponse === true ||
+                      outgoingResponse === true) && (
+                      // <div className="col-6">
+                      <button type="button" className="col-6 btn btn-primary">
+                        pending
+                      </button>
+                    )}
+                  {friends === true && (
                     <button type="button" className="col-6 btn btn-primary">
-                      pending
+                      friend
                     </button>
-                  ) : (
-                    // </div>
-                    // <div className="col-6">
-                    <button
-                      type="button"
-                      className="col-6 btn btn-primary"
-                      onClick={contact}
-                    >
-                      request friendship
-                    </button>
-                    // </div>
                   )}
+                  {friends === false &&
+                    outgoingRequest === false &&
+                    incomingRequest === false && (
+                      <button
+                        type="button"
+                        className="col-6 btn btn-primary"
+                        onClick={contact}
+                      >
+                        request friendship
+                      </button>
+                    )}
                 </div>
+                {ok === true ? (
+                  <p>
+                    Don't forget to ok from your notification so your email is
+                    also available to others.
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div className="profile-footer bg-primary">
         <Footer />
       </div>
