@@ -112,11 +112,11 @@ const ProfileList = (props) => {
     }
   };
   const [friends, setFriends] = useState(false);
-  console.log("friends", friends);
+  // console.log("friends", friends);
   const [otherFriend, setOtherFriend] = useState(false);
-  console.log("otherFriend", otherFriend);
+  // console.log("otherFriend", otherFriend);
   const areWeFriends = (distanceObj) => {
-    console.log(distanceObj);
+    // console.log(distanceObj);
     for (let contact of distanceObj.user.contacts) {
       if (contact.friendId === me._id) {
         // console.log(contact.friendId)
@@ -125,7 +125,7 @@ const ProfileList = (props) => {
     }
     for (let contact of me.contacts) {
       // console.log("contact", contact)
-      console.log(distanceObj);
+      // console.log(distanceObj);
       if (contact.friendId === distanceObj.user._id) {
         // console.log("contact.friendId", contact.friendId);
         // console.log("user._id", user._id)
@@ -270,7 +270,7 @@ const ProfileList = (props) => {
         <div
           className="modal fade"
           id="staticBackdrop"
-          // data-bs-backdrop="static"
+          data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabIndex="-1"
           aria-labelledby="staticBackdropLabel"
@@ -283,12 +283,22 @@ const ProfileList = (props) => {
                   <h3 className="modal-title fs-5" id="staticBackdropLabel">
                     {user.username}
                   </h3>
-                  {/* <button
+                  <button
                     type="button"
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  ></button> */}
+                    onClick={() => {
+                        setAvatarUrl("");
+                        setUsername("");
+                        setOutgoingRequest(false);
+                        setIncomingRequest(false);
+                        setOutgoingResponse(false);
+                        setIncomingResponse(false);
+                        setFriends(false);
+                        setOtherFriend(false);
+                      }}
+                  ></button>
                 </div>
                 <div className="modal-body">
                   <div className="row">
