@@ -214,10 +214,11 @@ export const DELETE_RESPONSE = gql`
   }
 `;
 export const ADD_CONTACT = gql`
-  mutation addContact($friendId: String) {
-    addContact(friendId: $friendId) {
+  mutation addContact($friendId: String!, $todaysDate: String) {
+    addContact(friendId: $friendId, todaysDate: $todaysDate) {
       _id
       friendId
+      todaysDate
     }
   }
 `;

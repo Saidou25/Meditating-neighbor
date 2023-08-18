@@ -42,6 +42,7 @@ export const QUERY_USERS = gql`
       contacts {
         _id
         friendId
+        todaysDate
       }
     }
   }
@@ -88,6 +89,7 @@ export const QUERY_USER = gql`
       contacts {
         _id
         friendId
+        todaysDate
       }
     }
   }
@@ -134,6 +136,7 @@ export const QUERY_ME = gql`
       contacts {
         _id
         friendId
+        todaysDate
       }
     }
   }
@@ -236,6 +239,7 @@ export const QUERY_CONTACTS = gql`
     contacts {
       _id
       friendId
+      todaysDate
     }
   }
 `;
@@ -244,6 +248,7 @@ export const QUERY_CONTACT = gql`
     contact(id: $id) {
       _id
       friendId
+      todaysDate
     }
   }
 `;

@@ -49,6 +49,7 @@ const typeDefs = gql`
   type Contact {
     _id: ID!
     friendId: String
+    todaysDate: String
   }
   type Auth {
     token: ID!
@@ -112,7 +113,7 @@ const typeDefs = gql`
     deleteRequest(id: String!): Request
     addResponse(fromName: String, email: String, toName: String): Response
     deleteResponse(id: String!): Response
-    addContact(friendId: String): Contact
+    addContact(friendId: String!, todaysDate: String): Contact
   }
 `;
 

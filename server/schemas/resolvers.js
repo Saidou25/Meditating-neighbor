@@ -226,6 +226,7 @@ const resolvers = {
       if (context.user) {
         const contact = await Contact.create({
           friendId: args.friendId,
+          todaysDate: args.todaysDate
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },

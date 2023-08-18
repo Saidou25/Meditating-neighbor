@@ -112,14 +112,15 @@ const ProfileList = (props) => {
     }
   };
   const [friends, setFriends] = useState(false);
-  // console.log("friends", friends);
+  const [friendsDate, setFriendsDate] = useState("");
   const [otherFriend, setOtherFriend] = useState(false);
-  // console.log("otherFriend", otherFriend);
+  const [otherFriendDate, setOtherFriendDate] = useState(false);
   const areWeFriends = (distanceObj) => {
     // console.log(distanceObj);
     for (let contact of distanceObj.user.contacts) {
       if (contact.friendId === me._id) {
-        // console.log(contact.friendId)
+        console.log("contact", contact.todaysDate);
+        // setFriendsDate(contact.todaysDate);
         setFriends(true);
       }
     }
@@ -127,8 +128,8 @@ const ProfileList = (props) => {
       // console.log("contact", contact)
       // console.log(distanceObj);
       if (contact.friendId === distanceObj.user._id) {
-        // console.log("contact.friendId", contact.friendId);
-        // console.log("user._id", user._id)
+        console.log(" other contact", contact);
+        setOtherFriendDate(contact.todaysDate);
         setOtherFriend(true);
       }
     }
@@ -289,15 +290,15 @@ const ProfileList = (props) => {
                     data-bs-dismiss="modal"
                     aria-label="Close"
                     onClick={() => {
-                        setAvatarUrl("");
-                        setUsername("");
-                        setOutgoingRequest(false);
-                        setIncomingRequest(false);
-                        setOutgoingResponse(false);
-                        setIncomingResponse(false);
-                        setFriends(false);
-                        setOtherFriend(false);
-                      }}
+                      setAvatarUrl("");
+                      setUsername("");
+                      setOutgoingRequest(false);
+                      setIncomingRequest(false);
+                      setOutgoingResponse(false);
+                      setIncomingResponse(false);
+                      setFriends(false);
+                      setOtherFriend(false);
+                    }}
                   ></button>
                 </div>
                 <div className="modal-body">
@@ -356,6 +357,7 @@ const ProfileList = (props) => {
                         setIncomingResponse(false);
                         setFriends(false);
                         setOtherFriend(false);
+                        setOtherFriendDate(false);
                       }}
                     >
                       Close
@@ -402,9 +404,20 @@ const ProfileList = (props) => {
                 ) : (
                   <></>
                 )}
-                {friends === true && otherFriend === true && (
-                  <p>Friends since: ...</p>
+                {/* {friends === true && otherFriend === true && (
+                  <p>Friends since: {friendsDate} </p>
+                )} */}
+                {/* {friends === true ? (
+                  <p>Friends since: {friendsDate} </p>
+                ) : (
+                  <></>
+                )} */}
+                {otherFriend === true ? (
+                  <p>Friends since: {otherFriendDate} </p>
+                ) : (
+                  <></>
                 )}
+
                 {((incomingRequest === true || outgoingResponse === true) &&
                   friends === true &&
                   otherFriend === false) ||

@@ -19,6 +19,9 @@ import Footer from "../Footer";
 import "./index.css";
 
 const Notifications = () => {
+  const date = new Date();
+  const todaysDate = date.toString().slice(0, 15);
+  console.log(typeof todaysDate)
   const [requestId, setRequestId] = useState("");
   const [responseId, setResponseId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
@@ -180,11 +183,14 @@ const Notifications = () => {
   };
 
   const addFriend = async (user) => {
+    console.log(todaysDate);
     const id = user._id;
+    console.log(typeof id)
     try {
       const { data } = await addContact({
         variables: {
           friendId: id,
+          todaysDate: todaysDate
         },
       });
       if (data) {
