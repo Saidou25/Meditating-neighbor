@@ -11,9 +11,9 @@ import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
-import { v4 } from "uuid";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
+import Teachers from "../Teachers";
 import Footer from "../Footer";
 import allStates from "../../data/allstates.json";
 import Spinner from "../Spinner";
@@ -354,6 +354,7 @@ const Usa = () => {
             ))}
           </ComposableMap>
         </div>
+        <Teachers />
         <p className="count-p fs-5 bg-primary text-light">
           {users?.length} users
         </p>

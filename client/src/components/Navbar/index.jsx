@@ -78,7 +78,7 @@ const Navbar = () => {
                 <>
               <li className="nav-item">
                 <Link className="nav-link" to="/Neighbors">
-                  nearby
+                  members
                 </Link>
               </li>
               <li className="nav-item dropdown">

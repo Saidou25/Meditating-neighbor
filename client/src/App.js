@@ -25,6 +25,7 @@ import ProfileForm from "./components/ProfileForm";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import Neighbors from "./components/Neighbors";
 import Success from "./components/Success";
+import Teachers from "./components/Teachers";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
 
@@ -102,6 +103,7 @@ function App() {
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/Success" element={<Success />} />
+            <Route path="/Teachers" element={<Teachers />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
         </>
