@@ -9,6 +9,7 @@ import {
   Marker,
   // ZoomableGroup,
 } from "react-simple-maps";
+import { v4 } from "uuid";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import API from "../../utils/API";
@@ -43,6 +44,7 @@ const Map = () => {
   for (let location of locations) {
     const coordin = {
       city: location.city,
+      id: v4(),
       coordinates: [location.longitude, location.latitude],
     };
     markers.push(coordin);
@@ -151,7 +153,7 @@ const Map = () => {
             }
           </Geographies>
           {markers.map(({ city, coordinates }) => (
-            <Marker key={city} coordinates={coordinates}>
+            <Marker key={coordinates} coordinates={coordinates}>
               <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
               <text
                 textAnchor="middle"

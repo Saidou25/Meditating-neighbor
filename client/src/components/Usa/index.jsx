@@ -7,6 +7,7 @@ import {
   Marker,
   Annotation,
 } from "react-simple-maps";
+import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -70,7 +71,6 @@ const Usa = () => {
   const markers = [];
   for (let location of locations) {
     const city = {
-      id: v4(),
       cityName: location.city
     }
     const longitude = location.longitude;
@@ -78,7 +78,6 @@ const Usa = () => {
 
     const coordinatesObj = {
       city: city.cityName,
-      id: v4(),
       coordinates: [longitude, latitude],
     };
     markers.push(coordinatesObj);
@@ -272,7 +271,7 @@ const Usa = () => {
           )}
         </div>
         <div className="map-container bg-primary">
-          <ComposableMap projection="geoAlbersUsa" className="map">
+          <ComposableMap projection="geoAlbersUsa" className="map" data-tip="">
             <Geographies geography={geoUrl}>
               {({ geographies }) => (
                 <>
@@ -341,20 +340,18 @@ const Usa = () => {
                 </>
               )}
             </Geographies>
-            {/* <Markers> */}
-            {markers.map(({ city, coordinates }) => (
-              <Marker key={city.uuid} coordinates={coordinates}>
-                <circle r={1} fill="#fff" />
-                <text
-                textAnchor="middle"
-                // y={markerOffset}
+            {markers.map(({city, coordinates}) => (
+              <Marker key={coordinates} coordinates={coordinates}>
+               <circle r={1} fill="#fff" />
+               <text 
+               textAnchor="middle"
+              //  y={markerOffset}
                 style={{ fontFamily: "system-ui", fill: "#fff" }}
-              >
-                {city}
-              </text>
+             >
+              {city}
+              </text> 
               </Marker>
             ))}
-            {/* </Markers> */}
           </ComposableMap>
         </div>
         <p className="count-p fs-5 bg-primary text-light">
