@@ -12,7 +12,7 @@ const Contacts = () => {
   const { data: meData } = useQuery(QUERY_ME);
   const { data } = useQuery(QUERY_USERS);
   const { data: contactsData } = useQuery(QUERY_CONTACTS);
-  
+
   useEffect(() => {
     if (data && contactsData && meData) {
       const me = meData?.me || [];
@@ -24,7 +24,6 @@ const Contacts = () => {
           (user) => user._id === contact.friendId
         );
         allMyContactsProfiles.push(contactsProfiles[0]);
-        console.log(allMyContactsProfiles);
         setMyContactsProfiles(allMyContactsProfiles);
       }
     }
@@ -35,30 +34,42 @@ const Contacts = () => {
       <Navbar />
       <div className="container-fluid contacts bg-primary">
         {myContactsProfiles.length ? (
-          <h3 className="contact-title text-light">Your contacts</h3>
+          <>
+            <h3 className="contact-title text-light">Your contacts</h3>
+            {myContactsProfiles.map((user) => (
+              <div key={user._id} className="row">
+                <div className="col-2 d-flex justify-content-center mt-3 mb-3">
+                  <img
+                    className="response-avatar"
+                    src={
+                      user.avatar?.avatarUrl
+                        ? user.avatar?.avatarUrl
+                        : profileIcon
+                    }
+                    alt="profile avatar"
+                  />
+                </div>
+                <div className="col-6 d-flex align-items-center mt-3 mb-3">
+                  <p className="contact-p text-light m-0">
+                    You are now friend with {user.username} 
+                    
+                    {/* who can see your
+                    contact information. {user.username}'s contact iformation
+                    will be visible to you once {user.username} approves your
+                    friendShip. */}
+                  </p>
+                </div>
+                <div className="col-4"></div>
+              </div>
+            ))}
+          </>
         ) : (
-          <></>
+          <>
+            <h3 className="contact-title text-light">
+              You don't have any contact yet
+            </h3>
+          </>
         )}
-        {myContactsProfiles.length &&
-          myContactsProfiles.map((user) => (
-            <div key={user._id} className="row">
-              <div className="col-2 d-flex justify-content-center mt-3 mb-3">
-                <img
-                  className="response-avatar"
-                  src={
-                    user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon
-                  }
-                  alt="profile avatar"
-                />
-              </div>
-              <div className="col-6 d-flex align-items-center mt-3 mb-3">
-                <p className="contact-p text-light m-0">
-                  You are now friend with {user.username}
-                </p>
-              </div>
-              <div className="col-4"></div>
-            </div>
-          ))}
       </div>
       <Footer />
     </>

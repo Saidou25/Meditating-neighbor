@@ -66,7 +66,7 @@ const ProfileList = (props) => {
       setUser(selectedUser[0]);
     }
   }, [usersData, username]);
-
+  // ----------------------------------------------------------------
   const [outgoingRequest, setOutgoingRequest] = useState(false);
   // console.log("outgoing request", outgoingRequest);
   const outgoing = (distanceObj) => {
@@ -86,36 +86,50 @@ const ProfileList = (props) => {
       setIncomingRequest(true);
     }
   };
+
   const [incomingResponse, setIncomingResponse] = useState(false);
-  const isResponding = (distanceObj) => {
+  // console.log("incomingResponse", incomingResponse);
+  const incomingResp = (distanceObj) => {
+    // console.log(distanceObj);
     for (let response of distanceObj.user.responses) {
-      if (response.fromName === distanceObj.username) {
+      // console.log("response", response)
+
+      if (response.toName === me.username) {
         setIncomingResponse(true);
       }
     }
   };
+  // const [incomingResponse, setIncomingResponse] = useState(false);
   const [outgoingResponse, setOutgoingResponse] = useState(false);
   // console.log("outgoingResponse", outgoingResponse);
-  const respondingToOther = (distanceObj) => {
-    // console.log("distance object", distanceObj);
-    // for (let response of distanceObj.user.responses) {
-    //   if (response.fromName === distanceObj.username) {
-    //     setOutgoingResponse(true);
-    //   }
-    // }
+  const outgoingResp = (distanceObj) => {
+    // console.log("distanceObj", distanceObj);
+    for (let response of me.responses) {
+      // console.log("response", response);
+      if (response.toName === distanceObj.user.username) {
+        setOutgoingResponse(true);
+      }
+    }
   };
   const [friends, setFriends] = useState(false);
-  const [ok, setOk] = useState(false);
+  console.log("friends", friends);
+  const [otherFriend, setOtherFriend] = useState(false);
+  console.log("otherFriend", otherFriend);
   const areWeFriends = (distanceObj) => {
+    console.log(distanceObj);
     for (let contact of distanceObj.user.contacts) {
       if (contact.friendId === me._id) {
+        // console.log(contact.friendId)
         setFriends(true);
-        setOk(true);
       }
     }
     for (let contact of me.contacts) {
-      if (contact.friendId === user._id) {
-        setOk(false);
+      // console.log("contact", contact)
+      console.log(distanceObj);
+      if (contact.friendId === distanceObj.user._id) {
+        // console.log("contact.friendId", contact.friendId);
+        // console.log("user._id", user._id)
+        setOtherFriend(true);
       }
     }
   };
@@ -147,8 +161,8 @@ const ProfileList = (props) => {
                           setUsername(distanceObj.username);
                           outgoing(distanceObj);
                           incoming(distanceObj);
-                          isResponding(distanceObj);
-                          respondingToOther(distanceObj);
+                          incomingResp(distanceObj);
+                          outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
                         }}
                       >
@@ -204,8 +218,8 @@ const ProfileList = (props) => {
                           setUsername(distanceObj.username);
                           outgoing(distanceObj);
                           incoming(distanceObj);
-                          isResponding(distanceObj);
-                          respondingToOther(distanceObj);
+                          incomingResp(distanceObj);
+                          outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
                         }}
                       >
@@ -306,7 +320,11 @@ const ProfileList = (props) => {
                           leaves in {user.location?.city},{" "}
                           {user.location?.state}, {user.location?.country}
                         </p>
-                        {friends === true ? <p>email: {user.email}</p> : <></>}
+                        {incomingResponse === true ? (
+                          <p>email: {user.email}</p>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -324,10 +342,10 @@ const ProfileList = (props) => {
                         setUsername("");
                         setOutgoingRequest(false);
                         setIncomingRequest(false);
-                        respondingToOther(false);
+                        setOutgoingResponse(false);
                         setIncomingResponse(false);
                         setFriends(false);
-                        setOk(false);
+                        setOtherFriend(false);
                       }}
                     >
                       Close
@@ -353,7 +371,9 @@ const ProfileList = (props) => {
                   )}
                   {friends === false &&
                     outgoingRequest === false &&
-                    incomingRequest === false && (
+                    incomingRequest === false &&
+                    outgoingResponse === false &&
+                    incomingResponse === false && (
                       <button
                         type="button"
                         className="col-6 btn btn-primary"
@@ -363,10 +383,26 @@ const ProfileList = (props) => {
                       </button>
                     )}
                 </div>
-                {ok === true ? (
+
+                {friends === true && otherFriend === false ? (
                   <p>
-                    Don't forget to ok from your notification so your email is
-                    also available to others.
+                    Don't forget to ok {user.username} from your notification so
+                    your email is also viewable to {user.username}.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {friends === true && otherFriend === true && (
+                  <p>Friends since: ...</p>
+                )}
+                {((incomingRequest === true || outgoingResponse === true) &&
+                  friends === true &&
+                  otherFriend === false) ||
+                (friends === false && otherFriend === true) ? (
+                  <p>
+                    your contact is now viewable to {user.username}. Once{" "}
+                    {user.username} has ok on it's side {user.username}' contact
+                    will be viewable to you.
                   </p>
                 ) : (
                   <></>

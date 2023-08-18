@@ -241,7 +241,7 @@ const Notifications = () => {
       console.error(e);
     }
   };
-
+console.log("myContactRequestsToOthers", myContactRequestsToOthers)
   return (
     <>
       <Navbar />
@@ -259,7 +259,7 @@ const Notifications = () => {
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
+                    src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
                     alt="profile avatar"
                   />
                 </div>
@@ -286,7 +286,7 @@ const Notifications = () => {
               <div className="col-2">
                 <img
                   className="request-avatar"
-                  src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
+                  src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
                   alt="profile avatar"
                 />
               </div>
@@ -323,7 +323,7 @@ const Notifications = () => {
                   <div className="col-2">
                     <img
                       className="response-avatar"
-                      src={user?.avatarUrl ? user?.avatarUrl : profileIcon}
+                      src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
                       alt="profile avatar"
                     />
                   </div>
