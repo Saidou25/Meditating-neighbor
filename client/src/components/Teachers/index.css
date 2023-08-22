@@ -2,6 +2,9 @@
   width: 80%;
   margin: auto;
 }
+.btn-teacher-modal:hover {
+background-color: orange !important;
+}
 .teachers-pic {
   display: flex;
   justify-content: center;
@@ -15,8 +18,12 @@
 }
 .teachers-avatar {
   border-radius: 50%;
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px;
+}
+.teachers-avatar-col {
+  display: flex;
+  justify-content: center;
 }
 .story {
   overflow: scroll;
