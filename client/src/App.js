@@ -15,6 +15,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import LoginSignup from "./pages/LoginSignup";
 import Map from "./components/Map";
+// import MyProfile from "./pages/MyProfile";
 import Notifications from "./components/Notifications";
 import Usa from "./components/Usa";
 import Avatar from "./components/Avatar";
@@ -24,6 +25,7 @@ import ProfileModal from "./components/ProfileModal";
 import ProfileForm from "./components/ProfileForm";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import Neighbors from "./components/Neighbors";
+import ModalReadMore from "./components/ModalReadMore";
 import Success from "./components/Success";
 import Teachers from "./components/Teachers";
 import "bootswatch/dist/lux/bootstrap.min.css";
@@ -65,6 +67,11 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
+        location: {
+          merge(existing, imcoming) {
+            return imcoming;
+          },
+        },
         responses: {
           merge(existing, imcoming) {
             return imcoming;
@@ -93,6 +100,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />
             <Route path="/Map" element={<Map />} />
+            {/* <Route path="/MyProfile" element={<MyProfile />} /> */}
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
@@ -102,6 +110,7 @@ function App() {
             <Route path="/ProfileForm" element={<ProfileForm />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
+            <Route path="/ModalReadMore" element={<ModalReadMore />} />
             <Route path="/Success" element={<Success />} />
             <Route path="/Teachers" element={<Teachers />} />
             <Route path="/" element={<LandingPage />} />

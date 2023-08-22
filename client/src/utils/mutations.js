@@ -159,6 +159,7 @@ export const UPDATE_PROFILE = gql`
       teacher
       years
       username
+      teacher
     }
   }
 `;

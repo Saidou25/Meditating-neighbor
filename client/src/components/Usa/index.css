@@ -2,46 +2,86 @@
 height: 100vh;
 } */
 .map-container {
-    background-color: black;
-    padding-top: 5%;
-    padding-bottom: 3%;
+  background-color: black;
+  padding-top: 5%;
+  padding-bottom: 3%;
+}
+.result {
+  text-align: center;
+  font-size: 1.3rem;
+  color: white;
+}
+.map {
+  background-color: orange;
+  margin-right: 10%;
+  margin-left: 10%;
+}
+.btn-coordinates {
+  border-radius: 25px;
+  margin-top: 0 !important;
+  width: 250px;
+  background-color: black;
+  padding: 1px;
+  border-width: 0;
+  font-size: 1.3rem;
+  color: white !important;
+} 
+.btn-coordinates:hover {
+  background-color: orange;
+  color: black !important;
+}
+.buttons-row {
+  padding-top: 5%;
+}
+.btn-locate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.myProgress {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 25px;
+  background-color: #ddd;
+}
+.myBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 25px;
+  background-color: orange;
+  color: black;
+}
+.count-p {
+  padding-right: 10%;
+  margin: 0;
+  padding-top: 3%;
+  padding-bottom: 5%;
+  padding-left: 10%;
+}
+.location-saved {
+  text-align: center;
+  font-size: 1.3rem;
+  color: black;
+}
+.location-saved-p {
+  width: 250px;
+  border-radius: 15px;
+  margin: auto;
+}
+@media screen and (max-width: 414px) {
+  .main-usa {
+    height: auto;
   }
   .result {
-    text-align: center; 
-   font-size: 1.3rem;
-    color: white;
-    
-  }
-  .map {
-    background-color: orange;
-    margin-right: 10%;
-    margin-left: 10%;
+    padding-top: 2% !important;
+    padding-bottom: 2% !important;
+    font-size: 1rem;
   }
   .btn-coordinates {
-    border-radius: 25px;
-    margin-top: 0 !important;
-    width: 250px;
-    background-color: black;
-    padding: 1px;
-    border-width: 0;
-    font-size: 1.3rem;
-  }
-  .buttons-row {
-    padding-top: 5%;
-  }
-  /* .btn-location-save { 
-    border-radius: 25px;
-    width: 250px;
-    background-color: black;
-    padding: 1%;
-    border-width: 0;
-    font-size: 1.3rem;
-  } */
-  .btn-locate,
-  .buttons-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 1rem;
   }
   .myProgress {
     width: 50%;
@@ -49,63 +89,16 @@ height: 100vh;
     margin-left: auto;
     border-radius: 25px;
     background-color: #ddd;
-  } 
-   .myBar {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-    height: 40px;
+  }
+  .myBar {
+    /* width: 10%; */
+    height: 20px;
     border-radius: 25px;
     background-color: orange;
-    /* text-align: center; */
-    /* line-height: 30px; */
+    text-align: center;
+    line-height: 30px;
     color: black;
- }  
-.count-p {
-  padding-right: 10%;
-  margin: 0;
-  padding-top: 3%;
-  padding-bottom: 5%;
-  padding-left: 10%;
- }
- .location-saved {
-  text-align: center;
-  font-size: 1.3rem;
-  color: black;
- }
- .location-saved-p {
-  width: 250px;
-  border-radius: 15px;
-  margin: auto;
- }
- @media screen and (max-width: 414px) {
-  .main-usa {
-    height: auto;
-    }
-    .result {
-      padding-top: 2% !important;
-      padding-bottom: 2% !important;
-      font-size: 1rem;
-    }
-    .btn-coordinates {
-      font-size: 1rem;
-    }
-    .myProgress {
-      width: 50%;
-      margin-right: auto;
-      margin-left: auto;
-      border-radius: 25px;
-      background-color: #ddd;
-    } 
-     .myBar {
-      /* width: 10%; */
-      height: 20px;
-      border-radius: 25px;
-      background-color: orange;
-      text-align: center;
-      line-height: 30px;
-      color: black;
-   }  
+  }
 }
 /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
 

@@ -7,7 +7,7 @@ import {
   Marker,
   Annotation,
 } from "react-simple-maps";
-import ReactTooltip from "react-tooltip";
+// import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -95,11 +95,12 @@ const Usa = () => {
         const { locations } = cache.readQuery({ query: QUERY_LOCATIONS });
         cache.writeQuery({
           query: QUERY_LOCATIONS,
-          data: { locations: [addLocation, ...locations] },
+          data: { locations: [...locations, addLocation] },
         });
       } catch (e) {
         console.error(e);
       }
+      console.log("location successfully added to the cache");
     },
   });
   const [updateLocation] = useMutation(UPDATE_LOCATION);
@@ -224,7 +225,7 @@ const Usa = () => {
           </div>
           {showProgressBar === "show" && !result.length && (
             <div className="col-12 bar bg-primary p-0 my-5">
-              <div className="myProgress">
+              <div className="myProgress bg-dark">
                 <div
                   className="myBar"
                   style={{ width: `${value}%` }}
@@ -344,11 +345,11 @@ const Usa = () => {
               <Marker key={coordinates} coordinates={coordinates}>
                <circle r={1} fill="#fff" />
                <text 
-               textAnchor="middle"
+              //  textAnchor="middle"
               //  y={markerOffset}
                 style={{ fontFamily: "system-ui", fill: "#fff" }}
              >
-              {city}
+              {/* {city} */}
               </text> 
               </Marker>
             ))}

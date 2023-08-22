@@ -12,7 +12,7 @@ const LoginSignup = () => {
         <div className="container-nav">
           <div className="go-back d-flex justify-content-center">
             <Link to="/">
-              <button type="btn" className="btn-go-back text-white">
+              <button type="btn" className="btn-go-back text-white m-0">
                 go back
               </button>
             </Link>
@@ -32,7 +32,7 @@ const LoginSignup = () => {
                 Login
               </button>
               <button
-                className="nav-link fs-3"
+                className="nav-link sign-up-link fs-3"
                 id="nav-signup-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#nav-signup"

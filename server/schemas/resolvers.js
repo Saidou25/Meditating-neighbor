@@ -148,8 +148,7 @@ const resolvers = {
         {
           username: args.username,
           avatarUrl: args.avatarUrl,
-        },
-        { new: true }
+        }
       );
     },
     deleteAvatar: async (_, args) => {
@@ -173,13 +172,15 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
     updateProfile: async (_, args) => {
-      return await Profile.findOneAndUpdate({
-        _id: args.id,
-        username: args.username,
-        stage: args.stage,
-        years: args.years,
-        teacher: args.teacher,
-      });
+      return await Profile.findOneAndUpdate(
+        { _id: args.id },
+        {
+          username: args.username,
+          stage: args.stage,
+          years: args.years,
+          teacher: args.teacher,
+        }
+      );
     },
     deleteProfile: async (_, args) => {
       return await Profile.findOneAndDelete({ _id: args.id });
@@ -226,7 +227,7 @@ const resolvers = {
       if (context.user) {
         const contact = await Contact.create({
           friendId: args.friendId,
-          todaysDate: args.todaysDate
+          todaysDate: args.todaysDate,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },

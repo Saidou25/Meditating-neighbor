@@ -1,93 +1,53 @@
-import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ME, QUERY_PROFILES, QUERY_LOCATIONS } from "../../utils/queries";
+import React from "react";
+import { useMutation } from "@apollo/client";
+import { QUERY_PROFILES } from "../../utils/queries";
 import { DELETE_PROFILE } from "../../utils/mutations";
 import { Link } from "react-router-dom";
-import Avatar from "../Avatar";
-import Footer from "../Footer";
-import Navbar from "../Navbar";
-import Spinner from "../Spinner";
+import Avatar from "../../components/Avatar";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+// import "./index.css";
 
-import "./index.css";
+const MyProfile = ({ myLocation, me, profileId, myProfile }) => {
 
-const Profile1 = () => {
-  const [me, setMe] = useState("");
-  const [myProfile, setMyProfile] = useState("");
-  const [profileId, setProfileId] = useState("");
-
-  const { data, loading } = useQuery(QUERY_ME);
-  const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);
-
-  // const userProfile = profiles.filter(
-  //   (profile) => profile.username === me.username
-  // );
-  // const myProfile = userProfile[0];
-  // const profileId = myProfile?._id;
-
-  const { data: locationData } = useQuery(QUERY_LOCATIONS);
-  const locations = locationData?.locations || [];
-  const myLocation = locations.filter(
-    (location) => location.username === me.username
-  );
-  console.log(myProfile);
-
-  useEffect(() => {
-    if (profileData && data) {
-      const me = data?.me || [];
-      const profiles = profileData?.profiles || [];
-      const userProfile = profiles.filter(
-        (profile) => profile.username === me.username
-      );
-      const myProfile = userProfile[0];
-      const id = myProfile?._id;
-      setMe(me);
-      setMyProfile(userProfile[0]);
-      setProfileId(id)
-    }
-  }, [profileData, data]);
-
-  const [deleteProfile] = useMutation(DELETE_PROFILE, {
-    variables: { id: profileId },
-    update(cache, { data: { deleteProfile } }) {
-      try {
-        const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
-        cache.writeQuery({
-          query: QUERY_PROFILES,
-          data: {
-            profiles: [
-              ...profiles.filter(
-                (profile) => profile._id !== deleteProfile._id
-              ),
-            ],
-          },
-        });
-        console.log("success updating cache with deleteProfile");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-
-  const removeProfile = async () => {
-    try {
-      const { data } = await deleteProfile({
+    const [deleteProfile] = useMutation(DELETE_PROFILE, {
         variables: { id: profileId },
+        update(cache, { data: { deleteProfile } }) {
+          try {
+            const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
+            cache.writeQuery({
+              query: QUERY_PROFILES,
+              data: {
+                profiles: [
+                  ...profiles.filter(
+                    (profile) => profile._id !== deleteProfile._id
+                  ),
+                ],
+              },
+            });
+            console.log("success updating cache with deleteProfile");
+          } catch (e) {
+            console.error(e);
+          }
+        },
       });
-      if (data) {
+      const removeProfile = async () => {
+        try {
+          const { data } = await deleteProfile({
+            variables: { id: profileId },
+          });
+          if (data) {
+            console.log("success deleting profile");
+          }
+        } catch (e) {
+          console.error(e);
+        }
         console.log("success deleting profile");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    console.log("success deleting profile");
-  };
+      };
 
-  if (loading || profileLoading) {
-    return <Spinner />;
-  }
-  return (
-    <div>
-      <Navbar />
+    return (
+        <div className="footer">
+            <Navbar />
       <div className="container-fluid profile bg-primary">
         <div className="row">
           <div className="col-12">
@@ -112,11 +72,11 @@ const Profile1 = () => {
                   <></>
                 )}
               </div>
-              {myLocation && (
+              {myLocation.length && (
                 <p className="profile-p text-light">
-                  Leaves in {myLocation[0]?.city}, {myLocation[0]?.state},{" "}
-                  {myLocation[0]?.country}
-                </p>
+                Leaves in {myLocation[0]?.city}, {myLocation[0]?.state},{" "}
+                {myLocation[0]?.country}
+              </p>
               )}
               <div className="card-footer profile-footer mt-5">
                 <div className="row">
@@ -162,8 +122,9 @@ const Profile1 = () => {
       <div className="profile-footer bg-primary">
         <Footer />
       </div>
-    </div>
-  );
+        </div>
+       
+        
+    )
 };
-
-export default Profile1;
+export default MyProfile;

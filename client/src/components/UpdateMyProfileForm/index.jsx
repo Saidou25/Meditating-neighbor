@@ -24,22 +24,26 @@ const UpdateMyProfileForm = () => {
   const [years, setYears] = useState(years1);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [confirm1, setConfirm1] = useState(false);
+  const [changes, setChanges] = useState("");
+  const [noChanges, setNoChanges] = useState("");
 
   // const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
-    variables: { id: profileId },
+    // variables: { id: profileId },
     update(cache, { data: { updateProfile } }) {
       try {
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
         cache.writeQuery({
           query: QUERY_PROFILES,
           data: {
-            profiles: [
-              ...profiles.filter(
-                (profile) => profile._id === updateProfile._id
-              ),
-            ],
+            profiles: [...profiles, updateProfile],
+          },
+          variables: {
+            id: profileId,
+            username: myProfile.username,
+            stage: stage,
+            years: years,
+            teacher: teacher,
           },
         });
         console.log("success updating cache with updateProfile");
@@ -80,7 +84,10 @@ const UpdateMyProfileForm = () => {
     }
     console.log("profile updated");
     if (stage === stage1 && teacher === teacher1 && years === years1) {
-      setConfirm1(true);
+      setNoChanges("You didn't make any changes to your profile...");
+      // setConfirm(true);
+    } else {
+      setChanges("Your profile has been updated.");
     }
     setConfirm(true);
     setTimeout(() => {
@@ -91,22 +98,9 @@ const UpdateMyProfileForm = () => {
     setYears("");
     setTeacher("");
   };
-  if (confirm1) {
-    return (
-      <div className="container-fluid success bg-primary">
-        <div className="container-success">
-          <div className="d-flex fa-success mb-2">
-            <i className="fa-solid fa-check d-flex"></i>
-          </div>
-          <h2 className="text d-flex text-light justify-content-center">
-            You didn't make any changes...
-          </h2>
-        </div>
-      </div>
-    );
-  }
+
   if (confirm === true) {
-    return <Success />;
+    return <Success changes={changes} noChanges={noChanges} />;
   }
   return (
     <>
