@@ -213,7 +213,7 @@ const Usa = () => {
     <>
       <Navbar />
       <div className="container-fluid main-usa bg-primary px-0">
-        <div className="row buttons-row">
+        <div className="row buttons-row m-0">
           <div className="col-12 btn-locate bg-primary">
             <button
               className="btn-coordinates text-white"
@@ -250,7 +250,7 @@ const Usa = () => {
             </div>
           )}
           {result[0]?.country === "US" && myLocation && (
-            <div className=" col-12 btn-locate bg-primary">
+            <div className="col-12 btn-locate bg-primary">
               <button
                 className="btn-coordinates text-white"
                 type="button"

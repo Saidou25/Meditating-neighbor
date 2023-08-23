@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
+import { FaEllipsisH } from "react-icons/fa";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
-import { FaEllipsisH } from "react-icons/fa";
 import Spinner from "../Spinner";
 import "./index.css";
 
@@ -125,17 +125,17 @@ const ProfileList = (props) => {
     <>
       <Navbar />
       <div className="container-fluid neighbors bg-primary">
-        {meDataLoading || usersDataLoading ? (
+        {/* {meDataLoading || usersDataLoading ? (
           <Spinner />
         ) : (
-          <>
+          <> */}
             <h3 className="locations-list-title text-white py-5">
               {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
             </h3>
             <div className="row card-row">
               {seventyFiveMiles &&
                 seventyFiveMiles.map((distanceObj) => (
-                  <div key={distanceObj.id} className="col-3 card-column">
+                  <div key={distanceObj.id} className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column">
                     <div
                       key={distanceObj.id}
                       className="card card-locations bg-primary"
@@ -186,19 +186,19 @@ const ProfileList = (props) => {
                   </div>
                 ))}
             </div>
-          </>
-        )}
-        {meDataLoading || usersDataLoading ? (
+          {/* </>
+        )} */}
+        {/* {meDataLoading || usersDataLoading ? (
           <Spinner />
         ) : (
-          <>
+          <> */}
             <h3 className="locations-list-title text-white py-5">
               Over a 50 miles radius
             </h3>
             <div className="row card-row">
               {overSeventyFiveMiles &&
                 overSeventyFiveMiles.map((distanceObj) => (
-                  <div key={distanceObj.id} className="col-3 card-column">
+                  <div key={distanceObj.id} className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column">
                     <div
                       key={distanceObj.id}
                       className="card card-locations bg-primary"
@@ -249,8 +249,8 @@ const ProfileList = (props) => {
                   </div>
                 ))}
             </div>
-          </>
-        )}
+          {/* </>
+        )} */}
 
         <div
           className="modal fade"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
+import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -33,6 +34,7 @@ const Contacts = () => {
     <>
       <Navbar />
       <div className="container-fluid contacts bg-primary">
+        {/* <Notifications /> */}
         {myContactsProfiles.length ? (
           <>
             <h3 className="contact-title text-light">Your contacts</h3>

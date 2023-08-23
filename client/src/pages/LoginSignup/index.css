@@ -43,6 +43,8 @@
 @media screen and (max-width: 640px) {
   .loginsignup {
     height: auto;
+    padding-top: 8%;
+    padding-bottom: 8%;
   }
   .container-nav {
     width: 90%;

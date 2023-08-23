@@ -88,7 +88,7 @@ const Profile1 = () => {
   return (
     <div>
       <Navbar />
-      <div className="container-fluid profile bg-primary">
+      <div className="container-fluid profile bg-primary" style={{ borderColor: "primary" }}>
         <div className="row">
           <div className="col-12">
             <div className="card profile-card">
@@ -145,8 +145,8 @@ const Profile1 = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 bottom-text">
-            <p className="delete-text bg-primary text-light">
+          <div className="col-12 bottom-text mx-0">
+            <p className="delete-text bg-primary text-light mx-5">
               Click
               <button
                 className="delete-btn bg-primary text-info"

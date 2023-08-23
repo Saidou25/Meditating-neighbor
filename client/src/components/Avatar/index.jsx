@@ -249,7 +249,7 @@ const ProfPics = () => {
           {isShown ? (
             <>
               <div className="col-4 choose-file bg-primary">
-                <label htmlFor="file-button" className="file-label">
+                <label htmlFor="file-button" className="file-label" style={{ cursor: "pointer" }}>
                   select file
                 </label>
                 <input

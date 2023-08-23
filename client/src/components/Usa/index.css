@@ -26,6 +26,16 @@ height: 100vh;
   font-size: 1.3rem;
   color: white !important;
 } 
+.location-saved {
+  text-align: center;
+  font-size: 1.3rem;
+  color: black;
+}
+.location-saved-p {
+  width: 250px;
+  border-radius: 15px;
+  margin: auto;
+}
 .btn-coordinates:hover {
   background-color: orange;
   color: black !important;
@@ -61,16 +71,7 @@ height: 100vh;
   padding-bottom: 5%;
   padding-left: 10%;
 }
-.location-saved {
-  text-align: center;
-  font-size: 1.3rem;
-  color: black;
-}
-.location-saved-p {
-  width: 250px;
-  border-radius: 15px;
-  margin: auto;
-}
+
 @media screen and (max-width: 414px) {
   .main-usa {
     height: auto;

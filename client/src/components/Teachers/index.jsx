@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS } from "../../utils/queries";
+import { FaEllipsisH } from "react-icons/fa";
 import profileIcon from "../../assets/images/profileicon.png";
 import Spinner from "../Spinner";
 import "./index.css";
@@ -72,18 +73,21 @@ const Teachers = () => {
                               delectus vero soluta!
                             </p>
                           </div>
-                          <button
-                            type="button"
-                            className="btn btn-teacher-modal btn-primary mt-4 mb-5"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            onClick={() => {
-                              setSelectedTeacher(user);
-                            }}
-                          >
-                            read more
-                          </button>
-
+                          <div className="teacher-btn-col">
+                            <button
+                              type="button"
+                              className="btn btn-teacher-modal mt-2"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                              onClick={() => {
+                                setSelectedTeacher(user);
+                              }}
+                            >
+                              <div className="teacher-icon-col">
+                                <FaEllipsisH className="teacher-icon" />
+                              </div>
+                            </button>
+                          </div>
                           <div
                             className="modal fade"
                             id="exampleModal"
@@ -109,17 +113,17 @@ const Teachers = () => {
                                 </div>
                                 <div className="modal-body">
                                   {/* <div className="row m-4"> */}
-                                    <div className="teachers-avatar-col m-5">
-                                  <img
-                                    className="teachers-avatar"
-                                    src={
-                                      selectedTeacher.avatar?.avatarUrl
-                                        ? selectedTeacher.avatar?.avatarUrl
-                                        : profileIcon
-                                    }
-                                    alt="profile avatar"
-                                  />
-</div>
+                                  <div className="teachers-avatar-col m-4">
+                                    <img
+                                      className="teachers-avatar"
+                                      src={
+                                        selectedTeacher.avatar?.avatarUrl
+                                          ? selectedTeacher.avatar?.avatarUrl
+                                          : profileIcon
+                                      }
+                                      alt="profile avatar"
+                                    />
+                                  </div>
                                   <div className="p-items text-primary mt-5">
                                     <h4>About</h4>
                                     <p>
@@ -154,7 +158,6 @@ const Teachers = () => {
                                       , {selectedTeacher.location?.state}
                                     </p>
                                   </div>
-                                  {/* </div> */}
                                 </div>
                                 <div className="modal-footer text-primary">
                                   <button
@@ -177,7 +180,7 @@ const Teachers = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12">
+                          {/* <div className="col-12">
                             <p>
                               Has been meditating for {user.profile?.years}{" "}
                               years
@@ -185,7 +188,7 @@ const Teachers = () => {
                             <p>Currently at stage {user.profile?.stage}</p>
                             <p>certified</p>
                             <p>in progress</p>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

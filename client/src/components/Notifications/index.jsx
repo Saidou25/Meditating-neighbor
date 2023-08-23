@@ -247,7 +247,7 @@ const Notifications = () => {
       console.error(e);
     }
   };
-console.log("myContactRequestsToOthers", myContactRequestsToOthers)
+
   return (
     <>
       <Navbar />
@@ -260,7 +260,7 @@ console.log("myContactRequestsToOthers", myContactRequestsToOthers)
             myContactRequestsToOthers.map((user) => (
               <div
                 key={user._id}
-                className="row response-list bg-primary text-light"
+                className="row response-list bg-primary g-0 text-light"
               >
                 <div className="col-2">
                   <img
@@ -359,7 +359,7 @@ console.log("myContactRequestsToOthers", myContactRequestsToOthers)
           <></>
         )}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
