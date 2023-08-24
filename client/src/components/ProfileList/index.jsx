@@ -137,7 +137,7 @@ const ProfileList = (props) => {
             seventyFiveMiles.map((distanceObj) => (
               <div
                 key={distanceObj.id}
-                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column"
+                className="col-xxl-3 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 card-column"
               >
                 <div className="card card-locations bg-primary">
                   <div className="card-body">
@@ -194,7 +194,7 @@ const ProfileList = (props) => {
             overSeventyFiveMiles.map((distanceObj) => (
               <div
                 key={distanceObj.id}
-                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column"
+                className="col-xxl-3 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 card-column"
               >
                 <div
                   key={distanceObj.id}

@@ -112,7 +112,6 @@ const Teachers = () => {
                                   ></button>
                                 </div>
                                 <div className="modal-body">
-                                  {/* <div className="row m-4"> */}
                                   <div className="teachers-avatar-col m-4">
                                     <img
                                       className="teachers-avatar"
@@ -180,15 +179,6 @@ const Teachers = () => {
                               </div>
                             </div>
                           </div>
-                          {/* <div className="col-12">
-                            <p>
-                              Has been meditating for {user.profile?.years}{" "}
-                              years
-                            </p>
-                            <p>Currently at stage {user.profile?.stage}</p>
-                            <p>certified</p>
-                            <p>in progress</p>
-                          </div> */}
                         </div>
                       </div>
                     </div>

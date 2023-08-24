@@ -99,7 +99,6 @@ const Map = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(typeof longitude);
     try {
       const { data } = await addLocation({
         variables: {

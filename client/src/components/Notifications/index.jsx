@@ -22,7 +22,6 @@ import "./index.css";
 const Notifications = () => {
   const date = new Date();
   const todaysDate = date.toString().slice(0, 15);
-  console.log(typeof todaysDate)
   const [requestId, setRequestId] = useState("");
   const [responseId, setResponseId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
@@ -186,12 +185,11 @@ const Notifications = () => {
   const addFriend = async (user) => {
     console.log(todaysDate);
     const id = user._id;
-    console.log(typeof id)
     try {
       const { data } = await addContact({
         variables: {
           friendId: id,
-          todaysDate: todaysDate
+          todaysDate: todaysDate,
         },
       });
       if (data) {
@@ -251,7 +249,6 @@ const Notifications = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       {myContactRequestsToOthers.length ? (
         <>
           <h3 className="request-title text-light bg-primary">
@@ -266,7 +263,11 @@ const Notifications = () => {
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
+                    src={
+                      user.avatar?.avatarUrl
+                        ? user.avatar?.avatarUrl
+                        : profileIcon
+                    }
                     alt="profile avatar"
                   />
                 </div>
@@ -293,7 +294,11 @@ const Notifications = () => {
               <div className="col-2">
                 <img
                   className="request-avatar"
-                  src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
+                  src={
+                    user.avatar?.avatarUrl
+                      ? user.avatar?.avatarUrl
+                      : profileIcon
+                  }
                   alt="profile avatar"
                 />
               </div>
@@ -330,7 +335,11 @@ const Notifications = () => {
                   <div className="col-2">
                     <img
                       className="response-avatar"
-                      src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
+                      src={
+                        user.avatar?.avatarUrl
+                          ? user.avatar?.avatarUrl
+                          : profileIcon
+                      }
                       alt="profile avatar"
                     />
                   </div>
@@ -360,7 +369,6 @@ const Notifications = () => {
           <></>
         )}
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

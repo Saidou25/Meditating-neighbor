@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
-import Footer from "../../components/Footer";
 import Navabar from "../../components/Navbar";
+import LandingFooter from "../../components/LandingFooter";
 import "./index.css";
 
 const LandingPage = () => {
@@ -97,7 +97,7 @@ const LandingPage = () => {
         </div>
         <div className="third"></div>
         <div className="landing-footer">
-          <Footer />
+          <LandingFooter />
         </div>
       </main>
     </>

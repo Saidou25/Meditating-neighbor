@@ -1,6 +1,32 @@
 .contacts {
-    height: 100vh;
+  height: 100vh;
 }
 .contact-title {
-    padding: 5%;
+  padding: 5%;
+}
+.contact-avatar {
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+}
+.contact-pic {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+.friends-since {
+  display: flex;
+  align-items: center !important;
+  margin: 0;
+}
+@media screen and (max-width: 414px) {
+  .contact-pic {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+  .p-info,
+  .modal-footer {
+    padding: 3px !important;
+  }
 }

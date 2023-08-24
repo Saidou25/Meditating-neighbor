@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
 import { FaEllipsisH } from "react-icons/fa";
+import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -50,7 +51,7 @@ const Contacts = () => {
                 myContactsProfiles.map((user) => (
                   <div
                     key={user._id}
-                    className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6"
+                    className="col-xxl-3 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4"
                   >
                     <div className="card-body">
                       <div className="icon-container">
@@ -98,102 +99,123 @@ const Contacts = () => {
               aria-labelledby="staticBackdropLabel"
               aria-hidden="true"
             >
-              <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                  <>
-                    <div className="modal-header">
-                      <h3
-                        className="modal-title fs-5 text-primary"
-                        id="staticBackdropLabel"
-                      >
-                        {user.username}
-                      </h3>
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                        onClick={() => {
-                          setUser("");
-                          setFriendsDate(false);
-                          setMyContactsProfiles([]);
-                        }}
-                      ></button>
+              <div className="modal-dialog modal-dialog-centered modal-lg">
+                <div className="modal-content contact-content">
+                  <div className="modal-header">
+                    <h3
+                      className="modal-title fs-5 text-primary"
+                      id="staticBackdropLabel"
+                    >
+                      {user.username}
+                    </h3>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="contact-avatar mt-4 mb-5">
+                      <img
+                        className="contact-pic"
+                        src={
+                          user.avatar?.avatarUrl
+                            ? user.avatar.avatarUrl
+                            : profileIcon
+                        }
+                        alt="profile icon"
+                      />
                     </div>
-                    <div className="modal-body">
-                      <div className="row">
-                        <div className="col-6">
-                          {" "}
-                          {user.avatar?.avatarUrl ? (
-                            <img
-                              className="container-pic mb-4"
-                              src={user.avatar.avatarUrl}
-                              alt="profile icon"
-                              style={{ width: 150, height: 150 }}
-                            />
-                          ) : (
-                            <img
-                              className="container-pic mb-4"
-                              src={profileIcon}
-                              alt="profile icon"
-                              style={{ width: 150, height: 150 }}
-                            />
-                          )}
-                        </div>
-                        <div className="col-6">
-                          {" "}
-                          <div className="location">
-                            {user.profile ? (
-                              <>
-                                {" "}
-                                <p>Teacher(TMI)</p>
-                                <p>
-                                  Has been meditating for {user.profile.years}{" "}
-                                  years
-                                </p>
-                                <p>
-                                  Currently working on stage{" "}
-                                  {user.profile.stage}
-                                </p>
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                            {user.location ? (
-                              <>
-                                <p>
-                                  Leaves in {user.location.city},{" "}
-                                  {user.location?.state},{" "}
-                                  {user.location.country}
-                                </p>
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                            <p>Contact: {user.email}</p>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="p-info text-primary px-5">
+                      <h4 className="about-contact mb-4">About</h4>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Magni asperiores amet aliquam, obcaecati ducimus
+                        inventore laudantium, repudiandae, tenetur at ut sequi
+                        quod veritatis explicabo et eos expedita nesciunt ullam
+                        nulla.
+                      </p>
                     </div>
-                  </>
-                  <div className="modal-footer">
+                    <div className="p-info text-primary px-5">
+                      {user.profile ? (
+                        <>
+                          <h4 className="info-teacher mt-5 mb-4">Info</h4>{" "}
+                          <p>Teacher(TMI)</p>
+                          <p>
+                            Has been meditating for {user.profile.years} years
+                          </p>
+                          <p>Currently working on stage {user.profile.stage}</p>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      <p className="p-fas mt-5">
+                        <FaIdBadge /> {user.username}
+                      </p>
+                      <p>
+                        <FaEnvelope /> {user.email}
+                      </p>
+                      {user.location ? (
+                        <p>
+                          <FaHome /> {user.location.city},{" "}
+                          {user.location?.state}, {user.location.country}
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                  <div className="modal-footer px-5">
                     <div className="row row-modal-footer">
-                      <div className="col-6">
+                      <p className="col-8 friends-since">
+                        Friends since: {friendsDate}
+                      </p>
+                      <div className="col-4 contact-close">
                         <button
                           type="button"
                           className="btn btn-secondary"
                           data-bs-dismiss="modal"
-                          onClick={() => {
-                            setUser("");
-                            setFriendsDate(false);
-                            setMyContactsProfiles([]);
-                          }}
                         >
                           Close
                         </button>
                       </div>
                     </div>
-                    <p>Friends since: {friendsDate} </p>
                   </div>
                 </div>
               </div>

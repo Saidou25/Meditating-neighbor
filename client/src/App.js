@@ -14,8 +14,8 @@ import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import LoginSignup from "./pages/LoginSignup";
+import LandingFooter from "./components/LandingFooter";
 import Map from "./components/Map";
-// import MyProfile from "./pages/MyProfile";
 import Notifications from "./components/Notifications";
 import Usa from "./components/Usa";
 import Avatar from "./components/Avatar";
@@ -99,8 +99,8 @@ function App() {
             <Route path="/Signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />
+            <Route path="/LandingFooter" element={<LandingFooter />} />
             <Route path="/Map" element={<Map />} />
-            {/* <Route path="/MyProfile" element={<MyProfile />} /> */}
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
