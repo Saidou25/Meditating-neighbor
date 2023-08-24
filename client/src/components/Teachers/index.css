@@ -36,8 +36,8 @@ background-color: orange !important;
   justify-content: center;
 }
 .story {
-  overflow: scroll;
-  height: 198px;
+  overflow: hidden;
+  height: 196px;
 }
 
 @media screen and (max-width: 1200px) {

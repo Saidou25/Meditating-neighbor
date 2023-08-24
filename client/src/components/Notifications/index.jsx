@@ -16,6 +16,7 @@ import {
 import Navbar from "../Navbar";
 import profileIcon from "../../assets/images/profileicon.png";
 import Footer from "../Footer";
+
 import "./index.css";
 
 const Notifications = () => {
@@ -250,7 +251,7 @@ const Notifications = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {myContactRequestsToOthers.length ? (
         <>
           <h3 className="request-title text-light bg-primary">

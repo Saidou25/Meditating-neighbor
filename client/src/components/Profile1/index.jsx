@@ -18,18 +18,11 @@ const Profile1 = () => {
   const { data, loading } = useQuery(QUERY_ME);
   const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);
 
-  // const userProfile = profiles.filter(
-  //   (profile) => profile.username === me.username
-  // );
-  // const myProfile = userProfile[0];
-  // const profileId = myProfile?._id;
-
   const { data: locationData } = useQuery(QUERY_LOCATIONS);
   const locations = locationData?.locations || [];
   const myLocation = locations.filter(
     (location) => location.username === me.username
   );
-  console.log(myProfile);
 
   useEffect(() => {
     if (profileData && data) {
@@ -42,7 +35,7 @@ const Profile1 = () => {
       const id = myProfile?._id;
       setMe(me);
       setMyProfile(userProfile[0]);
-      setProfileId(id)
+      setProfileId(id);
     }
   }, [profileData, data]);
 
@@ -88,7 +81,10 @@ const Profile1 = () => {
   return (
     <div>
       <Navbar />
-      <div className="container-fluid profile bg-primary" style={{ borderColor: "primary" }}>
+      <div
+        className="container-fluid profile bg-primary"
+        style={{ borderColor: "primary" }}
+      >
         <div className="row">
           <div className="col-12">
             <div className="card profile-card">
@@ -112,11 +108,13 @@ const Profile1 = () => {
                   <></>
                 )}
               </div>
-              {myLocation && (
+              {myLocation.length ? (
                 <p className="profile-p text-light">
                   Leaves in {myLocation[0]?.city}, {myLocation[0]?.state},{" "}
                   {myLocation[0]?.country}
                 </p>
+              ) : (
+                <></>
               )}
               <div className="card-footer profile-footer mt-5">
                 <div className="row">

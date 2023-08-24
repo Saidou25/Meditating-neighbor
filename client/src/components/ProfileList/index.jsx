@@ -121,137 +121,131 @@ const ProfileList = (props) => {
     }
   };
 
+  if (meDataLoading || usersDataLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <Navbar />
       <div className="container-fluid neighbors bg-primary">
-        {/* {meDataLoading || usersDataLoading ? (
-          <Spinner />
-        ) : (
-          <> */}
-            <h3 className="locations-list-title text-white py-5">
-              {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
-            </h3>
-            <div className="row card-row">
-              {seventyFiveMiles &&
-                seventyFiveMiles.map((distanceObj) => (
-                  <div key={distanceObj.id} className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column">
-                    <div
-                      key={distanceObj.id}
-                      className="card card-locations bg-primary"
-                    >
-                      <div className="card-body">
-                        <div className="icon-container">
-                          <button
-                            className="btn btn-profile "
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"
-                            onClick={() => {
-                              setAvatarUrl(distanceObj.avatarUrl);
-                              setUsername(distanceObj.username);
-                              outgoing(distanceObj);
-                              incoming(distanceObj);
-                              incomingResp(distanceObj);
-                              outgoingResp(distanceObj);
-                              areWeFriends(distanceObj);
-                            }}
-                          >
-                            <FaEllipsisH className="icon" />
-                          </button>
-                        </div>
-                        <div className="row profiles-row">
-                          <div className="col-12 profiles-column">
-                            {!distanceObj.avatarUrl ? (
-                              <img
-                                className="container-pic mb-4"
-                                src={profileIcon}
-                                alt="profile icon"
-                              />
-                            ) : (
-                              <img
-                                className="container-pic mb-4"
-                                src={distanceObj.avatarUrl}
-                                alt="profile icon"
-                              />
-                            )}
-                          </div>
-                          <div className="col-12 profiles-column">
-                            <p className="location text-light">
-                              {distanceObj.username}
-                            </p>
-                          </div>
-                        </div>
+        <h3 className="locations-list-title text-white py-5">
+          {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
+        </h3>
+        <div className="row card-row">
+          {seventyFiveMiles &&
+            seventyFiveMiles.map((distanceObj) => (
+              <div
+                key={distanceObj.id}
+                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column"
+              >
+                <div className="card card-locations bg-primary">
+                  <div className="card-body">
+                    <div className="icon-container">
+                      <button
+                        className="btn btn-profile "
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        onClick={() => {
+                          setAvatarUrl(distanceObj.avatarUrl);
+                          setUsername(distanceObj.username);
+                          outgoing(distanceObj);
+                          incoming(distanceObj);
+                          incomingResp(distanceObj);
+                          outgoingResp(distanceObj);
+                          areWeFriends(distanceObj);
+                        }}
+                      >
+                        <FaEllipsisH className="icon" />
+                      </button>
+                    </div>
+                    <div className="row profiles-row">
+                      <div className="col-12 profiles-column">
+                        {!distanceObj.avatarUrl ? (
+                          <img
+                            className="container-pic mb-4"
+                            src={profileIcon}
+                            alt="profile icon"
+                          />
+                        ) : (
+                          <img
+                            className="container-pic mb-4"
+                            src={distanceObj.avatarUrl}
+                            alt="profile icon"
+                          />
+                        )}
+                      </div>
+                      <div className="col-12 profiles-column">
+                        <p className="location text-light">
+                          {distanceObj.username}
+                        </p>
                       </div>
                     </div>
                   </div>
-                ))}
-            </div>
-          {/* </>
-        )} */}
-        {/* {meDataLoading || usersDataLoading ? (
-          <Spinner />
-        ) : (
-          <> */}
-            <h3 className="locations-list-title text-white py-5">
-              Over a 50 miles radius
-            </h3>
-            <div className="row card-row">
-              {overSeventyFiveMiles &&
-                overSeventyFiveMiles.map((distanceObj) => (
-                  <div key={distanceObj.id} className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column">
-                    <div
-                      key={distanceObj.id}
-                      className="card card-locations bg-primary"
-                    >
-                      <div className="card-body">
-                        <div className="icon-container">
-                          <button
-                            className="btn btn-profile "
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"
-                            onClick={() => {
-                              setAvatarUrl(distanceObj.avatarUrl);
-                              setUsername(distanceObj.username);
-                              outgoing(distanceObj);
-                              incoming(distanceObj);
-                              incomingResp(distanceObj);
-                              outgoingResp(distanceObj);
-                              areWeFriends(distanceObj);
-                            }}
-                          >
-                            <FaEllipsisH className="icon" />
-                          </button>
-                        </div>
-                        <div className="row profiles-row">
-                          <div className="col-12 profiles-column">
-                            {!distanceObj.avatarUrl ? (
-                              <img
-                                className="container-pic mb-4"
-                                src={profileIcon}
-                                alt="profile icon"
-                              />
-                            ) : (
-                              <img
-                                className="container-pic mb-4"
-                                src={distanceObj.avatarUrl}
-                                alt="profile icon"
-                              />
-                            )}
-                          </div>
-                          <div className="col-12 profiles-column">
-                            <p className="location text-light">
-                              {distanceObj.username}
-                            </p>
-                          </div>
-                        </div>
+                </div>
+              </div>
+            ))}
+        </div>
+        <h3 className="locations-list-title text-white py-5">
+          Over a 50 miles radius
+        </h3>
+        <div className="row card-row">
+          {overSeventyFiveMiles &&
+            overSeventyFiveMiles.map((distanceObj) => (
+              <div
+                key={distanceObj.id}
+                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 card-column"
+              >
+                <div
+                  key={distanceObj.id}
+                  className="card card-locations bg-primary"
+                >
+                  <div className="card-body">
+                    <div className="icon-container">
+                      <button
+                        className="btn btn-profile "
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        onClick={() => {
+                          setAvatarUrl(distanceObj.avatarUrl);
+                          setUsername(distanceObj.username);
+                          outgoing(distanceObj);
+                          incoming(distanceObj);
+                          incomingResp(distanceObj);
+                          outgoingResp(distanceObj);
+                          areWeFriends(distanceObj);
+                        }}
+                      >
+                        <FaEllipsisH className="icon" />
+                      </button>
+                    </div>
+                    <div className="row profiles-row">
+                      <div className="col-12 profiles-column">
+                        {!distanceObj.avatarUrl ? (
+                          <img
+                            className="container-pic mb-4"
+                            src={profileIcon}
+                            alt="profile icon"
+                          />
+                        ) : (
+                          <img
+                            className="container-pic mb-4"
+                            src={distanceObj.avatarUrl}
+                            alt="profile icon"
+                          />
+                        )}
+                      </div>
+                      <div className="col-12 profiles-column">
+                        <p className="location text-light">
+                          {distanceObj.username}
+                        </p>
                       </div>
                     </div>
                   </div>
-                ))}
-            </div>
-          {/* </>
-        )} */}
-
+                </div>
+              </div>
+            ))}
+        </div>
         <div
           className="modal fade"
           id="staticBackdrop"
@@ -346,16 +340,12 @@ const ProfileList = (props) => {
                     >
                       Close
                     </button>
-                    {/* outgoingRequest === false &&
-                    incomingRequest === false &&
-                    incomingResponse === false */}
                   </div>
                   {friends === false &&
                     (outgoingRequest === true ||
                       incomingRequest === true ||
                       incomingResponse === true ||
                       outgoingResponse === true) && (
-                      // <div className="col-6">
                       <button type="button" className="col-6 btn btn-primary">
                         pending
                       </button>
@@ -374,12 +364,12 @@ const ProfileList = (props) => {
                         type="button"
                         className="col-6 btn btn-primary"
                         onClick={contact}
+                        data-bs-dismiss="modal"
                       >
                         request friendship
                       </button>
                     )}
                 </div>
-
                 {friends === true && otherFriend === false ? (
                   <p>
                     Don't forget to ok {user.username} from your notification so
@@ -388,20 +378,11 @@ const ProfileList = (props) => {
                 ) : (
                   <></>
                 )}
-                {/* {friends === true && otherFriend === true && (
-                  <p>Friends since: {friendsDate} </p>
-                )} */}
-                {/* {friends === true ? (
-                  <p>Friends since: {friendsDate} </p>
-                ) : (
-                  <></>
-                )} */}
                 {otherFriend === true ? (
                   <p>Friends since: {otherFriendDate} </p>
                 ) : (
                   <></>
                 )}
-
                 {((incomingRequest === true || outgoingResponse === true) &&
                   friends === true &&
                   otherFriend === false) ||

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
+import { FaEllipsisH } from "react-icons/fa";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -9,68 +10,197 @@ import "./index.css";
 
 const Contacts = () => {
   const [myContactsProfiles, setMyContactsProfiles] = useState([]);
+  const [user, setUser] = useState("");
+  const [friendsDate, setFriendsDate] = useState(false);
 
   const { data: meData } = useQuery(QUERY_ME);
-  const { data } = useQuery(QUERY_USERS);
+  const { data: usersData } = useQuery(QUERY_USERS);
   const { data: contactsData } = useQuery(QUERY_CONTACTS);
 
   useEffect(() => {
-    if (data && contactsData && meData) {
+    if (usersData && contactsData && meData) {
       const me = meData?.me || [];
-      const users = data?.users || [];
+      const users = usersData?.users || [];
       const contacts = me?.contacts || [];
       const allMyContactsProfiles = [];
+
       for (let contact of contacts) {
         const contactsProfiles = users.filter(
           (user) => user._id === contact.friendId
         );
         allMyContactsProfiles.push(contactsProfiles[0]);
         setMyContactsProfiles(allMyContactsProfiles);
+        setFriendsDate(contact.todaysDate);
       }
     }
-  }, [data, contactsData, meData]);
+  }, [usersData, contactsData, meData]);
 
   return (
     <>
       <Navbar />
       <div className="container-fluid contacts bg-primary">
-        {/* <Notifications /> */}
+        <div>
+          <Notifications />
+        </div>
         {myContactsProfiles.length ? (
           <>
             <h3 className="contact-title text-light">Your contacts</h3>
-            {myContactsProfiles.map((user) => (
-              <div key={user._id} className="row">
-                <div className="col-2 d-flex justify-content-center mt-3 mb-3">
-                  <img
-                    className="response-avatar"
-                    src={
-                      user.avatar?.avatarUrl
-                        ? user.avatar?.avatarUrl
-                        : profileIcon
-                    }
-                    alt="profile avatar"
-                  />
+            <div className="row card-row">
+              {myContactsProfiles &&
+                myContactsProfiles.map((user) => (
+                  <div
+                    key={user._id}
+                    className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6"
+                  >
+                    <div className="card-body">
+                      <div className="icon-container">
+                        <button
+                          className="btn btn-profile "
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={() => {
+                            setUser(user);
+                          }}
+                        >
+                          <FaEllipsisH className="icon" />
+                        </button>
+                      </div>
+                      <div className="row profiles-row">
+                        <div className="col-12 profiles-column">
+                          {!user.avatar?.avatarUrl ? (
+                            <img
+                              className="container-pic mb-4"
+                              src={profileIcon}
+                              alt="profile icon"
+                            />
+                          ) : (
+                            <img
+                              className="container-pic mb-4"
+                              src={user.avatar.avatarUrl}
+                              alt="profile icon"
+                            />
+                          )}
+                        </div>
+                        <div className="col-12 profiles-column">
+                          <p className="location text-light">{user.username}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div
+              className="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <>
+                    <div className="modal-header">
+                      <h3
+                        className="modal-title fs-5 text-primary"
+                        id="staticBackdropLabel"
+                      >
+                        {user.username}
+                      </h3>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        onClick={() => {
+                          setUser("");
+                          setFriendsDate(false);
+                          setMyContactsProfiles([]);
+                        }}
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row">
+                        <div className="col-6">
+                          {" "}
+                          {user.avatar?.avatarUrl ? (
+                            <img
+                              className="container-pic mb-4"
+                              src={user.avatar.avatarUrl}
+                              alt="profile icon"
+                              style={{ width: 150, height: 150 }}
+                            />
+                          ) : (
+                            <img
+                              className="container-pic mb-4"
+                              src={profileIcon}
+                              alt="profile icon"
+                              style={{ width: 150, height: 150 }}
+                            />
+                          )}
+                        </div>
+                        <div className="col-6">
+                          {" "}
+                          <div className="location">
+                            {user.profile ? (
+                              <>
+                                {" "}
+                                <p>Teacher(TMI)</p>
+                                <p>
+                                  Has been meditating for {user.profile.years}{" "}
+                                  years
+                                </p>
+                                <p>
+                                  Currently working on stage{" "}
+                                  {user.profile.stage}
+                                </p>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                            {user.location ? (
+                              <>
+                                <p>
+                                  Leaves in {user.location.city},{" "}
+                                  {user.location?.state},{" "}
+                                  {user.location.country}
+                                </p>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                            <p>Contact: {user.email}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                  <div className="modal-footer">
+                    <div className="row row-modal-footer">
+                      <div className="col-6">
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                          onClick={() => {
+                            setUser("");
+                            setFriendsDate(false);
+                            setMyContactsProfiles([]);
+                          }}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                    <p>Friends since: {friendsDate} </p>
+                  </div>
                 </div>
-                <div className="col-6 d-flex align-items-center mt-3 mb-3">
-                  <p className="contact-p text-light m-0">
-                    You are now friend with {user.username} 
-                    
-                    {/* who can see your
-                    contact information. {user.username}'s contact iformation
-                    will be visible to you once {user.username} approves your
-                    friendShip. */}
-                  </p>
-                </div>
-                <div className="col-4"></div>
               </div>
-            ))}
+            </div>
           </>
         ) : (
-          <>
-            <h3 className="contact-title text-light">
-              You don't have any contact yet
-            </h3>
-          </>
+          <></>
         )}
       </div>
       <Footer />
