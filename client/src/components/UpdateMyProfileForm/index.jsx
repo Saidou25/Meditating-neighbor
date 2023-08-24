@@ -8,24 +8,25 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 
 import "./index.css";
-
 const UpdateMyProfileForm = () => {
-  const navigate = useNavigate();
+
   const location = useLocation();
+  const navigate = useNavigate();
 
   const myProfile = location.state.myProfile;
   const profileId = myProfile._id;
   const stage1 = myProfile.stage;
   const teacher1 = myProfile.teacher;
   const years1 = myProfile.years;
+  const story1 = myProfile.story;
 
   const [stage, setStage] = useState(stage1);
   const [teacher, setTeacher] = useState(teacher1);
   const [years, setYears] = useState(years1);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [changes, setChanges] = useState("");
-  const [noChanges, setNoChanges] = useState("");
+  const [story, setStory] = useState("");
+  const [message, setMessage] = useState("");
 
   // const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
@@ -44,6 +45,7 @@ const UpdateMyProfileForm = () => {
             stage: stage,
             years: years,
             teacher: teacher,
+            story: story
           },
         });
         console.log("success updating cache with updateProfile");
@@ -73,34 +75,33 @@ const UpdateMyProfileForm = () => {
           stage: stage,
           years: years,
           teacher: teacher,
+          story: story
         },
       });
       if (data) {
-        // setError("");
         console.log("profile updated");
       }
     } catch (e) {
       console.log(e);
     }
     console.log("profile updated");
-    if (stage === stage1 && teacher === teacher1 && years === years1) {
-      setNoChanges("You didn't make any changes to your profile...");
-      // setConfirm(true);
+    if (stage === stage1 && teacher === teacher1 && years === years1 && story === story1) {
+      setMessage("You didn't make any changes to your profile...");
     } else {
-      setChanges("Your profile has been updated.");
+      setMessage("Your profile has been updated.");
     }
     setConfirm(true);
     setTimeout(() => {
       navigate("/Profile1");
       setConfirm(false);
-    }, 4000);
+    }, 3000);
     setStage("");
     setYears("");
     setTeacher("");
   };
 
   if (confirm === true) {
-    return <Success changes={changes} noChanges={noChanges} />;
+    return <Success message={message} />;
   }
   return (
     <>
@@ -117,7 +118,7 @@ const UpdateMyProfileForm = () => {
                 className="form-control pt-5 pb-4"
                 id="floatingInput"
                 value={years}
-                onChange={(e) => setYears(parseInt(e.target.value))}
+                onChange={(e) => setYears(e.target.value)}
               />
               <label htmlFor="floatingInput">years meditating</label>
             </div>
@@ -128,11 +129,11 @@ const UpdateMyProfileForm = () => {
                 id="floatingstage"
                 value={stage}
                 autoComplete="off"
-                onChange={(e) => setStage(parseInt(e.target.value))}
+                onChange={(e) => setStage(e.target.value)}
               />
               <label htmlFor="floatingInput">stage</label>
             </div>
-            <div className="form-floating">
+            <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control pt-5 pb-4"
@@ -149,6 +150,23 @@ const UpdateMyProfileForm = () => {
                 )}
               </label>
             </div>
+            {teacher === "teacher" && (
+               <div className="form-floating mb-3">
+               <textarea
+                 type="text"
+                 className="form-control pt-5 pb-4"
+                 style={{height: "200px"}}
+                 id="floatingteacher"
+                 value={story}
+                 autoComplete="off"
+                 onChange={(e) => setStory(e.target.value)}
+               />
+               <label htmlFor="floatingInput">
+                 Please write about yourself...
+               </label>
+             </div>
+            )}
+           
           </div>
           {error && (
             <div className="profile-form-error bg-danger mt-3 text-light p-3">

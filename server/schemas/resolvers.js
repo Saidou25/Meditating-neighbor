@@ -161,6 +161,7 @@ const resolvers = {
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,
+          story: args.story
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -179,6 +180,7 @@ const resolvers = {
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,
+          story: args.story
         }
       );
     },

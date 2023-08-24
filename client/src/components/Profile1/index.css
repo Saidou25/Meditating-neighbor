@@ -10,17 +10,17 @@
     margin-left: auto;
     background-color: black !important;
   }
-  .profile-body {
+  /* .profile-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-  .profile-p,
+  } */
+  /* .profile-p,
   .profile-footer,
   .profile-header
   {
     text-align: center;
-  }
+  } */
   .edit-column {
     padding: 2% !important;
   }
@@ -38,14 +38,10 @@
 .bottom-text {
   margin: 10%;
   margin-top: 10% !important;
-
 }
   .delete-btn {
     border: none;
   }
-  /* .profile-footer {
-    padding: 2%;
-  } */
   @media screen and (max-width: 1600px) {
     .profile-card {
       width: 40%;

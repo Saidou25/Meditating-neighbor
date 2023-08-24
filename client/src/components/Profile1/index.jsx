@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME, QUERY_PROFILES, QUERY_LOCATIONS } from "../../utils/queries";
 import { DELETE_PROFILE } from "../../utils/mutations";
+import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
 import Footer from "../Footer";
@@ -93,29 +94,44 @@ const Profile1 = () => {
               </div>
               <Avatar me={me} />
               <div className="card-body profile-body mt-5">
-                <p className="profile-p text-light">{me.username}</p>
+              <div className="p-info text-light px-5">
                 {myProfile ? (
                   <>
-                    <p className="profile-p text-light">{myProfile?.teacher}</p>
+                    <h4 className="about-profile mb-5">About</h4>
+                    {myProfile.story ? (
+                      <p className="about-p text-light mb-5">{myProfile.story}</p>
+                    ) : (
+                      <></>
+                    )}
+                    <h4 className="info-profile mb-5">Info</h4>
                     <p className="profile-p text-light">
-                      Meditating since {myProfile?.years}
+                      Meditating for {myProfile.years} years
                     </p>
                     <p className="profile-p text-light">
-                      Stage: {myProfile?.stage}
+                      Currently working on stage {myProfile.stage}
                     </p>
                   </>
                 ) : (
                   <></>
                 )}
-              </div>
-              {myLocation.length ? (
-                <p className="profile-p text-light">
-                  Leaves in {myLocation[0]?.city}, {myLocation[0]?.state},{" "}
-                  {myLocation[0]?.country}
+                <div className="p-fas text-light mt-5">
+                <p>
+                  <FaIdBadge /> {me.username}
                 </p>
-              ) : (
-                <></>
-              )}
+                <p>
+                  <FaEnvelope /> {me.email}
+                </p>
+                {me.location ? (
+                  <p>
+                    <FaHome /> {me.location.city}, {me.location?.state},{" "}
+                    {me.location.country}
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </div>
+              </div>
+              </div>
               <div className="card-footer profile-footer mt-5">
                 <div className="row">
                   <div className="col-12 edit-column">

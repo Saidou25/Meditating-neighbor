@@ -61,18 +61,14 @@ const Teachers = () => {
                               alt="profile avatar"
                             />
                           </div>
-                          <div className="col-8 story">
-                            <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Perferendis nobis voluptate voluptas
-                              quisquam voluptates adipisci expedita iusto Lorem
-                              ipsum, dolor sit amet consectetur adipisicing
-                              elit. Molestiae, eum? Vel dignissimos dolores
-                              aliquam nam, voluptates iste hic et perspiciatis
-                              explicabo in labore dolorem, molestiae est ad,
-                              delectus vero soluta!
-                            </p>
-                          </div>
+                          {user.profile.story ? (
+                            <div className="col-8 story">
+                              <p>{user.profile.story}</p>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+
                           <div className="teacher-btn-col">
                             <button
                               type="button"
@@ -97,7 +93,7 @@ const Teachers = () => {
                           >
                             <div className="modal-dialog modal-lg">
                               <div className="modal-content">
-                                <div className="modal-header">
+                                <div className="modal-header px-4">
                                   <h1
                                     className="modal-title text-black fs-5"
                                     id="exampleModalLabel"
@@ -111,7 +107,7 @@ const Teachers = () => {
                                     aria-label="Close"
                                   ></button>
                                 </div>
-                                <div className="modal-body">
+                                <div className="modal-body px-5">
                                   <div className="teachers-avatar-col m-4">
                                     <img
                                       className="teachers-avatar"
@@ -123,27 +119,20 @@ const Teachers = () => {
                                       alt="profile avatar"
                                     />
                                   </div>
-                                  <div className="p-items text-primary mt-5">
-                                    <h4>About</h4>
-                                    <p>
-                                      Lorem ipsum, dolor sit amet consectetur
-                                      adipisicing elit. Magni asperiores amet
-                                      aliquam, obcaecati ducimus inventore
-                                      laudantium, repudiandae, tenetur at ut
-                                      sequi quod veritatis explicabo et eos
-                                      expedita nesciunt ullam nulla.
-                                    </p>
-                                    <p>
-                                      Lorem ipsum, dolor sit amet consectetur
-                                      adipisicing elit. Magni asperiores amet
-                                      aliquam, obcaecati ducimus inventore
-                                      laudantium, repudiandae, tenetur at ut
-                                      sequi quod veritatis explicabo et eos
-                                      expedita nesciunt ullam nulla.
-                                    </p>
+                                  <div className="p-items text-primary">
+                                    {selectedTeacher.profile?.story ? (
+                                      <>
+                                        <h4 className="p-about mt-5 mb-4">
+                                          About
+                                        </h4>
+                                        <p>{selectedTeacher.profile.story}</p>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
                                   </div>
-                                  <div className="p-info text-primary mt-5">
-                                    <h4>Info</h4>
+                                  <div className="p-info text-primary">
+                                    <h4 className="p-info mt-5 mb-4">Info</h4>
                                     <p>
                                       Has been meditating for{" "}
                                       {selectedTeacher.profile?.years} years
@@ -152,13 +141,20 @@ const Teachers = () => {
                                       Currently working on stage{" "}
                                       {selectedTeacher.profile?.stage}
                                     </p>
-                                    <p>
-                                      Leaves in {selectedTeacher.location?.city}
-                                      , {selectedTeacher.location?.state}
-                                    </p>
+                                    {selectedTeacher.location ? (
+                                      <>
+                                        <p>
+                                          Leaves in{" "}
+                                          {selectedTeacher.location?.city},{" "}
+                                          {selectedTeacher.location?.state}
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
                                   </div>
                                 </div>
-                                <div className="modal-footer text-primary">
+                                <div className="modal-footer teacher-footer text-primary px-4">
                                   <button
                                     type="button"
                                     className="btn btn-secondary"
@@ -181,11 +177,6 @@ const Teachers = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="card-footer">
-                      <p className="col-12">
-                        {user.location?.city}, {user.location?.country}
-                      </p>
                     </div>
                   </div>
                 </div>

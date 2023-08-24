@@ -12,7 +12,6 @@ const Signup = () => {
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [confirm, setConfirm] = useState(false);
 
   const [addUser, { error, loading }] = useMutation(ADD_USER);
 
@@ -34,10 +33,7 @@ const Signup = () => {
       });
       Auth.login(data.addUser.token);
       if (data) {
-        setConfirm(true);
-        setTimeout(() => {
-          navigate("/Map");
-        }, 3000);
+        navigate("/Map");
       }
     } catch (e) {
       console.error(e);
@@ -46,22 +42,9 @@ const Signup = () => {
 
   if (loading) return <Spinner />;
 
-  if (confirm === true) {
-    return (
-      <main className="row container-success">
-        <div className="col-12 appointment-success d-flex mb-2">
-          <i className="d-flex fa-solid fa-check"></i>
-        </div>
-        <h2 className="col-12 signup-success d-flex justify-content-center">
-          Success!
-        </h2>
-      </main>
-    );
-  }
   return (
     <>
       <div className="container-signup g-0">
-        
         <div className="container-login g-0">
           <form className="signup-form" onSubmit={handleFormSubmit}>
             <label className="form-label-signup mb-4 mt-5">Username</label>
@@ -98,10 +81,10 @@ const Signup = () => {
             />
             <br />
             {error && (
-          <div className="signup-login-error p-4 bg-danger text-light mt-5">
-            {error.message}
-          </div>
-        )}
+              <div className="signup-login-error p-4 bg-danger text-light mt-5">
+                {error.message}
+              </div>
+            )}
             <div className="btn-position">
               <button
                 className="btn btn-signup text-light rounded-0 mt-5"

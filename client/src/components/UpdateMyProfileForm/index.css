@@ -18,3 +18,11 @@
 .profile-form-error {
     text-align: center;
 }
+@media screen and (max-width:414px) {
+    .main-form {
+        width: 96%;
+        margin: auto;
+        padding-top: 15%;
+        padding-bottom: 15%;
+    }
+  }

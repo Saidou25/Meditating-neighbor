@@ -121,21 +121,24 @@ export const UPDATE_LOCATION = gql`
 export const ADD_PROFILE = gql`
   mutation addProfile(
     $username: String!
-    $stage: Int
-    $years: Int
+    $stage: String
+    $years: String
     $teacher: String
+    $story: String
   ) {
     addProfile(
       username: $username
       stage: $stage
       years: $years
       teacher: $teacher
+      story: $story
     ) {
       _id
       stage
       teacher
       years
       username
+      story
     }
   }
 `;
@@ -143,9 +146,10 @@ export const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $id: String!
     $username: String!
-    $stage: Int
-    $years: Int
+    $stage: String
+    $years: String
     $teacher: String
+    $story: String
   ) {
     updateProfile(
       id: $id
@@ -153,6 +157,7 @@ export const UPDATE_PROFILE = gql`
       stage: $stage
       years: $years
       teacher: $teacher
+      story: $story
     ) {
       _id
       stage
@@ -160,6 +165,7 @@ export const UPDATE_PROFILE = gql`
       years
       username
       teacher
+      story
     }
   }
 `;
@@ -171,6 +177,7 @@ export const DELETE_PROFILE = gql`
       teacher
       years
       username
+      story
     }
   }
 `;

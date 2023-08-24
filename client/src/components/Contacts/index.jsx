@@ -45,7 +45,7 @@ const Contacts = () => {
         </div>
         {myContactsProfiles.length ? (
           <>
-            <h3 className="contact-title text-light">Your contacts</h3>
+            <h3 className="contact-title text-light pt-5">Your contacts</h3>
             <div className="row card-row">
               {myContactsProfiles &&
                 myContactsProfiles.map((user) => (
@@ -116,7 +116,7 @@ const Contacts = () => {
                     ></button>
                   </div>
                   <div className="modal-body">
-                    <div className="contact-avatar mt-4 mb-5">
+                    <div className="contact-avatar m-4">
                       <img
                         className="contact-pic"
                         src={
@@ -127,55 +127,24 @@ const Contacts = () => {
                         alt="profile icon"
                       />
                     </div>
-                    <div className="p-info text-primary px-5">
-                      <h4 className="about-contact mb-4">About</h4>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                      <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Magni asperiores amet aliquam, obcaecati ducimus
-                        inventore laudantium, repudiandae, tenetur at ut sequi
-                        quod veritatis explicabo et eos expedita nesciunt ullam
-                        nulla.
-                      </p>
-                    </div>
-                    <div className="p-info text-primary px-5">
+                    {user.profile?.story ? (
+                      <>
+                        <div className="about-contact px-3">
+                        {/* <div className="p-items text-primary mt-5"> */}
+                        <h4 className="p-items text-primary mb-3">About</h4>
+                          {/* <p className="p-info-story text-primary px-3 mb-4">{user.profile.story}</p> */}
+                          <p>{user.profile.story}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    {/* <div className="p-info-contacts text-primary px-3 mb-4"> */}
+                    <div className="p-info text-primary px-3 mb-4">
+                      <h4 className="info-teacher text-primary mt-5 mb-4">Info</h4>{" "}
+                      {/* <h4>Info</h4>{" "} */}
                       {user.profile ? (
                         <>
-                          <h4 className="info-teacher mt-5 mb-4">Info</h4>{" "}
                           <p>Teacher(TMI)</p>
                           <p>
                             Has been meditating for {user.profile.years} years
@@ -201,11 +170,11 @@ const Contacts = () => {
                       )}
                     </div>
                   </div>
-                  <div className="modal-footer px-5">
-                    <div className="row row-modal-footer">
-                      <p className="col-8 friends-since">
-                        Friends since: {friendsDate}
-                      </p>
+                  <div className="modal-footer">
+                    <div className="row contact-footer">
+                      <div className="col-8 friends-since m-0">
+                        <p>Friends since: {friendsDate}</p>
+                      </div>
                       <div className="col-4 contact-close">
                         <button
                           type="button"

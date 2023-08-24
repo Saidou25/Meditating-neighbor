@@ -1,30 +1,27 @@
 import React from "react";
 import "./index.css";
 
-const Success = ({ changes, noChanges }) => {
+const Success = ({ message }) => {
+  console.log("message", message);
+
   return (
     <div className="container-fluid success bg-primary">
       <div className="container-success">
-        <div className="d-flex fa-success mb-2">
-          <i className="fa-solid fa-check d-flex"></i>
-        </div>
-        {changes?.length && (
+        {(message === "Your profile has been updated." ||
+          message === "Welcome to TMIWORLD...") && (
           <>
-            <h2 className="text d-flex text-light justify-content-center">
+            {" "}
+            <div className="d-flex fa-success mb-2">
+              <i className="fa-solid fa-check d-flex"></i>
+            </div>
+            <h2 className="text d-flex text-light justify-content-center mb-5">
               Success!
             </h2>
-            <p className="p-text d-flex text-light justify-content-center">
-              {changes}
-            </p>
           </>
         )}
-        {noChanges?.length && (
-          <>
-            <h2 className="text d-flex text-light justify-content-center">
-              {noChanges}
-            </h2>
-          </>
-        )}
+        <p className="p-text d-flex text-light justify-content-center fs-3">
+          {message}
+        </p>
       </div>
     </div>
   );

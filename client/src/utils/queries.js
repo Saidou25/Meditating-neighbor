@@ -17,6 +17,7 @@ export const QUERY_USERS = gql`
         stage
         years
         teacher
+        story
       }
       location {
         _id
@@ -64,6 +65,7 @@ export const QUERY_USER = gql`
         stage
         years
         teacher
+        story
       }
       location {
         _id
@@ -111,6 +113,7 @@ export const QUERY_ME = gql`
         stage
         years
         teacher
+        story
       }
       location {
         _id
@@ -180,6 +183,7 @@ export const QUERY_PROFILES = gql`
       stage
       years
       teacher
+      story
     }
   }
 `;
@@ -191,6 +195,7 @@ export const QUERY_PROFILE = gql`
       stage
       years
       teacher
+      story
     }
   }
 `;

@@ -51,7 +51,7 @@ const LoginSignup = () => {
               id="nav-login"
               role="tabpanel"
               aria-labelledby="nav-login-tab"
-              // tabindex="0"
+              tabIndex="0"
             >
               <Login />
             </div>
@@ -60,7 +60,7 @@ const LoginSignup = () => {
               id="nav-signup"
               role="tabpanel"
               aria-labelledby="nav-signup-tab"
-              // tabindex="0"
+              tabIndex="0"
             >
               <Signup />
             </div>

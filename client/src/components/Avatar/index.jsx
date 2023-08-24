@@ -174,11 +174,6 @@ const ProfPics = () => {
   return (
     <>
       <div className="container-fluid avatar">
-        {/* {addError && (
-          <div className="col-12 my-3 bg-danger text-white p-3">
-            Something went wrong...
-          </div>
-        )} */}
         <div className="container pic mb-3">
           {!savedUrl && (
             <div

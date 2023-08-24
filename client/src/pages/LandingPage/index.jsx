@@ -42,9 +42,6 @@ const LandingPage = () => {
               </Link>
             )}
           </div>
-          {/* <div className="contwelcome">
-          <span className="welcome">Welcome to TMI</span>
-        </div> */}
           <div className="row landing-tmiworld">
             <div className="col-6 landing-tmi g-0">TMI</div>
             <div className="col-6 landing-world g-0">WORLD</div>

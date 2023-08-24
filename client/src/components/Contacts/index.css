@@ -14,19 +14,35 @@
   width: 200px;
   height: 200px;
 }
+/* .p-info-story,
+.about-contact,
+.p-info-contacts,
+  .modal-footer-contacts {
+    padding: 5% 5%;
+  } */
+  
 .friends-since {
   display: flex;
   align-items: center !important;
   margin: 0;
 }
+.contact-footer {
+  width: 100%;
+}
 @media screen and (max-width: 414px) {
   .contact-pic {
-    border-radius: 50%;
     width: 150px;
     height: 150px;
   }
-  .p-info,
-  .modal-footer {
+  .container-pic  {
+    width: 150px;
+    height: 150px;
+  }
+  .p-info-story,
+  .about-contact,
+  .p-info-contacts,
+  .modal-footer-contacts {
     padding: 3px !important;
+    background-color: bisque;
   }
 }

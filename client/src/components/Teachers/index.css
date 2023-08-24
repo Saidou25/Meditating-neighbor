@@ -13,7 +13,7 @@
   height: 20px;
 }
 .teacher-icon:hover {
-background-color: orange !important;
+  background-color: orange !important;
 }
 .teachers-pic {
   display: flex;
@@ -37,9 +37,8 @@ background-color: orange !important;
 }
 .story {
   overflow: hidden;
-  height: 196px;
+  height: 100px;
 }
-
 @media screen and (max-width: 1200px) {
   .teachers-pic {
     width: 110px;
@@ -74,5 +73,8 @@ background-color: orange !important;
   .teachers-pic {
     width: 80px;
     height: 80px;
+  }
+  .teacher-footer {
+    width: 100% !important;
   }
 }

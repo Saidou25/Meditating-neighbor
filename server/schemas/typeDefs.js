@@ -30,9 +30,10 @@ const typeDefs = gql`
   type Profile {
     _id: ID!
     username: String
-    stage: Int
-    years: Int
+    stage: String
+    years: String
     teacher: String
+    story: String
   }
   type Request {
     _id: ID!
@@ -80,16 +81,18 @@ const typeDefs = gql`
     updateAvatar(id: String!, username: String!, avatarUrl: String): Avatar
     addProfile(
       username: String
-      stage: Int
-      years: Int
+      stage: String
+      years: String
       teacher: String
+      story: String
     ): Profile
     updateProfile(
       id: String!
       username: String
-      stage: Int
-      years: Int
+      stage: String
+      years: String
       teacher: String
+      story: String
     ): Profile
     deleteProfile(id: String!): Profile
     addLocation(
