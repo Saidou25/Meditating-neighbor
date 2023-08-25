@@ -1,65 +1,84 @@
 .navbar-expand-lg {
-    background-color: black;
-    height: 200px;
+  background-color: black;
+  height: 200px;
 }
 .world {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   font-size: 2.5rem;
 }
 .tmi {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   color: orange;
   font-size: 2.5rem;
 }
-  .navbar-nav {
-    display: flex;
-    align-items: center;
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+.navbar-collapse {
+  flex-basis: 0 !important;
+  flex-grow: 0 !important;
+}
+.icon-nav {
+  border-radius: 50%;
+  height: 43px;
+  width: 43px;
+}
+.btn-logout {
+  background-color: black;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+.dropdown-menu {
+  font-size: 1rem !important;
+}
+.logout {
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding-top: 0.715rem;
+  padding-bottom: 0.715rem;
+}
+.nav-link {
+  font-size: 1.25rem !important;
+}
+.contact-link {
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+@keyframes example {
+  0% {
+    color: grey;
+  }
+  25% {
+    color: orange;
+  }
+  75% {
+    color: orange;
+  }
+  100% {
+    color: grey;
+  }
+}
+@media screen and (max-width: 992px) {
+  .navbar-expand-lg {
+    background-color: black;
+    height: auto;
   }
   .navbar-collapse {
-    flex-basis: 0 !important;
-    flex-grow: 0 !important;
-}
-  .icon-nav {
-    border-radius: 50%;
-    height: 43px;
-    width: 43px;
+    flex-basis: 100% !important;
+    flex-grow: 1 !important;
   }
-  .btn-logout {
-    background-color: black;
-    border: none;
-    color: white;
-    display: flex;
-    align-items: center;
-  }
-  .dropdown-menu {
-    font-size: 1rem !important;
-  }
-  .logout {
-    text-transform: uppercase;
-    font-size: 1.25rem;
-    font-weight: 600;
-    padding-top: 0.715rem;
-    padding-bottom: 0.715rem;
-  }
-  .nav-link {
-    font-size: 1.25rem !important;
-  }
-  @media screen and (max-width: 992px) {
-    .navbar-expand-lg {
-        background-color: black;
-        height: auto;
-    }
-    .navbar-collapse {
-        flex-basis: 100% !important;
-        flex-grow: 1 !important;
-    }
 }
 @media screen and (max-width: 414px) {
   .container-pic {
-      width: 80px;
-      height: 80px;
+    width: 80px;
+    height: 80px;
   }
   .nav-link,
   .logout {

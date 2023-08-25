@@ -261,13 +261,25 @@ const Usa = () => {
             </div>
           )}
           {confirm && (
-            <div className="col-12 location-saved mt-5">
-              <p className="location-saved-p bg-success">location saved</p>
+            <div className="col-12 btn-locate mt-5">
+              <button
+                className="btn-coordinates bg-success text-white"
+                type="button"
+              >
+                location saved
+              </button>
+              {/* <p className="location-saved-p bg-success">location saved</p> */}
             </div>
           )}
           {confirm1 && (
-            <div className="col-12 location-saved mt-5">
-              <p className="location-saved-p bg-success">location updated</p>
+            <div className="col-12 btn-located mt-5">
+              <button
+                className="btn-coordinates bg-success text-white"
+                type="button"
+              >
+                location updated
+              </button>
+              {/* <p className="location-saved-p bg-success">location updated</p> */}
             </div>
           )}
         </div>

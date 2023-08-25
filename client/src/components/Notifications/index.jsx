@@ -4,7 +4,6 @@ import {
   QUERY_REQUESTS,
   QUERY_ME,
   QUERY_USERS,
-  QUERY_CONTACTS,
   QUERY_RESPONSES,
 } from "../../utils/queries";
 import {
@@ -13,9 +12,8 @@ import {
   DELETE_RESPONSE,
   ADD_CONTACT,
 } from "../../utils/mutations";
-import Navbar from "../Navbar";
 import profileIcon from "../../assets/images/profileicon.png";
-import Footer from "../Footer";
+
 
 import "./index.css";
 
@@ -31,7 +29,7 @@ const Notifications = () => {
     []
   );
   const [me, setMeData] = useState("");
-  const [myRequests, setMyRequests] = useState([]);
+  // const [myRequests, setMyRequests] = useState([]);
 
   const [addResponse] = useMutation(ADD_RESPONSE);
 
@@ -127,7 +125,7 @@ const Notifications = () => {
         fromUsers.push(requestingUsers[0]);
         setRequestingUsersProfiles(fromUsers);
         setMeData(myData);
-        setMyRequests(myData.requests);
+        // setMyRequests(myData.requests);
       }
       const toOthers = [];
       //  loop to all request to get profiles of the people i am requesting contact info from and
