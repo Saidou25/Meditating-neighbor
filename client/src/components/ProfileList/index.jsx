@@ -128,7 +128,7 @@ const ProfileList = (props) => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid neighbors bg-primary">
+      <div className="container-fluid neighbors bg-primary py-5">
         <h3 className="locations-list-title text-white py-5">
           {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
         </h3>
@@ -319,6 +319,14 @@ const ProfileList = (props) => {
                   </div>
                 </div>
               </>
+              {otherFriend === true ? (
+                  <div className="profile-friends p-3">
+                    {" "}
+                    <p className="friends-profile m-0">Friends since: {otherFriendDate} </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
               <div className="modal-footer">
                 <div className="row row-modal-footer">
                   <div className="col-6">
@@ -378,11 +386,7 @@ const ProfileList = (props) => {
                 ) : (
                   <></>
                 )}
-                {otherFriend === true ? (
-                  <p>Friends since: {otherFriendDate} </p>
-                ) : (
-                  <></>
-                )}
+            
                 {((incomingRequest === true || outgoingResponse === true) &&
                   friends === true &&
                   otherFriend === false) ||

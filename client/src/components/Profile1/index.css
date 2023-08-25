@@ -4,23 +4,12 @@
     border-style: none;
   }
   .profile-card {
-    width: 30%;
+    width: 40%;
     height: auto;
     margin-right: auto;
     margin-left: auto;
     background-color: black !important;
   }
-  /* .profile-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  } */
-  /* .profile-p,
-  .profile-footer,
-  .profile-header
-  {
-    text-align: center;
-  } */
   .edit-column {
     padding: 2% !important;
   }
@@ -44,7 +33,7 @@
   }
   @media screen and (max-width: 1600px) {
     .profile-card {
-      width: 40%;
+      width: 50%;
     }
   }
   @media screen and (max-width: 414px) {

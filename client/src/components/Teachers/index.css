@@ -39,6 +39,10 @@
   overflow: hidden;
   height: 100px;
 }
+/* .footer-teacher {
+  display: flex;
+  align-items: center;
+} */
 @media screen and (max-width: 1200px) {
   .teachers-pic {
     width: 110px;
@@ -70,11 +74,18 @@
   }
 }
 @media screen and (max-width: 414px) {
+  .body-teachers {
+    padding-right: 7% !important;
+    padding-left: 7% !important;
+  }
   .teachers-pic {
     width: 80px;
     height: 80px;
   }
   .teacher-footer {
-    width: 100% !important;
+    /* width: 100% !important; */
+    display: flex;
+    justify-content: center !important;
+    justify-content: space-between !important;
   }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS } from "../../utils/queries";
-import { FaEllipsisH } from "react-icons/fa";
+import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import profileIcon from "../../assets/images/profileicon.png";
 import Spinner from "../Spinner";
 import "./index.css";
@@ -39,7 +39,7 @@ const Teachers = () => {
           {tmiTeacher &&
             tmiTeacher.map((user) => (
               <div
-                className="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                className="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6"
                 key={user._id}
               >
                 <div className="card teachers-cards bg-dark text-light mb-4">
@@ -48,11 +48,12 @@ const Teachers = () => {
                       <div className="card-header">
                         <h4>{user.username}</h4>
                       </div>
+                      </div>
                       <div className="card-body mt-3">
                         <div className="row">
                           <div className="col-4 teachers-pic-col">
                             <img
-                              className="teachers-pic"
+                              className="teachers-pic p-2"
                               src={
                                 user.avatar?.avatarUrl
                                   ? user.avatar?.avatarUrl
@@ -84,6 +85,10 @@ const Teachers = () => {
                               </div>
                             </button>
                           </div>
+
+
+
+
                           <div
                             className="modal fade"
                             id="exampleModal"
@@ -94,12 +99,12 @@ const Teachers = () => {
                             <div className="modal-dialog modal-lg">
                               <div className="modal-content">
                                 <div className="modal-header px-4">
-                                  <h1
-                                    className="modal-title text-black fs-5"
+                                  <h3
+                                    className="modal-title text-black"
                                     id="exampleModalLabel"
                                   >
                                     {selectedTeacher.username}
-                                  </h1>
+                                  </h3>
                                   <button
                                     type="button"
                                     className="btn-close"
@@ -107,7 +112,7 @@ const Teachers = () => {
                                     aria-label="Close"
                                   ></button>
                                 </div>
-                                <div className="modal-body px-5">
+                                <div className="modal-body body-teachers">
                                   <div className="teachers-avatar-col m-4">
                                     <img
                                       className="teachers-avatar"
@@ -137,14 +142,18 @@ const Teachers = () => {
                                       Has been meditating for{" "}
                                       {selectedTeacher.profile?.years} years
                                     </p>
-                                    <p>
+                                    {/* <p>
                                       Currently working on stage{" "}
                                       {selectedTeacher.profile?.stage}
-                                    </p>
+                                    </p> */}
                                     {selectedTeacher.location ? (
                                       <>
+                                        <p className="p-fas mt-5">
+                                          <FaIdBadge />{" "}
+                                          {selectedTeacher.username}
+                                        </p>
                                         <p>
-                                          Leaves in{" "}
+                                          <FaHome />{" "}
                                           {selectedTeacher.location?.city},{" "}
                                           {selectedTeacher.location?.state}
                                         </p>
@@ -175,12 +184,19 @@ const Teachers = () => {
                               </div>
                             </div>
                           </div>
+
+
                         </div>
+                      </div>
+                      <div className="card-footer footer-teacher">
+                        <p className="footer-teacher my-2">
+                          {selectedTeacher.location?.city},{" "}
+                          {selectedTeacher.location?.state}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
             ))}
         </div>
       )}

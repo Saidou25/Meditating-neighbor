@@ -1,6 +1,6 @@
-.neighbors {
+/* .neighbors {
   height: 100vh;
-}
+} */
 .locations-list-title {
   text-align: center;
 }
@@ -36,7 +36,13 @@
 .row-modal-footer {
   width: 100%;
 }
-
+.profile-friends {
+  width: 100%;
+   display: flex;
+  /* justify-content: center !important; */
+  align-items: center !important; 
+   
+}
 @media screen and (max-width: 1200px) {
   .container-pic {
     width: 110px;
@@ -56,9 +62,9 @@
   }
 }
 @media screen and (max-width: 414px) {
-  .neighbors {
+  /* .neighbors {
     height: auto;
-  }
+  } */
   .locations-list-title {
     text-align: center;
     padding: 5%;
@@ -67,10 +73,10 @@
   .location {
     font-size: 0.7rem;
   }
-  .container-pic {
+  /* .container-pic {
     width: 55px;
     height: 55px;
-  }
+  } */
   .icon-container {
     display: flex;
     justify-content: flex-end;

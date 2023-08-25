@@ -11,16 +11,14 @@
 }
 .contact-pic {
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
-/* .p-info-story,
-.about-contact,
-.p-info-contacts,
-  .modal-footer-contacts {
-    padding: 5% 5%;
-  } */
-  
+.p-story,
+.p-about {
+  padding-right: 5%;
+  padding-left: 5%;
+}
 .friends-since {
   display: flex;
   align-items: center !important;
@@ -29,15 +27,29 @@
 .contact-footer {
   width: 100%;
 }
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 1200px) {
   .contact-pic {
-    width: 150px;
-    height: 150px;
+    width: 110px;
+    height: 110px;
   }
-  .container-pic  {
-    width: 150px;
-    height: 150px;
+}
+@media screen and (max-width: 992px) {
+  .contact-pic {
+    width: 100px;
+    height: 100px;
   }
+  .p-story {
+    padding-right: 1%;
+    padding-left: 1%;
+  }
+}
+@media screen and (max-width: 700px) {
+  .contact-pic {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media screen and (max-width: 414px) {
   .p-info-story,
   .about-contact,
   .p-info-contacts,
