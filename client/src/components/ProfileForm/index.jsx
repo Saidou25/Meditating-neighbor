@@ -96,7 +96,7 @@ const ProfileForm = () => {
                 className="form-control pt-5 pb-4"
                 id="floatingInput"
                 placeholder="enter number of years"
-                onChange={(e) => setYears(parseInt(e.target.value))}
+                onChange={(e) => setYears(e.target.value)}
               />
               <label htmlFor="floatingInput">years meditating</label>
             </div>
@@ -107,7 +107,7 @@ const ProfileForm = () => {
                 id="floatingstage"
                 placeholder="stage"
                 autoComplete="off"
-                onChange={(e) => setStage(parseInt(e.target.value))}
+                onChange={(e) => setStage(e.target.value)}
               />
               <label htmlFor="floatingPassword">what stage are you</label>
             </div>
