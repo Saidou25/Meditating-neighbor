@@ -114,7 +114,7 @@ const UpdateMyProfileForm = () => {
             </label>
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control pt-5 pb-4"
                 id="floatingInput"
                 value={years}
@@ -124,7 +124,7 @@ const UpdateMyProfileForm = () => {
             </div>
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control pt-5 pb-4"
                 id="floatingstage"
                 value={stage}

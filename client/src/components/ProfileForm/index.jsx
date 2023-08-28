@@ -12,12 +12,13 @@ const ProfileForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const me = location.state.me;
-
+console.log("md", me);
   const [stage, setStage] = useState("");
   const [teacher, setTeacher] = useState("");
   const [years, setYears] = useState("");
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const [story, setStory] = useState("");
 
   const [addProfile] = useMutation(ADD_PROFILE, {
     update(cache, { data: { addProfile } }) {
@@ -124,6 +125,22 @@ const ProfileForm = () => {
                 are you a teacher or meditator?
               </label>
             </div>
+            {teacher === "teacher" && (
+               <div className="form-floating mb-3">
+               <textarea
+                 type="text"
+                 className="form-control pt-5 pb-4"
+                 style={{height: "200px"}}
+                 id="floatingteacher"
+                 value={story}
+                 autoComplete="off"
+                 onChange={(e) => setStory(e.target.value)}
+               />
+               <label htmlFor="floatingInput">
+                 Please write about yourself...
+               </label>
+             </div>
+            )}
           </div>
           {error && (
             <div className="profile-form-error bg-danger mt-3 text-light p-3">
