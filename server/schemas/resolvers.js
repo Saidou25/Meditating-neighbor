@@ -181,7 +181,7 @@ const resolvers = {
           years: args.years,
           teacher: args.teacher,
           story: args.story
-        }
+        },
       );
     },
     deleteProfile: async (_, args) => {

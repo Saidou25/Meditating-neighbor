@@ -12,7 +12,6 @@ const ProfileForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const me = location.state.me;
-console.log("md", me);
   const [stage, setStage] = useState("");
   const [teacher, setTeacher] = useState("");
   const [years, setYears] = useState("");
@@ -26,18 +25,12 @@ console.log("md", me);
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
         cache.writeQuery({
           query: QUERY_PROFILES,
-          data: { profiles: [addProfile, ...profiles] },
-          variables: {
-            username: me.username,
-            stage: stage,
-            years: years,
-            teacher: teacher,
-          },
+          data: { profiles: [...profiles, addProfile] },
         });
-        console.log("success updating cache with addProfile");
       } catch (e) {
         console.error(e);
       }
+      console.log("profile successfully added to the cache");
     },
   });
 

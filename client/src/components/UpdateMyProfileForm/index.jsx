@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES } from "../../utils/queries";
+import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 
 import "./index.css";
 const UpdateMyProfileForm = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
 
   const myProfile = location.state.myProfile;
+
   const profileId = myProfile._id;
   const stage1 = myProfile.stage;
   const teacher1 = myProfile.teacher;
@@ -30,28 +30,20 @@ const UpdateMyProfileForm = () => {
 
   // const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
-    // variables: { id: profileId },
+    variables: { id: profileId },
     update(cache, { data: { updateProfile } }) {
       try {
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
         cache.writeQuery({
           query: QUERY_PROFILES,
           data: {
-            profiles: [...profiles, updateProfile],
-          },
-          variables: {
-            id: profileId,
-            username: myProfile.username,
-            stage: stage,
-            years: years,
-            teacher: teacher,
-            story: story
+            profiles: [updateProfile, ...profiles],
           },
         });
-        console.log("success updating cache with updateProfile");
       } catch (e) {
         console.error(e);
       }
+      console.log("success updating cache with deleteProfile", profileId);
     },
   });
 
@@ -75,7 +67,7 @@ const UpdateMyProfileForm = () => {
           stage: stage,
           years: years,
           teacher: teacher,
-          story: story
+          story: story,
         },
       });
       if (data) {
@@ -85,7 +77,12 @@ const UpdateMyProfileForm = () => {
       console.log(e);
     }
     console.log("profile updated");
-    if (stage === stage1 && teacher === teacher1 && years === years1 && story === story1) {
+    if (
+      stage === stage1 &&
+      teacher === teacher1 &&
+      years === years1 &&
+      story === story1
+    ) {
       setMessage("You didn't make any changes to your profile...");
     } else {
       setMessage("Your profile has been updated.");
@@ -98,6 +95,7 @@ const UpdateMyProfileForm = () => {
     setStage("");
     setYears("");
     setTeacher("");
+    setStory("");
   };
 
   if (confirm === true) {
@@ -151,22 +149,21 @@ const UpdateMyProfileForm = () => {
               </label>
             </div>
             {teacher === "teacher" && (
-               <div className="form-floating mb-3">
-               <textarea
-                 type="text"
-                 className="form-control pt-5 pb-4"
-                 style={{height: "200px"}}
-                 id="floatingteacher"
-                 value={story}
-                 autoComplete="off"
-                 onChange={(e) => setStory(e.target.value)}
-               />
-               <label htmlFor="floatingInput">
-                 Please write about yourself...
-               </label>
-             </div>
+              <div className="form-floating mb-3">
+                <textarea
+                  type="text"
+                  className="form-control pt-5 pb-4"
+                  style={{ height: "200px" }}
+                  id="floatingteacher"
+                  value={story}
+                  autoComplete="off"
+                  onChange={(e) => setStory(e.target.value)}
+                />
+                <label htmlFor="floatingInput">
+                  Please write about yourself...
+                </label>
+              </div>
             )}
-           
           </div>
           {error && (
             <div className="profile-form-error bg-danger mt-3 text-light p-3">

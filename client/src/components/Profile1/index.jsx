@@ -12,37 +12,24 @@ import Spinner from "../Spinner";
 import "./index.css";
 
 const Profile1 = () => {
-  const [me, setMe] = useState("");
-  // const [myProfile, setMyProfile] = useState("");
-  const [profileId, setProfileId] = useState("");
+  
+  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
+  const me = meData?.me || [];
   console.log("me", me);
 
-  const { data, loading } = useQuery(QUERY_ME);
-  const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);
+  const { data: locationsData, locationsDataLoading } = useQuery(QUERY_LOCATIONS);
+  const locations = locationsData?.locations || [];
+  const userLocation = locations.filter((location) => location.username === me.username);
+  const myLocation = userLocation[0];
 
-  const { data: locationData } = useQuery(QUERY_LOCATIONS);
-  const locations = locationData?.locations || [];
-  const myLocation = locations.filter(
-    (location) => location.username === me.username
-  );
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
-  const myProfile = allProfiles.filter((profile) => profile.username === profile.me.username);
+  const profiles = allProfiles?.profiles || [];
+  const userProfile = profiles.filter(
+    (profile) => profile.username === me.username
+  );
+  const myProfile = userProfile[0];
+  const profileId = myProfile?._id;
   console.log("my profile", myProfile);
-
-  useEffect(() => {
-    if (profileData && data) {
-      const me = data?.me || [];
-      const profiles = profileData?.profiles || [];
-      const userProfile = profiles.filter(
-        (profile) => profile.username === me.username
-      );
-      const myProfile = userProfile[0];
-      const id = myProfile?._id;
-      setMe(me);
-      // setMyProfile(userProfile[0]);
-      setProfileId(id);
-    }
-  }, [profileData, data]);
 
   const [deleteProfile] = useMutation(DELETE_PROFILE, {
     variables: { id: profileId },
@@ -80,7 +67,7 @@ const Profile1 = () => {
     console.log("success deleting profile");
   };
 
-  if (loading || profileLoading) {
+  if (meDataLoading || allProfilesLoading || locationsDataLoading) {
     return <Spinner />;
   }
   return (
@@ -98,43 +85,47 @@ const Profile1 = () => {
               </div>
               <Avatar me={me} />
               <div className="card-body profile-body mt-5">
-              <div className="p-info text-light px-5">
-                {myProfile ? (
-                  <>
-                    <h4 className="about-profile mb-5">About</h4>
-                    {myProfile.story ? (
-                      <p className="about-p text-light mb-5">{myProfile.story}</p>
+                <div className="p-info text-light px-5">
+                  {myProfile?.story ? (
+                    <>
+                      <h4 className="about-profile mb-5">About</h4>
+                      <p className="about-p text-light mb-5">
+                        {myProfile.story}
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {myProfile ? (
+                    <>
+                      <h4 className="info-profile mb-5">Info</h4>
+                      <p className="profile-p text-light">
+                        Meditating for {myProfile.years} years
+                      </p>
+                      <p className="profile-p text-light">
+                        Currently working on stage {myProfile.stage}
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <div className="p-fas text-light mt-5">
+                    <p>
+                      <FaIdBadge /> {me.username}
+                    </p>
+                    <p>
+                      <FaEnvelope /> {me.email}
+                    </p>
+                    {myLocation ? (
+                      <p>
+                        <FaHome /> {myLocation.city}, {myLocation.state},{" "}
+                        {myLocation.country}
+                      </p>
                     ) : (
                       <></>
                     )}
-                    <h4 className="info-profile mb-5">Info</h4>
-                    <p className="profile-p text-light">
-                      Meditating for {myProfile.years} years
-                    </p>
-                    <p className="profile-p text-light">
-                      Currently working on stage {myProfile.stage}
-                    </p>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <div className="p-fas text-light mt-5">
-                <p>
-                  <FaIdBadge /> {me.username}
-                </p>
-                <p>
-                  <FaEnvelope /> {me.email}
-                </p>
-                {me.location ? (
-                  <p>
-                    <FaHome /> {me.location.city}, {me.location?.state},{" "}
-                    {me.location.country}
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </div>
-              </div>
+                  </div>
+                </div>
               </div>
               <div className="card-footer profile-footer mt-5">
                 <div className="row">
