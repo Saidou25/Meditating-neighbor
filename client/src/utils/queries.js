@@ -49,7 +49,7 @@ export const QUERY_USERS = gql`
   }
 `;
 export const QUERY_USER = gql`
-  query user($id: String!) {
+  query user($id: String) {
     user(id: $id) {
       _id
       username
@@ -167,7 +167,7 @@ export const QUERY_AVATARS = gql`
   }
 `;
 export const QUERY_AVATAR = gql`
-  query avatar($id: String!) {
+  query avatar($id: String) {
     avatar(id: $id) {
       _id
       username
@@ -188,7 +188,7 @@ export const QUERY_PROFILES = gql`
   }
 `;
 export const QUERY_PROFILE = gql`
-  query profile($id: String!) {
+  query profile($id: String) {
     profile(id: $id) {
       _id
       uername
@@ -210,7 +210,7 @@ export const QUERY_REQUESTS = gql`
   }
 `;
 export const QUERY_REQUEST = gql`
-  query request($id: String!) {
+  query request($id: String) {
     request(id: $id) {
       _id
       myName
@@ -230,7 +230,7 @@ export const QUERY_RESPONSES = gql`
   }
 `;
 export const QUERY_RESPONSE = gql`
-  query response($id: String!) {
+  query response($id: String) {
     response(id: $id) {
       _id
       toName
@@ -249,7 +249,7 @@ export const QUERY_CONTACTS = gql`
   }
 `;
 export const QUERY_CONTACT = gql`
-  query contact($id: String!) {
+  query contact($id: String) {
     contact(id: $id) {
       _id
       friendId

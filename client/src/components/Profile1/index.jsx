@@ -13,7 +13,7 @@ import "./index.css";
 
 const Profile1 = () => {
   const [me, setMe] = useState("");
-  const [myProfile, setMyProfile] = useState("");
+  // const [myProfile, setMyProfile] = useState("");
   const [profileId, setProfileId] = useState("");
   console.log("me", me);
 
@@ -25,6 +25,9 @@ const Profile1 = () => {
   const myLocation = locations.filter(
     (location) => location.username === me.username
   );
+  const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
+  const myProfile = allProfiles.filter((profile) => profile.username === profile.me.username);
+  console.log("my profile", myProfile);
 
   useEffect(() => {
     if (profileData && data) {
@@ -36,7 +39,7 @@ const Profile1 = () => {
       const myProfile = userProfile[0];
       const id = myProfile?._id;
       setMe(me);
-      setMyProfile(userProfile[0]);
+      // setMyProfile(userProfile[0]);
       setProfileId(id);
     }
   }, [profileData, data]);

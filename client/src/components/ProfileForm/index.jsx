@@ -125,7 +125,6 @@ console.log("md", me);
                 are you a teacher or meditator?
               </label>
             </div>
-          </div>
             {teacher === "teacher" && (
                <div className="form-floating mb-3">
                <textarea
@@ -142,6 +141,7 @@ console.log("md", me);
                </label>
              </div>
             )}
+          </div>
           {error && (
             <div className="profile-form-error bg-danger mt-3 text-light p-3">
               {error}
