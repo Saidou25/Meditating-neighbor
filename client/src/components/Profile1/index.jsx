@@ -15,6 +15,7 @@ const Profile1 = () => {
   const [me, setMe] = useState("");
   const [myProfile, setMyProfile] = useState("");
   const [profileId, setProfileId] = useState("");
+  console.log("me", me);
 
   const { data, loading } = useQuery(QUERY_ME);
   const { data: profileData, profileLoading } = useQuery(QUERY_PROFILES);

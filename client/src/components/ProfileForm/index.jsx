@@ -93,7 +93,7 @@ console.log("md", me);
             </label>
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control pt-5 pb-4"
                 id="floatingInput"
                 placeholder="enter number of years"
@@ -103,7 +103,7 @@ console.log("md", me);
             </div>
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control pt-5 pb-4"
                 id="floatingstage"
                 placeholder="stage"
@@ -125,6 +125,7 @@ console.log("md", me);
                 are you a teacher or meditator?
               </label>
             </div>
+          </div>
             {teacher === "teacher" && (
                <div className="form-floating mb-3">
                <textarea
@@ -141,7 +142,6 @@ console.log("md", me);
                </label>
              </div>
             )}
-          </div>
           {error && (
             <div className="profile-form-error bg-danger mt-3 text-light p-3">
               {error}
