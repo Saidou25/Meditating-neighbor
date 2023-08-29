@@ -28,23 +28,9 @@ const UpdateMyProfileForm = () => {
   const [story, setStory] = useState("");
   const [message, setMessage] = useState("");
 
-  // const [updateProfile] = useMutation(UPDATE_PROFILE);
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
     variables: { id: profileId },
-    update(cache, { data: { updateProfile } }) {
-      try {
-        const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
-        cache.writeQuery({
-          query: QUERY_PROFILES,
-          data: {
-            profiles: [updateProfile, ...profiles],
-          },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-      console.log("success updating cache with deleteProfile", profileId);
-    },
+    refetchQueries: [{ query: QUERY_PROFILES }],
   });
 
   const handleSubmit = async (e) => {

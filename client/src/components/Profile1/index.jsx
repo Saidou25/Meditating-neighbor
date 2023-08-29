@@ -15,7 +15,6 @@ const Profile1 = () => {
   
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
-  console.log("me", me);
 
   const { data: locationsData, locationsDataLoading } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
@@ -29,7 +28,6 @@ const Profile1 = () => {
   );
   const myProfile = userProfile[0];
   const profileId = myProfile?._id;
-  console.log("my profile", myProfile);
 
   const [deleteProfile] = useMutation(DELETE_PROFILE, {
     variables: { id: profileId },
