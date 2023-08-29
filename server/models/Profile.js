@@ -7,9 +7,19 @@ const profileSchema = new Schema({
     trim: true,
     unique: true,
   },
+  firstname: {
+    type: String,
+    required: false,
+    trim: true,
+  },
+  lastname: {
+    type: String,
+    required: false,
+    trim: true,
+  },
   stage: {
     type: String,
-    required: "Please enter a number",
+    required: false,
     trim: true,
   },
   years: {

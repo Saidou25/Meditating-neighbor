@@ -14,6 +14,8 @@ export const QUERY_USERS = gql`
       profile {
         _id
         username
+        firstname
+        lastname
         stage
         years
         teacher
@@ -62,6 +64,8 @@ export const QUERY_USER = gql`
       profile {
         _id
         username
+        firstname
+        lastname
         stage
         years
         teacher
@@ -110,6 +114,8 @@ export const QUERY_ME = gql`
       profile {
         _id
         username
+        firstname
+        lastname
         stage
         years
         teacher
@@ -180,6 +186,8 @@ export const QUERY_PROFILES = gql`
     profiles {
       _id
       username
+      firstname
+      lastname
       stage
       years
       teacher
@@ -192,6 +200,8 @@ export const QUERY_PROFILE = gql`
     profile(id: $id) {
       _id
       uername
+      firstname
+      lastname
       stage
       years
       teacher

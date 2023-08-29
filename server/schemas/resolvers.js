@@ -158,6 +158,8 @@ const resolvers = {
       if (context.user) {
         const profile = await Profile.create({
           username: args.username,
+          firstname: args.firstname,
+          lastname: args.lastname,
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,
@@ -177,6 +179,8 @@ const resolvers = {
         { _id: args.id },
         {
           username: args.username,
+          firstname: args.firstname,
+          lastname: args.lastname,
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,

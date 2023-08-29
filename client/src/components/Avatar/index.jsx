@@ -221,7 +221,7 @@ const ProfPics = () => {
                 <button
                   className="btn btn-addaprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => {handleSubmit("add"); setError("")}}
+                  onClick={() => {handleSubmit("add"); setError(""); setImage(null)}}
                 >
                   {isCanceled === true ? <>cancel</> : <>add picture</>}
                 </button>
@@ -234,7 +234,7 @@ const ProfPics = () => {
                 <button
                   className="btn btn-uploadprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => {handleSubmit("add"); setError("")}}
+                  onClick={() => {handleSubmit("add"); setError(""); setImage(null)}}
                 >
                   {isEdit === true ? <>cancel</> : <>edit</>}
                 </button>
@@ -245,7 +245,7 @@ const ProfPics = () => {
             <>
               <div className="col-4 choose-file bg-primary">
                 <label htmlFor="file-button" className="file-label" style={{ cursor: "pointer" }}>
-                  select file
+                  {image ? (<>image selected</>) : (<>select file</>)}
                 </label>
                 <input
                   type="file"

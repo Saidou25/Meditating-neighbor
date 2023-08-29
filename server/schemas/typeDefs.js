@@ -30,6 +30,8 @@ const typeDefs = gql`
   type Profile {
     _id: ID
     username: String
+    firstname: String
+    lastname: String
     stage: String
     years: String
     teacher: String
@@ -81,6 +83,8 @@ const typeDefs = gql`
     updateAvatar(id: String, username: String, avatarUrl: String): Avatar
     addProfile(
       username: String
+      firstname: String
+      lastname: String
       stage: String
       years: String
       teacher: String
@@ -89,6 +93,8 @@ const typeDefs = gql`
     updateProfile(
       id: String!
       username: String
+      firstname: String
+      lastname: String
       stage: String
       years: String
       teacher: String

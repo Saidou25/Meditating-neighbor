@@ -15,8 +15,6 @@
 }
 .btn-go-back:hover {
   background-color: rgba(236, 120, 11, 0.4);
-  display: flex;
-  padding: 0 !important;
 }
 .container-nav {
   width: 40%;

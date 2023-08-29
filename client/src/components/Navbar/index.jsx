@@ -107,7 +107,7 @@ const Navbar = () => {
         );
         responders.push(myResponsesProfiles[0]);
       }
-      if (fromUsers.length || responders.length || toOthers.length) {
+      if (fromUsers.length || responders.length || toOthers.length || myData.requests?.length) {
         setAnimation("contact-link");
       };
     }

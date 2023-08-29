@@ -12,13 +12,15 @@ import Spinner from "../Spinner";
 import "./index.css";
 
 const Profile1 = () => {
-  
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
-  const { data: locationsData, locationsDataLoading } = useQuery(QUERY_LOCATIONS);
+  const { data: locationsData, locationsDataLoading } =
+    useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  const userLocation = locations.filter((location) => location.username === me.username);
+  const userLocation = locations.filter(
+    (location) => location.username === me.username
+  );
   const myLocation = userLocation[0];
 
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
@@ -79,7 +81,13 @@ const Profile1 = () => {
           <div className="col-12">
             <div className="card profile-card">
               <div className="card-header profile-header mt-3">
-                <h3>{me.username}</h3>
+                {myProfile?.firstname && myProfile?.lastname ? (
+                  <h3>
+                    {myProfile.firstname} {myProfile.lastname}
+                  </h3>
+                ) : (
+                  <h3>{me.username}</h3>
+                )}
               </div>
               <Avatar me={me} />
               <div className="card-body profile-body mt-5">
@@ -94,18 +102,25 @@ const Profile1 = () => {
                   ) : (
                     <></>
                   )}
-                  {myProfile ? (
+                  {myProfile?.teacher === "teacher" || myProfile?.teacher === "Teacher" ? (
                     <>
                       <h4 className="info-profile mb-5">Info</h4>
                       <p className="profile-p text-light">
-                        Meditating for {myProfile.years} years
+                        Status: {myProfile.teacher}
                       </p>
                       <p className="profile-p text-light">
-                        Currently working on stage {myProfile.stage}
+                        Has been meditating for {myProfile.years} years
                       </p>
                     </>
                   ) : (
-                    <></>
+                    <>
+                      <p className="profile-p text-light">
+                        Status: {myProfile?.teacher}
+                      </p>
+                      <p className="profile-p text-light">
+                        Currently working on stage {myProfile?.stage}
+                      </p>
+                    </>
                   )}
                   <div className="p-fas text-light mt-5">
                     <p>

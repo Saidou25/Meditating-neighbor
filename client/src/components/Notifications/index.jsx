@@ -5,6 +5,7 @@ import {
   QUERY_ME,
   QUERY_USERS,
   QUERY_RESPONSES,
+  QUERY_CONTACTS
 } from "../../utils/queries";
 import {
   ADD_RESPONSE,
@@ -31,7 +32,7 @@ const Notifications = () => {
   const [me, setMeData] = useState("");
   // const [myRequests, setMyRequests] = useState([]);
 
-  const [addResponse] = useMutation(ADD_RESPONSE);
+  // const [addResponse] = useMutation(ADD_RESPONSE);
 
   const { data: meData } = useQuery(QUERY_ME);
 
@@ -43,8 +44,23 @@ const Notifications = () => {
 
   // query all responses
   const { data: responsesData } = useQuery(QUERY_RESPONSES);
+  const [addResponse] = useMutation(ADD_RESPONSE, {
+    update(cache, { data: { addResponse } }) {
+      try {
+        const { me } = cache.readQuery({ query: QUERY_ME });
+        cache.writeQuery({
+          query: QUERY_ME,
+          data: {
+            me: { ...me, responses: [...me.responses, addResponse] },
+          },
+        });
 
-  // Updating the cache with newly created contact
+        console.log("success updating cache with add contact");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
   const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
@@ -62,6 +78,8 @@ const Notifications = () => {
       }
     },
   });
+  // Updating the cache with newly created contact
+
   const [deleteRequest] = useMutation(DELETE_REQUEST, {
     variables: { id: requestId },
     update(cache, { data: { deleteRequest } }) {

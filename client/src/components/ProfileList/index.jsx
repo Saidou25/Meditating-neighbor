@@ -128,7 +128,7 @@ const ProfileList = (props) => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid neighbors bg-primary py-5">
+      <div className="container-fluid neighbors bg-primary">
         <h3 className="locations-list-title text-white py-5">
           {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
         </h3>
@@ -302,13 +302,27 @@ const ProfileList = (props) => {
                     <div className="col-6">
                       {" "}
                       <div className="location">
-                        <p>teacher(TMI)</p>
-                        <p>meditating since: 2010</p>
-                        <p>frequency: 7hrs/week</p>
-                        <p>
-                          leaves in {user.location?.city},{" "}
-                          {user.location?.state}, {user.location?.country}
-                        </p>
+                        {user.profile?.teacher ? (
+                          <>
+                            <p>{user.profile.teacher}(TMI)</p>
+                            <p>
+                              has been meditating for {user.profile.years} years
+                            </p>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        {user.location ? (
+                          <p>
+                            leaves in {user.location?.city},{" "}
+                            {user.location?.state}, {user.location?.country}
+                          </p>
+                        ) : (
+                          <></>
+                        )}
+                        {!user.location && !user.profile && (
+                          <>{user.username} has no profile set yet</>
+                        )}
                         {incomingResponse === true ? (
                           <p>email: {user.email}</p>
                         ) : (
@@ -320,13 +334,40 @@ const ProfileList = (props) => {
                 </div>
               </>
               {otherFriend === true ? (
-                  <div className="profile-friends p-3">
-                    {" "}
-                    <p className="friends-profile m-0">Friends since: {otherFriendDate} </p>
-                  </div>
-                ) : (
-                  <></>
-                )}
+                <div className="profile-friends p-3">
+                  {" "}
+                  <p className="friends-profile m-0">
+                    Friends since: {otherFriendDate}{" "}
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
+              {friends === true && otherFriend === false ? (
+                <div className="orange-div m-3">
+                  <p className="orange p-3 bg-warning text-primary">
+                    Don't forget to ok {user.username} from your notification so
+                    your email is also viewable to {user.username}.
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {((incomingRequest === true || outgoingResponse === true) &&
+                friends === true &&
+                otherFriend === false) ||
+              (friends === false && otherFriend === true) ? (
+                <div className="orange-div m-3">
+                  <p className="orange p-3 bg-warning text-primary">
+                    Your contact is now viewable to {user.username}. Once{" "}
+                    {user.username} has ok on it's side {user.username}' contact
+                    will be viewable to you.
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
               <div className="modal-footer">
                 <div className="row row-modal-footer">
                   <div className="col-6">
@@ -368,9 +409,10 @@ const ProfileList = (props) => {
                     incomingRequest === false &&
                     outgoingResponse === false &&
                     incomingResponse === false && (
+
                       <button
                         type="button"
-                        className="col-6 btn btn-primary"
+                        className="col-6 btn btn-primary friendship-request"
                         onClick={contact}
                         data-bs-dismiss="modal"
                       >
@@ -378,7 +420,7 @@ const ProfileList = (props) => {
                       </button>
                     )}
                 </div>
-                {friends === true && otherFriend === false ? (
+                {/* {friends === true && otherFriend === false ? (
                   <p>
                     Don't forget to ok {user.username} from your notification so
                     your email is also viewable to {user.username}.
@@ -386,7 +428,7 @@ const ProfileList = (props) => {
                 ) : (
                   <></>
                 )}
-            
+
                 {((incomingRequest === true || outgoingResponse === true) &&
                   friends === true &&
                   otherFriend === false) ||
@@ -398,7 +440,7 @@ const ProfileList = (props) => {
                   </p>
                 ) : (
                   <></>
-                )}
+                )} */}
               </div>
             </div>
           </div>

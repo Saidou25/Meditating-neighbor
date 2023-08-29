@@ -39,10 +39,11 @@
   overflow: hidden;
   height: 100px;
 }
-/* .footer-teacher {
-  display: flex;
-  align-items: center;
-} */
+.p-story-teachers,
+.p-about-teachers {
+  padding-right: 10%;
+  padding-left: 10%;
+}
 @media screen and (max-width: 1200px) {
   .teachers-pic {
     width: 110px;

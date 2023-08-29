@@ -39,9 +39,11 @@
 .profile-friends {
   width: 100%;
    display: flex;
-  /* justify-content: center !important; */
   align-items: center !important; 
-   
+}
+.friendship-request:hover {
+  background-color: orange !important;
+  color: black !important;
 }
 @media screen and (max-width: 1200px) {
   .container-pic {
@@ -67,7 +69,7 @@
   } */
   .locations-list-title {
     text-align: center;
-    padding: 5%;
+    /* padding: 5%; */
     font-size: 1rem;
   }
   .location {

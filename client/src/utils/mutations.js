@@ -121,6 +121,8 @@ export const UPDATE_LOCATION = gql`
 export const ADD_PROFILE = gql`
   mutation addProfile(
     $username: String!
+    $firstname: String
+    $lastname: String
     $stage: String
     $years: String
     $teacher: String
@@ -128,16 +130,20 @@ export const ADD_PROFILE = gql`
   ) {
     addProfile(
       username: $username
+      firstname: $firstname
+      lastname: $lastname
       stage: $stage
       years: $years
       teacher: $teacher
       story: $story
     ) {
       _id
+      username
+      firstname
+      lastname
       stage
       teacher
       years
-      username
       story
     }
   }
@@ -146,6 +152,8 @@ export const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $id: String!
     $username: String!
+    $firstname: String
+    $lastname: String
     $stage: String
     $years: String
     $teacher: String
@@ -154,16 +162,20 @@ export const UPDATE_PROFILE = gql`
     updateProfile(
       id: $id
       username: $username
+      firstname: $firstname
+      lastname: $lastname
       stage: $stage
       years: $years
       teacher: $teacher
       story: $story
     ) {
       _id
+      username
+      firstname
+      lastname
       stage
       teacher
       years
-      username
       teacher
       story
     }
@@ -173,10 +185,12 @@ export const DELETE_PROFILE = gql`
   mutation deleteProfile($id: String!) {
     deleteProfile(id: $id) {
       _id
+      username
+      firstname
+      lastname
       stage
       teacher
       years
-      username
       story
     }
   }

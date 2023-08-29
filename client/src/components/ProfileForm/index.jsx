@@ -12,6 +12,8 @@ const ProfileForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const me = location.state.me;
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [stage, setStage] = useState("");
   const [teacher, setTeacher] = useState("");
   const [years, setYears] = useState("");
@@ -36,23 +38,41 @@ const ProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stage || !teacher || !years) {
+    if (!teacher || !years) {
       setError("All fields need filled");
       return;
     }
-    if (teacher === "teacher" || teacher === "meditator") {
-      console.log("good to go");
+    if (
+      teacher === "teacher" ||
+      teacher === "meditator" ||
+      teacher === "Teacher" ||
+      teacher === "Meditator"
+    ) {
     } else {
       setError("Please answer 'teacher' or 'meditator'");
+      return;
+    }
+    if (
+      (teacher === "meditator" || teacher === "Meditator") &&
+      (/^[0-9]*$/.test(stage) === false || /^[0-9]*$/.test(years) === false)
+    ) {
+      setError("years meditating and stage must be numbers");
+      return;
+    }
+    if ((teacher === "teacher" || teacher === "Teacher") && /^[0-9]*$/.test(years) === false) {
+      setError("years meditating must be a number");
       return;
     }
     try {
       const { data } = await addProfile({
         variables: {
           username: me.username,
+          firstname: firstname,
+          lastname: lastname,
           stage: stage,
           years: years,
           teacher: teacher,
+          story: story,
         },
       });
       if (data) {
@@ -88,27 +108,6 @@ const ProfileForm = () => {
               <input
                 type="text"
                 className="form-control pt-5 pb-4"
-                id="floatingInput"
-                placeholder="enter number of years"
-                onChange={(e) => setYears(e.target.value)}
-              />
-              <label htmlFor="floatingInput">years meditating</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control pt-5 pb-4"
-                id="floatingstage"
-                placeholder="stage"
-                autoComplete="off"
-                onChange={(e) => setStage(e.target.value)}
-              />
-              <label htmlFor="floatingPassword">what stage are you</label>
-            </div>
-            <div className="form-floating">
-              <input
-                type="text"
-                className="form-control pt-5 pb-4"
                 id="floatingteacher"
                 placeholder="teacher"
                 autoComplete="off"
@@ -118,21 +117,67 @@ const ProfileForm = () => {
                 are you a teacher or meditator?
               </label>
             </div>
-            {teacher === "teacher" && (
-               <div className="form-floating mb-3">
-               <textarea
-                 type="text"
-                 className="form-control pt-5 pb-4"
-                 style={{height: "200px"}}
-                 id="floatingteacher"
-                 value={story}
-                 autoComplete="off"
-                 onChange={(e) => setStory(e.target.value)}
-               />
-               <label htmlFor="floatingInput">
-                 Please write about yourself...
-               </label>
-             </div>
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control pt-5 pb-4"
+                id="floatingInput"
+                placeholder="enter number of years"
+                onChange={(e) => setYears(e.target.value)}
+              />
+              <label htmlFor="floatingInput">years meditating</label>
+            </div>
+            {teacher === "teacher" || teacher === "Teacher" ? (
+              <>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control pt-5 pb-4"
+                    id="floatingInput"
+                    placeholder="fitst name"
+                    onChange={(e) => setFirstname(e.target.value)}
+                  />
+                  <label htmlFor="floatingInput">first name</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control pt-5 pb-4"
+                    id="floatingInput"
+                    placeholder="last name"
+                    onChange={(e) => setLastname(e.target.value)}
+                  />
+                  <label htmlFor="floatingInput">last name</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <textarea
+                    type="text"
+                    className="form-control pt-5 pb-4"
+                    style={{ height: "200px" }}
+                    id="floatingteacher"
+                    autoComplete="off"
+                    placeholder="about yourself"
+                    onChange={(e) => setStory(e.target.value)}
+                  />
+                  <label htmlFor="floatingInput">
+                    Please write about yourself...
+                  </label>
+                </div>
+              </>
+            ) : (
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control pt-5 pb-4"
+                  id="floatingstage"
+                  placeholder="stage"
+                  autoComplete="off"
+                  onChange={(e) => setStage(e.target.value)}
+                />
+                <label htmlFor="floatingPassword">
+                  what stage are you currently working on?
+                </label>
+              </div>
             )}
           </div>
           {error && (

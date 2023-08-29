@@ -44,7 +44,7 @@ const Contacts = () => {
         <Notifications />
         {myContactsProfiles.length ? (
           <>
-            <h3 className="contact-title text-light pt-5">Your contacts</h3>
+            <h3 className="contact-title text-light">Your contacts</h3>
             <div className="row card-row">
               {myContactsProfiles &&
                 myContactsProfiles.map((user) => (
@@ -100,12 +100,16 @@ const Contacts = () => {
               <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h3
-                      className="modal-title text-primary"
-                      id="exampleModalLabel"
-                    >
-                      {user.username}
-                    </h3>
+                    {user.profile?.firstname && user.profile?.lastname ? (
+                      <h3
+                        className="modal-title text-black"
+                        id="exampleModalLabel"
+                      >
+                        {user.profile.firstname} {user.profile.lastname}
+                      </h3>
+                    ) : (
+                      <h3>{user.username}</h3>
+                    )}
                     <button
                       type="button"
                       className="btn-close"
@@ -128,16 +132,12 @@ const Contacts = () => {
                     <div className="row">
                       <div className="col-12">
                         {user.profile?.story ? (
-                          <div className="p-items">
-                            <>
-                              <h4 className="about-title mt-5 mb-4">
-                                About
-                              </h4>{" "}
+                          <>
+                              <h4 className="about-title mt-5 mb-4">About</h4>{" "}
                               <p className="p-story mt-5 mb-4">
                                 {user.profile.story}
                               </p>
-                            </>
-                          </div>
+                          </>
                         ) : (
                           <></>
                         )}
@@ -157,26 +157,26 @@ const Contacts = () => {
                               <p>
                                 Currently working on stage {user.profile.stage}
                               </p>
-                              </div>
+                            </div>
                           ) : (
                             <></>
                           )}
                           <div className="p-about mt-5 mb-4">
-                          <p className="p-fas mt-5">
-                            <FaIdBadge /> {user.username}
-                          </p>
-                          <p>
-                            <FaEnvelope /> {user.email}
-                          </p>
-                          {user.location ? (
-                            <p>
-                              <FaHome /> {user.location.city},{" "}
-                              {user.location?.state}, {user.location.country}
+                            <p className="p-fas mt-5">
+                              <FaIdBadge /> {user.username}
                             </p>
-                          ) : (
-                            <></>
+                            <p>
+                              <FaEnvelope /> {user.email}
+                            </p>
+                            {user.location ? (
+                              <p>
+                                <FaHome /> {user.location.city},{" "}
+                                {user.location?.state}, {user.location.country}
+                              </p>
+                            ) : (
+                              <></>
                             )}
-                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -184,7 +184,9 @@ const Contacts = () => {
                   <div className="modal-footer">
                     <div className="row contact-footer">
                       <div className="col-8 friends-since m-0">
-                        <p className="friends-since text-primary">Friends since: {friendsDate}</p>
+                        <p className="friends-since text-primary">
+                          Friends since: {friendsDate}
+                        </p>
                       </div>
                       <div className="col-4 contact-close">
                         <button
