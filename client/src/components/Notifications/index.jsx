@@ -28,7 +28,7 @@ const Notifications = () => {
     []
   );
   const [me, setMeData] = useState("");
-  
+
   // const [myRequests, setMyRequests] = useState([]);
 
   // const [addResponse] = useMutation(ADD_RESPONSE);
@@ -177,7 +177,7 @@ const Notifications = () => {
           fromName: me.username,
           email: me.email,
           toName: user.username,
-          avatarUrl: user.avatar?.avatarUrl
+          avatarUrl: user.avatar?.avatarUrl,
         },
       });
       if (data) {
@@ -199,7 +199,7 @@ const Notifications = () => {
         variables: {
           friendId: id,
           todaysDate: todaysDate,
-          avatarUrl: user.avatar?.avatarUrl
+          avatarUrl: user.avatar?.avatarUrl,
         },
       });
       if (data) {
@@ -338,7 +338,7 @@ const Notifications = () => {
             {respondingUsersProfiles &&
               respondingUsersProfiles.map((user) => (
                 <div
-                  key={user._id}
+                  key={user.username}
                   className="row response-list bg-primary text-light"
                 >
                   <div className="col-2">
@@ -356,9 +356,9 @@ const Notifications = () => {
                     <div className="row">
                       <div className="col-8">
                         <p>
-                          {user.username} has accepted your contact request. Your
-                          email will only be visible to {user.username} if you are
-                          ok
+                          {user.username} has accepted your contact request.
+                          Your email will only be visible to {user.username} if
+                          you are ok
                         </p>
                       </div>
                       <div className="col-3 d-flex justify-content-end">

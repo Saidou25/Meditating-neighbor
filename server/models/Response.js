@@ -15,7 +15,7 @@ const responseSchema = new Schema({
   },
   avatarUrl: {
     type: String,
-    unique: true,
+    trim: true,
   },
 });
 
