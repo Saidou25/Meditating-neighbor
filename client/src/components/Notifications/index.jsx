@@ -199,7 +199,7 @@ const Notifications = () => {
         variables: {
           friendId: id,
           todaysDate: todaysDate,
-          avatarUrl: user.avatar.avatarUrl
+          avatarUrl: user.avatar?.avatarUrl
         },
       });
       if (data) {
