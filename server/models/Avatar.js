@@ -9,7 +9,6 @@ const avatarSchema = new Schema({
   },
   avatarUrl: {
     type: String,
-    required: true,
     unique: true,
   },
 });
