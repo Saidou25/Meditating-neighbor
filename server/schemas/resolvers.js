@@ -197,6 +197,7 @@ const resolvers = {
           myName: args.myName,
           email: args.email,
           destinationName: args.destinationName,
+          avatarUrl: args.avatarUrl
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -216,6 +217,7 @@ const resolvers = {
           fromName: args.fromName,
           email: args.email,
           toName: args.toName,
+          avatarUrl: args.avatarUrl
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -234,6 +236,7 @@ const resolvers = {
         const contact = await Contact.create({
           friendId: args.friendId,
           todaysDate: args.todaysDate,
+          avatarUrl: args.avatarUrl
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },

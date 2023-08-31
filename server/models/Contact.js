@@ -11,6 +11,10 @@ const contactSchema = new Schema({
     required: true,
     trim: true,
   },
+  avatarUrl: {
+    type: String,
+    unique: true,
+  },
 });
 
 const Contact= model("Contact", contactSchema);

@@ -16,6 +16,10 @@ const requestSchema = new Schema({
     trim: true,
     required: true
   },
+  avatarUrl: {
+    type: String,
+    unique: true,
+  },
 });
 
 const Request = model("Request", requestSchema);

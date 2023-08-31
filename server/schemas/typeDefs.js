@@ -42,17 +42,20 @@ const typeDefs = gql`
     myName: String
     email: String
     destinationName: String
+    avatarUrl: String
   }
   type Response {
     _id: ID
     fromName: String
     email: String
     toName: String
+    avatarUrl: String
   }
   type Contact {
     _id: ID
     friendId: String
     todaysDate: String
+    avatarUrl: String
   }
   type Auth {
     token: ID!
@@ -118,11 +121,11 @@ const typeDefs = gql`
       state: String!
       country: String!
     ): Location
-    addRequest(myName: String, email: String, destinationName: String): Request
+    addRequest(myName: String, email: String, destinationName: String, avatarUrl: String): Request
     deleteRequest(id: String!): Request
-    addResponse(fromName: String, email: String, toName: String): Response
+    addResponse(fromName: String, email: String, toName: String, avatarUrl: String): Response
     deleteResponse(id: String!): Response
-    addContact(friendId: String!, todaysDate: String): Contact
+    addContact(friendId: String!, todaysDate: String, avatarUrl: String): Contact
   }
 `;
 

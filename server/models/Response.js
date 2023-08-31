@@ -13,6 +13,10 @@ const responseSchema = new Schema({
     type: String,
     trim: true,
   },
+  avatarUrl: {
+    type: String,
+    unique: true,
+  },
 });
 
 const Response = model("Response", responseSchema);

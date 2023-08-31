@@ -49,6 +49,7 @@ const ProfileList = (props) => {
           email: me.email,
           myName: me.username,
           destinationName: user.username,
+          avatarUrl: avatarUrl
         },
       });
       if (data) {

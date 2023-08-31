@@ -35,17 +35,20 @@ export const QUERY_USERS = gql`
         myName
         email
         destinationName
+        avatarUrl
       }
       responses {
         _id
         toName
         email
         fromName
+        avatarUrl
       }
       contacts {
         _id
         friendId
         todaysDate
+        avatarUrl
       }
     }
   }
@@ -85,17 +88,20 @@ export const QUERY_USER = gql`
         myName
         email
         destinationName
+        avatarUrl
       }
       responses {
         _id
         toName
         email
         fromName
+        avatarUrl
       }
       contacts {
         _id
         friendId
         todaysDate
+        avatarUrl
       }
     }
   }
@@ -135,17 +141,20 @@ export const QUERY_ME = gql`
         myName
         email
         destinationName
+        avatarUrl
       }
       responses {
         _id
         toName
         email
         fromName
+        avatarUrl
       }
       contacts {
         _id
         friendId
         todaysDate
+        avatarUrl
       }
     }
   }
@@ -216,6 +225,7 @@ export const QUERY_REQUESTS = gql`
       myName
       email
       destinationName
+      avatarUrl
     }
   }
 `;
@@ -226,6 +236,7 @@ export const QUERY_REQUEST = gql`
       myName
       email
       destinationName
+      avatarUrl
     }
   }
 `;
@@ -236,6 +247,7 @@ export const QUERY_RESPONSES = gql`
       toName
       email
       fromName
+      avatarUrl
     }
   }
 `;
@@ -246,6 +258,7 @@ export const QUERY_RESPONSE = gql`
       toName
       email
       fromName
+      avatarUrl
     }
   }
 `;
@@ -255,6 +268,7 @@ export const QUERY_CONTACTS = gql`
       _id
       friendId
       todaysDate
+      avatarUrl
     }
   }
 `;
@@ -264,6 +278,7 @@ export const QUERY_CONTACT = gql`
       _id
       friendId
       todaysDate
+      avatarUrl
     }
   }
 `;

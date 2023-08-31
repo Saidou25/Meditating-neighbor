@@ -15,7 +15,8 @@ import "./index.css";
 const Navbar = () => {
   const [me, setMeData] = useState("");
   const [animation, setAnimation] = useState("");
-  
+  const [contacts, setContacts] = useState(false);
+
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
@@ -69,6 +70,9 @@ const Navbar = () => {
       const allResponses = responsesData?.responses || [];
       const users = usersData?.users || [];
       setMeData(myData);
+      if (myData.contacts?.length) {
+        setContacts(true);
+      }
       // setMyRequests(myData.requests);
       // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
@@ -107,9 +111,14 @@ const Navbar = () => {
         );
         responders.push(myResponsesProfiles[0]);
       }
-      if (fromUsers.length || responders.length || toOthers.length || myData.requests?.length) {
+      if (
+        fromUsers.length ||
+        responders.length ||
+        toOthers.length ||
+        myData.requests?.length
+      ) {
         setAnimation("contact-link");
-      };
+      }
     }
   }, [requestsData, meData, usersData, responsesData]);
 
@@ -172,11 +181,15 @@ const Navbar = () => {
                       </Link>
                     </div>
                   </li>
+                  {animation || contacts === true ? (
                     <li className="nav-item">
                       <Link className={`nav-link ${animation}`} to="/Contacts">
                         contacts
                       </Link>
                     </li>
+                  ) : (
+                    <></>
+                  )}
                 </>
               )}
               {Auth.loggedIn() ? (

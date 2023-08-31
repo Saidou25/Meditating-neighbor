@@ -196,12 +196,13 @@ export const DELETE_PROFILE = gql`
   }
 `;
 export const ADD_REQUEST = gql`
-  mutation addRequest($myName: String, $email: String, $destinationName: String) {
-    addRequest(myName: $myName, email: $email, destinationName: $destinationName) {
+  mutation addRequest($myName: String, $email: String, $destinationName: String, $avatarUrl: String) {
+    addRequest(myName: $myName, email: $email, destinationName: $destinationName, avatarUrl: $avatarUrl) {
       _id
       myName
       email
       destinationName
+      avatarUrl
     }
   }
 `;
@@ -212,16 +213,18 @@ export const DELETE_REQUEST = gql`
       myName
       email
       destinationName
+      avatarUrl
     }
   }
 `;
 export const ADD_RESPONSE = gql`
-  mutation addResponse($toName: String, $email: String, $fromName: String) {
-    addResponse(toName: $toName, email: $email, fromName: $fromName) {
+  mutation addResponse($toName: String, $email: String, $fromName: String, $avatarUrl: String) {
+    addResponse(toName: $toName, email: $email, fromName: $fromName, avatarUrl: $avatarUrl) {
       _id
       fromName
       email
       toName
+      avatarUrl
     }
   }
 `;
@@ -232,15 +235,17 @@ export const DELETE_RESPONSE = gql`
       fromName
       email
       toName
+      avatarUrl
     }
   }
 `;
 export const ADD_CONTACT = gql`
-  mutation addContact($friendId: String!, $todaysDate: String) {
-    addContact(friendId: $friendId, todaysDate: $todaysDate) {
+  mutation addContact($friendId: String!, $todaysDate: String, $avatarUrl: String) {
+    addContact(friendId: $friendId, todaysDate: $todaysDate, avatarUrl: $avatarUrl) {
       _id
       friendId
       todaysDate
+      avatarUrl
     }
   }
 `;

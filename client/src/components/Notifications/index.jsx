@@ -5,7 +5,6 @@ import {
   QUERY_ME,
   QUERY_USERS,
   QUERY_RESPONSES,
-  QUERY_CONTACTS
 } from "../../utils/queries";
 import {
   ADD_RESPONSE,
@@ -14,7 +13,6 @@ import {
   ADD_CONTACT,
 } from "../../utils/mutations";
 import profileIcon from "../../assets/images/profileicon.png";
-
 
 import "./index.css";
 
@@ -30,6 +28,7 @@ const Notifications = () => {
     []
   );
   const [me, setMeData] = useState("");
+  
   // const [myRequests, setMyRequests] = useState([]);
 
   // const [addResponse] = useMutation(ADD_RESPONSE);
@@ -61,6 +60,7 @@ const Notifications = () => {
       }
     },
   });
+
   const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
@@ -145,20 +145,12 @@ const Notifications = () => {
         setMeData(myData);
         // setMyRequests(myData.requests);
       }
-      const toOthers = [];
+
       //  loop to all request to get profiles of the people i am requesting contact info from and
       //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
-      const requestsFromMe = allRequests.filter(
-        (request) => request.myName === myData.username
-      );
-      // console.log("requests from me for others", requestsFromMe)
-      for (let requestFromMe of requestsFromMe) {
-        const requestedUsers = users.filter(
-          (user) => user.username === requestFromMe.destinationName
-        );
-        toOthers.push(requestedUsers[0]);
-        setMyContactRequestsToOthers(toOthers);
-      }
+      const myRequests = myData.requests;
+      setMyContactRequestsToOthers(myRequests);
+
       const responders = [];
       const myResponses = allResponses.filter(
         (response) => response.toName === myData.username
@@ -185,6 +177,7 @@ const Notifications = () => {
           fromName: me.username,
           email: me.email,
           toName: user.username,
+          avatarUrl: user.avatar?.avatarUrl
         },
       });
       if (data) {
@@ -199,13 +192,14 @@ const Notifications = () => {
   };
 
   const addFriend = async (user) => {
-    console.log(todaysDate);
+    console.log(user);
     const id = user._id;
     try {
       const { data } = await addContact({
         variables: {
           friendId: id,
           todaysDate: todaysDate,
+          avatarUrl: user.avatar?.avatarUrl
         },
       });
       if (data) {
@@ -254,7 +248,7 @@ const Notifications = () => {
         },
       });
       if (data) {
-        console.log("success deleting request");
+        console.log("success deleting response");
         addFriend(user);
         setRespondingUsersProfiles([]);
       }
@@ -271,24 +265,23 @@ const Notifications = () => {
             You requested contact info:
           </h3>
           {myContactRequestsToOthers &&
-            myContactRequestsToOthers.map((user) => (
+            myContactRequestsToOthers.map((request) => (
               <div
-                key={user._id}
+                key={request._id}
                 className="row response-list bg-primary g-0 text-light"
               >
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={
-                      user.avatar?.avatarUrl
-                        ? user.avatar?.avatarUrl
-                        : profileIcon
-                    }
+                    src={request?.avatarUrl ? request?.avatarUrl : profileIcon}
                     alt="profile avatar"
                   />
                 </div>
                 <div className="col-10">
-                  <p>Your contact request with {user.username} is pending.</p>
+                  <p>
+                    Your contact request with {request.destinationName} is
+                    pending.
+                  </p>
                 </div>
               </div>
             ))}
@@ -363,8 +356,8 @@ const Notifications = () => {
                     <div className="row">
                       <div className="col-8">
                         <p>
-                          {user.username} has accepted your contact reques. Your
-                          email will only visible to {user.username} if you are
+                          {user.username} has accepted your contact request. Your
+                          email will only be visible to {user.username} if you are
                           ok
                         </p>
                       </div>
