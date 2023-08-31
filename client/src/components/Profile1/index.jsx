@@ -102,27 +102,30 @@ const Profile1 = () => {
                   ) : (
                     <></>
                   )}
-                  {myProfile?.teacher === "teacher" || myProfile?.teacher === "Teacher" ? (
+                  {(myProfile?.teacher === "teacher" ||
+                    myProfile?.teacher === "Teacher") && (
                     <>
                       <h4 className="info-profile mb-5">Info</h4>
                       <p className="profile-p text-light">
                         Status: {myProfile.teacher}
                       </p>
-                      <p className="profile-p text-light">
+                      <p className="profile-p text-light mb-5">
                         Has been meditating for {myProfile.years} years
                       </p>
                     </>
-                  ) : (
+                  )}
+                  {(myProfile?.teacher === "meditator" ||
+                    myProfile?.teacher === "Meditator") && (
                     <>
                       <p className="profile-p text-light">
                         Status: {myProfile?.teacher}
                       </p>
-                      <p className="profile-p text-light">
+                      <p className="profile-p text-light mb-5">
                         Currently working on stage {myProfile?.stage}
                       </p>
                     </>
                   )}
-                  <div className="p-fas text-light mt-5">
+                  <div className="p-fas text-light">
                     <p>
                       <FaIdBadge /> {me.username}
                     </p>

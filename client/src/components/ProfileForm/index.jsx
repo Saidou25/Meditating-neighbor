@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import Spinner from "../Spinner";
 import "./index.css";
 
 const ProfileForm = () => {
@@ -21,7 +22,7 @@ const ProfileForm = () => {
   const [confirm, setConfirm] = useState(false);
   const [story, setStory] = useState("");
 
-  const [addProfile] = useMutation(ADD_PROFILE, {
+  const [addProfile, { data }] = useMutation(ADD_PROFILE, {
     update(cache, { data: { addProfile } }) {
       try {
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
@@ -92,6 +93,9 @@ const ProfileForm = () => {
     setYears("");
     setTeacher("");
   };
+  if (data) {
+    return <Spinner />
+  }
   if (confirm === true) {
     return <Success />;
   }
