@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
+import { QUERY_USERS, QUERY_ME, QUERY_PROFILES } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import Navbar from "../Navbar";
@@ -15,12 +15,18 @@ const ProfileList = (props) => {
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
+  const [modalClose, setModalClose] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [username, setUsername] = useState("");
+  const [doSetUpMessage, setDoSetUpMessage] = useState("");
 
   const [user, setUser] = useState("");
   const { data: usersData, usersDataLoading } = useQuery(QUERY_USERS);
 
+  const { data: profilesData } = useQuery(QUERY_PROFILES);
+  const profiles = profilesData?.profiles || [];
+  const userProfile = profiles.filter((profile) => profile.username === me.username);
+  const myProfile = userProfile[0];
   // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
@@ -39,10 +45,14 @@ const ProfileList = (props) => {
       }
     },
   });
+
   const contact = async () => {
-    console.log(
-      `${me.username} requests contact with ${user.username}. ${me.username} 's email is ${me.email} `
-    );
+    if (modalClose === "") {
+      setDoSetUpMessage(
+        "You need to setup your avatar, profile and add your location before making any contact request..."
+      );
+      return;
+    }
     try {
       const { data } = await addRequest({
         variables: {
@@ -59,6 +69,24 @@ const ProfileList = (props) => {
       console.error(e);
     }
   };
+  const hasData = () => {
+    // console.log(me)
+    console.log("avatar", me.avatar?.avatarUrl);
+    console.log("location", me.location);
+    console.log("profile", myProfile);
+    if (
+      !me.avatar?.avatarUrl ||
+      !me.location ||
+      !myProfile
+    ) {
+      console.log("no data");
+      setModalClose("");
+      
+    } else {
+      setModalClose("modal");
+     console.log("has data");
+    }
+  }
 
   useEffect(() => {
     if (usersData && username) {
@@ -121,6 +149,7 @@ const ProfileList = (props) => {
       }
     }
   };
+ 
 
   if (meDataLoading || usersDataLoading) {
     return <Spinner />;
@@ -155,6 +184,7 @@ const ProfileList = (props) => {
                           incomingResp(distanceObj);
                           outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
+                          hasData()
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -215,6 +245,7 @@ const ProfileList = (props) => {
                           incomingResp(distanceObj);
                           outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
+                          hasData(distanceObj);
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -277,6 +308,8 @@ const ProfileList = (props) => {
                       setIncomingResponse(false);
                       setFriends(false);
                       setOtherFriend(false);
+                      // setModalClose("");
+                      setDoSetUpMessage("");
                     }}
                   ></button>
                 </div>
@@ -369,6 +402,7 @@ const ProfileList = (props) => {
               ) : (
                 <></>
               )}
+              {doSetUpMessage ? <p>{doSetUpMessage}</p> : <></>}
               <div className="modal-footer">
                 <div className="row row-modal-footer">
                   <div className="col-6">
@@ -377,6 +411,7 @@ const ProfileList = (props) => {
                       className="btn btn-secondary"
                       data-bs-dismiss="modal"
                       onClick={() => {
+                        // setModalClose("");
                         setAvatarUrl("");
                         setUsername("");
                         setOutgoingRequest(false);
@@ -386,6 +421,7 @@ const ProfileList = (props) => {
                         setFriends(false);
                         setOtherFriend(false);
                         setOtherFriendDate(false);
+                        setDoSetUpMessage("");
                       }}
                     >
                       Close
@@ -415,33 +451,12 @@ const ProfileList = (props) => {
                         type="button"
                         className="col-6 btn btn-primary friendship-request"
                         onClick={contact}
-                        data-bs-dismiss="modal"
+                        data-bs-dismiss={modalClose}
                       >
                         request friendship
                       </button>
                     )}
                 </div>
-                {/* {friends === true && otherFriend === false ? (
-                  <p>
-                    Don't forget to ok {user.username} from your notification so
-                    your email is also viewable to {user.username}.
-                  </p>
-                ) : (
-                  <></>
-                )}
-
-                {((incomingRequest === true || outgoingResponse === true) &&
-                  friends === true &&
-                  otherFriend === false) ||
-                (friends === false && otherFriend === true) ? (
-                  <p>
-                    your contact is now viewable to {user.username}. Once{" "}
-                    {user.username} has ok on it's side {user.username}' contact
-                    will be viewable to you.
-                  </p>
-                ) : (
-                  <></>
-                )} */}
               </div>
             </div>
           </div>

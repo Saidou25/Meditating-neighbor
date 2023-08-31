@@ -13,7 +13,7 @@ const contactSchema = new Schema({
   },
   avatarUrl: {
     type: String,
-    trim: true,
+    unique: true,
   },
 });
 

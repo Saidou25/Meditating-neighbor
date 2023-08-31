@@ -19,6 +19,8 @@ import "./index.css";
 const Notifications = () => {
   const date = new Date();
   const todaysDate = date.toString().slice(0, 15);
+
+  
   const [requestId, setRequestId] = useState("");
   const [responseId, setResponseId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
@@ -43,7 +45,7 @@ const Notifications = () => {
 
   // query all responses
   const { data: responsesData } = useQuery(QUERY_RESPONSES);
-  const [addResponse] = useMutation(ADD_RESPONSE, {
+  const [addResponse, { error: addResponseError }] = useMutation(ADD_RESPONSE, {
     update(cache, { data: { addResponse } }) {
       try {
         const { me } = cache.readQuery({ query: QUERY_ME });
@@ -61,7 +63,7 @@ const Notifications = () => {
     },
   });
 
-  const [addContact] = useMutation(ADD_CONTACT, {
+  const [addContact, { error, addContactError }] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
         const { me } = cache.readQuery({ query: QUERY_ME });
@@ -80,47 +82,53 @@ const Notifications = () => {
   });
   // Updating the cache with newly created contact
 
-  const [deleteRequest] = useMutation(DELETE_REQUEST, {
-    variables: { id: requestId },
-    update(cache, { data: { deleteRequest } }) {
-      try {
-        const { requests } = cache.readQuery({ query: QUERY_REQUESTS });
-        cache.writeQuery({
-          query: QUERY_REQUESTS,
-          data: {
-            requests: requests.filter(
-              (request) => request._id !== deleteRequest._id
-            ),
-          },
-        });
+  const [deleteRequest, { error: deleteRequestError }] = useMutation(
+    DELETE_REQUEST,
+    {
+      variables: { id: requestId },
+      update(cache, { data: { deleteRequest } }) {
+        try {
+          const { requests } = cache.readQuery({ query: QUERY_REQUESTS });
+          cache.writeQuery({
+            query: QUERY_REQUESTS,
+            data: {
+              requests: requests.filter(
+                (request) => request._id !== deleteRequest._id
+              ),
+            },
+          });
 
-        console.log("success updating cache with delete request");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
+          console.log("success updating cache with delete request");
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    }
+  );
   // const [deleteResponse] = useMutation(DELETE_RESPONSE)
-  const [deleteResponse] = useMutation(DELETE_RESPONSE, {
-    variables: { id: responseId },
-    update(cache, { data: { deleteResponse } }) {
-      try {
-        const { responses } = cache.readQuery({ query: QUERY_RESPONSES });
-        cache.writeQuery({
-          query: QUERY_RESPONSES,
-          data: {
-            responses: responses.filter(
-              (response) => response._id !== deleteResponse._id
-            ),
-          },
-        });
+  const [deleteResponse, { error: deleteResponseError }] = useMutation(
+    DELETE_RESPONSE,
+    {
+      variables: { id: responseId },
+      update(cache, { data: { deleteResponse } }) {
+        try {
+          const { responses } = cache.readQuery({ query: QUERY_RESPONSES });
+          cache.writeQuery({
+            query: QUERY_RESPONSES,
+            data: {
+              responses: responses.filter(
+                (response) => response._id !== deleteResponse._id
+              ),
+            },
+          });
 
-        console.log("success updating cache with delete response");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
+          console.log("success updating cache with delete response");
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    }
+  );
   useEffect(() => {
     if (requestsData && meData && usersData && responsesData) {
       const myData = meData?.me || [];
@@ -192,8 +200,9 @@ const Notifications = () => {
   };
 
   const addFriend = async (user) => {
-    console.log(user);
+    console.log(user.avatar?.avatarUrl);
     const id = user._id;
+   
     try {
       const { data } = await addContact({
         variables: {
@@ -259,6 +268,14 @@ const Notifications = () => {
 
   return (
     <>
+      {addResponseError ||
+      addContactError ||
+      deleteRequestError ||
+      deleteResponseError ? (
+        <>{error.message}</>
+      ) : (
+        <></>
+      )}
       {myContactRequestsToOthers.length ? (
         <>
           <h3 className="request-title text-light bg-primary">
@@ -338,7 +355,7 @@ const Notifications = () => {
             {respondingUsersProfiles &&
               respondingUsersProfiles.map((user) => (
                 <div
-                  key={user.username}
+                  key={user._id}
                   className="row response-list bg-primary text-light"
                 >
                   <div className="col-2">
