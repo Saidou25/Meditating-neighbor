@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
 import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -19,6 +20,7 @@ const ProfileForm = () => {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
@@ -77,8 +79,11 @@ const ProfileForm = () => {
     } catch (e) {
       console.log(e);
     }
-
-    console.log("done");
+    setMessage("Your profile has been created");
+    setTimeout(() => {
+      setMessage("");
+      navigate("/Profile");
+    }, 4000);
     setTeacher("meditator");
     setErrorMessage("");
     setYears("");
@@ -86,50 +91,55 @@ const ProfileForm = () => {
     setFirstname("");
     setLastname("");
     setStory("");
-    navigate("/Profile");
   };
+  if (meDataLoading) {
+    return <Spinner />;
+  }
+  if (message) {
+    return <Success message={"Your profile has been created"} />;
+  }
   return (
     <>
       <Navbar />
       <div className="profile-form bg-primary">
         <h3 className="profile-title text-light py-5">Profile form</h3>
         <form className="my-form bg-primary">
+          <div>
+            <div>
+              <label className="form-label text-light my-4">status</label>
+              <input
+                className="radio m-2 ms-4"
+                type="radio"
+                name="teacher"
+                value="meditator"
+                checked={teacher === "meditator"}
+                onChange={(e) => setTeacher(e.target.value)}
+              />{" "}
+              meditator
+              <input
+                className="radio m-2 ms-4"
+                type="radio"
+                name="teacher"
+                value="teacher"
+                checked={teacher === "teacher"}
+                onChange={(e) => setTeacher(e.target.value)}
+              />{" "}
+              teacher
+            </div>
+          </div>
+          <div>
+            <label className="form-label text-light my-4">years</label>
+            <input
+              type="text"
+              className="form-control"
+              name="years"
+              value={years}
+              placeholder="How many years have you been meditating?"
+              onChange={(e) => setYears(e.target.value)}
+            />
+          </div>
           {teacher === "meditator" ? (
             <>
-              <div>
-                <div>
-                  <label className="form-label text-light my-4">status</label>
-                  <input
-                    className="radio m-2 ms-4"
-                    type="radio"
-                    name="petKind"
-                    value="meditator"
-                    checked={teacher === "meditator"}
-                    onChange={(e) => setTeacher(e.target.value)}
-                  />{" "}
-                  meditator
-                  <input
-                    className="radio m-2 ms-4"
-                    type="radio"
-                    name="petKind"
-                    value="teacher"
-                    checked={teacher === "teacher"}
-                    onChange={(e) => setTeacher(e.target.value)}
-                  />{" "}
-                  teacher
-                </div>
-              </div>
-              <div>
-                <label className="form-label text-light my-4">years</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="years"
-                  value={years}
-                  placeholder="How many years have you been meditating?"
-                  onChange={(e) => setYears(e.target.value)}
-                />
-              </div>
               <div>
                 <label className="form-label text-light my-4">stage</label>
                 <input
@@ -149,40 +159,6 @@ const ProfileForm = () => {
             </>
           ) : (
             <>
-              <div>
-                <div>
-                  <label className="form-label text-light my-4">status</label>
-                  <input
-                    className="radio m-2 ms-4"
-                    type="radio"
-                    name="petKind"
-                    value="meditator"
-                    checked={teacher === "meditator"}
-                    onChange={(e) => setTeacher(e.target.value)}
-                  />{" "}
-                  meditator
-                  <input
-                    className="radio m-2 ms-4"
-                    type="radio"
-                    name="petKind"
-                    value="teacher"
-                    checked={teacher === "teacher"}
-                    onChange={(e) => setTeacher(e.target.value)}
-                  />{" "}
-                  teacher
-                </div>
-              </div>
-              <div>
-                <label className="form-label text-light my-4">years</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="years"
-                  value={years}
-                  placeholder="How many years have you been meditating?"
-                  onChange={(e) => setYears(e.target.value)}
-                />
-              </div>
               <div>
                 <label className="form-label text-light my-4">first name</label>
                 <input

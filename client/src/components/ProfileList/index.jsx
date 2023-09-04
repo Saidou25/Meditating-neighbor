@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_USERS, QUERY_ME, QUERY_PROFILES } from "../../utils/queries";
+import { QUERY_USERS, QUERY_ME, QUERY_PROFILES, QUERY_AVATARS, QUERY_LOCATIONS } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import Navbar from "../Navbar";
@@ -27,6 +27,16 @@ const ProfileList = (props) => {
   const profiles = profilesData?.profiles || [];
   const userProfile = profiles.filter((profile) => profile.username === me.username);
   const myProfile = userProfile[0];
+
+  const { data: avatarsData, avatarsDataLoadint } = useQuery(QUERY_AVATARS);
+  const avatars = avatarsData?.avatars || [];
+  const userAvatar = avatars.filter((avatar) => avatar.username === me.username);
+  const myAvatar = userAvatar[0];
+
+  const { data: locationsData, locationDataLoading } = useQuery(QUERY_LOCATIONS);
+  const locations = locationsData?.locations || [];
+  const userLocation = locations.filter((location) => location.username === me.username);
+  const myLocation = userLocation[0];
   // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
@@ -71,8 +81,8 @@ const ProfileList = (props) => {
   };
   const hasData = () => {
     if (
-      !me.avatar?.avatarUrl ||
-      !me.location ||
+      !myAvatar ||
+      !myLocation ||
       !myProfile
     ) {
       console.log("no data");

@@ -8,7 +8,8 @@ const Success = ({ message }) => {
     <div className="container-fluid success bg-primary">
       <div className="container-success">
         {(message === "Your profile has been updated." ||
-          message === "Welcome to TMIWORLD...") && (
+          message === "Welcome to TMIWORLD..." ||
+          message === "Your profile has been created") && (
           <>
             {" "}
             <div className="d-flex fa-success mb-2">
