@@ -19,10 +19,10 @@ import Map from "./components/Map";
 import Notifications from "./components/Notifications";
 import Usa from "./components/Usa";
 import Avatar from "./components/Avatar";
-import ProfileList from "./components/ProfileList";
-import Profile1 from "./components/Profile1";
-import ProfileModal from "./components/ProfileModal";
 import ProfileForm from "./components/ProfileForm";
+import ProfileList from "./components/ProfileList";
+import Profile from "./components/Profile";
+import ProfileModal from "./components/ProfileModal";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import Neighbors from "./components/Neighbors";
 import ModalReadMore from "./components/ModalReadMore";
@@ -104,10 +104,10 @@ function App() {
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
-            <Route path="/ProfileList" element={<ProfileList />} />
-            <Route path="/Profile1" element={<Profile1 />} />
-            <Route path="/ProfileModal" element={<ProfileModal />} />
             <Route path="/ProfileForm" element={<ProfileForm />} />
+            <Route path="/ProfileList" element={<ProfileList />} />
+            <Route path="/Profile" element={<Profile />} />
+            <Route path="/ProfileModal" element={<ProfileModal />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/ModalReadMore" element={<ModalReadMore />} />

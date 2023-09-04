@@ -207,7 +207,7 @@ const Navbar = () => {
               )}
               {Auth.loggedIn() && (
                 <li className="nav-item">
-                  <Link className="nav-link text-light fs-4" to="/Profile1">
+                  <Link className="nav-link text-light fs-4" to="/Profile">
                     <img
                       className="icon-nav"
                       src={!savedUrl ? profileIcon : savedUrl}

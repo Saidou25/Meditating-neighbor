@@ -70,10 +70,6 @@ const ProfileList = (props) => {
     }
   };
   const hasData = () => {
-    // console.log(me)
-    console.log("avatar", me.avatar?.avatarUrl);
-    console.log("location", me.location);
-    console.log("profile", myProfile);
     if (
       !me.avatar?.avatarUrl ||
       !me.location ||

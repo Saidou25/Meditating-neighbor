@@ -127,6 +127,9 @@ const resolvers = {
         { new: true }
       );
     },
+    deleteLocation: async (_, args) => {
+      return await Location.findOneAndDelete({ _id: args.id });
+    },
     addAvatar: async (_, args, context) => {
       if (context.user) {
         const avatar = await Avatar.create({

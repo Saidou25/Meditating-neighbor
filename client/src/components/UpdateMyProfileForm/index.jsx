@@ -36,6 +36,7 @@ const UpdateMyProfileForm = () => {
     variables: { id: profileId },
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
+  console.log(story, firstname, lastname);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,26 +45,28 @@ const UpdateMyProfileForm = () => {
       return;
     }
     if (
-      teacher === "teacher" ||
-      teacher === "meditator" ||
-      teacher === "Teacher" ||
-      teacher === "Meditator"
+      teacher !== "teacher" ||
+      teacher !== "meditator" ||
+      teacher !== "Teacher" ||
+      teacher !== "Meditator"
     ) {
-    } else {
       setError("Please answer 'teacher' or 'meditator'");
       return;
-    }
-    if (
+    } else if (
       (teacher === "meditator" || teacher === "Meditator") &&
       (/^[0-9]*$/.test(stage) === false || /^[0-9]*$/.test(years) === false)
     ) {
       setError("years meditating and stage must be numbers");
       return;
     }
-    if ((teacher === "teacher" || teacher === "Teacher") && /^[0-9]*$/.test(years) === false) {
+    if (
+      (teacher === "teacher" || teacher === "Teacher") &&
+      /^[0-9]*$/.test(years) === false
+    ) {
       setError("years meditating must be a number");
       return;
     }
+
     try {
       const { data } = await updateProfile({
         variables: {
@@ -78,7 +81,7 @@ const UpdateMyProfileForm = () => {
         },
       });
       if (data) {
-        console.log("profile updated");
+        console.log("profile updated", data);
       }
     } catch (e) {
       console.log(e);
@@ -98,7 +101,7 @@ const UpdateMyProfileForm = () => {
     }
     setConfirm(true);
     setTimeout(() => {
-      navigate("/Profile1");
+      navigate("/Profile");
       setConfirm(false);
     }, 3000);
     setStage("");
@@ -119,8 +122,7 @@ const UpdateMyProfileForm = () => {
             <label className="form-label text-light fs-4 mt-4 mb-5">
               Please change the fields you would like to update
             </label>
-            {teacher === "teacher" ||
-            teacher === "Teacher" ? (
+            {teacher === "teacher" || teacher === "Teacher" ? (
               <>
                 <div className="form-floating mb-3">
                   <input

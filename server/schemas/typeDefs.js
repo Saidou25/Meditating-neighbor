@@ -83,6 +83,7 @@ const typeDefs = gql`
     login(email: String, password: String): Auth
     addAvatar(username: String, avatarUrl: String): Avatar
     deleteAvatar(id: String!): Avatar
+    deleteLocation(id: String!): Location
     updateAvatar(id: String, username: String, avatarUrl: String): Avatar
     addProfile(
       username: String

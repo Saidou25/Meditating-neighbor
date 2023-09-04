@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES } from "../../utils/queries";
+import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
 import { useNavigate, useLocation } from "react-router-dom";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import Spinner from "../Spinner";
 import "./index.css";
 
 const ProfileForm = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const me = location.state.me;
+  const [teacher, setTeacher] = useState("meditator");
+  const [years, setYears] = useState("");
+  const [stage, setStage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [stage, setStage] = useState("");
-  const [teacher, setTeacher] = useState("");
-  const [years, setYears] = useState("");
-  const [error, setError] = useState("");
-  const [confirm, setConfirm] = useState(false);
   const [story, setStory] = useState("");
+  const [message, setMessage] = useState("");
 
-  const [addProfile, { data }] = useMutation(ADD_PROFILE, {
+  const navigate = useNavigate();
+  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
+  const me = meData?.me || [];
+
+  const [addProfile] = useMutation(ADD_PROFILE, {
     update(cache, { data: { addProfile } }) {
       try {
         const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
@@ -37,170 +37,200 @@ const ProfileForm = () => {
     },
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!teacher || !years) {
-      setError("All fields need filled");
-      return;
-    }
-    if (
-      teacher === "teacher" ||
-      teacher === "meditator" ||
-      teacher === "Teacher" ||
-      teacher === "Meditator"
-    ) {
-    } else {
-      setError("Please answer 'teacher' or 'meditator'");
-      return;
-    }
-    if (
-      (teacher === "meditator" || teacher === "Meditator") &&
-      (/^[0-9]*$/.test(stage) === false || /^[0-9]*$/.test(years) === false)
-    ) {
-      setError("years meditating and stage must be numbers");
-      return;
-    }
-    if ((teacher === "teacher" || teacher === "Teacher") && /^[0-9]*$/.test(years) === false) {
-      setError("years meditating must be a number");
-      return;
+  const handleFormSubmit = async (e) => {
+    if (teacher === "meditator") {
+      if (!teacher || !years || !stage) {
+        setErrorMessage("all fields need filled");
+        return;
+      } else if (
+        teacher === "meditator" &&
+        (/^[0-9]+$/.test(years) === false || /^[0-9]+$/.test(stage) === false)
+      ) {
+        setErrorMessage("years and stage must be numbers");
+        return;
+      }
+    } else if (teacher === "teacher") {
+      if (!teacher || !years || !firstname || !lastname || !story) {
+        setErrorMessage("all fields need filled");
+        return;
+      } else if (/^[0-9]+$/.test(years) === false) {
+        setErrorMessage("years must be a number");
+        console.log("years must be a number");
+        return;
+      }
     }
     try {
       const { data } = await addProfile({
         variables: {
           username: me.username,
+          teacher: teacher,
+          years: years,
+          stage: stage,
           firstname: firstname,
           lastname: lastname,
-          stage: stage,
-          years: years,
-          teacher: teacher,
           story: story,
         },
       });
       if (data) {
-        setError("");
-        console.log("profile created");
+        console.log("profile updated");
       }
     } catch (e) {
       console.log(e);
     }
-    console.log("profile created");
-    setConfirm(true);
-    setTimeout(() => {
-      navigate("/Profile1");
-      setConfirm(false);
-    }, 4000);
-    setStage("");
+
+    console.log("done");
+    setTeacher("meditator");
+    setErrorMessage("");
     setYears("");
-    setTeacher("");
+    setStage("");
+    setFirstname("");
+    setLastname("");
+    setStory("");
+    navigate("/Profile");
   };
-  if (data) {
-    return <Spinner />
-  }
-  if (confirm === true) {
-    return <Success />;
-  }
   return (
     <>
       <Navbar />
-      <div className="container-fluid profile-form bg-primary">
-        <div className="main-form">
-          <div className="form-group">
-            <label className="form-label text-light fs-4 mt-4 mb-5">
-              Detail your profile
-            </label>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control pt-5 pb-4"
-                id="floatingteacher"
-                placeholder="teacher"
-                autoComplete="off"
-                onChange={(e) => setTeacher(e.target.value)}
-              />
-              <label htmlFor="floatingPassword">
-                are you a teacher or meditator?
-              </label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="text"
-                className="form-control pt-5 pb-4"
-                id="floatingInput"
-                placeholder="enter number of years"
-                onChange={(e) => setYears(e.target.value)}
-              />
-              <label htmlFor="floatingInput">years meditating</label>
-            </div>
-            {teacher === "teacher" || teacher === "Teacher" ? (
-              <>
-                <div className="form-floating mb-3">
+      <div className="profile-form bg-primary">
+        <h3 className="profile-title text-light py-5">Profile form</h3>
+        <form className="my-form bg-primary">
+          {teacher === "meditator" ? (
+            <>
+              <div>
+                <div>
+                  <label className="form-label text-light my-4">status</label>
                   <input
-                    type="text"
-                    className="form-control pt-5 pb-4"
-                    id="floatingInput"
-                    placeholder="fitst name"
-                    onChange={(e) => setFirstname(e.target.value)}
-                  />
-                  <label htmlFor="floatingInput">first name</label>
-                </div>
-                <div className="form-floating mb-3">
+                    className="radio m-2 ms-4"
+                    type="radio"
+                    name="petKind"
+                    value="meditator"
+                    checked={teacher === "meditator"}
+                    onChange={(e) => setTeacher(e.target.value)}
+                  />{" "}
+                  meditator
                   <input
-                    type="text"
-                    className="form-control pt-5 pb-4"
-                    id="floatingInput"
-                    placeholder="last name"
-                    onChange={(e) => setLastname(e.target.value)}
-                  />
-                  <label htmlFor="floatingInput">last name</label>
+                    className="radio m-2 ms-4"
+                    type="radio"
+                    name="petKind"
+                    value="teacher"
+                    checked={teacher === "teacher"}
+                    onChange={(e) => setTeacher(e.target.value)}
+                  />{" "}
+                  teacher
                 </div>
-                <div className="form-floating mb-3">
-                  <textarea
-                    type="text"
-                    className="form-control pt-5 pb-4"
-                    style={{ height: "200px" }}
-                    id="floatingteacher"
-                    autoComplete="off"
-                    placeholder="about yourself"
-                    onChange={(e) => setStory(e.target.value)}
-                  />
-                  <label htmlFor="floatingInput">
-                    Please write about yourself...
-                  </label>
-                </div>
-              </>
-            ) : (
-              <div className="form-floating mb-3">
+              </div>
+              <div>
+                <label className="form-label text-light my-4">years</label>
                 <input
                   type="text"
-                  className="form-control pt-5 pb-4"
-                  id="floatingstage"
-                  placeholder="stage"
-                  autoComplete="off"
+                  className="form-control"
+                  name="years"
+                  value={years}
+                  placeholder="How many years have you been meditating?"
+                  onChange={(e) => setYears(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="form-label text-light my-4">stage</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="stage"
+                  value={stage}
+                  placeholder="What stage are you working on?"
                   onChange={(e) => setStage(e.target.value)}
                 />
-                <label htmlFor="floatingPassword">
-                  what stage are you currently working on?
-                </label>
               </div>
-            )}
-          </div>
-          {error && (
-            <div className="profile-form-error bg-danger mt-3 text-light p-3">
-              {error}
-            </div>
-          )}
-          {confirm && (
-            <div className="profile-form-error bg-success mt-3 text-light p-3">
-              {confirm}
-            </div>
+              {errorMessage && (
+                <div className="error-message bg-danger text-light my-5">
+                  <p className="p-error p-3">{errorMessage}</p>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div>
+                <div>
+                  <label className="form-label text-light my-4">status</label>
+                  <input
+                    className="radio m-2 ms-4"
+                    type="radio"
+                    name="petKind"
+                    value="meditator"
+                    checked={teacher === "meditator"}
+                    onChange={(e) => setTeacher(e.target.value)}
+                  />{" "}
+                  meditator
+                  <input
+                    className="radio m-2 ms-4"
+                    type="radio"
+                    name="petKind"
+                    value="teacher"
+                    checked={teacher === "teacher"}
+                    onChange={(e) => setTeacher(e.target.value)}
+                  />{" "}
+                  teacher
+                </div>
+              </div>
+              <div>
+                <label className="form-label text-light my-4">years</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="years"
+                  value={years}
+                  placeholder="How many years have you been meditating?"
+                  onChange={(e) => setYears(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="form-label text-light my-4">first name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="firstname"
+                  value={firstname}
+                  placeholder="first name"
+                  onChange={(e) => setFirstname(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="form-label text-light my-4">last name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lastname"
+                  value={lastname}
+                  placeholder="last name"
+                  onChange={(e) => setLastname(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="form-label text-light my-4">story</label>
+                <textarea
+                  type="text"
+                  className="form-control"
+                  name="story"
+                  value={story}
+                  placeholder="write about yourself"
+                  onChange={(e) => setStory(e.target.value)}
+                />
+              </div>
+              {errorMessage && (
+                <div className="error-message bg-danger text-light my-5">
+                  <p className="p-error p-3">{errorMessage}</p>
+                </div>
+              )}
+            </>
           )}
           <button
-            className="btn btn-profile-form rounded-0 p-3 mt-5 fs-5"
-            onClick={handleSubmit}
+            className="btn btn-profile rounded-0 my-5"
+            type="button"
+            onClick={handleFormSubmit}
           >
-            submit
+            Submmit
           </button>
-        </div>
+        </form>
       </div>
       <Footer />
     </>

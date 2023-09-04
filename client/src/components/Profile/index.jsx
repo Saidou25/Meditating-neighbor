@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME, QUERY_PROFILES, QUERY_LOCATIONS } from "../../utils/queries";
-import { DELETE_PROFILE } from "../../utils/mutations";
+import { DELETE_PROFILE, DELETE_LOCATION } from "../../utils/mutations";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
@@ -11,7 +11,7 @@ import Spinner from "../Spinner";
 
 import "./index.css";
 
-const Profile1 = () => {
+const Profile = () => {
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
@@ -22,6 +22,7 @@ const Profile1 = () => {
     (location) => location.username === me.username
   );
   const myLocation = userLocation[0];
+  const myLocationId = myLocation?._id;
 
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
   const profiles = allProfiles?.profiles || [];
@@ -65,6 +66,20 @@ const Profile1 = () => {
       console.error(e);
     }
     console.log("success deleting profile");
+  };
+  const [deleteLocation] = useMutation(DELETE_LOCATION);
+  const removeLocation = async () => {
+    console.log(myLocationId)
+    try {
+      const { data } = await deleteLocation({
+        variables: { id: myLocationId },
+      });
+      if (data) {
+        console.log("success deleting location");
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (meDataLoading || allProfilesLoading || locationsDataLoading) {
@@ -119,6 +134,9 @@ const Profile1 = () => {
                     <>
                       <p className="profile-p text-light">
                         Status: {myProfile?.teacher}
+                      </p>
+                      <p className="profile-p text-light">
+                        Has been meditating for: {myProfile?.years}
                       </p>
                       <p className="profile-p text-light mb-5">
                         Currently working on stage {myProfile?.stage}
@@ -175,7 +193,10 @@ const Profile1 = () => {
               Click
               <button
                 className="delete-btn bg-primary text-info"
-                onClick={removeProfile}
+                onClick={() => {
+                  removeProfile();
+                  removeLocation();
+                }}
               >
                 here
               </button>{" "}
@@ -191,4 +212,4 @@ const Profile1 = () => {
   );
 };
 
-export default Profile1;
+export default Profile;

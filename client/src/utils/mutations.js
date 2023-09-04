@@ -118,6 +118,19 @@ export const UPDATE_LOCATION = gql`
     }
   }
 `;
+export const DELETE_LOCATION = gql`
+  mutation deleteLocation($id: String!) {
+    deleteLocation(id: $id) {
+    _id
+    username
+    longitude
+    latitude
+    city
+    state
+    country
+    }
+  }
+`;
 export const ADD_PROFILE = gql`
   mutation addProfile(
     $username: String!
