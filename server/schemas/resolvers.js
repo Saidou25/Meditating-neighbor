@@ -250,6 +250,9 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    deleteUser: async (_, args) => {
+      return await User.findOneAndDelete({ _id: args.id });
+    },
   },
 };
 

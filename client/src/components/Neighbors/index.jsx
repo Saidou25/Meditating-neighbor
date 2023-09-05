@@ -63,8 +63,7 @@ const Neighbors = () => {
   const allUsersButMe = users.filter((user) => user.username !== me.username);
 
   for (let user of allUsersButMe) {
-    // console.log('all users but me', allUsersButMe.avatars?.avatarUrl)
-    // console.log("user", user.username, user.avatars[0]?.avatarUrl);
+    if (user.location && user.profile && user.avatar)
     distance(myLat, myLon, user);
   };
 

@@ -26,10 +26,46 @@ export const ADD_USER = gql`
 export const DELETE_USER = gql`
   mutation deleteUser($id: String!) {
     deleteUser(id: $id) {
-      token
-      user {
+      _id
+      username
+      profile {
         _id
         username
+        firstname
+        lastname
+        stage
+        years
+        teacher
+        story
+      }
+      location {
+        _id
+        username
+        longitude
+        latitude
+        city
+        state
+        country
+      }
+      requests {
+        _id
+        myName
+        email
+        destinationName
+        avatarUrl
+      }
+      responses {
+        _id
+        toName
+        email
+        fromName
+        avatarUrl
+      }
+      contacts {
+        _id
+        friendId
+        todaysDate
+        avatarUrl
       }
     }
   }
@@ -121,13 +157,13 @@ export const UPDATE_LOCATION = gql`
 export const DELETE_LOCATION = gql`
   mutation deleteLocation($id: String!) {
     deleteLocation(id: $id) {
-    _id
-    username
-    longitude
-    latitude
-    city
-    state
-    country
+      _id
+      username
+      longitude
+      latitude
+      city
+      state
+      country
     }
   }
 `;
@@ -209,8 +245,18 @@ export const DELETE_PROFILE = gql`
   }
 `;
 export const ADD_REQUEST = gql`
-  mutation addRequest($myName: String, $email: String, $destinationName: String, $avatarUrl: String) {
-    addRequest(myName: $myName, email: $email, destinationName: $destinationName, avatarUrl: $avatarUrl) {
+  mutation addRequest(
+    $myName: String
+    $email: String
+    $destinationName: String
+    $avatarUrl: String
+  ) {
+    addRequest(
+      myName: $myName
+      email: $email
+      destinationName: $destinationName
+      avatarUrl: $avatarUrl
+    ) {
       _id
       myName
       email
@@ -231,8 +277,18 @@ export const DELETE_REQUEST = gql`
   }
 `;
 export const ADD_RESPONSE = gql`
-  mutation addResponse($toName: String, $email: String, $fromName: String, $avatarUrl: String) {
-    addResponse(toName: $toName, email: $email, fromName: $fromName, avatarUrl: $avatarUrl) {
+  mutation addResponse(
+    $toName: String
+    $email: String
+    $fromName: String
+    $avatarUrl: String
+  ) {
+    addResponse(
+      toName: $toName
+      email: $email
+      fromName: $fromName
+      avatarUrl: $avatarUrl
+    ) {
       _id
       fromName
       email
@@ -253,8 +309,16 @@ export const DELETE_RESPONSE = gql`
   }
 `;
 export const ADD_CONTACT = gql`
-  mutation addContact($friendId: String!, $todaysDate: String, $avatarUrl: String) {
-    addContact(friendId: $friendId, todaysDate: $todaysDate, avatarUrl: $avatarUrl) {
+  mutation addContact(
+    $friendId: String!
+    $todaysDate: String
+    $avatarUrl: String
+  ) {
+    addContact(
+      friendId: $friendId
+      todaysDate: $todaysDate
+      avatarUrl: $avatarUrl
+    ) {
       _id
       friendId
       todaysDate

@@ -9,7 +9,8 @@ const Success = ({ message }) => {
       <div className="container-success">
         {(message === "Your profile has been updated." ||
           message === "Welcome to TMIWORLD..." ||
-          message === "Your profile has been created") && (
+          message === "Your profile has been created" ||
+          message === "Your account has been deleted. Goodbye.") && (
           <>
             {" "}
             <div className="d-flex fa-success mb-2">

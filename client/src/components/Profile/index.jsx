@@ -1,9 +1,22 @@
 import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ME, QUERY_PROFILES, QUERY_LOCATIONS } from "../../utils/queries";
-import { DELETE_PROFILE, DELETE_LOCATION } from "../../utils/mutations";
+import {
+  QUERY_ME,
+  QUERY_PROFILES,
+  QUERY_LOCATIONS,
+  QUERY_AVATARS,
+  QUERY_USERS,
+} from "../../utils/queries";
+import {
+  DELETE_PROFILE,
+  DELETE_LOCATION,
+  DELETE_AVATAR,
+  DELETE_USER,
+  DELETE_CONTACTS,
+} from "../../utils/mutations";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import DeleteModal from "../DeleteModal";
 import Avatar from "../Avatar";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
@@ -22,7 +35,7 @@ const Profile = () => {
     (location) => location.username === me.username
   );
   const myLocation = userLocation[0];
-  const myLocationId = myLocation?._id;
+  const locationId = myLocation?._id;
 
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
   const profiles = allProfiles?.profiles || [];
@@ -31,6 +44,14 @@ const Profile = () => {
   );
   const myProfile = userProfile[0];
   const profileId = myProfile?._id;
+
+  const { data: avatarsData, avatarsDataLoading } = useQuery(QUERY_AVATARS);
+  const avatars = avatarsData?.avatars || [];
+  const userAvatar = avatars.filter(
+    (avatar) => avatar.username === me.username
+  );
+  const myAvatar = userAvatar[0];
+  const avatarId = myAvatar?._id;
 
   const [deleteProfile] = useMutation(DELETE_PROFILE, {
     variables: { id: profileId },
@@ -69,10 +90,9 @@ const Profile = () => {
   };
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const removeLocation = async () => {
-    console.log(myLocationId)
     try {
       const { data } = await deleteLocation({
-        variables: { id: myLocationId },
+        variables: { id: locationId },
       });
       if (data) {
         console.log("success deleting location");
@@ -82,7 +102,12 @@ const Profile = () => {
     }
   };
 
-  if (meDataLoading || allProfilesLoading || locationsDataLoading) {
+  if (
+    meDataLoading ||
+    allProfilesLoading ||
+    locationsDataLoading ||
+    avatarsDataLoading
+  ) {
     return <Spinner />;
   }
   return (
@@ -189,19 +214,16 @@ const Profile = () => {
             </div>
           </div>
           <div className="col-12 bottom-text mx-0">
-            <p className="delete-text bg-primary text-light mx-5">
+            <div className="delete-text bg-primary text-light mx-5">
               Click
-              <button
-                className="delete-btn bg-primary text-info"
-                onClick={() => {
-                  removeProfile();
-                  removeLocation();
-                }}
-              >
-                here
-              </button>{" "}
+              <DeleteModal
+                profileId={profileId}
+                avatarId={avatarId}
+                locationId={locationId}
+                userId={me._id}
+              />
               if you wish to delete your account.
-            </p>
+            </div>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Contacts from "./components/Contacts";
+import DeleteModal from "./components/DeleteModal";
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -96,6 +97,7 @@ function App() {
             <Route path="/Navbar" element={<Navbar />} />
             <Route path="/Footer" element={<Footer />} />
             <Route path="/Contacts" element={<Contacts />} />
+            <Route path="/DeleteModal" element={<DeleteModal />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/LoginSignup" element={<LoginSignup />} />

@@ -21,10 +21,10 @@ const typeDefs = gql`
   type Location {
     _id: ID
     username: String
-    longitude: Float!
-    latitude: Float!
-    city: String!
-    state: String!
+    longitude: Float
+    latitude: Float
+    city: String
+    state: String
     country: String
   }
   type Profile {
@@ -127,6 +127,7 @@ const typeDefs = gql`
     addResponse(fromName: String, email: String, toName: String, avatarUrl: String): Response
     deleteResponse(id: String!): Response
     addContact(friendId: String!, todaysDate: String, avatarUrl: String): Contact
+    deleteUser(id: String!): User
   }
 `;
 
