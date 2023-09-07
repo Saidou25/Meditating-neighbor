@@ -53,9 +53,11 @@ const typeDefs = gql`
   }
   type Contact {
     _id: ID
+    username: String
     friendId: String
     todaysDate: String
     avatarUrl: String
+    friendUsername: String
   }
   type Auth {
     token: ID!
@@ -65,8 +67,8 @@ const typeDefs = gql`
     users: [User]!
     user(id: String): User
     me: User
-    locations: [Location]!
-    avatars: [Avatar]!
+    locations: [Location]
+    avatars: [Avatar]
     avatar(id: String): Avatar!
     profiles: [Profile]
     profile(id: String): Profile
@@ -126,8 +128,9 @@ const typeDefs = gql`
     deleteRequest(id: String!): Request
     addResponse(fromName: String, email: String, toName: String, avatarUrl: String): Response
     deleteResponse(id: String!): Response
-    addContact(friendId: String!, todaysDate: String, avatarUrl: String): Contact
+    addContact(username: String, friendId: String!, friendUsername: String, todaysDate: String, avatarUrl: String): Contact
     deleteUser(id: String!): User
+    deleteContact(id: String!): Contact
   }
 `;
 

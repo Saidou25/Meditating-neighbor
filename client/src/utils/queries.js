@@ -46,7 +46,9 @@ export const QUERY_USERS = gql`
       }
       contacts {
         _id
+        username
         friendId
+        friendUsername
         todaysDate
         avatarUrl
       }
@@ -99,7 +101,9 @@ export const QUERY_USER = gql`
       }
       contacts {
         _id
+        username
         friendId
+        friendUsername
         todaysDate
         avatarUrl
       }
@@ -152,7 +156,9 @@ export const QUERY_ME = gql`
       }
       contacts {
         _id
+        username
         friendId
+        friendUsername
         todaysDate
         avatarUrl
       }
@@ -266,7 +272,9 @@ export const QUERY_CONTACTS = gql`
   query contacts {
     contacts {
       _id
+      username
       friendId
+      friendUsername
       todaysDate
       avatarUrl
     }
@@ -276,7 +284,9 @@ export const QUERY_CONTACT = gql`
   query contact($id: String) {
     contact(id: $id) {
       _id
+      username
       friendId
+      friendUsername
       todaysDate
       avatarUrl
     }

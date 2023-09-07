@@ -5,28 +5,141 @@ import {
   DELETE_LOCATION,
   DELETE_AVATAR,
   DELETE_USER,
-  // DELETE_CONTACT
+  DELETE_CONTACT,
 } from "../../utils/mutations";
+import { storage } from "../../firebase";
+import { ref, deleteObject } from "firebase/storage";
 import Auth from "../../utils/auth";
-import Success from "../Success";
 // import "./index.css";
 
-const DeleteModal = ({ profileId, avatarId, locationId, userId }) => {
+const DeleteModal = ({
+  profileId,
+  savedUrl,
+  avatarId,
+  locationId,
+  userId,
+  myContacts,
+}) => {
+  // const [contactId, setContactId] = useState("");
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
   const [deleteAvatar] = useMutation(DELETE_AVATAR);
   const [deleteUser] = useMutation(DELETE_USER);
-  // const [deleteContact] = useMutation(DELETE_CONTACT);
+  const [deleteContact] = useMutation(DELETE_CONTACT);
 
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
 
+  const storageRef = ref(storage, savedUrl);
+  const toDelete = storageRef.fullPath;
+  const imageRef = ref(storage, `${toDelete}`);
+
+  const removeUser = async () => {
+    console.log("in user");
+    try {
+      const { data } = await deleteUser({
+        variables: { id: userId },
+      });
+      if (data) {
+        console.log("success deleting user");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setMessage("Your account has been deleted. Goodbye.");
+    setTimeout(() => {
+      logout();
+    }, 3000);
+  };
+
+  const removeContact = async (contactId) => {
+    if (!contactId) {
+      console.log("no contact");
+      removeUser();
+    } else {
+      try {
+        const { data } = await deleteContact({
+          variables: { id: contactId },
+        });
+        if (data) {
+          console.log("success deleting contact", data);
+          removeUser();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+  const contactDispatch = () => {
+    console.log("in dispatch");
+    if (myContacts) {
+      console.log(myContacts);
+      for (let contact of myContacts) {
+        const contactId = contact._id;
+        console.log("no contact from dispatch");
+        removeContact(contactId);
+      }
+    }
+    console.log("moving to user");
+    removeUser();
+  };
+
+  const removeLocation = async () => {
+    if (!locationId) {
+      console.log("non location");
+      contactDispatch();
+    } else {
+      try {
+        const { data } = await deleteLocation({
+          variables: { id: locationId },
+        });
+        if (data) {
+          console.log("success deleting location");
+          contactDispatch();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  const deleteObjAvatar = () => {
+    deleteObject(imageRef)
+      .then(() => {
+        console.log(`${imageRef} deleted`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const removeAvatar = async () => {
+    if (!avatarId) {
+      console.log("non avatar");
+      removeLocation();
+    } else {
+      try {
+        const { data } = await deleteAvatar({
+          variables: { id: avatarId },
+        });
+        if (data) {
+          console.log("success deleting avatar");
+          removeLocation();
+          deleteObjAvatar();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
   const removeProfile = async () => {
     if (!profileId) {
       removeAvatar();
+      console.log("non profile");
     } else {
       try {
         const { data } = await deleteProfile({
@@ -38,85 +151,10 @@ const DeleteModal = ({ profileId, avatarId, locationId, userId }) => {
         }
       } catch (e) {
         console.error(e);
-      };
-    }
-  };
-
-  const removeAvatar = async () => {
-    if (!avatarId) {
-      removeLocation();
-    } else {
-      try {
-        const { data } = await deleteAvatar({
-          variables: { id: avatarId },
-        });
-        if (data) {
-          console.log("success deleting avatar");
-          removeLocation();
-        }
-      } catch (e) {
-        console.error(e);
       }
     }
   };
 
-  const removeLocation = async () => {
-    if (!locationId) {
-      removeUser();
-    } else {
-      try {
-        const { data } = await deleteLocation({
-          variables: { id: locationId },
-        });
-        if (data) {
-          console.log("success deleting location");
-          removeUser();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  };
-  // const removeContact = async () => {
-  //   if (!contactId) {
-  //     removeUser();
-  //   } else {
-  //     try {
-  //       const { data } = await deleteContact({
-  //         variables: { id: contactId },
-  //       });
-  //       if (data) {
-  //         console.log("success deleting location");
-  //         removeUser();
-  //       }
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }
-  // };
-  const removeUser = async () => {
-    try {
-      const { data } = await deleteUser({
-        variables: { id: userId },
-      });
-      if (data) {
-        console.log("success deleting user");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    // logout();
-    console.log("success");
-    // setMessage("Your account has been deleted. Goodbye.");
-    // setTimeout(() => {
-    //   logout();
-    //   setMessage("");
-    // }, 3000);
-  };
-
-  if (message) {
-    return <Success message={message} />;
-  }
   return (
     <div className="footer-container bg-primary">
       <button
@@ -149,10 +187,14 @@ const DeleteModal = ({ profileId, avatarId, locationId, userId }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="info text-primary">
-                Are you sure you want to delete your account? This is
-                irreversible.
-              </p>
+              {message ? (
+                <p className="info text-primary">{message}</p>
+              ) : (
+                <p className="info text-primary">
+                  Are you sure you want to delete your account? This is
+                  irreversible.
+                </p>
+              )}
             </div>
             <div className="modal-footer">
               <button

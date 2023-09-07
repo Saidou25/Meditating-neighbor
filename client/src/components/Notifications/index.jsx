@@ -19,7 +19,6 @@ import "./index.css";
 const Notifications = () => {
   const date = new Date();
   const todaysDate = date.toString().slice(0, 15);
-
   
   const [requestId, setRequestId] = useState("");
   const [responseId, setResponseId] = useState("");
@@ -135,7 +134,7 @@ const Notifications = () => {
       const allRequests = requestsData?.requests || [];
       const allResponses = responsesData?.responses || [];
       const users = usersData?.users || [];
-
+      setMeData(myData);
       // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
         (request) => request.destinationName === myData.username
@@ -150,7 +149,7 @@ const Notifications = () => {
         );
         fromUsers.push(requestingUsers[0]);
         setRequestingUsersProfiles(fromUsers);
-        setMeData(myData);
+        
         // setMyRequests(myData.requests);
       }
 
@@ -200,20 +199,21 @@ const Notifications = () => {
   };
 
   const addFriend = async (user) => {
-    console.log(user.avatar?.avatarUrl);
     const id = user._id;
-   
+    console.log('friend username', user.username);
     try {
       const { data } = await addContact({
         variables: {
           friendId: id,
+          friendUsername: user.username,
+          username: me.username,
           todaysDate: todaysDate,
           avatarUrl: user.avatar?.avatarUrl,
         },
       });
       if (data) {
         response(user);
-        console.log("success adding new contact", user.username);
+        console.log("success adding new contact", data);
       }
     } catch (e) {
       console.error(e);
@@ -246,7 +246,6 @@ const Notifications = () => {
     const myResponses = user.responses.filter(
       (response) => response.toName === myData.username
     );
-
     const responseId = myResponses[0]._id;
 
     setResponseId(responseId);

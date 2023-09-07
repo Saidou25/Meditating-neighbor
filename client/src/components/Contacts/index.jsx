@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { DELETE_CONTACT } from "../../utils/mutations";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import Notifications from "../Notifications";
@@ -11,37 +13,98 @@ import "./index.css";
 const Contacts = () => {
   const [myContactsProfiles, setMyContactsProfiles] = useState([]);
   const [user, setUser] = useState("");
-  // console.log("user", user);
   const [friendsDate, setFriendsDate] = useState(false);
-  // console.log(friendsDate)
+  const [contactId, setContactId] = useState("");
+  const [friendIsDeletedMessage, setFriendIsDeletedMessage] = useState("");
 
   const { data: meData } = useQuery(QUERY_ME);
   const { data: usersData } = useQuery(QUERY_USERS);
-  const { data: contactsData } = useQuery(QUERY_CONTACTS);
+
+  const [deleteContact] = useMutation(
+    DELETE_CONTACT,
+    {
+      variables: { id: contactId },
+      update(cache, { data: { deleteContact } }) {
+        try {
+          const { contacts } = cache.readQuery({ query: QUERY_CONTACTS });
+          cache.writeQuery({
+            query: QUERY_CONTACTS,
+            data: {
+              requests: contacts.filter(
+                (contact) => contact._id !== deleteContact._id
+              ),
+            },
+          });
+
+          console.log("success updating cache with delete contact");
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    }
+  );
+
+  const removeContact = async () => {
+    try {
+      const { data } = await deleteContact({
+        variables: { id: contactId },
+      });
+      if (data) {
+        console.log("success deleting contact", data);
+        setFriendIsDeletedMessage("");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
-    if (usersData && contactsData && meData) {
+    if (usersData && meData) {
       const me = meData?.me || [];
       const users = usersData?.users || [];
       const contacts = me?.contacts || [];
       const allMyContactsProfiles = [];
 
       for (let contact of contacts) {
-        const contactsProfiles = users.filter(
+        const contactProfile = users.filter(
           (user) => user._id === contact.friendId
         );
-        allMyContactsProfiles.push(contactsProfiles[0]);
-        setMyContactsProfiles(allMyContactsProfiles);
-        setFriendsDate(contact.todaysDate);
+        if (!contactProfile.length) {
+          setContactId(contact._id);
+          console.log("this id has no user", contactId);
+          console.log(contact.friendUsername);
+          setFriendIsDeletedMessage(
+            `${contact.friendUsername} has deleted his account`
+          );
+        } else {
+          allMyContactsProfiles.push(contactProfile[0]);
+          setMyContactsProfiles(allMyContactsProfiles);
+          setFriendsDate(contact.todaysDate);
+          console.log("contact id has a user", contactId);
+          console.log(contact.friendUsername);
+        }
       }
     }
-  }, [usersData, contactsData, meData]);
+  }, [usersData, meData, contactId]);
 
   return (
     <>
       <Navbar />
       <div className="container-fluid contacts bg-primary">
         <Notifications />
+        {friendIsDeletedMessage ? (
+          <>
+            <p>{friendIsDeletedMessage}</p>
+            <button
+              className="btn btn-friendIsDeletedMessage"
+              onClick={removeContact}
+            >
+              ok
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
         {myContactsProfiles.length ? (
           <>
             <h3 className="contact-title text-light">Your contacts</h3>
@@ -133,10 +196,10 @@ const Contacts = () => {
                       <div className="col-12">
                         {user.profile?.story ? (
                           <>
-                              <h4 className="about-title mt-5 mb-4">About</h4>{" "}
-                              <p className="p-story mt-5 mb-4">
-                                {user.profile.story}
-                              </p>
+                            <h4 className="about-title mt-5 mb-4">About</h4>{" "}
+                            <p className="p-story mt-5 mb-4">
+                              {user.profile.story}
+                            </p>
                           </>
                         ) : (
                           <></>

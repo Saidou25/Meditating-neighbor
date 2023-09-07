@@ -1,19 +1,12 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   QUERY_ME,
   QUERY_PROFILES,
   QUERY_LOCATIONS,
   QUERY_AVATARS,
-  QUERY_USERS,
+  QUERY_CONTACTS,
 } from "../../utils/queries";
-import {
-  DELETE_PROFILE,
-  DELETE_LOCATION,
-  DELETE_AVATAR,
-  DELETE_USER,
-  DELETE_CONTACTS,
-} from "../../utils/mutations";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
@@ -51,62 +44,22 @@ const Profile = () => {
     (avatar) => avatar.username === me.username
   );
   const myAvatar = userAvatar[0];
+  const savedUrl = myAvatar?.avatarUrl;
   const avatarId = myAvatar?._id;
 
-  const [deleteProfile] = useMutation(DELETE_PROFILE, {
-    variables: { id: profileId },
-    update(cache, { data: { deleteProfile } }) {
-      try {
-        const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
-        cache.writeQuery({
-          query: QUERY_PROFILES,
-          data: {
-            profiles: [
-              ...profiles.filter(
-                (profile) => profile._id !== deleteProfile._id
-              ),
-            ],
-          },
-        });
-        console.log("success updating cache with deleteProfile");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-
-  const removeProfile = async () => {
-    try {
-      const { data } = await deleteProfile({
-        variables: { id: profileId },
-      });
-      if (data) {
-        console.log("success deleting profile");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    console.log("success deleting profile");
-  };
-  const [deleteLocation] = useMutation(DELETE_LOCATION);
-  const removeLocation = async () => {
-    try {
-      const { data } = await deleteLocation({
-        variables: { id: locationId },
-      });
-      if (data) {
-        console.log("success deleting location");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
+  const contacts = contactsData?.contacts || [];
+  console.log(contacts);
+  const myContacts = contacts.filter(
+    (contact) => contact.username === me.username
+  );
 
   if (
     meDataLoading ||
     allProfilesLoading ||
     locationsDataLoading ||
-    avatarsDataLoading
+    avatarsDataLoading ||
+    contactsDataLoading
   ) {
     return <Spinner />;
   }
@@ -192,7 +145,6 @@ const Profile = () => {
                     {profileId ? (
                       <Link
                         className="btn btn-edit bg-primary rounded-0 text-light"
-                        //  onClick={editProfile}
                         to="/UpdateMyProfileForm"
                         state={{ me: me, myProfile: myProfile }}
                       >
@@ -201,7 +153,6 @@ const Profile = () => {
                     ) : (
                       <Link
                         className="btn btn-edit bg-primary rounded-0 text-light"
-                        // onClick={createProfile}
                         to="/ProfileForm"
                         state={{ me: me, myProfile: myProfile }}
                       >
@@ -219,7 +170,9 @@ const Profile = () => {
               <DeleteModal
                 profileId={profileId}
                 avatarId={avatarId}
+                savedUrl={savedUrl}
                 locationId={locationId}
+                myContacts={myContacts}
                 userId={me._id}
               />
               if you wish to delete your account.

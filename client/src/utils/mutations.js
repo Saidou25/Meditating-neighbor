@@ -66,6 +66,7 @@ export const DELETE_USER = gql`
         friendId
         todaysDate
         avatarUrl
+        username
       }
     }
   }
@@ -310,17 +311,35 @@ export const DELETE_RESPONSE = gql`
 `;
 export const ADD_CONTACT = gql`
   mutation addContact(
+    $username: String
     $friendId: String!
+    $friendUsername: String
     $todaysDate: String
     $avatarUrl: String
   ) {
     addContact(
+    username: $username
       friendId: $friendId
+      friendUsername: $friendUsername
       todaysDate: $todaysDate
       avatarUrl: $avatarUrl
     ) {
       _id
+      username
       friendId
+      friendUsername
+      todaysDate
+      avatarUrl
+    }
+  }
+`;
+export const DELETE_CONTACT = gql`
+  mutation deleteContact($id: String!) {
+    deleteContact(id: $id) {
+      _id
+      username
+      friendId
+      friendUsername
       todaysDate
       avatarUrl
     }

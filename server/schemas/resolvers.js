@@ -166,7 +166,7 @@ const resolvers = {
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,
-          story: args.story
+          story: args.story,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -187,8 +187,8 @@ const resolvers = {
           stage: args.stage,
           years: args.years,
           teacher: args.teacher,
-          story: args.story
-        },
+          story: args.story,
+        }
       );
     },
     deleteProfile: async (_, args) => {
@@ -200,7 +200,7 @@ const resolvers = {
           myName: args.myName,
           email: args.email,
           destinationName: args.destinationName,
-          avatarUrl: args.avatarUrl
+          avatarUrl: args.avatarUrl,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -220,7 +220,7 @@ const resolvers = {
           fromName: args.fromName,
           email: args.email,
           toName: args.toName,
-          avatarUrl: args.avatarUrl
+          avatarUrl: args.avatarUrl,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -237,14 +237,27 @@ const resolvers = {
     addContact: async (_, args, context) => {
       if (context.user) {
         const contact = await Contact.create({
+          username: args.username,
           friendId: args.friendId,
+          friendUsername: args.friendUsername,
           todaysDate: args.todaysDate,
-          avatarUrl: args.avatarUrl
+          avatarUrl: args.avatarUrl,
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { contacts: contact._id } },
           { new: true }
+        );
+        return contact;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteContact: async (_, args, context) => {
+      if (context.user) {
+        const contact = await Contact.findOneAndDelete({ _id: args.id });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { contacts: contact._id } }
         );
         return contact;
       }

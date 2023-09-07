@@ -1,7 +1,17 @@
 const { Schema, model } = require("mongoose");
 
 const contactSchema = new Schema({
+  username: {
+    type: String,
+    unique: true,
+    trim: true,
+  },
   friendId: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  friendUsername: {
     type: String,
     required: true,
     trim: true,

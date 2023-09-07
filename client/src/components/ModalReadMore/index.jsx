@@ -1,22 +1,8 @@
-import React, { useState, useEffect } from "react";
-// import { useQuery } from "@apollo/client";
-// import { QUERY_USERS } from "../../utils/queries";
-import profileIcon from "../../assets/images/profileicon.png";
+import React, { useState } from "react";
 import "./index.css";
 
 const ModalReadMore = ({ userId }) => {
   const [teacherId, setTeacherId] = useState("");
-  
-  
-  console.log("userId", userId)
-  console.log("teacher id", teacherId);
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     setTeacherId(userId);
-
-  //   }
-  // }, [userId]);
 
   return (
     <>
@@ -40,7 +26,10 @@ const ModalReadMore = ({ userId }) => {
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5 text-black" id="exampleModalLabel">
+              <h1
+                className="modal-title fs-5 text-black"
+                id="exampleModalLabel"
+              >
                 {teacherId}
               </h1>
               <button
