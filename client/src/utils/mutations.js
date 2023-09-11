@@ -47,20 +47,6 @@ export const DELETE_USER = gql`
         state
         country
       }
-      requests {
-        _id
-        myName
-        email
-        destinationName
-        avatarUrl
-      }
-      responses {
-        _id
-        toName
-        email
-        fromName
-        avatarUrl
-      }
       contacts {
         _id
         friendId
@@ -273,38 +259,6 @@ export const DELETE_REQUEST = gql`
       myName
       email
       destinationName
-      avatarUrl
-    }
-  }
-`;
-export const ADD_RESPONSE = gql`
-  mutation addResponse(
-    $toName: String
-    $email: String
-    $fromName: String
-    $avatarUrl: String
-  ) {
-    addResponse(
-      toName: $toName
-      email: $email
-      fromName: $fromName
-      avatarUrl: $avatarUrl
-    ) {
-      _id
-      fromName
-      email
-      toName
-      avatarUrl
-    }
-  }
-`;
-export const DELETE_RESPONSE = gql`
-  mutation deleteResponse($id: String!) {
-    deleteResponse(id: $id) {
-      _id
-      fromName
-      email
-      toName
       avatarUrl
     }
   }

@@ -6,6 +6,7 @@ import {
   DELETE_AVATAR,
   DELETE_USER,
   DELETE_CONTACT,
+  DELETE_REQUEST
 } from "../../utils/mutations";
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
@@ -19,14 +20,16 @@ const DeleteModal = ({
   locationId,
   userId,
   myContacts,
+  contactRequests
 }) => {
-  // const [contactId, setContactId] = useState("");
+  console.log(contactRequests)
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
   const [deleteAvatar] = useMutation(DELETE_AVATAR);
   const [deleteUser] = useMutation(DELETE_USER);
   const [deleteContact] = useMutation(DELETE_CONTACT);
+  const [deleteRequest] = useMutation(DELETE_REQUEST);
 
   const logout = () => {
     Auth.logout();
@@ -38,7 +41,6 @@ const DeleteModal = ({
   const imageRef = ref(storage, `${toDelete}`);
 
   const removeUser = async () => {
-    console.log("in user");
     try {
       const { data } = await deleteUser({
         variables: { id: userId },
@@ -50,22 +52,21 @@ const DeleteModal = ({
       console.error(e);
     }
     setMessage("Your account has been deleted. Goodbye.");
-    setTimeout(() => {
-      logout();
-    }, 3000);
+    // setTimeout(() => {
+    //   logout();
+    // }, 3000);
   };
 
-  const removeContact = async (contactId) => {
-    if (!contactId) {
-      console.log("no contact");
+  const removeRequest = async (contactRequest) => {
+    if (!contactRequest) {
       removeUser();
     } else {
       try {
-        const { data } = await deleteContact({
-          variables: { id: contactId },
+        const { data } = await deleteRequest({
+          variables: { id: contactRequest },
         });
         if (data) {
-          console.log("success deleting contact", data);
+          console.log("success deleting request", data);
           removeUser();
         }
       } catch (e) {
@@ -73,23 +74,43 @@ const DeleteModal = ({
       }
     }
   };
+  const requestDispatch = () => {
+    if (contactRequests) {
+      for (let contactRequest of contactRequests) {
+        removeRequest(contactRequest);
+      }
+    }
+    removeUser();
+  };
+  const removeContact = async (contactId) => {
+    if (!contactId) {
+      requestDispatch();
+    } else {
+      try {
+        const { data } = await deleteContact({
+          variables: { id: contactId },
+        });
+        if (data) {
+          console.log("success deleting contact", data);
+          requestDispatch();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
   const contactDispatch = () => {
-    console.log("in dispatch");
     if (myContacts) {
-      console.log(myContacts);
       for (let contact of myContacts) {
         const contactId = contact._id;
-        console.log("no contact from dispatch");
         removeContact(contactId);
       }
     }
-    console.log("moving to user");
-    removeUser();
+    requestDispatch();
   };
 
   const removeLocation = async () => {
     if (!locationId) {
-      console.log("non location");
       contactDispatch();
     } else {
       try {
@@ -97,7 +118,6 @@ const DeleteModal = ({
           variables: { id: locationId },
         });
         if (data) {
-          console.log("success deleting location");
           contactDispatch();
         }
       } catch (e) {
@@ -118,7 +138,6 @@ const DeleteModal = ({
 
   const removeAvatar = async () => {
     if (!avatarId) {
-      console.log("non avatar");
       removeLocation();
     } else {
       try {
@@ -139,7 +158,6 @@ const DeleteModal = ({
   const removeProfile = async () => {
     if (!profileId) {
       removeAvatar();
-      console.log("non profile");
     } else {
       try {
         const { data } = await deleteProfile({

@@ -9,8 +9,6 @@ const typeDefs = gql`
     location: Location
     avatar: Avatar
     profile: Profile
-    requests: [Request]
-    responses: [Response]
     contacts: [Contact]
   }
   type Avatar {
@@ -44,13 +42,6 @@ const typeDefs = gql`
     destinationName: String
     avatarUrl: String
   }
-  type Response {
-    _id: ID
-    fromName: String
-    email: String
-    toName: String
-    avatarUrl: String
-  }
   type Contact {
     _id: ID
     username: String
@@ -74,8 +65,6 @@ const typeDefs = gql`
     profile(id: String): Profile
     requests: [Request]
     request(id: String): Request
-    responses: [Response]
-    response(id: String): Response
     contacts: [Contact]
     contact(id: String): Contact
   }
@@ -126,8 +115,6 @@ const typeDefs = gql`
     ): Location
     addRequest(myName: String, email: String, destinationName: String, avatarUrl: String): Request
     deleteRequest(id: String!): Request
-    addResponse(fromName: String, email: String, toName: String, avatarUrl: String): Response
-    deleteResponse(id: String!): Response
     addContact(username: String, friendId: String!, friendUsername: String, todaysDate: String, avatarUrl: String): Contact
     deleteUser(id: String!): User
     deleteContact(id: String!): Contact

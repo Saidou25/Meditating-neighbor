@@ -19,30 +19,28 @@ const Contacts = () => {
 
   const { data: meData } = useQuery(QUERY_ME);
   const { data: usersData } = useQuery(QUERY_USERS);
+  const { data: contactsData } = useQuery(QUERY_CONTACTS);
 
-  const [deleteContact] = useMutation(
-    DELETE_CONTACT,
-    {
-      variables: { id: contactId },
-      update(cache, { data: { deleteContact } }) {
-        try {
-          const { contacts } = cache.readQuery({ query: QUERY_CONTACTS });
-          cache.writeQuery({
-            query: QUERY_CONTACTS,
-            data: {
-              requests: contacts.filter(
-                (contact) => contact._id !== deleteContact._id
-              ),
-            },
-          });
+  const [deleteContact] = useMutation(DELETE_CONTACT, {
+    variables: { id: contactId },
+    update(cache, { data: { deleteContact } }) {
+      try {
+        const { contacts } = cache.readQuery({ query: QUERY_CONTACTS });
+        cache.writeQuery({
+          query: QUERY_CONTACTS,
+          data: {
+            contacts: [contacts.filter(
+              (contact) => contact._id !== deleteContact._id
+            )],
+          },
+        });
 
-          console.log("success updating cache with delete contact");
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    }
-  );
+        console.log("success updating cache with delete contact");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
 
   const removeContact = async () => {
     try {
@@ -59,33 +57,39 @@ const Contacts = () => {
   };
 
   useEffect(() => {
-    if (usersData && meData) {
+    if (usersData && meData && contactsData) {
       const me = meData?.me || [];
       const users = usersData?.users || [];
-      const contacts = me?.contacts || [];
+      // const contacts = me?.contacts || [];
+      const contacts = contactsData?.contacts || [];
       const allMyContactsProfiles = [];
+      let conditionalProfile;
 
       for (let contact of contacts) {
-        const contactProfile = users.filter(
-          (user) => user._id === contact.friendId
-        );
-        if (!contactProfile.length) {
+        if (contact.username !== me.username) {
+          const contactProfile1 = users.filter(
+            (user) => user.username === contact.username
+          );
+          conditionalProfile = contactProfile1;
+        } else {
+          const contactProfile2 = users.filter(
+            (user) => user.username === contact.friendUsername
+          );
+          conditionalProfile = contactProfile2;
+        }
+        if (!conditionalProfile.length) {
           setContactId(contact._id);
-          console.log("this id has no user", contactId);
-          console.log(contact.friendUsername);
           setFriendIsDeletedMessage(
             `${contact.friendUsername} has deleted his account`
           );
         } else {
-          allMyContactsProfiles.push(contactProfile[0]);
+          allMyContactsProfiles.push(conditionalProfile[0]);
           setMyContactsProfiles(allMyContactsProfiles);
           setFriendsDate(contact.todaysDate);
-          console.log("contact id has a user", contactId);
-          console.log(contact.friendUsername);
         }
       }
     }
-  }, [usersData, meData, contactId]);
+  }, [usersData, meData, contactId, contactsData]);
 
   return (
     <>
@@ -150,7 +154,6 @@ const Contacts = () => {
                   </div>
                 ))}
             </div>
-
             <div
               className="modal fade"
               id="exampleModal"

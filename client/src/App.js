@@ -78,6 +78,11 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
+        contacts: {
+          merge(existing, imcoming) {
+            return imcoming;
+          },
+        },
       },
     },
   },

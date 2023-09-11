@@ -3,7 +3,6 @@ const { Schema, model } = require("mongoose");
 const contactSchema = new Schema({
   username: {
     type: String,
-    unique: true,
     trim: true,
   },
   friendId: {

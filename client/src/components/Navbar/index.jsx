@@ -6,7 +6,7 @@ import {
   QUERY_AVATARS,
   QUERY_REQUESTS,
   QUERY_USERS,
-  QUERY_RESPONSES,
+  QUERY_CONTACTS,
 } from "../../utils/queries";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -15,7 +15,7 @@ import "./index.css";
 const Navbar = () => {
   const [me, setMeData] = useState("");
   const [animation, setAnimation] = useState("");
-  const [contacts, setContacts] = useState(false);
+  const [isContact, setIsContact] = useState(false);
 
   const logout = (event) => {
     event.preventDefault();
@@ -32,8 +32,9 @@ const Navbar = () => {
   // query all requests
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
 
-  // query all responses
-  const { data: responsesData } = useQuery(QUERY_RESPONSES);
+  //query all contacts
+
+  const { data: contactsData } = useQuery(QUERY_CONTACTS);
 
   // getting user's avatar by filtering [avatars] so profile picture in navbar can be updated right away
   const { data: avatarsData } = useQuery(QUERY_AVATARS);
@@ -64,21 +65,23 @@ const Navbar = () => {
     },
   ];
   useEffect(() => {
-    if (requestsData && meData && usersData && responsesData) {
+    if (requestsData && meData && usersData && contactsData) {
       const myData = meData?.me || [];
+      const contacts = contactsData?.contacts || [];
       const allRequests = requestsData?.requests || [];
-      const allResponses = responsesData?.responses || [];
       const users = usersData?.users || [];
       setMeData(myData);
-      if (myData.contacts?.length) {
-        setContacts(true);
-      }
       // setMyRequests(myData.requests);
       // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
         (request) => request.destinationName === myData.username
       );
-
+      let hasContact;
+      for (let contact of contacts) {
+        if (contact.username === myData.username) {
+          hasContact = contact;
+        }
+      }
       const fromUsers = [];
       //  loop to all request to get profiles of the people requesting my contact and
       //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
@@ -101,26 +104,15 @@ const Navbar = () => {
         );
         toOthers.push(requestedUsers[0]);
       }
-      const responders = [];
-      const myResponses = allResponses.filter(
-        (response) => response.toName === myData.username
-      );
-      for (let myResponse of myResponses) {
-        const myResponsesProfiles = users.filter(
-          (user) => user.username === myResponse.fromName
-        );
-        responders.push(myResponsesProfiles[0]);
-      }
-      if (
-        fromUsers.length ||
-        responders.length ||
-        toOthers.length ||
-        myData.requests?.length
-      ) {
+
+      if (fromUsers.length || toOthers.length) {
         setAnimation("contact-link");
       }
+      if (hasContact) {
+        setIsContact(true);
+      }
     }
-  }, [requestsData, meData, usersData, responsesData]);
+  }, [requestsData, meData, usersData, contactsData]);
 
   return (
     <>
@@ -181,14 +173,19 @@ const Navbar = () => {
                       </Link>
                     </div>
                   </li>
-                  {animation || contacts === true ? (
+                  {animation && (
                     <li className="nav-item">
                       <Link className={`nav-link ${animation}`} to="/Contacts">
                         contacts
                       </Link>
                     </li>
-                  ) : (
-                    <></>
+                  )}
+                  {isContact === true && (
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/Contacts">
+                        contacts
+                      </Link>
+                    </li>
                   )}
                 </>
               )}

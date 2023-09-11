@@ -30,20 +30,6 @@ export const QUERY_USERS = gql`
         state
         country
       }
-      requests {
-        _id
-        myName
-        email
-        destinationName
-        avatarUrl
-      }
-      responses {
-        _id
-        toName
-        email
-        fromName
-        avatarUrl
-      }
       contacts {
         _id
         username
@@ -85,20 +71,6 @@ export const QUERY_USER = gql`
         state
         country
       }
-      requests {
-        _id
-        myName
-        email
-        destinationName
-        avatarUrl
-      }
-      responses {
-        _id
-        toName
-        email
-        fromName
-        avatarUrl
-      }
       contacts {
         _id
         username
@@ -139,20 +111,6 @@ export const QUERY_ME = gql`
         city
         state
         country
-      }
-      requests {
-        _id
-        myName
-        email
-        destinationName
-        avatarUrl
-      }
-      responses {
-        _id
-        toName
-        email
-        fromName
-        avatarUrl
       }
       contacts {
         _id
@@ -242,28 +200,6 @@ export const QUERY_REQUEST = gql`
       myName
       email
       destinationName
-      avatarUrl
-    }
-  }
-`;
-export const QUERY_RESPONSES = gql`
-  query responses {
-    responses {
-      _id
-      toName
-      email
-      fromName
-      avatarUrl
-    }
-  }
-`;
-export const QUERY_RESPONSE = gql`
-  query response($id: String) {
-    response(id: $id) {
-      _id
-      toName
-      email
-      fromName
       avatarUrl
     }
   }

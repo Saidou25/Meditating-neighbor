@@ -6,6 +6,7 @@ import {
   QUERY_LOCATIONS,
   QUERY_AVATARS,
   QUERY_CONTACTS,
+  QUERY_REQUESTS,
 } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -49,17 +50,30 @@ const Profile = () => {
 
   const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
   const contacts = contactsData?.contacts || [];
-  console.log(contacts);
   const myContacts = contacts.filter(
     (contact) => contact.username === me.username
   );
 
+  const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
+  const requests = requestsData?.requests || [];
+  const contactRequests = [];
+  if (requests) {
+    for (let request of requests) {
+      if (
+        request.destinationName === me.username ||
+        request.myName === me.username
+      ) {
+        contactRequests.push(request._id);
+      }
+    }
+  }
   if (
     meDataLoading ||
     allProfilesLoading ||
     locationsDataLoading ||
     avatarsDataLoading ||
-    contactsDataLoading
+    contactsDataLoading ||
+    requestsDataLoading
   ) {
     return <Spinner />;
   }
@@ -173,6 +187,7 @@ const Profile = () => {
                 savedUrl={savedUrl}
                 locationId={locationId}
                 myContacts={myContacts}
+                contactRequests={contactRequests}
                 userId={me._id}
               />
               if you wish to delete your account.

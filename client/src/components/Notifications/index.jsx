@@ -4,14 +4,9 @@ import {
   QUERY_REQUESTS,
   QUERY_ME,
   QUERY_USERS,
-  QUERY_RESPONSES,
+  QUERY_CONTACTS,
 } from "../../utils/queries";
-import {
-  ADD_RESPONSE,
-  DELETE_REQUEST,
-  DELETE_RESPONSE,
-  ADD_CONTACT,
-} from "../../utils/mutations";
+import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
 import profileIcon from "../../assets/images/profileicon.png";
 
 import "./index.css";
@@ -19,20 +14,14 @@ import "./index.css";
 const Notifications = () => {
   const date = new Date();
   const todaysDate = date.toString().slice(0, 15);
-  
-  const [requestId, setRequestId] = useState("");
-  const [responseId, setResponseId] = useState("");
-  const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
-  const [respondingUsersProfiles, setRespondingUsersProfiles] = useState([]);
 
+  const [me, setMe] = useState("");
+  const [allTheRequests, setAllTheRequests] = useState([]);
+  const [requestId, setRequestId] = useState("");
+  const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
   const [myContactRequestsToOthers, setMyContactRequestsToOthers] = useState(
     []
   );
-  const [me, setMeData] = useState("");
-
-  // const [myRequests, setMyRequests] = useState([]);
-
-  // const [addResponse] = useMutation(ADD_RESPONSE);
 
   const { data: meData } = useQuery(QUERY_ME);
 
@@ -42,34 +31,14 @@ const Notifications = () => {
   // query all requests
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
 
-  // query all responses
-  const { data: responsesData } = useQuery(QUERY_RESPONSES);
-  const [addResponse, { error: addResponseError }] = useMutation(ADD_RESPONSE, {
-    update(cache, { data: { addResponse } }) {
-      try {
-        const { me } = cache.readQuery({ query: QUERY_ME });
-        cache.writeQuery({
-          query: QUERY_ME,
-          data: {
-            me: { ...me, responses: [...me.responses, addResponse] },
-          },
-        });
-
-        console.log("success updating cache with add contact");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-
-  const [addContact, { error, addContactError }] = useMutation(ADD_CONTACT, {
+  const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
-        const { me } = cache.readQuery({ query: QUERY_ME });
+        const { contacts } = cache.readQuery({ query: QUERY_CONTACTS });
         cache.writeQuery({
-          query: QUERY_ME,
+          query: QUERY_CONTACTS,
           data: {
-            me: { ...me, contacts: [...me.contacts, addContact] },
+            contacts: [...contacts, addContact],
           },
         });
 
@@ -81,65 +50,38 @@ const Notifications = () => {
   });
   // Updating the cache with newly created contact
 
-  const [deleteRequest, { error: deleteRequestError }] = useMutation(
-    DELETE_REQUEST,
-    {
-      variables: { id: requestId },
-      update(cache, { data: { deleteRequest } }) {
-        try {
-          const { requests } = cache.readQuery({ query: QUERY_REQUESTS });
-          cache.writeQuery({
-            query: QUERY_REQUESTS,
-            data: {
-              requests: requests.filter(
-                (request) => request._id !== deleteRequest._id
-              ),
-            },
-          });
+  const [deleteRequest] = useMutation(DELETE_REQUEST, {
+    variables: { id: requestId },
+    update(cache, { data: { deleteRequest } }) {
+      try {
+        const { requests } = cache.readQuery({ query: QUERY_REQUESTS });
+        cache.writeQuery({
+          query: QUERY_REQUESTS,
+          data: {
+            requests: requests.filter(
+              (request) => request._id !== deleteRequest._id
+            ),
+          },
+        });
 
-          console.log("success updating cache with delete request");
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    }
-  );
-  // const [deleteResponse] = useMutation(DELETE_RESPONSE)
-  const [deleteResponse, { error: deleteResponseError }] = useMutation(
-    DELETE_RESPONSE,
-    {
-      variables: { id: responseId },
-      update(cache, { data: { deleteResponse } }) {
-        try {
-          const { responses } = cache.readQuery({ query: QUERY_RESPONSES });
-          cache.writeQuery({
-            query: QUERY_RESPONSES,
-            data: {
-              responses: responses.filter(
-                (response) => response._id !== deleteResponse._id
-              ),
-            },
-          });
+        console.log("success updating cache with delete request");
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
 
-          console.log("success updating cache with delete response");
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    }
-  );
   useEffect(() => {
-    if (requestsData && meData && usersData && responsesData) {
+    if (requestsData && meData && usersData) {
       const myData = meData?.me || [];
+      setMe(myData);
       const allRequests = requestsData?.requests || [];
-      const allResponses = responsesData?.responses || [];
+      setAllTheRequests(allRequests);
       const users = usersData?.users || [];
-      setMeData(myData);
       // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
         (request) => request.destinationName === myData.username
       );
-
       const fromUsers = [];
       //  loop to all request to get profiles of the people requesting my contact and
       //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
@@ -147,60 +89,26 @@ const Notifications = () => {
         const requestingUsers = users.filter(
           (user) => user.username === userRequest.myName
         );
-        fromUsers.push(requestingUsers[0]);
-        setRequestingUsersProfiles(fromUsers);
-        
-        // setMyRequests(myData.requests);
+        if (requestingUsers[0]) {
+          fromUsers.push(requestingUsers[0]);
+          setRequestingUsersProfiles(fromUsers);
+        } else {
+          setRequestId(userRequest._id);
+        }
       }
 
       //  loop to all request to get profiles of the people i am requesting contact info from and
       //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
-      const myRequests = myData.requests;
-      setMyContactRequestsToOthers(myRequests);
-
-      const responders = [];
-      const myResponses = allResponses.filter(
-        (response) => response.toName === myData.username
+      const myRequests = allRequests.filter(
+        (request) => request.myName === myData.username
       );
-      for (let myResponse of myResponses) {
-        const myResponsesProfiles = users.filter(
-          (user) => user.username === myResponse.fromName
-        );
-        responders.push(myResponsesProfiles[0]);
-        setRespondingUsersProfiles(responders);
-      }
+      // console.log(myRequests)
+      setMyContactRequestsToOthers(myRequests);
     }
-  }, [requestsData, meData, usersData, responsesData]);
-
-  const response = async (user) => {
-    for (let response of user.responses) {
-      if (response.fromName === user.username) {
-        return;
-      }
-    }
-    try {
-      const { data } = await addResponse({
-        variables: {
-          fromName: me.username,
-          email: me.email,
-          toName: user.username,
-          avatarUrl: user.avatar?.avatarUrl,
-        },
-      });
-      if (data) {
-        console.log(
-          `${user.username}, ${me.username} has accepted your contact request`
-        );
-        console.log("success sending response");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  }, [requestsData, meData, usersData]);
 
   const addFriend = async (user) => {
     const id = user._id;
-    console.log('friend username', user.username);
     try {
       const { data } = await addContact({
         variables: {
@@ -212,7 +120,6 @@ const Notifications = () => {
         },
       });
       if (data) {
-        response(user);
         console.log("success adding new contact", data);
       }
     } catch (e) {
@@ -221,61 +128,43 @@ const Notifications = () => {
   };
 
   const removeRequest = async (user) => {
-    const myRequest = user.requests.filter(
-      (request) => request.destinationName === me.username
-    );
-    const requestId = myRequest[0]._id;
-    setRequestId(requestId);
-    try {
-      const { data } = await deleteRequest({
-        variables: {
-          id: requestId,
-        },
-      });
-      if (data) {
-        console.log("success deleting request");
-        addFriend(user);
-        setRequestingUsersProfiles([]);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  const removeResponse = async (user) => {
-    const myData = meData?.me || [];
-    const myResponses = user.responses.filter(
-      (response) => response.toName === myData.username
-    );
-    const responseId = myResponses[0]._id;
+    for (let request of allTheRequests) {
+      if (
+        request.destinationName === me.username &&
+        request.myName === user.username
+      ) {
+        setRequestId(request._id);
 
-    setResponseId(responseId);
-    try {
-      const { data } = await deleteResponse({
-        variables: {
-          id: responseId,
-        },
-      });
-      if (data) {
-        console.log("success deleting response");
-        addFriend(user);
-        setRespondingUsersProfiles([]);
+        try {
+          const { data } = await deleteRequest({
+            variables: {
+              id: request._id,
+            },
+          });
+          if (data) {
+            console.log("success deleting request");
+            console.log(user);
+            addFriend(user);
+            setRequestingUsersProfiles([]);
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
-    } catch (e) {
-      console.error(e);
     }
   };
 
   return (
     <>
-      {addResponseError ||
+      {/* {addResponseError ||
       addContactError ||
       deleteRequestError ||
       deleteResponseError ? (
         <>{error.message}</>
       ) : (
         <></>
-      )}
-      {myContactRequestsToOthers.length ? (
+      )} */}
+      {myContactRequestsToOthers?.length ? (
         <>
           <h3 className="request-title text-light bg-primary">
             You requested contact info:
@@ -289,7 +178,7 @@ const Notifications = () => {
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={request?.avatarUrl ? request?.avatarUrl : profileIcon}
+                    src={request.avatarUrl ? request.avatarUrl : profileIcon}
                     alt="profile avatar"
                   />
                 </div>
@@ -305,7 +194,7 @@ const Notifications = () => {
       ) : (
         <></>
       )}
-      {requestingUsersProfiles.length ? (
+      {requestingUsersProfiles?.length ? (
         <h3 className="request-title text-light bg-primary">
           Your contact info is requested:
         </h3>
@@ -346,53 +235,6 @@ const Notifications = () => {
               </div>
             </div>
           ))}
-        {respondingUsersProfiles.length ? (
-          <>
-            <h3 className="request-title text-light bg-primary">
-              You have returns from your contact requests:
-            </h3>
-            {respondingUsersProfiles &&
-              respondingUsersProfiles.map((user) => (
-                <div
-                  key={user._id}
-                  className="row response-list bg-primary text-light"
-                >
-                  <div className="col-2">
-                    <img
-                      className="response-avatar"
-                      src={
-                        user.avatar?.avatarUrl
-                          ? user.avatar?.avatarUrl
-                          : profileIcon
-                      }
-                      alt="profile avatar"
-                    />
-                  </div>
-                  <div className="col-10">
-                    <div className="row">
-                      <div className="col-8">
-                        <p>
-                          {user.username} has accepted your contact request.
-                          Your email will only be visible to {user.username} if
-                          you are ok
-                        </p>
-                      </div>
-                      <div className="col-3 d-flex justify-content-end">
-                        <button
-                          className="btn btn-accept"
-                          onClick={() => removeResponse(user)}
-                        >
-                          ok
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </>
-        ) : (
-          <></>
-        )}
       </div>
     </>
   );

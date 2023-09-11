@@ -32,18 +32,6 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "profile",
   },
-  requests: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Request",
-    },
-  ],
-  responses: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Response",
-    },
-  ],
   contacts: [
     {
       type: Schema.Types.ObjectId,

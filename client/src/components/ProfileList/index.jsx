@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_USERS, QUERY_ME, QUERY_PROFILES, QUERY_AVATARS, QUERY_LOCATIONS } from "../../utils/queries";
+import {
+  QUERY_USERS,
+  QUERY_ME,
+  QUERY_PROFILES,
+  QUERY_AVATARS,
+  QUERY_LOCATIONS,
+  QUERY_REQUESTS,
+  QUERY_CONTACTS,
+} from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import Navbar from "../Navbar";
@@ -10,46 +18,61 @@ import Spinner from "../Spinner";
 import "./index.css";
 
 const ProfileList = (props) => {
-  const seventyFiveMiles = props.seventyFiveMiles;
-  const overSeventyFiveMiles = props.overSeventyFiveMiles;
-  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
-  const me = meData?.me || [];
-
+  const [outgoingRequest, setOutgoingRequest] = useState(false);
+  const [incomingRequest, setIncomingRequest] = useState(false);
+  const [friends, setFriends] = useState(false);
+  const [friendsSince, setFriendsSince] = useState("");
   const [modalClose, setModalClose] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [username, setUsername] = useState("");
-  const [doSetUpMessage, setDoSetUpMessage] = useState("");
-
   const [user, setUser] = useState("");
+  const seventyFiveMiles = props.seventyFiveMiles;
+  const overSeventyFiveMiles = props.overSeventyFiveMiles;
+
+  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
+  const me = meData?.me || [];
   const { data: usersData, usersDataLoading } = useQuery(QUERY_USERS);
 
   const { data: profilesData } = useQuery(QUERY_PROFILES);
   const profiles = profilesData?.profiles || [];
-  const userProfile = profiles.filter((profile) => profile.username === me.username);
+  const userProfile = profiles.filter(
+    (profile) => profile.username === me.username
+  );
   const myProfile = userProfile[0];
 
-  const { data: avatarsData, avatarsDataLoadint } = useQuery(QUERY_AVATARS);
+  const { data: avatarsData, avatarsDataLoading } = useQuery(QUERY_AVATARS);
   const avatars = avatarsData?.avatars || [];
-  const userAvatar = avatars.filter((avatar) => avatar.username === me.username);
+  const userAvatar = avatars.filter(
+    (avatar) => avatar.username === me.username
+  );
   const myAvatar = userAvatar[0];
 
-  const { data: locationsData, locationDataLoading } = useQuery(QUERY_LOCATIONS);
+  const { data: locationsData, locationDataLoading } =
+    useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  const userLocation = locations.filter((location) => location.username === me.username);
+  const userLocation = locations.filter(
+    (location) => location.username === me.username
+  );
   const myLocation = userLocation[0];
+
+  const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
+  const requests = requestsData?.requests || [];
+
+  const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
+  const contacts = contactsData?.contacts || [];
   // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
       try {
-        const { me } = cache.readQuery({ query: QUERY_ME });
+        const { requests } = cache.readQuery({ query: QUERY_REQUESTS });
         cache.writeQuery({
-          query: QUERY_ME,
+          query: QUERY_REQUESTS,
           data: {
-            me: { ...me, requests: [...me.requests, addRequest] },
+            requests: [...requests, addRequest],
           },
         });
 
-        console.log("success updating cache with add contact");
+        console.log("success updating cache with add request");
       } catch (e) {
         console.error(e);
       }
@@ -57,19 +80,13 @@ const ProfileList = (props) => {
   });
 
   const contact = async () => {
-    if (modalClose === "") {
-      setDoSetUpMessage(
-        "You need to setup your avatar, profile and add your location before making any contact request..."
-      );
-      return;
-    }
     try {
       const { data } = await addRequest({
         variables: {
           email: me.email,
           myName: me.username,
           destinationName: user.username,
-          avatarUrl: avatarUrl
+          avatarUrl: avatarUrl,
         },
       });
       if (data) {
@@ -80,84 +97,69 @@ const ProfileList = (props) => {
     }
   };
   const hasData = () => {
-    if (
-      !myAvatar ||
-      !myLocation ||
-      !myProfile
-    ) {
-      console.log("no data");
+    if (!myAvatar || !myLocation || !myProfile) {
+      // console.log("no data");
       setModalClose("");
-      
     } else {
       setModalClose("modal");
-     console.log("has data");
+      // console.log("has data");
     }
-  }
+  };
 
   useEffect(() => {
     if (usersData && username) {
       const users = usersData?.users || [];
       const selectedUser = users.filter((user) => user.username === username);
-
       setUser(selectedUser[0]);
     }
   }, [usersData, username]);
   // ----------------------------------------------------------------
-  const [outgoingRequest, setOutgoingRequest] = useState(false);
+
   const outgoing = (distanceObj) => {
-    const myOutRequest = me.requests.filter(
-      (request) => request.destinationName === distanceObj.user.username
-    );
-
-    if (myOutRequest.length) {
-      setOutgoingRequest(true);
+    for (let request of requests) {
+      if (
+        request.myName === me.username &&
+        request.destinationName === distanceObj.user.username
+      ) {
+        setOutgoingRequest(true);
+      }
     }
   };
-  const [incomingRequest, setIncomingRequest] = useState(false);
   const incoming = (distanceObj) => {
-    for (let request of distanceObj.user.requests) {
-      if (request.destinationName === me.username);
-      setIncomingRequest(true);
+    for (let request of requests) {
+      if (
+        request.destinationName === me.username &&
+        request.myName === distanceObj.user.username
+      ) {
+        setIncomingRequest(true);
+      }
     }
   };
 
-  const [incomingResponse, setIncomingResponse] = useState(false);
-  const incomingResp = (distanceObj) => {
-    for (let response of distanceObj.user.responses) {
-      if (response.toName === me.username) {
-        setIncomingResponse(true);
-      }
-    }
-  };
-  const [outgoingResponse, setOutgoingResponse] = useState(false);
-  const outgoingResp = (distanceObj) => {
-    for (let response of me.responses) {
-      if (response.toName === distanceObj.user.username) {
-        setOutgoingResponse(true);
-      }
-    }
-  };
-  const [friends, setFriends] = useState(false);
-  const [otherFriend, setOtherFriend] = useState(false);
-  const [otherFriendDate, setOtherFriendDate] = useState(false);
   const areWeFriends = (distanceObj) => {
-    for (let contact of distanceObj.user.contacts) {
-      if (contact.friendId === me._id) {
-        console.log("contact", contact.todaysDate);
+    for (let contact of contacts) {
+      // console.log("contacts", contacts);
+      // console.log(distanceObj.user.username);
+      if (
+        (contact.username === me.username &&
+          contact.friendUsername === distanceObj.user.username) ||
+        (contact.username === distanceObj.user.username &&
+          contact.friendUsername === me.username)
+      ) {
         setFriends(true);
-      }
-    }
-    for (let contact of me.contacts) {
-      if (contact.friendId === distanceObj.user._id) {
-        console.log(" other contact", contact);
-        setOtherFriendDate(contact.todaysDate);
-        setOtherFriend(true);
+        setFriendsSince(contact.todaysDate);
       }
     }
   };
- 
 
-  if (meDataLoading || usersDataLoading) {
+  if (
+    meDataLoading ||
+    usersDataLoading ||
+    avatarsDataLoading ||
+    locationDataLoading ||
+    requestsDataLoading ||
+    contactsDataLoading
+  ) {
     return <Spinner />;
   }
 
@@ -187,10 +189,8 @@ const ProfileList = (props) => {
                           setUsername(distanceObj.username);
                           outgoing(distanceObj);
                           incoming(distanceObj);
-                          incomingResp(distanceObj);
-                          outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
-                          hasData()
+                          hasData();
                         }}
                       >
                         <FaEllipsisH className="icon" />
@@ -248,8 +248,6 @@ const ProfileList = (props) => {
                           setUsername(distanceObj.username);
                           outgoing(distanceObj);
                           incoming(distanceObj);
-                          incomingResp(distanceObj);
-                          outgoingResp(distanceObj);
                           areWeFriends(distanceObj);
                           hasData(distanceObj);
                         }}
@@ -310,12 +308,7 @@ const ProfileList = (props) => {
                       setUsername("");
                       setOutgoingRequest(false);
                       setIncomingRequest(false);
-                      setOutgoingResponse(false);
-                      setIncomingResponse(false);
                       setFriends(false);
-                      setOtherFriend(false);
-                      // setModalClose("");
-                      setDoSetUpMessage("");
                     }}
                   ></button>
                 </div>
@@ -363,52 +356,22 @@ const ProfileList = (props) => {
                         {!user.location && !user.profile && (
                           <>{user.username} has no profile set yet</>
                         )}
-                        {incomingResponse === true ? (
-                          <p>email: {user.email}</p>
-                        ) : (
-                          <></>
-                        )}
+                        {friends === true ? <p>email: {user.email}</p> : <></>}
                       </div>
                     </div>
                   </div>
                 </div>
               </>
-              {otherFriend === true ? (
+              {friendsSince && friends === true ? (
                 <div className="profile-friends p-3">
                   {" "}
                   <p className="friends-profile m-0">
-                    Friends since: {otherFriendDate}{" "}
+                    Friends since: {friendsSince}{" "}
                   </p>
                 </div>
               ) : (
                 <></>
               )}
-              {friends === true && otherFriend === false ? (
-                <div className="orange-div m-3">
-                  <p className="orange p-3 bg-warning text-primary">
-                    Don't forget to ok {user.username} from your notification so
-                    your email is also viewable to {user.username}.
-                  </p>
-                </div>
-              ) : (
-                <></>
-              )}
-
-              {((incomingRequest === true || outgoingResponse === true) &&
-                friends === true &&
-                otherFriend === false) ||
-              (friends === false && otherFriend === true) ? (
-                <div className="orange-div m-3">
-                  <p className="orange p-3 bg-warning text-primary">
-                    Your contact is now viewable to {user.username}. Once{" "}
-                    {user.username} has ok on it's side {user.username}' contact
-                    will be viewable to you.
-                  </p>
-                </div>
-              ) : (
-                <></>
-              )}
-              {doSetUpMessage ? <p>{doSetUpMessage}</p> : <></>}
               <div className="modal-footer">
                 <div className="row row-modal-footer">
                   <div className="col-6">
@@ -417,27 +380,18 @@ const ProfileList = (props) => {
                       className="btn btn-secondary"
                       data-bs-dismiss="modal"
                       onClick={() => {
-                        // setModalClose("");
                         setAvatarUrl("");
                         setUsername("");
                         setOutgoingRequest(false);
                         setIncomingRequest(false);
-                        setOutgoingResponse(false);
-                        setIncomingResponse(false);
                         setFriends(false);
-                        setOtherFriend(false);
-                        setOtherFriendDate(false);
-                        setDoSetUpMessage("");
                       }}
                     >
                       Close
                     </button>
                   </div>
                   {friends === false &&
-                    (outgoingRequest === true ||
-                      incomingRequest === true ||
-                      incomingResponse === true ||
-                      outgoingResponse === true) && (
+                    (outgoingRequest === true || incomingRequest === true) && (
                       <button type="button" className="col-6 btn btn-primary">
                         pending
                       </button>
@@ -449,10 +403,7 @@ const ProfileList = (props) => {
                   )}
                   {friends === false &&
                     outgoingRequest === false &&
-                    incomingRequest === false &&
-                    outgoingResponse === false &&
-                    incomingResponse === false && (
-
+                    incomingRequest === false && (
                       <button
                         type="button"
                         className="col-6 btn btn-primary friendship-request"
