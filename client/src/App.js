@@ -73,12 +73,12 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
-        responses: {
+        contacts: {
           merge(existing, imcoming) {
             return imcoming;
           },
         },
-        contacts: {
+        users: {
           merge(existing, imcoming) {
             return imcoming;
           },

@@ -78,7 +78,7 @@ const Navbar = () => {
       );
       let hasContact;
       for (let contact of contacts) {
-        if (contact.username === myData.username) {
+        if (contact.username === myData.username || contact.friendUsername === myData.username) {
           hasContact = contact;
         }
       }
@@ -180,7 +180,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                   )}
-                  {isContact === true && (
+                  {(isContact === true && !animation) && (
                     <li className="nav-item">
                       <Link className="nav-link" to="/Contacts">
                         contacts

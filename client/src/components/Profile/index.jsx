@@ -48,15 +48,26 @@ const Profile = () => {
   const savedUrl = myAvatar?.avatarUrl;
   const avatarId = myAvatar?._id;
 
+  const myContacts = [];
   const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
   const contacts = contactsData?.contacts || [];
-  const myContacts = contacts.filter(
-    (contact) => contact.username === me.username
-  );
+
+  if (contacts) {
+    for (let contact of contacts) {
+      if (
+        contact.username === me.username ||
+        contact.friendUsername === me.username
+      ) {
+        myContacts.push(contact._id);
+      }
+    }
+  };
 
   const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
   const requests = requestsData?.requests || [];
+
   const contactRequests = [];
+
   if (requests) {
     for (let request of requests) {
       if (

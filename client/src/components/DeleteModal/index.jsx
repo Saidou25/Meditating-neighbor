@@ -22,7 +22,7 @@ const DeleteModal = ({
   myContacts,
   contactRequests
 }) => {
-  console.log(contactRequests)
+  console.log('from modal delete', myContacts)
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
@@ -99,11 +99,11 @@ const DeleteModal = ({
       }
     }
   };
+  console.log(myContacts)
   const contactDispatch = () => {
     if (myContacts) {
       for (let contact of myContacts) {
-        const contactId = contact._id;
-        removeContact(contactId);
+        removeContact(contact);
       }
     }
     requestDispatch();

@@ -83,7 +83,7 @@ const ProfileForm = () => {
     setTimeout(() => {
       setMessage("");
       navigate("/Profile");
-    }, 4000);
+    }, 3000);
     setTeacher("meditator");
     setErrorMessage("");
     setYears("");

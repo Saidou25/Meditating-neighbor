@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { useMutation } from "@apollo/client";
-import { DELETE_CONTACT } from "../../utils/mutations";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import Notifications from "../Notifications";
@@ -13,110 +11,67 @@ import "./index.css";
 const Contacts = () => {
   const [myContactsProfiles, setMyContactsProfiles] = useState([]);
   const [user, setUser] = useState("");
-  const [friendsDate, setFriendsDate] = useState(false);
-  const [contactId, setContactId] = useState("");
-  const [friendIsDeletedMessage, setFriendIsDeletedMessage] = useState("");
-
   const { data: meData } = useQuery(QUERY_ME);
   const { data: usersData } = useQuery(QUERY_USERS);
   const { data: contactsData } = useQuery(QUERY_CONTACTS);
-
-  const [deleteContact] = useMutation(DELETE_CONTACT, {
-    variables: { id: contactId },
-    update(cache, { data: { deleteContact } }) {
-      try {
-        const { contacts } = cache.readQuery({ query: QUERY_CONTACTS });
-        cache.writeQuery({
-          query: QUERY_CONTACTS,
-          data: {
-            contacts: [contacts.filter(
-              (contact) => contact._id !== deleteContact._id
-            )],
-          },
-        });
-
-        console.log("success updating cache with delete contact");
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-
-  const removeContact = async () => {
-    try {
-      const { data } = await deleteContact({
-        variables: { id: contactId },
-      });
-      if (data) {
-        console.log("success deleting contact", data);
-        setFriendIsDeletedMessage("");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   useEffect(() => {
     if (usersData && meData && contactsData) {
       const me = meData?.me || [];
       const users = usersData?.users || [];
-      // const contacts = me?.contacts || [];
       const contacts = contactsData?.contacts || [];
-      const allMyContactsProfiles = [];
-      let conditionalProfile;
+      let friendNames = [];
+      let allMyContactsProfiles = [];
+      // let conditionalProfile;
 
       for (let contact of contacts) {
-        if (contact.username !== me.username) {
-          const contactProfile1 = users.filter(
-            (user) => user.username === contact.username
-          );
-          conditionalProfile = contactProfile1;
-        } else {
-          const contactProfile2 = users.filter(
-            (user) => user.username === contact.friendUsername
-          );
-          conditionalProfile = contactProfile2;
+        // console.log("contact", contact);
+        if (contact.username === me.username) {
+          let friendObj = {
+            name: contact.friendUsername,
+            date: contact.todaysDate,
+          };
+          friendNames.push(friendObj);
+          // console.log("1", contact.friendUsername);
         }
-        if (!conditionalProfile.length) {
-          setContactId(contact._id);
-          setFriendIsDeletedMessage(
-            `${contact.friendUsername} has deleted his account`
-          );
-        } else {
-          allMyContactsProfiles.push(conditionalProfile[0]);
+        if (contact.friendUsername === me.username) {
+          let friendObj = {
+            name: contact.username,
+            date: contact.todaysDate,
+          };
+          friendNames.push(friendObj);
+          // console.log("2", contact);
+        }
+      }
+      for (let friendName of friendNames) {
+        const friendProfile = users.filter(
+          (user) => user.username === friendName.name
+        );
+        if (friendNames) {
+          const friendProfileWithDate = {
+            friendUser: friendProfile[0],
+            date: friendName.date,
+          };
+          allMyContactsProfiles.push(friendProfileWithDate);
           setMyContactsProfiles(allMyContactsProfiles);
-          setFriendsDate(contact.todaysDate);
         }
       }
     }
-  }, [usersData, meData, contactId, contactsData]);
+  }, [usersData, meData, contactsData]);
 
   return (
     <>
       <Navbar />
       <div className="container-fluid contacts bg-primary">
         <Notifications />
-        {friendIsDeletedMessage ? (
-          <>
-            <p>{friendIsDeletedMessage}</p>
-            <button
-              className="btn btn-friendIsDeletedMessage"
-              onClick={removeContact}
-            >
-              ok
-            </button>
-          </>
-        ) : (
-          <></>
-        )}
         {myContactsProfiles.length ? (
           <>
             <h3 className="contact-title text-light">Your contacts</h3>
             <div className="row card-row">
               {myContactsProfiles &&
-                myContactsProfiles.map((user) => (
+                myContactsProfiles.map((friendProfileWithDate) => (
                   <div
-                    key={user._id}
+                    key={friendProfileWithDate.friendUser._id}
                     className="col-xxl-3 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4"
                   >
                     <div className="card-body">
@@ -126,7 +81,7 @@ const Contacts = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal"
                           onClick={() => {
-                            setUser(user);
+                            setUser(friendProfileWithDate);
                           }}
                         >
                           <FaEllipsisH className="icon" />
@@ -137,8 +92,8 @@ const Contacts = () => {
                           <img
                             className="contact-pic"
                             src={
-                              user.avatar?.avatarUrl
-                                ? user.avatar?.avatarUrl
+                              friendProfileWithDate.friendUser.avatar?.avatarUrl
+                                ? friendProfileWithDate.friendUser.avatar?.avatarUrl
                                 : profileIcon
                             }
                             alt="profile avatar"
@@ -146,7 +101,7 @@ const Contacts = () => {
                         </div>
                         <div className="col-12 profiles-column">
                           <p className="location my-4 text-light">
-                            {user.username}
+                            {friendProfileWithDate.friendUser.username}
                           </p>
                         </div>
                       </div>
@@ -171,10 +126,10 @@ const Contacts = () => {
                         className="modal-title text-black"
                         id="exampleModalLabel"
                       >
-                        {user.profile.firstname} {user.profile.lastname}
+                        {user.profile?.firstname} {user.profile?.lastname}
                       </h3>
                     ) : (
-                      <h3>{user.username}</h3>
+                      <h3>{user.friendUser?.username}</h3>
                     )}
                     <button
                       type="button"
@@ -188,8 +143,8 @@ const Contacts = () => {
                       <img
                         className="contact-pic"
                         src={
-                          user.avatar?.avatarUrl
-                            ? user.avatar.avatarUrl
+                          user.friendUser?.avatar?.avatarUrl
+                            ? user.friendUser?.avatar.avatarUrl
                             : profileIcon
                         }
                         alt="profile icon"
@@ -201,7 +156,7 @@ const Contacts = () => {
                           <>
                             <h4 className="about-title mt-5 mb-4">About</h4>{" "}
                             <p className="p-story mt-5 mb-4">
-                              {user.profile.story}
+                              {user.friendUser.profile.story}
                             </p>
                           </>
                         ) : (
@@ -213,15 +168,15 @@ const Contacts = () => {
                           <h4 className="info-teacher text-primary mt-5 mb-4">
                             Info
                           </h4>{" "}
-                          {user.profile ? (
+                          {user.friendUser?.profile ? (
                             <div className="p-about mt-5 mb-4">
                               <p>Teacher(TMI)</p>
                               <p>
-                                Has been meditating for {user.profile.years}{" "}
+                                Has been meditating for {user.friendUser.profile.years}{" "}
                                 years
                               </p>
                               <p>
-                                Currently working on stage {user.profile.stage}
+                                Currently working on stage {user.friendUser.profile.stage}
                               </p>
                             </div>
                           ) : (
@@ -229,19 +184,15 @@ const Contacts = () => {
                           )}
                           <div className="p-about mt-5 mb-4">
                             <p className="p-fas mt-5">
-                              <FaIdBadge /> {user.username}
+                              <FaIdBadge /> {user.friendUser?.username}
                             </p>
                             <p>
-                              <FaEnvelope /> {user.email}
+                              <FaEnvelope /> {user.friendUser?.email}
                             </p>
-                            {user.location ? (
                               <p>
-                                <FaHome /> {user.location.city},{" "}
-                                {user.location?.state}, {user.location.country}
+                                <FaHome /> {user.friendUser?.location.city},{" "}
+                                {user.friendUser?.location?.state}, {user.friendUser?.location.country}
                               </p>
-                            ) : (
-                              <></>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -251,7 +202,7 @@ const Contacts = () => {
                     <div className="row contact-footer">
                       <div className="col-8 friends-since m-0">
                         <p className="friends-since text-primary">
-                          Friends since: {friendsDate}
+                          Friends since: {user.date}
                         </p>
                       </div>
                       <div className="col-4 contact-close">
