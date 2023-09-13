@@ -14,7 +14,10 @@
   width: 150px;
   height: 150px;
 }
-.p-story,
+.p-story-profile-contact {
+  white-space: pre-wrap;
+}
+.p-story-profile-contact,
 .p-about {
   padding-right: 5%;
   padding-left: 5%;

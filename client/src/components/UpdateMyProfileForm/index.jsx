@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { UPDATE_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
+import { QUERY_PROFILES } from "../../utils/queries";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -31,11 +31,20 @@ const UpdateMyProfileForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState("");
+const [state, setState] = useState("");
 
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
     variables: { id: profileId },
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('Enter key was pressed. Run your function.')
+      setState(event.key);
+    }
+    // console.log(story)
+  }
+console.log("you have pressed a ", state);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -217,6 +226,7 @@ const UpdateMyProfileForm = () => {
                   value={story}
                   placeholder="write about yourself"
                   onChange={(e) => setStory(e.target.value)}
+                  onKeyDown={handleKeyPress}
                 />
               </div>
               {errorMessage && (

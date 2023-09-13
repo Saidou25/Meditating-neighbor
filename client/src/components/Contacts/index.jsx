@@ -152,10 +152,10 @@ const Contacts = () => {
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        {user.profile?.story ? (
+                        {user.friendUser?.profile.story ? (
                           <>
                             <h4 className="about-title mt-5 mb-4">About</h4>{" "}
-                            <p className="p-story mt-5 mb-4">
+                            <p className="p-story-profile-contact mt-5 mb-4">
                               {user.friendUser.profile.story}
                             </p>
                           </>

@@ -295,9 +295,16 @@ const ProfileList = (props) => {
             <div className="modal-content">
               <>
                 <div className="modal-header">
-                  <h3 className="modal-title fs-5" id="staticBackdropLabel">
-                    {user.username}
-                  </h3>
+                  {user.profile?.firstname && user.profile?.lastname ? (
+                    <h3 className="modal-title fs-5" id="staticBackdropLabel">
+                      {user.profile.firstname} {user.profile.lastname}
+                    </h3>
+                  ) : (
+                    <h3 className="modal-title fs-5" id="staticBackdropLabel">
+                      {user.username}
+                    </h3>
+                  )}
+
                   <button
                     type="button"
                     className="btn-close"
@@ -315,22 +322,16 @@ const ProfileList = (props) => {
                 <div className="modal-body">
                   <div className="row">
                     <div className="col-6">
-                      {" "}
-                      {user.avatar?.avatarUrl ? (
-                        <img
-                          className="container-pic mb-4"
-                          src={avatarUrl}
-                          alt="profile icon"
-                          style={{ width: 150, height: 150 }}
-                        />
-                      ) : (
-                        <img
-                          className="container-pic mb-4"
-                          src={profileIcon}
-                          alt="profile icon"
-                          style={{ width: 150, height: 150 }}
-                        />
-                      )}
+                      <img
+                        className="container-pic mb-4"
+                        src={
+                          user.avatar?.avatarUrl
+                            ? user.avatar?.avatarUrl
+                            : profileIcon
+                        }
+                        alt="profile icon"
+                        style={{ width: 150, height: 150 }}
+                      />
                     </div>
                     <div className="col-6">
                       {" "}
@@ -339,7 +340,7 @@ const ProfileList = (props) => {
                           <>
                             <p>{user.profile.teacher}(TMI)</p>
                             <p>
-                              has been meditating for {user.profile.years} years
+                              Has been meditating for {user.profile.years} years
                             </p>
                           </>
                         ) : (
@@ -347,7 +348,7 @@ const ProfileList = (props) => {
                         )}
                         {user.location ? (
                           <p>
-                            leaves in {user.location?.city},{" "}
+                            Leaves in {user.location?.city},{" "}
                             {user.location?.state}, {user.location?.country}
                           </p>
                         ) : (

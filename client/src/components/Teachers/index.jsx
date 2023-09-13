@@ -71,7 +71,7 @@ const Teachers = () => {
                           </div>
                           {user.profile.story ? (
                             <div className="col-8 story">
-                              <p>{user.profile.story}</p>
+                              <p >{user.profile.story}</p>
                             </div>
                           ) : (
                             <></>

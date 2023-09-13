@@ -7,10 +7,11 @@ const Success = ({ message }) => {
   return (
     <div className="container-fluid success bg-primary">
       <div className="container-success">
-        {(message === "Your profile has been updated." ||
-          message === "Welcome to TMIWORLD..." ||
-          message === "Your profile has been created" ||
-          message === "Your account has been deleted. Goodbye.") && (
+        {message === "you haven't change anything to your profile..." ? (
+          <p className="p-text d-flex text-light justify-content-center fs-3">
+            {message}
+          </p>
+        ) : (
           <>
             {" "}
             <div className="d-flex fa-success mb-2">
@@ -19,11 +20,11 @@ const Success = ({ message }) => {
             <h2 className="text d-flex text-light justify-content-center mb-5">
               Success!
             </h2>
+            <p className="p-text d-flex text-light justify-content-center fs-3">
+              {message}
+            </p>
           </>
         )}
-        <p className="p-text d-flex text-light justify-content-center fs-3">
-          {message}
-        </p>
       </div>
     </div>
   );

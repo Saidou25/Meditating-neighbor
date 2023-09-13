@@ -35,6 +35,9 @@
   display: flex;
   justify-content: center;
 }
+.p-story-teachers {
+  white-space: pre-wrap;
+}
 .story {
   overflow: hidden;
   height: 100px;

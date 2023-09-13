@@ -15,7 +15,9 @@
   .btn-edit,
   .btn-delete {
   width: 100%;
- 
+  }
+  .about-p-story {
+    white-space: pre-wrap;
   }
   .btn-edit:hover,
   .btn-delete:hover {

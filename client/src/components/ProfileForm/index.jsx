@@ -21,6 +21,12 @@ const ProfileForm = () => {
 
   const navigate = useNavigate();
 
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+    }
+  }
+  
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
@@ -190,6 +196,7 @@ const ProfileForm = () => {
                   value={story}
                   placeholder="write about yourself"
                   onChange={(e) => setStory(e.target.value)}
+                  onKeyDown={handleKeyPress}
                 />
               </div>
               {errorMessage && (

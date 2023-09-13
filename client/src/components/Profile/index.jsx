@@ -113,7 +113,7 @@ const Profile = () => {
                   {myProfile?.story ? (
                     <>
                       <h4 className="about-profile mb-5">About</h4>
-                      <p className="about-p text-light mb-5">
+                      <p className="about-p-story text-light mb-5">
                         {myProfile.story}
                       </p>
                     </>
