@@ -21,9 +21,9 @@ const LandingPage = () => {
         <div className="parallax">
           <div className="login-signup">
             {!Auth.loggedIn() ? (
-              <Link to="/LoginSignup" className="signup-link">
+              <Link to="/Login" className="signup-link">
                 <button className="btn btn-text signup rounded-0">
-                  login/ signup
+                  login
                 </button>
               </Link>
             ) : (

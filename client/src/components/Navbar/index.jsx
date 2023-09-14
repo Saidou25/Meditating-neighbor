@@ -197,7 +197,7 @@ const Navbar = () => {
                 </li>
               ) : (
                 <li className="nav-item">
-                  <Link className="nav-link fs-4" to="/LoginSignup">
+                  <Link className="nav-link fs-4" to="/Login">
                     login/signup
                   </Link>
                 </li>

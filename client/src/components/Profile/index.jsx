@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import {
   QUERY_ME,
@@ -21,38 +21,65 @@ import Spinner from "../Spinner";
 import "./index.css";
 
 const Profile = () => {
+  const [myLocation, setMyLocation] = useState("");
+  const [myProfile, setMyProfile] = useState("");
+  const [myAvatar, setMyAvatar] = useState("");
+  const [me, setMe] = useState("");
+
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
-  const me = meData?.me || [];
+  // const me = meData?.me || [];
 
   const { data: locationsData, locationsDataLoading } =
     useQuery(QUERY_LOCATIONS);
-  const locations = locationsData?.locations || [];
-  const userLocation = locations.filter(
-    (location) => location.username === me.username
-  );
-  const myLocation = userLocation[0];
+  // const locations = locationsData?.locations || [];
+  // const userLocation = locations.filter(
+  //   (location) => location.username === me.username
+  // );
+  // const myLocation = userLocation[0];
   const locationId = myLocation?._id;
 
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
-  const profiles = allProfiles?.profiles || [];
-  const userProfile = profiles.filter(
-    (profile) => profile.username === me.username
-  );
-  const myProfile = userProfile[0];
+  // const profiles = allProfiles?.profiles || [];
+  // const userProfile = profiles.filter(
+  //   (profile) => profile.username === me.username
+  // );
+  // const myProfile = userProfile[0];
   const profileId = myProfile?._id;
 
   const { data: avatarsData, avatarsDataLoading } = useQuery(QUERY_AVATARS);
-  const avatars = avatarsData?.avatars || [];
-  const userAvatar = avatars.filter(
-    (avatar) => avatar.username === me.username
-  );
-  const myAvatar = userAvatar[0];
+  // const avatars = avatarsData?.avatars || [];
+  // const userAvatar = avatars.filter(
+  //   (avatar) => avatar.username === me.username
+  // );
+  // const myAvatar = userAvatar[0];
   const savedUrl = myAvatar?.avatarUrl;
   const avatarId = myAvatar?._id;
 
   const myContacts = [];
   const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
   const contacts = contactsData?.contacts || [];
+
+  useEffect(() => {
+    if (locationsData && allProfiles && avatarsData && meData) {
+      const myData = meData?.me || [];
+      setMe(myData);
+      const locations = locationsData?.locations || [];
+      const userLocation = locations.filter(
+        (location) => location.username === myData.username
+      );
+      setMyLocation(userLocation[0]);
+      const profiles = allProfiles?.profiles || [];
+      const userProfile = profiles.filter(
+        (profile) => profile.username === myData.username
+      );
+      setMyProfile(userProfile[0]);
+      const avatars = avatarsData?.avatars || [];
+      const userAvatar = avatars.filter(
+        (avatar) => avatar.username === myData.username
+      );
+      setMyAvatar(userAvatar[0]);
+    }
+  }, [locationsData, allProfiles, avatarsData, meData]);
 
   if (contacts) {
     for (let contact of contacts) {
@@ -196,21 +223,21 @@ const Profile = () => {
           </div>
           <div className="col-12 bottom-text text-light mx-0">
             {/* <div className="delete-text bg-primary text-light"> */}
-              Click
-              {/* </div> */}
-            {/* <div className="delete-text bg-primary text-light"> */}
-              <DeleteModal
-                profileId={profileId}
-                avatarId={avatarId}
-                savedUrl={savedUrl}
-                locationId={locationId}
-                myContacts={myContacts}
-                contactRequests={contactRequests}
-                userId={me._id}
-              />
+            Click
             {/* </div> */}
             {/* <div className="delete-text bg-primary text-light"> */}
-              if you wish to delete your account.
+            <DeleteModal
+              profileId={profileId}
+              avatarId={avatarId}
+              savedUrl={savedUrl}
+              locationId={locationId}
+              myContacts={myContacts}
+              contactRequests={contactRequests}
+              userId={me._id}
+            />
+            {/* </div> */}
+            {/* <div className="delete-text bg-primary text-light"> */}
+            if you wish to delete your account.
             {/* </div> */}
           </div>
         </div>
