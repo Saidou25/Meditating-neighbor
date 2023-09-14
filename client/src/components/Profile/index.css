@@ -1,71 +1,92 @@
 .profile {
-    padding-top: 12%;
-    border-style: none;
-  }
-  .profile-card {
-    width: 40%;
-    height: auto;
-    margin-right: auto;
-    margin-left: auto;
-    background-color: black !important;
-  }
-  .edit-column {
-    padding: 2% !important;
-  }
-  .btn-edit,
-  .btn-delete {
+  padding-top: 12%;
+  border-style: none;
+}
+.profile-card {
+  width: 40%;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: black !important;
+}
+.p-info-body {
+  padding-right: 2rem;
+  padding-left: 2rem;
+
+}
+.about-p-story,
+.profile-p,
+.p-fas {
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+.edit-column {
+  padding: 2% !important;
+}
+.btn-edit,
+.btn-delete {
   width: 100%;
-  }
-  .about-p-story {
-    white-space: pre-wrap;
-  }
-  .btn-edit:hover,
-  .btn-delete:hover {
+}
+.about-p-story {
+  white-space: pre-wrap;
+}
+.btn-edit:hover,
+.btn-delete:hover {
   background-color: orange !important;
   color: black !important;
   width: 100%;
-  }
+}
 .bottom-text {
   margin: 10%;
+  padding-left: 8% !important;
   margin-top: 10% !important;
+  display: flex;
+  align-items: flex-start;
 }
-  .delete-btn {
-    border: none;
+.delete-btn {
+  border: none;
+}
+@media screen and (max-width: 1600px) {
+  .profile-card {
+    width: 50%;
   }
-  @media screen and (max-width: 1600px) {
-    .profile-card {
-      width: 50%;
-    }
-  }
-  @media screen and (max-width: 414px) {
-    .profile {
+}
+@media screen and (max-width: 414px) {
+  .profile {
     height: auto;
   }
-    .profile-card {
-      width: 96%;
-      margin-top: 15%;
-    }
-    .bottom-text {
-      margin: 2%;
-      margin-top: 10%;
-      margin-bottom: 10%;
+  .profile-card {
+    width: 96%;
+    margin-top: 15%;
+  }
+  .p-info-body {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .about-p-story,
+  .profile-p,
+  .p-fas {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  .bottom-text {
+    padding: 0 !important;
+    margin-top: 10%;
+    margin-bottom: 5%;
     justify-content: center;
-    }
-    .profile-footer {
-     padding: 0;
-     width: 100%;
-     border-style: none !important;
-    }
   }
-  /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
-  
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 768px) 
-    and (max-device-width: 1024px) 
-    and (-webkit-min-device-pixel-ratio: 2) {
-   .profile-card {
-      width: 70%;
-      margin-top: 10%;
-    }
+  .profile-footer {
+    padding: 0;
+    width: 100%;
+    border-style: none !important;
   }
+}
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+  .profile-card {
+    width: 70%;
+    margin-top: 10%;
+  }
+}

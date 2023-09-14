@@ -11,6 +11,8 @@ import {
 import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Teachers from "../Teachers";
@@ -201,6 +203,10 @@ const Usa = () => {
       setConfirm(false);
     }, 4000);
   };
+
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
 
   if (loading || loadingLocations || usersLoading) {
     return <Spinner />;

@@ -10,6 +10,8 @@ import {
 } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import DeleteModal from "../DeleteModal";
 import Avatar from "../Avatar";
 import Footer from "../Footer";
@@ -61,7 +63,7 @@ const Profile = () => {
         myContacts.push(contact._id);
       }
     }
-  };
+  }
 
   const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
   const requests = requestsData?.requests || [];
@@ -77,6 +79,9 @@ const Profile = () => {
         contactRequests.push(request._id);
       }
     }
+  }
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
   }
   if (
     meDataLoading ||
@@ -109,7 +114,7 @@ const Profile = () => {
               </div>
               <Avatar me={me} />
               <div className="card-body profile-body mt-5">
-                <div className="p-info text-light px-5">
+                <div className="p-info-body text-light">
                   {myProfile?.story ? (
                     <>
                       <h4 className="about-profile mb-5">About</h4>
@@ -164,7 +169,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="card-footer profile-footer mt-5">
+              <div className="card-footer profile-footer">
                 <div className="row">
                   <div className="col-12 edit-column">
                     {profileId ? (
@@ -189,9 +194,11 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 bottom-text mx-0">
-            <div className="delete-text bg-primary text-light mx-5">
+          <div className="col-12 bottom-text text-light mx-0">
+            {/* <div className="delete-text bg-primary text-light"> */}
               Click
+              {/* </div> */}
+            {/* <div className="delete-text bg-primary text-light"> */}
               <DeleteModal
                 profileId={profileId}
                 avatarId={avatarId}
@@ -201,8 +208,10 @@ const Profile = () => {
                 contactRequests={contactRequests}
                 userId={me._id}
               />
+            {/* </div> */}
+            {/* <div className="delete-text bg-primary text-light"> */}
               if you wish to delete your account.
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </div>

@@ -11,6 +11,8 @@ import {
 } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -151,6 +153,10 @@ const ProfileList = (props) => {
       }
     }
   };
+
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
 
   if (
     meDataLoading ||

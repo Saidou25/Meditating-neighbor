@@ -3,6 +3,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
 import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import Spinner from "../Spinner";
 import Success from "../Success";
 import Navbar from "../Navbar";
@@ -98,6 +100,10 @@ const ProfileForm = () => {
     setLastname("");
     setStory("");
   };
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
+
   if (meDataLoading) {
     return <Spinner />;
   }

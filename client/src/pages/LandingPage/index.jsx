@@ -42,7 +42,7 @@ const LandingPage = () => {
               </Link>
             )}
           </div>
-          <div className="row landing-tmiworld">
+          <div className="row landing-tmiworld g-0">
             <div className="col-6 landing-tmi g-0">TMI</div>
             <div className="col-6 landing-world g-0">WORLD</div>
           </div>

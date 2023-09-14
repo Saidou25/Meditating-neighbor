@@ -11,7 +11,7 @@ import {
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import Auth from "../../utils/auth";
-// import "./index.css";
+import "./index.css";
 
 const DeleteModal = ({
   profileId,
@@ -174,10 +174,10 @@ const DeleteModal = ({
   };
 
   return (
-    <div className="footer-container bg-primary">
+    <div className="footer-container-here bg-primary">
       <button
         type="button"
-        className="btn btn-primary"
+        className="btn btn-primary here-botton text-info px-2 pt-0"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >

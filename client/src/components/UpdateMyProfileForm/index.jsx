@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PROFILE } from "../../utils/mutations";
 import { QUERY_PROFILES } from "../../utils/queries";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -130,6 +132,9 @@ console.log("you have pressed a ", state);
     setTeacher("");
     setStory("");
   };
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
 
   if (confirm === true) {
     return <Success message={message} />;

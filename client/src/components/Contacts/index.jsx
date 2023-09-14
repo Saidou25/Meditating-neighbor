@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -58,6 +60,10 @@ const Contacts = () => {
       }
     }
   }, [usersData, meData, contactsData]);
+
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>

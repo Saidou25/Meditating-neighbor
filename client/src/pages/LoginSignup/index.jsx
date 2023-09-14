@@ -73,7 +73,7 @@ const LoginSignup = () => {
       console.error(e);
     }
     setTimeout(() => {
-      navigate("/Profile");
+      navigate("/Usa");
       setMessage("");
     }, 3000);
   };

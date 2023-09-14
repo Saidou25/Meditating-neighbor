@@ -7,6 +7,8 @@ import {
   QUERY_CONTACTS,
 } from "../../utils/queries";
 import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 
 import "./index.css";
@@ -154,6 +156,9 @@ const Notifications = () => {
     }
   };
 
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
       {/* {addResponseError ||

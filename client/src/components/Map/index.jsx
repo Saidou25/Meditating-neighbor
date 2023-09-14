@@ -9,6 +9,9 @@ import {
   Marker,
   // ZoomableGroup,
 } from "react-simple-maps";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
+
 import { v4 } from "uuid";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -118,6 +121,9 @@ const Map = () => {
     }
   };
 
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
   if (loading || loadingLocations || usersLoading) {
     return <Spinner />;
   }
@@ -128,46 +134,46 @@ const Map = () => {
     <>
       <Navbar />
       <div className="container-fluid main-map bg-primary">
-      <div className="map">
-        <ComposableMap
-          data-tip=""
-          className="map"
-        >
-          <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography key={geo.rsmKey} geography={geo} 
-                style={{
-                  default: {
-                    fill: "#000000",
-                  },
-                  hover: {
-                    fill: "#f63b26",
-                  },
-                  pressed: {
-                    fill: "#eeebea",
-                  },
-                }}/>
-              ))
-            }
-          </Geographies>
-          {markers.map(({ city, coordinates }) => (
-            <Marker key={coordinates} coordinates={coordinates}>
-              <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
-              <text
-                textAnchor="middle"
-                // y={markerOffset}
-                // style={{ fontFamily: "system-ui", fill: "#fff" }}
-              >
-                {/* {city} */}
-              </text>
-            </Marker>
-          ))}
-        </ComposableMap>
-      </div>
-      <p className="count-map fs-5 bg-primary text-light">
-        {users?.length} users
-      </p>
+        <div className="map">
+          <ComposableMap data-tip="" className="map">
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    style={{
+                      default: {
+                        fill: "#000000",
+                      },
+                      hover: {
+                        fill: "#f63b26",
+                      },
+                      pressed: {
+                        fill: "#eeebea",
+                      },
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
+            {markers.map(({ city, coordinates }) => (
+              <Marker key={coordinates} coordinates={coordinates}>
+                <circle r={0.3} fill="#fff" stroke="#fff" strokeWidth={0.05} />
+                <text
+                  textAnchor="middle"
+                  // y={markerOffset}
+                  // style={{ fontFamily: "system-ui", fill: "#fff" }}
+                >
+                  {/* {city} */}
+                </text>
+              </Marker>
+            ))}
+          </ComposableMap>
+        </div>
+        <p className="count-map fs-5 bg-primary text-light">
+          {users?.length} users
+        </p>
       </div>
       <div className="profile-footer bg-primary">
         <Footer />

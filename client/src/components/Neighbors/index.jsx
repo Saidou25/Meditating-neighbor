@@ -1,6 +1,8 @@
 import React from "react";
 import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
+import { Navigate } from "react-router-dom";
+import Auth from "../../utils/auth";
 import { v4 } from "uuid";
 import ProfileList from "../ProfileList";
 import Spinner from "../Spinner";
@@ -80,7 +82,9 @@ const Neighbors = () => {
   if (noUserYet === "false") {
     <h1>No user yet</h1>;
   }
-
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
       <ProfileList
