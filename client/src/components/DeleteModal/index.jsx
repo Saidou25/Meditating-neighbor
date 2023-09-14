@@ -6,7 +6,7 @@ import {
   DELETE_AVATAR,
   DELETE_USER,
   DELETE_CONTACT,
-  DELETE_REQUEST
+  DELETE_REQUEST,
 } from "../../utils/mutations";
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
@@ -20,9 +20,9 @@ const DeleteModal = ({
   locationId,
   userId,
   myContacts,
-  contactRequests
+  contactRequests,
 }) => {
-  console.log('from modal delete', myContacts)
+  console.log("from modal delete", myContacts);
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
@@ -52,9 +52,9 @@ const DeleteModal = ({
       console.error(e);
     }
     setMessage("Your account has been deleted. Goodbye.");
-    // setTimeout(() => {
-    //   logout();
-    // }, 3000);
+    setTimeout(() => {
+      logout();
+    }, 3000);
   };
 
   const removeRequest = async (contactRequest) => {
@@ -99,7 +99,7 @@ const DeleteModal = ({
       }
     }
   };
-  console.log(myContacts)
+  console.log(myContacts);
   const contactDispatch = () => {
     if (myContacts) {
       for (let contact of myContacts) {
@@ -183,7 +183,6 @@ const DeleteModal = ({
       >
         here
       </button>
-
       <div
         className="modal fade"
         id="exampleModal"
@@ -191,7 +190,7 @@ const DeleteModal = ({
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
@@ -208,29 +207,35 @@ const DeleteModal = ({
               {message ? (
                 <p className="info text-primary">{message}</p>
               ) : (
-                <p className="info text-primary">
+                <p className="info-delete text-primary m-5">
                   Are you sure you want to delete your account? This is
                   irreversible.
                 </p>
               )}
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  removeProfile();
-                }}
-              >
-                confirm
-              </button>
+              <div className="row delete-modal">
+                <div className="col row-delete-button">
+                  <button
+                    type="button"
+                    className="btn btn-secondary col-delete-button"
+                    data-bs-dismiss="modal"
+                  >
+                    cancel
+                  </button>
+                </div>
+                <div className="col row-delete-confirm">
+                  <button
+                    type="button"
+                    className="btn btn-primary col-delete-button"
+                    onClick={() => {
+                      removeProfile();
+                    }}
+                  >
+                    confirm
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,8 +1,9 @@
 .container-signup {
-    height: 100vh;
+    height: 50vh;
 }
 .signup-form-container {
     padding-top: 15%;
+    
 }
 .signup-form {
     width: 70%;

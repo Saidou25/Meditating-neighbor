@@ -5,7 +5,9 @@
 .modal-footer {
   background-color: rgb(222, 217, 217) !important;
 }
-.modal-body {
+.contact-body {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
   background-color: rgb(243, 238, 238);
 }
 .contact-title {
@@ -36,6 +38,10 @@
 }
 .contact-footer {
   width: 100%;
+}
+.contact-close {
+  display: flex;
+  justify-content: flex-end;
 }
 @media screen and (max-width: 1200px) {
   .contact-pic {

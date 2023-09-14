@@ -278,9 +278,9 @@ const Usa = () => {
             </div>
           )}
           {confirm1 && (
-            <div className="col-12 btn-located mt-5">
+            <div className="col-12 btn-locate mt-5">
               <button
-                className="btn-coordinates bg-success text-white"
+                className="btn-coordinates bg-success text-primary"
                 type="button"
               >
                 location updated

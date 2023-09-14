@@ -2,8 +2,20 @@
     font-size: 16px !important;
     text-transform: lowercase !important;
 }
-/* @media screen and (max-width: 414px) {
-    .profile {
-      height: auto;
-    }
-} */
+.info-delete {
+  text-align: center;
+}
+.delete-modal {
+  width: 100%;
+}
+.row-delete-button {
+  display: flex;
+  justify-content: center;
+}
+.col-delete-button {
+  width: 100% !important;
+}
+.col-delete-button:hover {
+  background-color: orange !important;
+  color: black !important;
+}

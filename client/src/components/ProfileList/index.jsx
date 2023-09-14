@@ -381,10 +381,10 @@ const ProfileList = (props) => {
               )}
               <div className="modal-footer">
                 <div className="row row-modal-footer">
-                  <div className="col-6">
+                  <div className="col-6 col-close-button">
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn btn-secondary close-btn"
                       data-bs-dismiss="modal"
                       onClick={() => {
                         setAvatarUrl("");

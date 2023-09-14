@@ -99,7 +99,8 @@ const Contacts = () => {
                             className="contact-pic"
                             src={
                               friendProfileWithDate.friendUser.avatar?.avatarUrl
-                                ? friendProfileWithDate.friendUser.avatar?.avatarUrl
+                                ? friendProfileWithDate.friendUser.avatar
+                                    ?.avatarUrl
                                 : profileIcon
                             }
                             alt="profile avatar"
@@ -144,7 +145,7 @@ const Contacts = () => {
                       aria-label="Close"
                     ></button>
                   </div>
-                  <div className="modal-body contact-body px-5">
+                  <div className="modal-body contact-body">
                     <div className="contact-avatar m-4">
                       <img
                         className="contact-pic"
@@ -156,7 +157,7 @@ const Contacts = () => {
                         alt="profile icon"
                       />
                     </div>
-                    <div className="row">
+                    <div className="row contact-profile-modal">
                       <div className="col-12">
                         {user.friendUser?.profile.story ? (
                           <>
@@ -178,27 +179,29 @@ const Contacts = () => {
                             <div className="p-about mt-5 mb-4">
                               <p>Teacher(TMI)</p>
                               <p>
-                                Has been meditating for {user.friendUser.profile.years}{" "}
-                                years
+                                Has been meditating for{" "}
+                                {user.friendUser.profile.years} years
                               </p>
                               <p>
-                                Currently working on stage {user.friendUser.profile.stage}
+                                Currently working on stage{" "}
+                                {user.friendUser.profile.stage}
                               </p>
                             </div>
                           ) : (
                             <></>
                           )}
                           <div className="p-about mt-5 mb-4">
-                            <p className="p-fas mt-5">
+                            <p>
                               <FaIdBadge /> {user.friendUser?.username}
                             </p>
                             <p>
                               <FaEnvelope /> {user.friendUser?.email}
                             </p>
-                              <p>
-                                <FaHome /> {user.friendUser?.location.city},{" "}
-                                {user.friendUser?.location?.state}, {user.friendUser?.location.country}
-                              </p>
+                            <p>
+                              <FaHome /> {user.friendUser?.location.city},{" "}
+                              {user.friendUser?.location?.state},{" "}
+                              {user.friendUser?.location.country}
+                            </p>
                           </div>
                         </div>
                       </div>

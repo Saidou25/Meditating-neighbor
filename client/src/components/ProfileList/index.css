@@ -47,6 +47,20 @@
   background-color: orange !important;
   color: black !important;
 }
+.row-modal-footer {
+  width: 100%;
+}
+.col-close-button {
+  display: flex;
+  justify-content: center;
+}
+.close-btn {
+  width: 100% !important;
+}
+.close-btn:hover {
+  background-color: orange !important;
+  color: black !important;
+}
 @media screen and (max-width: 1200px) {
   .container-pic {
     width: 110px;

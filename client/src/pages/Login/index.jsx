@@ -9,7 +9,7 @@ import Auth from "../../utils/auth";
 import "./index.css";
 
 const Login = () => {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error, loading }] = useMutation(LOGIN_USER);
 
@@ -32,7 +32,7 @@ const Login = () => {
       });
 
       Auth.login(data.login.token);
-        navigate("/Usa", { state: { formState } });
+        // navigate("/Usa", { state: { formState } });
     } catch (e) {
       console.error(e);
     }
@@ -42,7 +42,7 @@ const Login = () => {
       password: "",
     });
   };
-  if (loading) return <Spinner />;
+//   if (loading) return <Spinner />;
   return (
     <>
       <Navbar />

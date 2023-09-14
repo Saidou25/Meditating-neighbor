@@ -8,6 +8,7 @@ import {
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
+import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -113,7 +114,9 @@ const Navbar = () => {
       }
     }
   }, [requestsData, meData, usersData, contactsData]);
-
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
@@ -198,7 +201,7 @@ const Navbar = () => {
               ) : (
                 <li className="nav-item">
                   <Link className="nav-link fs-4" to="/Login">
-                    login/signup
+                    login
                   </Link>
                 </li>
               )}

@@ -162,7 +162,7 @@ const Teachers = () => {
                                     <div className="p-about-teachers mt-5 mb-4">
                                       {selectedTeacher.location ? (
                                         <>
-                                          <p className="p-fas mt-5">
+                                          <p>
                                             <FaIdBadge />{" "}
                                             {selectedTeacher.username}
                                           </p>
