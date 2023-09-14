@@ -8,7 +8,6 @@ import {
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
-import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -79,7 +78,10 @@ const Navbar = () => {
       );
       let hasContact;
       for (let contact of contacts) {
-        if (contact.username === myData.username || contact.friendUsername === myData.username) {
+        if (
+          contact.username === myData.username ||
+          contact.friendUsername === myData.username
+        ) {
           hasContact = contact;
         }
       }
@@ -114,9 +116,7 @@ const Navbar = () => {
       }
     }
   }, [requestsData, meData, usersData, contactsData]);
-  if (!Auth.loggedIn()) {
-    return <Navigate to="/" replace />;
-  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
@@ -183,7 +183,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                   )}
-                  {(isContact === true && !animation) && (
+                  {isContact === true && !animation && (
                     <li className="nav-item">
                       <Link className="nav-link" to="/Contacts">
                         contacts

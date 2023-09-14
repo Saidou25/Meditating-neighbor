@@ -80,7 +80,7 @@ const Signup = () => {
             <label className="form-label-signup mb-4 mt-4">Password</label>
             <br />
             <input
-              className="form-input mt-2 mb-2"
+              className="form-input password-input g-0 pt-2"
               placeholder="******"
               name="password"
               type="password"

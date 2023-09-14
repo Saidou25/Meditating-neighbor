@@ -1,14 +1,18 @@
 .container-signup {
-    height: 50vh;
+    height: 80vh;
 }
 .signup-form-container {
-    padding-top: 15%;
+    padding-top: 10%;
     
 }
 .signup-form {
-    width: 70%;
+    width: 40%;
     background-color: orange;
     margin: auto;
+}
+.password-input {
+  display: flex;
+  align-items: center !important;
 }
 .container-success {
     height: 50vh;
@@ -60,4 +64,19 @@
   }
   .btn-signup:hover {
     background-color: rgba(1, 1, 1, 0.544) !important;
+  }
+  @media screen and (max-width: 414px) {
+    .container-signup {
+      height: auto;
+      padding-bottom: 20%;
+  }
+    .signup-form {
+      width: 92%;
+      background-color: orange;
+      margin: auto;
+    }
+    .container-signup {
+      padding-top: 5%;
+      height: auto;
+    }
   }

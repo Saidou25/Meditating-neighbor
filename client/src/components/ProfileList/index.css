@@ -33,6 +33,9 @@
 .location {
   font-size: 1.2rem;
 }
+.list-body {
+  background-color: rgb(243, 238, 238);
+} 
 .row-modal-footer {
   width: 100%;
 }

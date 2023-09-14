@@ -24,6 +24,7 @@ import ProfileList from "./components/ProfileList";
 import Profile from "./components/Profile";
 import ProfileModal from "./components/ProfileModal";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
+import TeacherMediaScreen from "./components/TeacherMediaScreen";
 import Neighbors from "./components/Neighbors";
 import ModalReadMore from "./components/ModalReadMore";
 import Success from "./components/Success";
@@ -118,6 +119,7 @@ function App() {
             <Route path="/ModalReadMore" element={<ModalReadMore />} />
             <Route path="/Success" element={<Success />} />
             <Route path="/Teachers" element={<Teachers />} />
+            <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
         </>

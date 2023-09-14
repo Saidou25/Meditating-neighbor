@@ -9,7 +9,7 @@ import Auth from "../../utils/auth";
 import "./index.css";
 
 const Login = () => {
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error, loading }] = useMutation(LOGIN_USER);
 
@@ -32,7 +32,7 @@ const Login = () => {
       });
 
       Auth.login(data.login.token);
-        // navigate("/Usa", { state: { formState } });
+      // navigate("/Usa", { state: { formState } });
     } catch (e) {
       console.error(e);
     }
@@ -42,7 +42,7 @@ const Login = () => {
       password: "",
     });
   };
-//   if (loading) return <Spinner />;
+  //   if (loading) return <Spinner />;
   return (
     <>
       <Navbar />
@@ -63,7 +63,7 @@ const Login = () => {
             <label className="form-label-login  mb-4 mt-4">Password</label>
             <br />
             <input
-              className="form-input mt-2 mb-2"
+              className="form-input password-input g-0 pt-2"
               placeholder="******"
               name="password"
               type="password"
@@ -87,13 +87,16 @@ const Login = () => {
               </button>
             </div>
           </form>
+          <p className="login-question text-light">
+            Don't have an account yet?
+            <Link
+              className="nav-link signup-link text-info bg-primary"
+              to="/Signup"
+            >
+              Signup.
+            </Link>
+          </p>
         </div>
-        <p className="login-question text-light">
-          Don't have an account yet?
-          <Link className="signup-link text-info bg-primary" to="/Signup">
-            signup.
-          </Link>
-        </p>
       </main>
       <Footer />
     </>

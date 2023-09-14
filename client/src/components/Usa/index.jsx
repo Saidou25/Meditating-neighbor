@@ -374,8 +374,8 @@ const Usa = () => {
           </ComposableMap>
         </div>
         <Teachers />
-        <p className="count-p fs-5 bg-primary text-light">
-          {users?.length} users
+        <p className="count-p fs-5 bg-primary text-light mt-5">
+          {users?.length} users within the US.
         </p>
       </div>
       <div className="profile-footer bg-primary">

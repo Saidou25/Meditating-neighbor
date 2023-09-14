@@ -22,7 +22,6 @@ const DeleteModal = ({
   myContacts,
   contactRequests,
 }) => {
-  console.log("from modal delete", myContacts);
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
@@ -205,7 +204,7 @@ const DeleteModal = ({
             </div>
             <div className="modal-body">
               {message ? (
-                <p className="info text-primary">{message}</p>
+                <p className="info text-primary m-5">{message}</p>
               ) : (
                 <p className="info-delete text-primary m-5">
                   Are you sure you want to delete your account? This is

@@ -1,0 +1,50 @@
+.contact-pic-mediascreen {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+.mediascreen-col {
+  width: 100% !important;
+  display: flex;
+  justify-content: flex-end;
+}
+@media screen and (max-width: 1200px) {
+  .contact-pic {
+    width: 110px;
+    height: 110px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .contact-pic {
+    width: 100px;
+    height: 100px;
+  }
+  .p-story {
+    padding-right: 1%;
+    padding-left: 1%;
+  }
+}
+@media screen and (max-width: 700px) {
+  .contact-pic {
+    width: 80px;
+    height: 80px;
+  }
+  .icon-container {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 558px) {
+  .icon-container {
+    width: 95%;
+  }
+}
+@media screen and (max-width: 414px) {
+  .icon-container {
+    width: 100%;
+  }
+  .contact-pic-mediascreen {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+}

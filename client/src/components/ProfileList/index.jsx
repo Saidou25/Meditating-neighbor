@@ -325,7 +325,7 @@ const ProfileList = (props) => {
                     }}
                   ></button>
                 </div>
-                <div className="modal-body">
+                <div className="modal-body list-body">
                   <div className="row">
                     <div className="col-6">
                       <img
