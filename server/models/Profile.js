@@ -36,8 +36,6 @@ const profileSchema = new Schema({
     type: String,
     trim: true,
     unique: true,
-    sparse: true,
-    index: true
   },
 });
 
