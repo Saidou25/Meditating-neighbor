@@ -23,11 +23,11 @@ const ProfileForm = () => {
 
   const navigate = useNavigate();
 
-  const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
-      console.log('enter press here! ')
-    }
-  }
+  // const handleKeyPress = (event) => {
+  //   if(event.key === 'Enter'){
+  //     console.log('enter press here! ')
+  //   }
+  // }
   
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
@@ -65,7 +65,6 @@ const ProfileForm = () => {
         return;
       } else if (/^[0-9]+$/.test(years) === false) {
         setErrorMessage("years must be a number");
-        console.log("years must be a number");
         return;
       }
     }
@@ -202,7 +201,7 @@ const ProfileForm = () => {
                   value={story}
                   placeholder="write about yourself"
                   onChange={(e) => setStory(e.target.value)}
-                  onKeyDown={handleKeyPress}
+                  // onKeyDown={handleKeyPress}
                 />
               </div>
               {errorMessage && (

@@ -7,7 +7,7 @@ const Success = ({ message }) => {
   return (
     <div className="container-fluid success bg-primary">
       <div className="container-success">
-        {message === "you haven't change anything to your profile..." ? (
+        {message === "you haven't made any changes to your profile..." ? (
           <p className="p-text d-flex text-light justify-content-center fs-3">
             {message}
           </p>

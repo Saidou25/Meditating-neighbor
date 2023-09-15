@@ -34,7 +34,6 @@ const profileSchema = new Schema({
   },
   story: {
     type: String,
-    required: false,
     trim: true,
   },
 });

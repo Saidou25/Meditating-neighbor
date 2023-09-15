@@ -58,7 +58,7 @@ console.log("you have pressed a ", state);
       //   console.log("was a teacher");
       // } else 
       if (teacher === teacher1 && years === years1 && stage === stage1) {
-        setMessage("you haven't change anything to your profile...");
+        setMessage("you haven't made any changes to your profile...");
       }
       if (!teacher || !years || !stage) {
         setErrorMessage("all fields need filled");
@@ -78,7 +78,7 @@ console.log("you have pressed a ", state);
         lastname === lastname1 &&
         story === story1
       ) {
-        setMessage("you haven't change anything to your profile...");
+        setMessage("you haven't made any changes to your profile...");
       }
       if (!teacher || !years || !firstname || !lastname || !story) {
         setErrorMessage("all fields need filled");
@@ -118,7 +118,7 @@ console.log("you have pressed a ", state);
       years === years1 &&
       story === story1
     ) {
-      setMessage("You didn't make any changes to your profile...");
+      setMessage("you haven't made any changes to your profile...");
     } else {
       setMessage("Your profile has been updated.");
     }
