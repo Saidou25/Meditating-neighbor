@@ -35,6 +35,9 @@ const profileSchema = new Schema({
   story: {
     type: String,
     trim: true,
+    unique: true,
+    sparse: true,
+    index: true
   },
 });
 
