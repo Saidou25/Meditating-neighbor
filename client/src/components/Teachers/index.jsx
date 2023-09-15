@@ -26,13 +26,13 @@ const Teachers = () => {
       setUsers(usersInfo);
     }
   }, [data]);
-
+  
   if (loading) {
     return <Spinner />;
   }
   return (
     <>
-      {tmiTeacher ? (
+      {tmiTeacher.lenght ? (
         <h3 className="teachers-title text-light my-5">Teachers in the US</h3>
       ) : (
         <></>

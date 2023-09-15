@@ -229,9 +229,7 @@ const ProfileList = (props) => {
               </div>
             ))}
         </div>
-        <h3 className="locations-list-title text-white py-5">
-          Over a 50 miles radius
-        </h3>
+        {overSeventyFiveMiles.lenght ? (<>Over a 50 miles radius</>) : (<></>)}
         <div className="row card-row">
           {overSeventyFiveMiles &&
             overSeventyFiveMiles.map((distanceObj) => (

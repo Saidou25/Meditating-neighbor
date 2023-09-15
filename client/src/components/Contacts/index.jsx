@@ -177,7 +177,7 @@ const Contacts = () => {
                           </h4>{" "}
                           {user.friendUser?.profile ? (
                             <div className="p-about mt-5 mb-4">
-                              <p>Teacher(TMI)</p>
+                              <p>{user.friendUser.profile.teacher}</p>
                               <p>
                                 Has been meditating for{" "}
                                 {user.friendUser.profile.years} years
