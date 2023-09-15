@@ -28,6 +28,7 @@ const ProfileList = (props) => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [username, setUsername] = useState("");
   const [user, setUser] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const seventyFiveMiles = props.seventyFiveMiles;
   const overSeventyFiveMiles = props.overSeventyFiveMiles;
 
@@ -82,6 +83,10 @@ const ProfileList = (props) => {
   });
 
   const contact = async () => {
+    if (!myAvatar || !myLocation || !myProfile) {
+      setErrorMessage("You need to setup your profile to be able to request a contact.");
+      return;
+    }
     try {
       const { data } = await addRequest({
         variables: {
@@ -320,6 +325,7 @@ const ProfileList = (props) => {
                       setOutgoingRequest(false);
                       setIncomingRequest(false);
                       setFriends(false);
+                      setErrorMessage("");
                     }}
                   ></button>
                 </div>
@@ -365,7 +371,9 @@ const ProfileList = (props) => {
                       </div>
                     </div>
                   </div>
+                      {errorMessage && (<p className="error-message bg-danger text-light p-2 m-2">{errorMessage}</p>)}
                 </div>
+              
               </>
               {friendsSince && friends === true ? (
                 <div className="profile-friends p-3">
@@ -390,6 +398,7 @@ const ProfileList = (props) => {
                         setOutgoingRequest(false);
                         setIncomingRequest(false);
                         setFriends(false);
+                        setErrorMessage("");
                       }}
                     >
                       Close
