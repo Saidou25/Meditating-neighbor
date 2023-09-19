@@ -13,14 +13,15 @@
 }
 /* .signup-link,
 .site-link {
-  background-color: black;
+  background-color: black !important;
   margin: 1px;
 } */
 .signup,
 .site {
   font-size: 1.2rem !important;
   color: white !important;
- 
+  background-color: black !important;
+  margin: 2px;
 }
 .signup:hover,
 .site:hover {

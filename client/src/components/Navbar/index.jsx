@@ -8,6 +8,8 @@ import {
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
@@ -17,8 +19,20 @@ const Navbar = () => {
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
 
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        // navigate("/");
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   const logout = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     Auth.logout();
     console.log("logout success!");
   };
@@ -156,7 +170,7 @@ const Navbar = () => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      search country
+                      locate
                     </Link>
                     <div className="dropdown-menu">
                       {dropDownLinks &&
@@ -194,7 +208,13 @@ const Navbar = () => {
               )}
               {Auth.loggedIn() ? (
                 <li className="nav-item">
-                  <button className="nav-link" onClick={logout}>
+                  <button
+                    className="nav-link"
+                    onClick={() => {
+                      logout();
+                      handleLogout();
+                    }}
+                  >
                     <div className="logout">logout</div>
                   </button>
                 </li>

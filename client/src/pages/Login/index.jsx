@@ -15,7 +15,6 @@ const Login = () => {
   const [login, { error, loading }] = useMutation(LOGIN_USER);
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
   const [showSignup, setShowSignup] = useState(false);
   const [hideLogin, setHideLogin] = useState("block");
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +42,6 @@ const Login = () => {
         const user = userCredential.user;
         // navigate("/Usa", { state: { user } });
         // console.log(user);
-        setUser(user);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -74,16 +72,22 @@ const Login = () => {
   };
   const validate = (e) => {
     e.preventDefault();
-    if (email && password && !error) {
+    console.log("in validate", email, password, error)
+    if (!email || !password || error || errorMessage) {
+      setErrorMessage("All fields need filled.");
+      return;
+    } else {
       firebaseLogin();
-      // handleFormSubmit();
+      handleFormSubmit();
     }
   };
   //   if (loading) return <Spinner />;
   return (
     <>
-      <div className="card login-card g-0" style={{ display: `${hideLogin}`}}>
-      <div className="card-header text-light"><h3 className="login-header p-3">login</h3></div>
+      <div className="card login-card g-0" style={{ display: `${hideLogin}` }}>
+        <div className="card-header text-light">
+          <h3 className="login-header p-3">login</h3>
+        </div>
         <div className="card-body">
           <form className="login-form">
             <label className="form-label-login text-light mb-4">Email</label>
@@ -97,7 +101,9 @@ const Login = () => {
               onChange={handleChange}
             />{" "}
             <br />
-            <label className="form-label-login text-light mb-4 mt-4">Password</label>
+            <label className="form-label-login text-light mb-4 mt-4">
+              Password
+            </label>
             <br />
             <input
               className="form-input password-input g-0 pt-2"
@@ -117,20 +123,37 @@ const Login = () => {
                 {error.message}
               </div>
             )}
-              {errorMessage && (
-              <div className="signup-error-message text-light bg-danger mx-3 mt-4">
-                <p className="p-message p-2">{errorMessage}</p>
+            {errorMessage && (
+              <div className="signup-error-message text-light bg-danger mx-3 my-5">
+                <p className="p-message p-3">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">
-              <button
-                className="btn btn-login text-light rounded-0 mt-5"
-                style={{ cursor: "pointer" }}
-                type="button"
-                onClick={validate}
-              >
-                login
-              </button>
+              <div className="row row-login-buttons">
+                {/* <div className="col-6">
+                  <button
+                    className="btn btn-login text-light rounded-0 mt-4"
+                    type="button"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      // showSignup(false);
+                      setHideLogin("none");
+                    }}
+                  >
+                    cancel
+                  </button>
+                </div> */}
+                <div className="col-6">
+                  <button
+                    className="btn btn-login text-light rounded-0 mt-4"
+                    style={{ cursor: "pointer" }}
+                    type="button"
+                    onClick={validate}
+                  >
+                    login
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -138,17 +161,18 @@ const Login = () => {
           <p className="login-question text-light">
             Don't have an account yet?
             <button
-                className="btn btn-text rounded-0 text-info"
-                onClick={() => {setHideLogin("none"); setShowSignup(true);}}
-              >
-                Signup
-              </button>
+              className="btn btn-text rounded-0 text-info"
+              onClick={() => {
+                setHideLogin("none");
+                setShowSignup(true);
+              }}
+            >
+              Signup
+            </button>
           </p>
         </div>
       </div>
-      {showSignup === true && (
-        <Signup />
-      )}
+      {showSignup === true && <Signup />}
     </>
     // </>
   );

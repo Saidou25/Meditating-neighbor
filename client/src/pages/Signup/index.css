@@ -88,8 +88,6 @@
     padding-left: 10px;
   }
   .btn-signup {
-    /* display: flex; */
-    /* justify-content: center !important; */
     width: 100%;
   }
   @media screen and (max-width: 414px) {

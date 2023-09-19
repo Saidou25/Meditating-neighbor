@@ -5,8 +5,8 @@ import { ADD_USER } from "../../utils/mutations";
 // import Success from "../../components/Success";
 import Login from "../Login";
 import Spinner from "../../components/Spinner";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -31,24 +31,24 @@ const Signup = () => {
       SetEmail(lowerCaseEmail);
     }
   };
-  // const firebaseSignup = async (e) => {
-  //   // e.preventDefault();
+  const firebaseSignup = async (e) => {
+    // e.preventDefault();
 
-  //   await createUserWithEmailAndPassword(auth, email, password)
-  //     .then((userCredential) => {
-  //       // Signed in
-  //       const user = userCredential.user;
-  //       console.log(user);
-  //       // navigate("/login")
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode, errorMessage);
-  //       // ..
-  //     });
-  // };
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // navigate("/login")
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // ..
+      });
+  };
   const handleFormSubmit = async (e) => {
     // e.preventDefault();
     try {
@@ -75,7 +75,7 @@ const Signup = () => {
       setErrorMessage("All fields need filled.");
       return;
     } else {
-      // firebaseSignup();
+      firebaseSignup();
       handleFormSubmit();
     }
   };
@@ -139,8 +139,8 @@ const Signup = () => {
               </div>
             )}
             {errorMessage && (
-              <div className="signup-error-message text-light bg-danger mx-3 mt-4">
-                <p className="p-message p-2">{errorMessage}</p>
+              <div className="signup-error-message text-light bg-danger mx-3 my-5">
+                <p className="p-message p-3">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">

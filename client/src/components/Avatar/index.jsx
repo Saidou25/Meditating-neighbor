@@ -29,7 +29,7 @@ const ProfPics = () => {
   const username = me?.username;
   const { data } = useQuery(QUERY_ME);
 
-  const [addAvatar, { addError }] = useMutation(ADD_AVATAR, {
+  const [addAvatar] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
       try {
         const { avatars } = cache.readQuery({ query: QUERY_AVATARS });

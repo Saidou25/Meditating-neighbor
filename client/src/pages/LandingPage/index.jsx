@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import Login from "../Login";
 // import Signup from "../Signup";
@@ -8,11 +10,22 @@ import LandingFooter from "../../components/LandingFooter";
 import "./index.css";
 
 const LandingPage = () => {
-  const [showLogin, setShowLogin] = useState(false);
+  const [hideLogin, setHideLogin] = useState("none");
   // const [showSignup, setShowSignup] = useState(false);
 
-  const logout = (event) => {
-    event.preventDefault();
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        // navigate("/");
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
@@ -29,7 +42,7 @@ const LandingPage = () => {
               // <div className="show-login">
               <button
                 className="btn btn-text signup rounded-0"
-                onClick={() => setShowLogin(true)}
+                onClick={() => setHideLogin("block")}
               >
                 login
               </button>
@@ -38,7 +51,10 @@ const LandingPage = () => {
               <div to="/" className="signup-link">
                 <button
                   className="btn btn-text signup rounded-0"
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    handleLogout();
+                  }}
                 >
                   logout
                 </button>
@@ -55,11 +71,11 @@ const LandingPage = () => {
             <div className="col-6 landing-tmi g-0">TMI</div>
             <div className="col-6 landing-world g-0">WORLD</div>
           </div>
-          {showLogin === true && (
-            <div className="show-login">
+          {/* {showLogin === true && ( */}
+            <div className="show-login" style={{ display: `${hideLogin}` }}>
               <Login />
             </div>
-          )}
+          {/* )} */}
         </div>
         <div className="container-landing">
           <div className="text-title fs-4">
