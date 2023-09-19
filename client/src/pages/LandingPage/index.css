@@ -1,3 +1,4 @@
+
 .container-main {
   height: 100vh;
 }
@@ -10,19 +11,20 @@
   padding-top: 2%;
   padding-right: 2%;
 }
-.signup-link,
+/* .signup-link,
 .site-link {
   background-color: black;
   margin: 1px;
-}
+} */
 .signup,
 .site {
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   color: white !important;
+ 
 }
 .signup:hover,
 .site:hover {
-  color: rgb(241, 207, 139) !important;
+  color: orange !important;
 }
 .landing-world {
   display: flex;
@@ -34,9 +36,11 @@
   justify-content: flex-end; 
   color: orange;
   font-size: 2.5rem;
+  margin-left: -45px;
 }
 .landing-tmiworld {
-  margin-top: 7%;
+  margin-top: 50px;
+  
 }
 .container-landing {
   background-color: black;
@@ -47,11 +51,12 @@
   margin-left: auto;
   padding: 3%;
 }
+
 .first-title {
   text-align: center;
 }
 .parallax {
-  background-image: url("../../assets/images/bowlcroped2.jpeg");
+  background-image: url("../../assets/images/bowlcroped.jpeg");
   height: 100%;
   background-attachment: fixed;
   background-position: center;
@@ -106,3 +111,9 @@
     display: block ;
   }
 } 
+/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}

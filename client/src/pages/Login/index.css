@@ -1,13 +1,17 @@
-.container-login {
+/* .container-login {
   height: 80vh;
+} */
+
+.login-card {
+  width: 400px;
+  border-radius: 25px;
+  background-color: rgba(6, 3, 0, 0.77) !important;
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.form-container {
-  padding-top: 10%;
-}
-.login-form {
-  width: 40%;
-  background-color: orange;
-  margin: auto;
+.login-header {
+  text-align: center;
 }
 .fa-check {
   justify-content: center;
@@ -28,6 +32,7 @@
   margin-left: 3%;
   font-size: 1.2rem;
   font-weight: 600;
+  width: 100%;
 }
 .container-login {
   background-color: orange;
@@ -38,12 +43,12 @@
   margin-left: 3%;
 }
 .btn-login {
-  /* background-color: black !important; */
+  background-color: black !important;
   margin-left: 3%;
   margin-bottom: 3%;
 }
 .btn-login:hover {
-  background-color: rgba(6, 3, 0, 0.67) !important;
+  background-color: orange !important;
 }
 .login-question {
   margin-top: 5%;
@@ -70,3 +75,4 @@
     padding-bottom: 10%;
   }
 }
+

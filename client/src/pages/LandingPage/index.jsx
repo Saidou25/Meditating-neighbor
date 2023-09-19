@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
+import Login from "../Login";
+// import Signup from "../Signup";
 import Navabar from "../../components/Navbar";
 import LandingFooter from "../../components/LandingFooter";
 import "./index.css";
 
 const LandingPage = () => {
+  const [showLogin, setShowLogin] = useState(false);
+  // const [showSignup, setShowSignup] = useState(false);
+
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
@@ -21,12 +26,15 @@ const LandingPage = () => {
         <div className="parallax">
           <div className="login-signup">
             {!Auth.loggedIn() ? (
-              <Link to="/Login" className="signup-link">
-                <button className="btn btn-text signup rounded-0">
-                  login
-                </button>
-              </Link>
+              // <div className="show-login">
+              <button
+                className="btn btn-text signup rounded-0"
+                onClick={() => setShowLogin(true)}
+              >
+                login
+              </button>
             ) : (
+              // </div>
               <div to="/" className="signup-link">
                 <button
                   className="btn btn-text signup rounded-0"
@@ -42,10 +50,16 @@ const LandingPage = () => {
               </Link>
             )}
           </div>
+
           <div className="row landing-tmiworld g-0">
             <div className="col-6 landing-tmi g-0">TMI</div>
             <div className="col-6 landing-world g-0">WORLD</div>
           </div>
+          {showLogin === true && (
+            <div className="show-login">
+              <Login />
+            </div>
+          )}
         </div>
         <div className="container-landing">
           <div className="text-title fs-4">
@@ -58,14 +72,7 @@ const LandingPage = () => {
               dolor sit amet consectetur adipisicing elit. Deserunt neque
               corporis et voluptate ut repellat vitae, dolores consectetur eaque
               quo voluptatem aspernatur officia delectus nisi animi sit
-              laboriosam, quas quod. . Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Sit, ipsam quae atque necessitatibus natus quas
-              quis dolores? Architecto quidem eum perferendis eligendi sed
-              debitis velit cum labore, reiciendis porro molestiae? Lorem ipsum
-              dolor sit amet, consectetur adipisicing elit. Laudantium eveniet
-              at velit debitis, nisi saepe aliquid aliquam laborum voluptatum
-              necessitatibus! Alias rerum, voluptatem exercitationem atque
-              officiis voluptates veritatis accusantium ducimus!
+              laboriosam, quas quod. . Lorem ipsum dolor sit amet consectetu
             </p>
           </div>
         </div>
@@ -84,11 +91,6 @@ const LandingPage = () => {
               laboriosam, quas quod. . Lorem ipsum dolor sit amet consectetur
               adipisicing elit. Sit, ipsam quae atque necessitatibus natus quas
               quis dolores? Architecto quidem eum perferendis eligendi sed
-              debitis velit cum labore, reiciendis porro molestiae? Lorem ipsum
-              dolor sit amet, consectetur adipisicing elit. Laudantium eveniet
-              at velit debitis, nisi saepe aliquid aliquam laborum voluptatum
-              necessitatibus! Alias rerum, voluptatem exercitationem atque
-              officiis voluptates veritatis accusantium ducimus!
             </p>
           </div>
         </div>
