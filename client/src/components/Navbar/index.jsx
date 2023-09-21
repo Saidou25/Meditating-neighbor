@@ -8,6 +8,7 @@ import {
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
+// import useAuth from "../../utils/useAuth";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
@@ -18,24 +19,7 @@ const Navbar = () => {
   const [me, setMeData] = useState("");
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
-
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        // navigate("/");
-        console.log("Signed out successfully");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
-
-  const logout = (event) => {
-    // event.preventDefault();
-    Auth.logout();
-    console.log("logout success!");
-  };
+  // const { user, handleLogout } = useAuth();
   // query all my data
   const { data: meData } = useQuery(QUERY_ME);
   const username = me.username;
@@ -78,6 +62,23 @@ const Navbar = () => {
       linkTo: "/",
     },
   ];
+
+  const logout = () => {
+    Auth.logout();
+    console.log("logout success!");
+  };
+
+  const handleLogout = async () => {
+    console.log("in handleLogout");
+    try {
+      await signOut(auth);
+      console.log("firebase signout succes");
+      logout();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (requestsData && meData && usersData && contactsData) {
       const myData = meData?.me || [];
@@ -211,8 +212,8 @@ const Navbar = () => {
                   <button
                     className="nav-link"
                     onClick={() => {
-                      logout();
                       handleLogout();
+                      // logout();
                     }}
                   >
                     <div className="logout">logout</div>

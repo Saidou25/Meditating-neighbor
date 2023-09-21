@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 // import Success from "../../components/Success";
 import Login from "../Login";
-import Spinner from "../../components/Spinner";
+// import Spinner from "../../components/Spinner";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import Auth from "../../utils/auth";
+// import Auth from "../../utils/auth";
 import "./index.css";
 
 const Signup = () => {
@@ -16,12 +15,12 @@ const Signup = () => {
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [hideSignup, setHideSignup] = useState("block");
 
-  const [addUser, { error, loading }] = useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,26 +31,27 @@ const Signup = () => {
     }
   };
   const firebaseSignup = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        // navigate("/login")
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ..
-      });
+    try {
+      if (auth && username && email && password) {
+        const user = await createUserWithEmailAndPassword(auth, email, password);
+        console.log("user", user);
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setErrorMessage("All fields need filled.");
+    }
   };
   const handleFormSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     try {
+      if (!email || !password || !username || errorMessage) {
+        setErrorMessage("All fields need filled.");
+        return;
+      }
       const { data } = await addUser({
         variables: { username: username, password: password, email: email },
       });
@@ -69,18 +69,9 @@ const Signup = () => {
     setShowLogin(true);
     setHideSignup("none");
   };
-  const validate = (e) => {
-    e.preventDefault();
-    if (!email || !password || !username || error) {
-      setErrorMessage("All fields need filled.");
-      return;
-    } else {
-      firebaseSignup();
-      handleFormSubmit();
-    }
-  };
+  
 
-  if (loading) return <Spinner />;
+  // if (loading) return <Spinner />;
   // if (message) return <Success message={message} />;
 
   return (
@@ -133,11 +124,6 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <br />
-            {error && (
-              <div className="signup-login-error p-4 bg-danger text-light mt-4">
-                {error.message}
-              </div>
-            )}
             {errorMessage && (
               <div className="signup-error-message text-light bg-danger mx-3 my-5">
                 <p className="p-message p-3">{errorMessage}</p>
@@ -161,9 +147,9 @@ const Signup = () => {
                 <div className="col-6">
                   <button
                     className="btn btn-signup text-light rounded-0 mt-4"
-                    type="button"
+                    type="submit"
                     style={{ cursor: "pointer" }}
-                    onClick={validate}
+                    onClick={(e) => {handleFormSubmit(e); firebaseSignup(e)}}
                   >
                     Submit
                   </button>

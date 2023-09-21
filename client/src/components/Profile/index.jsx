@@ -11,6 +11,8 @@ import {
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import DeleteModal from "../DeleteModal";
 import Avatar from "../Avatar";
@@ -25,7 +27,6 @@ const Profile = () => {
   const [myProfile, setMyProfile] = useState("");
   const [myAvatar, setMyAvatar] = useState("");
   const [me, setMe] = useState("");
-
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   // const me = meData?.me || [];
 
@@ -62,6 +63,7 @@ const Profile = () => {
   useEffect(() => {
     if (locationsData && allProfiles && avatarsData && meData) {
       const myData = meData?.me || [];
+      // console.log('my data', myData);
       setMe(myData);
       const locations = locationsData?.locations || [];
       const userLocation = locations.filter(
@@ -79,6 +81,15 @@ const Profile = () => {
       );
       setMyAvatar(userAvatar[0]);
     }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("user from profile", user);
+      } else {
+        console.log('no firebase user');
+        console.log('auth', auth)
+        // signInWithEmailAndPassword(auth, email, password);
+      }
+    });
   }, [locationsData, allProfiles, avatarsData, meData]);
 
   if (contacts) {

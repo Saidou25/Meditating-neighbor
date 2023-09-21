@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import {
   DELETE_PROFILE,
@@ -10,6 +10,8 @@ import {
 } from "../../utils/mutations";
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth"
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -29,10 +31,40 @@ const DeleteModal = ({
   const [deleteUser] = useMutation(DELETE_USER);
   const [deleteContact] = useMutation(DELETE_CONTACT);
   const [deleteRequest] = useMutation(DELETE_REQUEST);
+  // const [user, setUser] = useState("");
+
+  const auth = getAuth();
+  // const user = auth.currentUser;
 
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
+  };
+  
+  const [user] = useAuthState(auth)
+
+  useEffect(() => {
+    console.log('in use effect')
+    if (user) {
+      console.log(`${user.email} logged in!`)
+    }
+  }, [user])
+
+  const removeFirebaseUser = () => {
+    // console.log("user", user);
+    console.log("in firebase remove user");
+    user
+      .delete()
+      .then(() => {
+        console.log("user deleted");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setMessage("Your account has been deleted. Goodbye.");
+    setTimeout(() => {
+      logout();
+    }, 2500);
   };
 
   const storageRef = ref(storage, savedUrl);
@@ -40,6 +72,10 @@ const DeleteModal = ({
   const imageRef = ref(storage, `${toDelete}`);
 
   const removeUser = async () => {
+    if (!userId) {
+      console.log("no user id", userId);
+      return;
+    }
     try {
       const { data } = await deleteUser({
         variables: { id: userId },
@@ -50,10 +86,7 @@ const DeleteModal = ({
     } catch (e) {
       console.error(e);
     }
-    setMessage("Your account has been deleted. Goodbye.");
-    setTimeout(() => {
-      logout();
-    }, 3000);
+    removeFirebaseUser();
   };
 
   const removeRequest = async (contactRequest) => {
@@ -98,7 +131,6 @@ const DeleteModal = ({
       }
     }
   };
-  console.log(myContacts);
   const contactDispatch = () => {
     if (myContacts) {
       for (let contact of myContacts) {

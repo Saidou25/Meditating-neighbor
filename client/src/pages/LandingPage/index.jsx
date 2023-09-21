@@ -13,21 +13,20 @@ const LandingPage = () => {
   const [hideLogin, setHideLogin] = useState("none");
   // const [showSignup, setShowSignup] = useState(false);
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        // navigate("/");
-        console.log("Signed out successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const logout = () => {
+ const logout = () => {
     Auth.logout();
     console.log("logout success!");
+  };
+
+  const handleLogout = async () => {
+    console.log("in handleLogout");
+    try {
+      await signOut(auth);
+      console.log("firebase signout succes");
+      logout();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,7 +51,7 @@ const LandingPage = () => {
                 <button
                   className="btn btn-text signup rounded-0"
                   onClick={() => {
-                    logout();
+                    // logout();
                     handleLogout();
                   }}
                 >
@@ -72,9 +71,9 @@ const LandingPage = () => {
             <div className="col-6 landing-world g-0">WORLD</div>
           </div>
           {/* {showLogin === true && ( */}
-            <div className="show-login" style={{ display: `${hideLogin}` }}>
-              <Login />
-            </div>
+          <div className="show-login" style={{ display: `${hideLogin}` }}>
+            <Login />
+          </div>
           {/* )} */}
         </div>
         <div className="container-landing">
