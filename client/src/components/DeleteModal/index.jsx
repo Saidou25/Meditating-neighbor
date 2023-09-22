@@ -10,7 +10,7 @@ import {
 } from "../../utils/mutations";
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth"
 import Auth from "../../utils/auth";
 import "./index.css";

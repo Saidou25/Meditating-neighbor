@@ -32,50 +32,48 @@
   margin-left: 3%;
   font-size: 1.2rem;
   font-weight: 600;
-  width: 100%;
+  /* width: 100%; */
 }
 .container-login {
   background-color: orange;
 }
-.form-input {
+/* .form-input {
   font-style: oblique;
   padding: 2px;
   margin-left: 3%;
-}
-.btn-login {
-  background-color: black !important;
-  margin-left: 3%;
-  margin-bottom: 3%;
-}
-.btn-login:hover {
-  background-color: orange !important;
+} */
+.email-login-input,
+.password-login-input {
+  height: 60px;
+  width: 95%;
 }
 .login-question {
-  margin-top: 5%;
+  /* margin-top: 3%; */
   text-align: center;
 }
 .signup-link {
   text-decoration: none;
   margin-left: 5px;
 }
-.row-login-buttons {
-  padding-right: 10px;
-  padding-left: 10px;
-}
+
 .btn-login {
-  /* display: flex; */
-  /* justify-content: center !important; */
-  width: 100%;
+  background-color: black !important;
 }
-@media screen and (max-width: 414px) {
+.btn-login:hover {
+  background-color: orange !important;
+}
+@media screen and (max-width: 640px) {
   .login-form {
     width: 92%;
-    background-color: orange;
     margin: auto;
   }
   .container-login {
     padding-top: 5%;
     height: auto;
+  }
+  .login-card {
+    margin-top: 10%;
+    margin-bottom: 10%;
   }
   .login-question {
     margin-top: 10%;
@@ -84,4 +82,24 @@
     padding-bottom: 10%;
   }
 }
+/* @media screen and (max-width: 414px) {
+  .login-form {
+    width: 92%;
+    margin: auto;
+  }
+  .container-login {
+    padding-top: 5%;
+    height: auto;
+  }
+  .login-card {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+  .login-question {
+    margin-top: 10%;
+    text-align: center;
+    margin-bottom: 0;
+    padding-bottom: 10%;
+  }
+} */
 

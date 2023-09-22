@@ -8,7 +8,6 @@ import {
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
-// import useAuth from "../../utils/useAuth";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
@@ -19,7 +18,7 @@ const Navbar = () => {
   const [me, setMeData] = useState("");
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
-  // const { user, handleLogout } = useAuth();
+
   // query all my data
   const { data: meData } = useQuery(QUERY_ME);
   const username = me.username;
@@ -136,27 +135,27 @@ const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <div className="row tmiworld">
-              <div className="col-6 tmi g-0">TMI</div>
-              <div className="col-6 world g-0">WORLD</div>
-            </div>
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarColor01"
-            aria-controls="navbarColor01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarColor01">
-            <ul className="navbar-nav me-auto">
-              {Auth.loggedIn() && (
-                <>
+          {Auth.loggedIn() ? (
+            <>
+              <Link className="navbar-brand" to="/">
+                <div className="row tmiworld">
+                  <div className="col-6 tmi g-0">TMI</div>
+                  <div className="col-6 world g-0">WORLD</div>
+                </div>
+              </Link>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarColor01">
+                <ul className="navbar-nav me-auto">
                   <li className="nav-item">
                     <Link className="nav-link" to="/Neighbors">
                       members
@@ -205,40 +204,37 @@ const Navbar = () => {
                       </Link>
                     </li>
                   )}
-                </>
-              )}
-              {Auth.loggedIn() ? (
-                <li className="nav-item">
-                  <button
-                    className="nav-link"
-                    onClick={() => {
-                      handleLogout();
-                      // logout();
-                    }}
-                  >
-                    <div className="logout">logout</div>
-                  </button>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link className="nav-link fs-4" to="/Login">
-                    login
-                  </Link>
-                </li>
-              )}
-              {Auth.loggedIn() && (
-                <li className="nav-item">
-                  <Link className="nav-link text-light fs-4" to="/Profile">
-                    <img
-                      className="icon-nav"
-                      src={!savedUrl ? profileIcon : savedUrl}
-                      alt="profile icon"
-                    />
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </div>
+                  <li className="nav-item">
+                    <button
+                      className="nav-link"
+                      onClick={() => {
+                        handleLogout();
+                      }}
+                    >
+                      <div className="logout">logout</div>
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link text-light fs-4" to="/Profile">
+                      <img
+                        className="icon-nav"
+                        src={!savedUrl ? profileIcon : savedUrl}
+                        alt="profile icon"
+                      />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <div className="row tmiworld1 g-0">
+                <div className="col-6 tmi g-0">TMI</div>
+                <div className="col-6 world g-0">WORLD</div>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </>

@@ -5,7 +5,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 // import useAuth from "../../utils/useAuth";
 import Signup from "../Signup";
-import Spinner from "../../components/Spinner";
+// import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -13,11 +13,11 @@ const Login = () => {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showSignup, setShowSignup] = useState(false);
-  const [hideLogin, setHideLogin] = useState("block");
+  const [showSignup, setShowSignup] = useState("none");
+  const [showLogin, setShowLogin] = useState("block");
   const [errorMessage, setErrorMessage] = useState("");
-  
-  const [login] = useMutation(LOGIN_USER); 
+
+  const [login] = useMutation(LOGIN_USER);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,17 +37,11 @@ const Login = () => {
   const handleFormSubmit = async () => {
     // e.preventDefault();
     try {
-      if (email || password || !errorMessage) {
-        const { data } = await login({
-          variables: { ...formState },
-        });
-        if (data) {
-          Auth.login(data.login.token);
-          
-        }
-      } else {
-        setErrorMessage("All fields need filled.");
-        return;
+      const { data } = await login({
+        variables: { ...formState },
+      });
+      if (data) {
+        Auth.login(data.login.token);
       }
     } catch (e) {
       console.error(e);
@@ -64,6 +58,9 @@ const Login = () => {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(" firebaseLogin user", user);
         handleFormSubmit();
+      } else {
+        setErrorMessage("All fields need filled.");
+        return;
       }
     } catch (error) {
       const errorCode = error.code;
@@ -80,16 +77,18 @@ const Login = () => {
   // if (loading) return <Spinner />;
   return (
     <>
-      <div className="card login-card g-0" style={{ display: `${hideLogin}` }}>
+      <div className="card login-card g-0" 
+      style={{ display: `${showLogin}` }}
+      >
         <div className="card-header text-light">
           <h3 className="login-header p-3">login</h3>
         </div>
         <div className="card-body">
-          <form className="login-form">
+          <form className="form">
             <label className="form-label-login text-light mb-4">Email</label>
             <br />
             <input
-              className="form-input email-input mt-2 mb-2"
+              className="form-input email-login-input my2"
               placeholder="Your email"
               name="email"
               type="email"
@@ -97,12 +96,10 @@ const Login = () => {
               onChange={handleChange}
             />{" "}
             <br />
-            <label className="form-label-login text-light mb-4 mt-4">
-              Password
-            </label>
+            <label className="form-label-login text-light my-4">Password</label>
             <br />
             <input
-              className="form-input password-input g-0 pt-2"
+              className="form-input password-login-input g-0 pt-2 mb-5"
               placeholder="******"
               name="password"
               type="password"
@@ -115,49 +112,49 @@ const Login = () => {
             <br />
             <div></div>
             {errorMessage && (
-              <div className="signup-error-message text-light bg-danger mx-3 my-5">
+              <div className="signup-error-message text-light bg-danger mb-5">
                 <p className="p-message p-3">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">
-              {/* <div className="row row-login-buttons"> */}
-              {/* <div className="col-6">
+              <div className="row row-signup-buttons">
+                {/* <div className="col-6">
                   <button
-                    className="btn btn-login text-light rounded-0 mt-4"
+                    className="btn btn-signup text-light rounded-0"
                     type="button"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       // showSignup(false);
-                      setHideLogin("none");
+                      setShowLogin("none");
                     }}
                   >
-                    cancel
+                    close
                   </button>
                 </div> */}
-              {/* <div className="col-6"> */}
-              <button
-                className="btn btn-login text-light rounded-0 mt-4"
-                style={{ cursor: "pointer" }}
-                type="submit"
-                onClick={(e) => {
-                  firebaseLogin(e);
-                }}
-              >
-                login
-              </button>
+                <div className="col-6">
+                  <button
+                    className="btn btn-signup text-light rounded-0"
+                    style={{ cursor: "pointer" }}
+                    type="submit"
+                    onClick={(e) => {
+                      firebaseLogin(e);
+                    }}
+                  >
+                    login
+                  </button>
+                </div>
+              </div>
             </div>
-            {/* </div> */}
-            {/* </div> */}
           </form>
         </div>
-        <div className="card-footer">
-          <p className="login-question text-light">
+        <div>
+          <p className="login-question text-light mt-4">
             Don't have an account yet?
             <button
               className="btn btn-text rounded-0 text-info"
               onClick={() => {
-                setHideLogin("none");
-                setShowSignup(true);
+                setShowLogin("none");
+                setShowSignup("block");
               }}
             >
               Signup
@@ -165,9 +162,8 @@ const Login = () => {
           </p>
         </div>
       </div>
-      {showSignup === true && <Signup />}
+      {showSignup === "block" && <Signup />}
     </>
-    // </>
   );
 };
 export default Login;

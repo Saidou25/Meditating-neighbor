@@ -2,6 +2,15 @@
   background-color: black;
   height: 200px;
 }
+.tmiworld1 {
+  padding-left: 35px;
+}
+.navbar-brand {
+  text-align: center;
+  display: flex;
+  justify-content: center !important;
+
+}
 .world {
   display: flex;
   justify-content: flex-start;

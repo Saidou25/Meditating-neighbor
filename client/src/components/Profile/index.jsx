@@ -11,7 +11,7 @@ import {
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import DeleteModal from "../DeleteModal";

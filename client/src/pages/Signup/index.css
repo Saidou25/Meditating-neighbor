@@ -53,9 +53,15 @@
   .signup-success {
     height: 0 !important;
   }
-  .signup-login-error {
-    text-align: center;
+  .signup-error-message {
+    width: 95%;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
   }
+  /* .signup-login-error {
+    text-align: center;
+  } */
   .form-label-signup {
     color: black;
     margin-left: 3%;
@@ -66,9 +72,7 @@
   .signup-header {
     text-align: center;
   }
-  .container-signup {
-    background-color: orange;
-  }
+
   .form-input {
     font-style: oblique;
     padding: 2px;
@@ -76,8 +80,10 @@
   }
   .btn-signup {
     background-color: black !important;
-    margin-left: 3%;
-    margin-bottom: 3%;
+    width: 95%;
+    /* height: 60px; */
+    margin-left: auto;
+    margin-right: auto;
     
   }
   .btn-signup:hover {
@@ -90,14 +96,17 @@
   .btn-signup {
     width: 100%;
   }
-  @media screen and (max-width: 414px) {
+  @media screen and (max-width: 640px) {
     .container-signup {
       height: auto;
       padding-bottom: 20%;
   }
+  .signup-card {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
     .signup-form {
       width: 92%;
-      background-color: orange;
       margin: auto;
     }
     .container-signup {
@@ -105,3 +114,21 @@
       height: auto;
     }
   }
+  /* @media screen and (max-width: 414px) {
+    .container-signup {
+      height: auto;
+      padding-bottom: 20%;
+  }
+  .signup-card {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+    .signup-form {
+      width: 92%;
+      margin: auto;
+    }
+    .container-signup {
+      padding-top: 5%;
+      height: auto;
+    }
+  } */

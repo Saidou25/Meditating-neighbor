@@ -90,7 +90,7 @@ const Signup = () => {
             </label>
             <br />
             <input
-              className="form-input username-input mt-2 mb-2"
+              className="form-input username-input"
               placeholder="choose a username..."
               name="username"
               type="username"
@@ -98,12 +98,12 @@ const Signup = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <br />
-            <label className="form-label-signup text-light mb-4 mt-4">
+            <label className="form-label-signup text-light my-4">
               Email
             </label>
             <br />
             <input
-              className="form-input email-input mt-2 mb-2"
+              className="form-input email-input"
               placeholder="your email.."
               name="email"
               type="email"
@@ -111,12 +111,12 @@ const Signup = () => {
               onChange={handleChange}
             />
             <br />
-            <label className="form-label-signup text-light mb-4 mt-4">
+            <label className="form-label-signup text-light my-4">
               Password
             </label>
             <br />
             <input
-              className="form-input password-input g-0 pt-2"
+              className="form-input password-input g-0 pt-2 mb-5"
               placeholder="******"
               name="password"
               type="password"
@@ -125,7 +125,7 @@ const Signup = () => {
             />
             <br />
             {errorMessage && (
-              <div className="signup-error-message text-light bg-danger mx-3 my-5">
+              <div className="signup-error-message text-light bg-danger mb-5">
                 <p className="p-message p-3">{errorMessage}</p>
               </div>
             )}
@@ -133,7 +133,7 @@ const Signup = () => {
               <div className="row row-signup-buttons">
                 <div className="col-6">
                   <button
-                    className="btn btn-signup text-light rounded-0 mt-4"
+                    className="btn btn-signup text-light rounded-0"
                     type="button"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
@@ -146,7 +146,7 @@ const Signup = () => {
                 </div>
                 <div className="col-6">
                   <button
-                    className="btn btn-signup text-light rounded-0 mt-4"
+                    className="btn btn-signup text-light rounded-0"
                     type="submit"
                     style={{ cursor: "pointer" }}
                     onClick={(e) => {handleFormSubmit(e); firebaseSignup(e)}}

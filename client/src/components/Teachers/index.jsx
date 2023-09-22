@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS } from "../../utils/queries";
-import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
+import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import TeacherMediaScreen from "../TeacherMediaScreen";
 import profileIcon from "../../assets/images/profileicon.png";
 import Spinner from "../Spinner";
@@ -11,7 +11,7 @@ const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const [users, setUsers] = useState("");
   let tmiTeacher = [];
-  const teachersNum = tmiTeacher?.length;
+  // const teachersNum = tmiTeacher?.length;
 
   const { data, loading } = useQuery(QUERY_USERS);
 

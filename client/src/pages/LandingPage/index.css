@@ -1,7 +1,7 @@
 
-.container-main {
-  height: 100vh;
-}
+/* .container-main {
+  height: 3000px;
+} */
 .landing-nav {
   display: none;
 }
@@ -58,7 +58,7 @@
 }
 .parallax {
   background-image: url("../../assets/images/bowlcroped.jpeg");
-  height: 100%;
+  height: 1200px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -66,7 +66,7 @@
 }
 .second {
   background-image: url("../../assets/images/bowlandbudha.jpeg");
-  min-height: 50%;
+  height: 600px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -74,11 +74,16 @@
 }
 .third {
   background-image: url("../../assets/images/buddha.jpeg");
-  min-height: 100%;
+  height: 1200px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.landing-footer {
+  background-color: black;
+  width: 100% !important;
+  min-height: 20%;
 }
 @media screen and (max-width: 640px) {
   .container-main {
@@ -99,10 +104,16 @@
     width: 100%;
     height: 400px;
   }
-  /* .landing-footer {
-    background-color: black;
-    width: 100% !important;
-  } */
+  .signup-link,
+  .landing-tmi,
+  .landing-world {
+    display: none;
+  }
+  .landing-nav {
+    display: block ;
+  }
+} 
+@media screen and (max-width: 414px) {
   .signup-link,
   .landing-tmi,
   .landing-world {
@@ -114,7 +125,9 @@
 } 
 /* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
 @media only screen and (max-device-width: 1366px) {
-  .parallax {
+  .parallax,
+  .second,
+  .third {
     background-attachment: scroll;
   }
 }

@@ -22,7 +22,6 @@ import Avatar from "./components/Avatar";
 import ProfileForm from "./components/ProfileForm";
 import ProfileList from "./components/ProfileList";
 import Profile from "./components/Profile";
-import ProfileModal from "./components/ProfileModal";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import TeacherMediaScreen from "./components/TeacherMediaScreen";
 import Neighbors from "./components/Neighbors";
@@ -113,7 +112,6 @@ function App() {
             <Route path="/ProfileForm" element={<ProfileForm />} />
             <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
-            <Route path="/ProfileModal" element={<ProfileModal />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/ModalReadMore" element={<ModalReadMore />} />
