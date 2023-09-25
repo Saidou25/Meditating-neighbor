@@ -1,17 +1,34 @@
-.profile-form  {
-
-    padding-right: 10%;
-    padding-left: 10%;
+.profile-form {
+  padding-right: 10%;
+  padding-left: 10%;
+}
+.profile-title {
+  padding-top: 10%;
+  padding-bottom: 5%;
 }
 .my-form {
-    padding-top: 5%;
-    padding-bottom: 5%;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
-.btn-profile {
-    background-color: black;
-    color: white;
+.btn-profile-form {
+  background-color: black !important;
+  color: white;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
-.btn-profile:hover {
-    background-color: orange;
-    color: white;
+.btn-profile-form:hover {
+  background-color: orange !important;
+  color: black !important;
 }
+
+input[type="radio"] {
+  accent-color: #232323;
+}
+/* @media screen and (max-width:414px) {
+    .main-form {
+        width: 96%;
+        margin: auto;
+        padding-top: 15%;
+        padding-bottom: 15%;
+    }
+  } */

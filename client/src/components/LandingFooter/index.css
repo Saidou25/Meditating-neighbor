@@ -1,11 +1,15 @@
 .landing-footer {
   background-color: black;
   height: 250px;
-}
-.landing-footer-item {
   padding-top: 3%;
-  text-align: center;
 }
+.landing-footer-item,
+.linkedIn-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 414px) {
   .landing-footer-container {
     height: 220px;

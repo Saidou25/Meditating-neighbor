@@ -28,7 +28,7 @@ const ProfileForm = () => {
   //     console.log('enter press here! ')
   //   }
   // }
-  
+
   const { data: meData, meDataLoading } = useQuery(QUERY_ME);
   const me = meData?.me || [];
 
@@ -113,13 +113,13 @@ const ProfileForm = () => {
     <>
       <Navbar />
       <div className="profile-form bg-primary">
-        <h3 className="profile-title text-light py-5">Profile form</h3>
+        <h3 className="profile-title text-light">Profile form</h3>
         <form className="my-form bg-primary">
-          <div>
+          <div className="radio-text text-light">
+            <label className="form-label text-light mb-4">status</label>
             <div>
-              <label className="form-label text-light my-4">status</label>
               <input
-                className="radio m-2 ms-4"
+                className="radio m-2 ms-4 text-light"
                 type="radio"
                 name="teacher"
                 value="meditator"
@@ -134,7 +134,7 @@ const ProfileForm = () => {
                 value="teacher"
                 checked={teacher === "teacher"}
                 onChange={(e) => setTeacher(e.target.value)}
-              />{" "}
+              />
               teacher
             </div>
           </div>
@@ -212,7 +212,7 @@ const ProfileForm = () => {
             </>
           )}
           <button
-            className="btn btn-profile rounded-0 my-5"
+            className="btn btn-profile-form rounded-0 text-light"
             type="button"
             onClick={handleFormSubmit}
           >

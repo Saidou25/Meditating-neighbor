@@ -33,20 +33,20 @@ const UpdateMyProfileForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState("");
-const [state, setState] = useState("");
+  const [state, setState] = useState("");
 
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
     variables: { id: profileId },
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
-      console.log('Enter key was pressed. Run your function.')
+    if (event.key === "Enter") {
+      console.log("Enter key was pressed. Run your function.");
       setState(event.key);
     }
     // console.log(story)
-  }
-console.log("you have pressed a ", state);
+  };
+  console.log("you have pressed a ", state);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ console.log("you have pressed a ", state);
       //   setLastname("");
       //   setStory("");
       //   console.log("was a teacher");
-      // } else 
+      // } else
       if (teacher === teacher1 && years === years1 && stage === stage1) {
         setMessage("you haven't made any changes to your profile...");
       }
@@ -142,12 +142,12 @@ console.log("you have pressed a ", state);
   return (
     <>
       <Navbar />
-      <div className="profile-form bg-primary">
-        <h3 className="profile-title text-light py-5">Profile form</h3>
+      <div className="update-profile-form bg-primary">
+        <h3 className="profile-title text-light">Update profile form</h3>
         <form className="my-form bg-primary">
-          <div>
+          <div className="radio-text text-light">
+            <label className="form-label text-light mb-4">status</label>
             <div>
-              <label className="form-label text-light my-4">status</label>
               <input
                 className="radio m-2 ms-4"
                 type="radio"
@@ -242,7 +242,7 @@ console.log("you have pressed a ", state);
             </>
           )}
           <button
-            className="btn btn-profile rounded-0 my-5"
+            className="btn btn-update-profile rounded-0 text-light"
             type="button"
             onClick={handleFormSubmit}
           >

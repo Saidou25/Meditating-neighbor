@@ -2,10 +2,16 @@
 .footer {
   background-color: black;
   height: 250px;
+  padding-top: 3%;
 }
-.footer-item {
+.footer-item,
+.linkedIn {
   padding-top: 3%;
   text-align: center;
+}
+.linkedin-container {
+display: flex;
+justify-content: center;
 }
 @media screen and (max-width: 414px) {
   .footer-container {

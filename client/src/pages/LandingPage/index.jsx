@@ -4,7 +4,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import Login from "../Login";
-// import Signup from "../Signup";
 import Navabar from "../../components/Navbar";
 import LandingFooter from "../../components/LandingFooter";
 import "./index.css";
@@ -103,15 +102,17 @@ const LandingPage = () => {
         <div className="container-landing">
           <div className="text-title fs-4">
             <h3 className="first-title text-secondary mb-5">
-              Where is the nearest TMI meditator?
+              Have you ever wondered how many meditators are currently following
+              the book "The Mind Illuminated" by Culadasa (John Yates, PhD) and
+              Matthew Immergut, PhD?
             </h3>
             <p>
-              This appliction is designed for you to see if there is any TMI
-              meditator in your town or may be even next door. Lorem, ipsum
-              dolor sit amet consectetur adipisicing elit. Deserunt neque
-              corporis et voluptate ut repellat vitae, dolores consectetur eaque
-              quo voluptatem aspernatur officia delectus nisi animi sit
-              laboriosam, quas quod. . Lorem ipsum dolor sit amet consectetu
+              That's the purpose of this free application we've created. Simply
+              sign up, go to the "locate" feature, geolocate your position, and
+              save it. That's all it takes to put yourself on the map. Please
+              note that, for now, only practitioners from within the United
+              States are able to save their locations. However, we have plans to
+              expand to Australia, the UK, and Europe in the near future.
             </p>
           </div>
         </div>
@@ -119,17 +120,17 @@ const LandingPage = () => {
         <div className="container-landing">
           <div className="text-title fs-4">
             <h3 className="first-title text-secondary mb-5">
-              Where is the nearest TMI meditator?
+              Wouldn't it be wonderful to discover if there are fellow
+              practitioners of "The Mind Illuminated" living just a few miles
+              away from you?
             </h3>
             <p>
-              This appliction is designed for you to see if there is any TMI
-              meditator in your town or may be even next door. Lorem, ipsum
-              dolor sit amet consectetur adipisicing elit. Deserunt neque
-              corporis et voluptate ut repellat vitae, dolores consectetur eaque
-              quo voluptatem aspernatur officia delectus nisi animi sit
-              laboriosam, quas quod. . Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Sit, ipsam quae atque necessitatibus natus quas
-              quis dolores? Architecto quidem eum perferendis eligendi sed
+              To make this happen, ensure that you've saved your location,
+              created your profile, and uploaded a profile picture. This way,
+              you can be visible to others in the members' list. Once you've
+              completed these steps, you can send contact requests to anyone
+              you'd like to connect with and even follow up through your
+              favorite social media platforms.
             </p>
           </div>
         </div>

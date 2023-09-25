@@ -151,7 +151,7 @@ const Login = () => {
           <p className="login-question text-light mt-4">
             Don't have an account yet?
             <button
-              className="btn btn-text rounded-0 text-info"
+              className="btn btn-text-signup rounded-0 text-info"
               onClick={() => {
                 setShowLogin("none");
                 setShowSignup("block");
