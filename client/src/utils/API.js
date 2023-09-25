@@ -1,7 +1,8 @@
 import axios from "axios";
-// require "dotenv.config()";
 
-const apiKey = process.env.REACT_APP_API_KEY;
+// const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = "4f112ad8f388d7d13afdcbf2472fed94";
+
 
 const search = async (longitude, latitude) => 
   axios.get(
