@@ -42,14 +42,14 @@ const Signup = () => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
-      setErrorMessage("All fields need filled.");
+      setErrorMessage("All fields need to be filled.");
     }
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!email || !password || !username || errorMessage) {
-        setErrorMessage("All fields need filled.");
+        setErrorMessage("All fields need to be filled.");
         return;
       }
       const { data } = await addUser({

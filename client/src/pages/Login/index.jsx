@@ -59,7 +59,7 @@ const Login = () => {
         console.log(" firebaseLogin user", user);
         handleFormSubmit();
       } else {
-        setErrorMessage("All fields need filled.");
+        setErrorMessage("All fields need to be filled.");
         return;
       }
     } catch (error) {
