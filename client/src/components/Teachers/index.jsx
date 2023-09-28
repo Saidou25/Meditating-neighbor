@@ -26,7 +26,7 @@ const Teachers = () => {
       setUsers(usersInfo);
     }
   }, [data]);
-  
+
   if (loading) {
     return <Spinner />;
   }
@@ -172,11 +172,20 @@ const Teachers = () => {
                                           <FaIdBadge />{" "}
                                           {selectedTeacher.username}
                                         </p>
-                                        <p>
-                                          <FaHome />{" "}
-                                          {selectedTeacher.location?.city},{" "}
-                                          {selectedTeacher.location?.state}
-                                        </p>
+                                        {selectedTeacher.location?.city &&
+                                          selectedTeacher.location?.state && (
+                                            <>
+                                              <p>
+                                              <FaHome />{" "}
+                                                {selectedTeacher.location?.city}
+                                                ,{" "}
+                                                {
+                                                  selectedTeacher.location
+                                                    ?.state
+                                                }
+                                              </p>
+                                            </>
+                                          )}
                                       </>
                                     ) : (
                                       <></>

@@ -67,7 +67,7 @@ const cache = new InMemoryCache({
             return imcoming;
           },
         },
-        location: {
+        locations: {
           merge(existing, imcoming) {
             return imcoming;
           },

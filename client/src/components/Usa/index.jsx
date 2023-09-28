@@ -8,7 +8,7 @@ import {
   Annotation,
 } from "react-simple-maps";
 // import ReactTooltip from "react-tooltip";
-import { ADD_LOCATION, UPDATE_LOCATION } from "../../utils/mutations";
+import { ADD_LOCATION, DELETE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
@@ -49,8 +49,6 @@ const Usa = () => {
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [confirm1, setConfirm1] = useState(false);
-
 
   const { data, loading, err } = useQuery(QUERY_ME);
   const me = data?.me || [];
@@ -69,12 +67,12 @@ const Usa = () => {
   );
   const myLocation = userLocation[0];
   const locationId = myLocation?._id;
-
+  console.log("location id", locationId);
   const markers = [];
   for (let location of locations) {
     const city = {
-      cityName: location.city
-    }
+      cityName: location.city,
+    };
     const longitude = location.longitude;
     const latitude = location.latitude;
 
@@ -105,7 +103,24 @@ const Usa = () => {
       console.log("location successfully added to the cache");
     },
   });
-  const [updateLocation] = useMutation(UPDATE_LOCATION);
+  const [deleteLocation] = useMutation(DELETE_LOCATION, {
+    update(cache, { data: { deleteLocation } }) {
+      try {
+        const { locations } = cache.readQuery({ query: QUERY_LOCATIONS });
+        cache.writeQuery({
+          query: QUERY_LOCATIONS,
+          data: {
+            locations: locations.filter(
+              (location) => location._id !== deleteLocation._id
+            ),
+          },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      console.log(" successfully deleted location from cache");
+    },
+  });
   // function for progress bar
   const move = () => {
     let i = 0;
@@ -153,46 +168,20 @@ const Usa = () => {
     setValue("100");
     setShowProgressBar("");
   };
-  const update = async () => {
-    try {
-      const { data } = await updateLocation({
-        variables: {
-          id: locationId,
-          username: username,
-          longitude: longitude,
-          latitude: latitude,
-          city: city,
-          state: state,
-          country: country,
-        },
-      });
-      if (data) {
-        console.log("success updating location");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    setConfirm1(true);
-    setResult({});
-    setTimeout(() => {
-      setConfirm1(false);
-    }, 4000);
-  };
-
   const handleSubmit = async () => {
     try {
       const { data } = await addLocation({
         variables: {
           username: username,
-          longitude: longitude,
-          latitude: latitude,
-          city: city,
           state: state,
           country: country,
+          city: city,
+          longitude: longitude,
+          latitude: latitude,
         },
       });
       if (data) {
-        console.log("success adding location");
+        console.log("success adding location", data);
       }
     } catch (err) {
       console.log(err);
@@ -202,6 +191,22 @@ const Usa = () => {
     setTimeout(() => {
       setConfirm(false);
     }, 4000);
+  };
+
+  const remove = async () => {
+    try {
+      const { data } = await deleteLocation({
+        variables: {
+          id: locationId,
+        },
+      });
+      if (data) {
+        console.log("success deleting location", data);
+        handleSubmit();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (!Auth.loggedIn()) {
@@ -260,7 +265,7 @@ const Usa = () => {
               <button
                 className="btn-coordinates text-white"
                 type="button"
-                onClick={update}
+                onClick={remove}
               >
                 update location
               </button>
@@ -274,10 +279,9 @@ const Usa = () => {
               >
                 location saved
               </button>
-              {/* <p className="location-saved-p bg-success">location saved</p> */}
             </div>
           )}
-          {confirm1 && (
+          {/* {confirm1 && (
             <div className="col-12 btn-locate mt-5">
               <button
                 className="btn-coordinates bg-success text-primary"
@@ -285,9 +289,8 @@ const Usa = () => {
               >
                 location updated
               </button>
-              {/* <p className="location-saved-p bg-success">location updated</p> */}
             </div>
-          )}
+          )} */}
         </div>
         <div className="map-container bg-primary">
           <ComposableMap projection="geoAlbersUsa" className="map" data-tip="">
@@ -359,16 +362,16 @@ const Usa = () => {
                 </>
               )}
             </Geographies>
-            {markers.map(({city, coordinates}) => (
+            {markers.map(({ city, coordinates }) => (
               <Marker key={coordinates} coordinates={coordinates}>
-               <circle r={1} fill="#fff" />
-               <text 
-              //  textAnchor="middle"
-              //  y={markerOffset}
-                style={{ fontFamily: "system-ui", fill: "#fff" }}
-             >
-              {/* {city} */}
-              </text> 
+                <circle r={1} fill="#fff" />
+                <text
+                  //  textAnchor="middle"
+                  //  y={markerOffset}
+                  style={{ fontFamily: "system-ui", fill: "#fff" }}
+                >
+                  {/* {city} */}
+                </text>
               </Marker>
             ))}
           </ComposableMap>
