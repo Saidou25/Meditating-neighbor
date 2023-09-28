@@ -216,7 +216,7 @@ const ProfileForm = () => {
             type="button"
             onClick={handleFormSubmit}
           >
-            Submmit
+            Submit
           </button>
         </form>
       </div>
