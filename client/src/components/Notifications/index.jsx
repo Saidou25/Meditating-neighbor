@@ -2,30 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   QUERY_REQUESTS,
-  QUERY_ME,
   QUERY_USERS,
   QUERY_CONTACTS,
 } from "../../utils/queries";
 import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import profileIcon from "../../assets/images/profileicon.png";
 
 import "./index.css";
 
 const Notifications = () => {
-  const date = new Date();
-  const todaysDate = date.toString().slice(0, 15);
-
-  const [me, setMe] = useState("");
+  
   const [allTheRequests, setAllTheRequests] = useState([]);
   const [requestId, setRequestId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
   const [myContactRequestsToOthers, setMyContactRequestsToOthers] = useState(
     []
-  );
-
-  const { data: meData } = useQuery(QUERY_ME);
+    );
+    const { me, myContacts } = useHooks();
+    const date = new Date();
+    const todaysDate = date.toString().slice(0, 15);
 
   // query all users data
   const { data: usersData } = useQuery(QUERY_USERS);
@@ -74,15 +72,13 @@ const Notifications = () => {
   });
 
   useEffect(() => {
-    if (requestsData && meData && usersData) {
-      const myData = meData?.me || [];
-      setMe(myData);
+    if (requestsData && me && usersData) {
       const allRequests = requestsData?.requests || [];
       setAllTheRequests(allRequests);
       const users = usersData?.users || [];
       // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
-        (request) => request.destinationName === myData.username
+        (request) => request.destinationName === me.username
       );
       const fromUsers = [];
       //  loop to all request to get profiles of the people requesting my contact and
@@ -102,12 +98,12 @@ const Notifications = () => {
       //  loop to all request to get profiles of the people i am requesting contact info from and
       //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
       const myRequests = allRequests.filter(
-        (request) => request.myName === myData.username
+        (request) => request.myName === me.username
       );
       // console.log(myRequests)
       setMyContactRequestsToOthers(myRequests);
     }
-  }, [requestsData, meData, usersData]);
+  }, [requestsData, me, usersData]);
 
   const addFriend = async (user) => {
     const id = user._id;

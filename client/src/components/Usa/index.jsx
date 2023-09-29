@@ -9,10 +9,11 @@ import {
 } from "react-simple-maps";
 // import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, DELETE_LOCATION } from "../../utils/mutations";
-import { QUERY_LOCATIONS, QUERY_ME, QUERY_USERS } from "../../utils/queries";
+import { QUERY_LOCATIONS, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Teachers from "../Teachers";
@@ -49,10 +50,7 @@ const Usa = () => {
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
-
-  const { data, loading, err } = useQuery(QUERY_ME);
-  const me = data?.me || [];
-  const username = me.username;
+  const { me } = useHooks();
 
   const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
@@ -63,11 +61,10 @@ const Usa = () => {
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
   const userLocation = locations.filter(
-    (location) => location.username === username
+    (location) => location.username === me.username
   );
   const myLocation = userLocation[0];
   const locationId = myLocation?._id;
-  console.log("location id", locationId);
   const markers = [];
   for (let location of locations) {
     const city = {
@@ -172,7 +169,7 @@ const Usa = () => {
     try {
       const { data } = await addLocation({
         variables: {
-          username: username,
+          username: me.username,
           state: state,
           country: country,
           city: city,
@@ -213,10 +210,10 @@ const Usa = () => {
     return <Navigate to="/" replace />;
   }
 
-  if (loading || loadingLocations || usersLoading) {
+  if (loadingLocations || usersLoading) {
     return <Spinner />;
   }
-  if (err || locationsError) {
+  if (locationsError) {
     return <>{error.toString()}</>;
   }
 

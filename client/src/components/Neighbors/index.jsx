@@ -1,18 +1,17 @@
 import React from "react";
-import { QUERY_USERS, QUERY_ME } from "../../utils/queries";
+import { QUERY_USERS } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
-import Auth from "../../utils/auth";
 import { v4 } from "uuid";
+import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import ProfileList from "../ProfileList";
 import Spinner from "../Spinner";
 import "./index.css";
 
 const Neighbors = () => {
-  // const [noUserYet, setNoUserYet] = useState(true);
+  const { me } = useHooks();
   let noUserYet = "true";
-  const { data, loading, err } = useQuery(QUERY_ME);
-  const me = data?.me || [];
   const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
   // console.log("users", users)
@@ -37,7 +36,7 @@ const Neighbors = () => {
 
     const distance2 = 2 * r * Math.asin(Math.sqrt(a)) * 0.62;
     // building a distance object to push users data and pass data around in components
-    
+
     const distanceObj = {
       id: v4(),
       distance2: distance2,
@@ -66,18 +65,14 @@ const Neighbors = () => {
 
   for (let user of allUsersButMe) {
     if (user.location && user.profile && user.avatar)
-    distance(myLat, myLon, user);
-  };
+      distance(myLat, myLon, user);
+  }
 
-  if (loading || usersLaoding) {
+  if (usersLaoding) {
     return <Spinner />;
   }
-  if (err || usersError) {
-    return (
-      <>
-        {err.toString()} {usersError.toString()}
-      </>
-    );
+  if (usersError) {
+    return <>{usersError.toString()}</>;
   }
   if (noUserYet === "false") {
     <h1>No user yet</h1>;

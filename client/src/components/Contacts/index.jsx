@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_ME, QUERY_USERS, QUERY_CONTACTS } from "../../utils/queries";
+import { QUERY_USERS } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -13,28 +14,22 @@ import "./index.css";
 const Contacts = () => {
   const [myContactsProfiles, setMyContactsProfiles] = useState([]);
   const [user, setUser] = useState("");
-  const { data: meData } = useQuery(QUERY_ME);
+  const { me, myContacts } = useHooks();
   const { data: usersData } = useQuery(QUERY_USERS);
-  const { data: contactsData } = useQuery(QUERY_CONTACTS);
 
   useEffect(() => {
-    if (usersData && meData && contactsData) {
-      const me = meData?.me || [];
+    if (usersData && me && myContacts) {
       const users = usersData?.users || [];
-      const contacts = contactsData?.contacts || [];
       let friendNames = [];
       let allMyContactsProfiles = [];
-      // let conditionalProfile;
 
-      for (let contact of contacts) {
-        // console.log("contact", contact);
+      for (let contact of myContacts) {
         if (contact.username === me.username) {
           let friendObj = {
             name: contact.friendUsername,
             date: contact.todaysDate,
           };
           friendNames.push(friendObj);
-          // console.log("1", contact.friendUsername);
         }
         if (contact.friendUsername === me.username) {
           let friendObj = {
@@ -42,7 +37,6 @@ const Contacts = () => {
             date: contact.todaysDate,
           };
           friendNames.push(friendObj);
-          // console.log("2", contact);
         }
       }
       for (let friendName of friendNames) {
@@ -59,7 +53,7 @@ const Contacts = () => {
         }
       }
     }
-  }, [usersData, meData, contactsData]);
+  }, [usersData, me, myContacts]);
 
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
+import { QUERY_PROFILES } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import Spinner from "../Spinner";
+import useHooks from "../../utils/UseHooks";
+// import Spinner from "../Spinner";
 import Success from "../Success";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -20,17 +21,9 @@ const ProfileForm = () => {
   const [lastname, setLastname] = useState("");
   const [story, setStory] = useState("");
   const [message, setMessage] = useState("");
+  const { me } = useHooks();
 
   const navigate = useNavigate();
-
-  // const handleKeyPress = (event) => {
-  //   if(event.key === 'Enter'){
-  //     console.log('enter press here! ')
-  //   }
-  // }
-
-  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
-  const me = meData?.me || [];
 
   const [addProfile] = useMutation(ADD_PROFILE, {
     update(cache, { data: { addProfile } }) {
@@ -103,9 +96,6 @@ const ProfileForm = () => {
     return <Navigate to="/" replace />;
   }
 
-  if (meDataLoading) {
-    return <Spinner />;
-  }
   if (message) {
     return <Success message={"Your profile has been created"} />;
   }

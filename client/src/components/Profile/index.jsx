@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import {
-  QUERY_ME,
   QUERY_PROFILES,
   QUERY_LOCATIONS,
   QUERY_AVATARS,
-  QUERY_CONTACTS,
   QUERY_REQUESTS,
 } from "../../utils/queries";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
@@ -13,6 +11,7 @@ import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase";
+import useHooks from "../../utils/UseHooks";
 import Auth from "../../utils/auth";
 import DeleteModal from "../DeleteModal";
 import Avatar from "../Avatar";
@@ -26,58 +25,38 @@ const Profile = () => {
   const [myLocation, setMyLocation] = useState("");
   const [myProfile, setMyProfile] = useState("");
   const [myAvatar, setMyAvatar] = useState("");
-  const [me, setMe] = useState("");
-  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
-  // const me = meData?.me || [];
+
+  const { myContacts, me } = useHooks();
+
 
   const { data: locationsData, locationsDataLoading } =
     useQuery(QUERY_LOCATIONS);
-  // const locations = locationsData?.locations || [];
-  // const userLocation = locations.filter(
-  //   (location) => location.username === me.username
-  // );
-  // const myLocation = userLocation[0];
   const locationId = myLocation?._id;
 
   const { data: allProfiles, allProfilesLoading } = useQuery(QUERY_PROFILES);
-  // const profiles = allProfiles?.profiles || [];
-  // const userProfile = profiles.filter(
-  //   (profile) => profile.username === me.username
-  // );
-  // const myProfile = userProfile[0];
   const profileId = myProfile?._id;
 
   const { data: avatarsData, avatarsDataLoading } = useQuery(QUERY_AVATARS);
-  // const avatars = avatarsData?.avatars || [];
-  // const userAvatar = avatars.filter(
-  //   (avatar) => avatar.username === me.username
-  // );
-  // const myAvatar = userAvatar[0];
   const savedUrl = myAvatar?.avatarUrl;
   const avatarId = myAvatar?._id;
 
-  const myContacts = [];
-  const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
-  const contacts = contactsData?.contacts || [];
+  const myContactsIds = [];
 
   useEffect(() => {
-    if (locationsData && allProfiles && avatarsData && meData) {
-      const myData = meData?.me || [];
-      // console.log('my data', myData);
-      setMe(myData);
+    if (locationsData && allProfiles && avatarsData && me) {
       const locations = locationsData?.locations || [];
       const userLocation = locations.filter(
-        (location) => location.username === myData.username
+        (location) => location.username === me.username
       );
       setMyLocation(userLocation[0]);
       const profiles = allProfiles?.profiles || [];
       const userProfile = profiles.filter(
-        (profile) => profile.username === myData.username
+        (profile) => profile.username === me.username
       );
       setMyProfile(userProfile[0]);
       const avatars = avatarsData?.avatars || [];
       const userAvatar = avatars.filter(
-        (avatar) => avatar.username === myData.username
+        (avatar) => avatar.username === me.username
       );
       setMyAvatar(userAvatar[0]);
     }
@@ -85,21 +64,16 @@ const Profile = () => {
       if (user) {
         console.log("user from profile", user);
       } else {
-        console.log('no firebase user');
-        console.log('auth', auth)
+        console.log("no firebase user");
+        console.log("auth", auth);
         // signInWithEmailAndPassword(auth, email, password);
       }
     });
-  }, [locationsData, allProfiles, avatarsData, meData]);
+  }, [locationsData, allProfiles, avatarsData, me]);
 
-  if (contacts) {
-    for (let contact of contacts) {
-      if (
-        contact.username === me.username ||
-        contact.friendUsername === me.username
-      ) {
-        myContacts.push(contact._id);
-      }
+  if (myContacts) {
+    for (let contact of myContacts) {
+      myContactsIds.push(contact._id);
     }
   }
 
@@ -122,11 +96,9 @@ const Profile = () => {
     return <Navigate to="/" replace />;
   }
   if (
-    meDataLoading ||
     allProfilesLoading ||
     locationsDataLoading ||
     avatarsDataLoading ||
-    contactsDataLoading ||
     requestsDataLoading
   ) {
     return <Spinner />;
@@ -233,23 +205,17 @@ const Profile = () => {
             </div>
           </div>
           <div className="col-12 bottom-text text-light mx-0">
-            {/* <div className="delete-text bg-primary text-light"> */}
             Click
-            {/* </div> */}
-            {/* <div className="delete-text bg-primary text-light"> */}
             <DeleteModal
               profileId={profileId}
               avatarId={avatarId}
               savedUrl={savedUrl}
               locationId={locationId}
-              myContacts={myContacts}
+              myContactsIds={myContactsIds}
               contactRequests={contactRequests}
               userId={me._id}
             />
-            {/* </div> */}
-            {/* <div className="delete-text bg-primary text-light"> */}
             if you wish to delete your account.
-            {/* </div> */}
           </div>
         </div>
       </div>

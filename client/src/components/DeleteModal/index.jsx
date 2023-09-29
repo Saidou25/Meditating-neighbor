@@ -21,7 +21,7 @@ const DeleteModal = ({
   avatarId,
   locationId,
   userId,
-  myContacts,
+  myContactsIds,
   contactRequests,
 }) => {
   const [message, setMessage] = useState("");
@@ -132,9 +132,9 @@ const DeleteModal = ({
     }
   };
   const contactDispatch = () => {
-    if (myContacts) {
-      for (let contact of myContacts) {
-        removeContact(contact);
+    if (myContactsIds) {
+      for (let contactId of myContactsIds) {
+        removeContact(contactId);
       }
     }
     requestDispatch();

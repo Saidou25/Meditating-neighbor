@@ -2,26 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
-  QUERY_ME,
   QUERY_AVATARS,
   QUERY_REQUESTS,
   QUERY_USERS,
-  QUERY_CONTACTS,
 } from "../../utils/queries";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
 const Navbar = () => {
-  const [me, setMeData] = useState("");
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
-
-  // query all my data
-  const { data: meData } = useQuery(QUERY_ME);
-  const username = me.username;
+  const { me, myContacts } = useHooks();
 
   // query all users data
   const { data: usersData } = useQuery(QUERY_USERS);
@@ -29,14 +24,10 @@ const Navbar = () => {
   // query all requests
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
 
-  //query all contacts
-
-  const { data: contactsData } = useQuery(QUERY_CONTACTS);
-
   // getting user's avatar by filtering [avatars] so profile picture in navbar can be updated right away
   const { data: avatarsData } = useQuery(QUERY_AVATARS);
   const avatars = avatarsData?.avatars || [];
-  const myAvatar = avatars.filter((avatar) => avatar.username === username);
+  const myAvatar = avatars.filter((avatar) => avatar.username === me?.username);
   const savedUrl = myAvatar[0]?.avatarUrl;
 
   const dropDownLinks = [
@@ -79,26 +70,13 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (requestsData && meData && usersData && contactsData) {
-      const myData = meData?.me || [];
-      const contacts = contactsData?.contacts || [];
+    if (requestsData && me && usersData && myContacts) {
       const allRequests = requestsData?.requests || [];
       const users = usersData?.users || [];
-      setMeData(myData);
       // setMyRequests(myData.requests);
-      // filter all contact requests addressed to me
       const requestsToMe = allRequests.filter(
-        (request) => request.destinationName === myData.username
+        (request) => request.destinationName === me.username
       );
-      let hasContact;
-      for (let contact of contacts) {
-        if (
-          contact.username === myData.username ||
-          contact.friendUsername === myData.username
-        ) {
-          hasContact = contact;
-        }
-      }
       const fromUsers = [];
       //  loop to all request to get profiles of the people requesting my contact and
       //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
@@ -112,7 +90,7 @@ const Navbar = () => {
       //  loop to all request to get profiles of the people i am requesting contact info from and
       //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
       const requestsFromMe = allRequests.filter(
-        (request) => request.myName === myData.username
+        (request) => request.myName === me.username
       );
       // console.log("requests from me for others", requestsFromMe)
       for (let requestFromMe of requestsFromMe) {
@@ -125,11 +103,11 @@ const Navbar = () => {
       if (fromUsers.length || toOthers.length) {
         setAnimation("contact-link");
       }
-      if (hasContact) {
+      if (myContacts) {
         setIsContact(true);
       }
     }
-  }, [requestsData, meData, usersData, contactsData]);
+  }, [requestsData, me, usersData, myContacts]);
 
   return (
     <>

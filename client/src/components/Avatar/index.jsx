@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
-import { QUERY_ME, QUERY_AVATARS } from "../../utils/queries";
+import { QUERY_AVATARS } from "../../utils/queries";
 import { storage } from "../../firebase";
 import {
   getDownloadURL,
@@ -10,6 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import useHooks from "../../utils/UseHooks";
 import trash from "../../assets/images/trash.jpg";
 import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -23,11 +24,9 @@ const ProfPics = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [savedUrl, setSavedUrl] = useState(null);
   const [avatarId, setAvatarId] = useState(null);
-  const [me, setMe] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const username = me?.username;
-  const { data } = useQuery(QUERY_ME);
+  const { me } = useHooks();
 
   const [addAvatar] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
@@ -36,9 +35,8 @@ const ProfPics = () => {
         cache.writeQuery({
           query: QUERY_AVATARS,
           data: { avatars: [addAvatar, ...avatars] },
-          variables: { avatarUrl: url, username: username },
+          variables: { avatarUrl: url, username: me?.username },
         });
-        console.log("success from 48", data);
       } catch (e) {
         console.error(e);
       }
@@ -70,12 +68,12 @@ const ProfPics = () => {
         const { data } = await addAvatar({
           variables: {
             avatarUrl: url,
-            username: username,
+            username: me?.username,
           },
         });
         if (data) {
           setLoading(false);
-          console.log(`success adding ${me.username}`);
+          console.log(`success adding ${me?.username}`);
         }
       } catch (err) {
         console.log(err);
@@ -134,7 +132,7 @@ const ProfPics = () => {
   const removeAvatar = async () => {
     try {
       const { data } = await deleteAvatar({
-        variables: { id: avatarId, username: username, avatarUrl: savedUrl },
+        variables: { id: avatarId, username: me?.username, avatarUrl: savedUrl },
       });
       if (data) {
         console.log(
@@ -157,19 +155,16 @@ const ProfPics = () => {
   };
   const { data: avatarsData } = useQuery(QUERY_AVATARS);
   useEffect(() => {
-    if (data && avatarsData) {
-      const meData = data?.me || [];
-      const username = meData.username;
+    if (avatarsData && me) {
 
       const avatars = avatarsData?.avatars || [];
-      const myAvatar = avatars.filter((avatar) => avatar.username === username);
+      const myAvatar = avatars.filter((avatar) => avatar.username === me?.username);
       const myAvatarUrl = myAvatar[0]?.avatarUrl;
 
       setSavedUrl(myAvatarUrl);
-      setMe(meData);
       setAvatarId(myAvatar[0]?._id);
     }
-  }, [data, avatarsData]);
+  }, [me, avatarsData]);
 
   return (
     <>

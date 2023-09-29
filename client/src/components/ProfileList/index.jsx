@@ -7,12 +7,12 @@ import {
   QUERY_AVATARS,
   QUERY_LOCATIONS,
   QUERY_REQUESTS,
-  QUERY_CONTACTS,
 } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
+import useHooks from "../../utils/UseHooks";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -29,11 +29,10 @@ const ProfileList = (props) => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { me, myContacts } = useHooks();
   const seventyFiveMiles = props.seventyFiveMiles;
   const overSeventyFiveMiles = props.overSeventyFiveMiles;
 
-  const { data: meData, meDataLoading } = useQuery(QUERY_ME);
-  const me = meData?.me || [];
   const { data: usersData, usersDataLoading } = useQuery(QUERY_USERS);
 
   const { data: profilesData } = useQuery(QUERY_PROFILES);
@@ -61,8 +60,6 @@ const ProfileList = (props) => {
   const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
   const requests = requestsData?.requests || [];
 
-  const { data: contactsData, contactsDataLoading } = useQuery(QUERY_CONTACTS);
-  const contacts = contactsData?.contacts || [];
   // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
@@ -84,7 +81,9 @@ const ProfileList = (props) => {
 
   const contact = async () => {
     if (!myAvatar || !myLocation || !myProfile) {
-      setErrorMessage("You need to setup your profile to be able to request a contact.");
+      setErrorMessage(
+        "You need to setup your profile to be able to request a contact."
+      );
       return;
     }
     try {
@@ -144,9 +143,7 @@ const ProfileList = (props) => {
   };
 
   const areWeFriends = (distanceObj) => {
-    for (let contact of contacts) {
-      // console.log("contacts", contacts);
-      // console.log(distanceObj.user.username);
+    for (let contact of myContacts) {
       if (
         (contact.username === me.username &&
           contact.friendUsername === distanceObj.user.username) ||
@@ -164,12 +161,10 @@ const ProfileList = (props) => {
   }
 
   if (
-    meDataLoading ||
     usersDataLoading ||
     avatarsDataLoading ||
     locationDataLoading ||
-    requestsDataLoading ||
-    contactsDataLoading
+    requestsDataLoading
   ) {
     return <Spinner />;
   }
@@ -234,7 +229,7 @@ const ProfileList = (props) => {
               </div>
             ))}
         </div>
-        {overSeventyFiveMiles.lenght ? (<>Over a 50 miles radius</>) : (<></>)}
+        {overSeventyFiveMiles.lenght ? <>Over a 50 miles radius</> : <></>}
         <div className="row card-row">
           {overSeventyFiveMiles &&
             overSeventyFiveMiles.map((distanceObj) => (
@@ -371,9 +366,12 @@ const ProfileList = (props) => {
                       </div>
                     </div>
                   </div>
-                      {errorMessage && (<p className="error-message bg-danger text-light p-2 m-2">{errorMessage}</p>)}
+                  {errorMessage && (
+                    <p className="error-message bg-danger text-light p-2 m-2">
+                      {errorMessage}
+                    </p>
+                  )}
                 </div>
-              
               </>
               {friendsSince && friends === true ? (
                 <div className="profile-friends p-3">
