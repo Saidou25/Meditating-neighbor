@@ -2,19 +2,23 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_CONTACTS } from "./queries";
 
-const useHooks = () => {
-    const [me, setMeData] = useState("");
+const useMyContacts = () => {
   const [myContacts, setMyContacts] = useState("");
+  const [me, setMe] = useState("");
+  const [allContacts, setAllContacts] = useState("");
 
-  const { data: meData } = useQuery(QUERY_ME);
   const { data: contactsData } = useQuery(QUERY_CONTACTS);
+  const { data: meData } = useQuery(QUERY_ME);
 
   useEffect(() => {
+    let allMyContacts = [];
     const myData = meData?.me || [];
     const contacts = contactsData?.contacts || [];
-    setMeData(myData);
-    let allMyContacts = [];
-    if (contactsData && meData) {
+
+    setMe(myData);
+    setAllContacts(contacts);
+
+    if (meData && contactsData) {
       for (let contact of contacts) {
         if (
           contact.username === myData.username ||
@@ -25,8 +29,7 @@ const useHooks = () => {
         }
       }
     }
-  }, [contactsData, meData]);
-
-  return { myContacts, me };
+  }, [meData, contactsData]);
+  return { myContacts, me, allContacts };
 };
-export default useHooks;
+export default useMyContacts;

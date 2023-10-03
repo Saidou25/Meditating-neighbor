@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  QUERY_REQUESTS,
-  QUERY_USERS,
-  QUERY_CONTACTS,
-} from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { QUERY_REQUESTS, QUERY_CONTACTS } from "../../utils/queries";
 import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useHooks from "../../utils/UseHooks";
+import useMyRequests from "../../utils/UseMyRequests";
 import profileIcon from "../../assets/images/profileicon.png";
 
 import "./index.css";
 
 const Notifications = () => {
-  
-  const [allTheRequests, setAllTheRequests] = useState([]);
   const [requestId, setRequestId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
-  const [myContactRequestsToOthers, setMyContactRequestsToOthers] = useState(
-    []
-    );
-    const { me, myContacts } = useHooks();
-    const date = new Date();
-    const todaysDate = date.toString().slice(0, 15);
+  const {
+    me,
+    incomingRequests,
+    outgoingRequests,
+    usersIncomingRequestProfiles,
+  } = useMyRequests();
 
-  // query all users data
-  const { data: usersData } = useQuery(QUERY_USERS);
-
-  // query all requests
-  const { data: requestsData } = useQuery(QUERY_REQUESTS);
+  const date = new Date();
+  const todaysDate = date.toString().slice(0, 15);
 
   const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
@@ -70,40 +61,11 @@ const Notifications = () => {
       }
     },
   });
-
   useEffect(() => {
-    if (requestsData && me && usersData) {
-      const allRequests = requestsData?.requests || [];
-      setAllTheRequests(allRequests);
-      const users = usersData?.users || [];
-      // filter all contact requests addressed to me
-      const requestsToMe = allRequests.filter(
-        (request) => request.destinationName === me.username
-      );
-      const fromUsers = [];
-      //  loop to all request to get profiles of the people requesting my contact and
-      //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
-      for (let userRequest of requestsToMe) {
-        const requestingUsers = users.filter(
-          (user) => user.username === userRequest.myName
-        );
-        if (requestingUsers[0]) {
-          fromUsers.push(requestingUsers[0]);
-          setRequestingUsersProfiles(fromUsers);
-        } else {
-          setRequestId(userRequest._id);
-        }
-      }
-
-      //  loop to all request to get profiles of the people i am requesting contact info from and
-      //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
-      const myRequests = allRequests.filter(
-        (request) => request.myName === me.username
-      );
-      // console.log(myRequests)
-      setMyContactRequestsToOthers(myRequests);
+    if (usersIncomingRequestProfiles) {
+      setRequestingUsersProfiles(usersIncomingRequestProfiles);
     }
-  }, [requestsData, me, usersData]);
+  }, [usersIncomingRequestProfiles]);
 
   const addFriend = async (user) => {
     const id = user._id;
@@ -114,7 +76,8 @@ const Notifications = () => {
           friendUsername: user.username,
           username: me.username,
           todaysDate: todaysDate,
-          avatarUrl: user.avatar?.avatarUrl,
+          avatarUrl: me.avatar?.avatarUrl,
+          friendAvatarUrl: user.avatar?.avatarUrl,
         },
       });
       if (data) {
@@ -126,7 +89,7 @@ const Notifications = () => {
   };
 
   const removeRequest = async (user) => {
-    for (let request of allTheRequests) {
+    for (let request of incomingRequests) {
       if (
         request.destinationName === me.username &&
         request.myName === user.username
@@ -157,21 +120,13 @@ const Notifications = () => {
   }
   return (
     <>
-      {/* {addResponseError ||
-      addContactError ||
-      deleteRequestError ||
-      deleteResponseError ? (
-        <>{error.message}</>
-      ) : (
-        <></>
-      )} */}
-      {myContactRequestsToOthers?.length ? (
+      {outgoingRequests?.length ? (
         <>
           <h3 className="request-title text-light bg-primary">
             You requested contact info:
           </h3>
-          {myContactRequestsToOthers &&
-            myContactRequestsToOthers.map((request) => (
+          {outgoingRequests &&
+            outgoingRequests.map((request) => (
               <div
                 key={request._id}
                 className="row response-list bg-primary g-0 text-light"

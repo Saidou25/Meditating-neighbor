@@ -52,6 +52,7 @@ export const DELETE_USER = gql`
         friendId
         todaysDate
         avatarUrl
+        friendAvatarUrl
         username
       }
     }
@@ -270,6 +271,7 @@ export const ADD_CONTACT = gql`
     $friendUsername: String
     $todaysDate: String
     $avatarUrl: String
+    $friendAvatarUrl: String
   ) {
     addContact(
     username: $username
@@ -277,6 +279,7 @@ export const ADD_CONTACT = gql`
       friendUsername: $friendUsername
       todaysDate: $todaysDate
       avatarUrl: $avatarUrl
+      friendAvatarUrl: $friendAvatarUrl
     ) {
       _id
       username
@@ -284,6 +287,7 @@ export const ADD_CONTACT = gql`
       friendUsername
       todaysDate
       avatarUrl
+      friendAvatarUrl
     }
   }
 `;
@@ -296,6 +300,7 @@ export const DELETE_CONTACT = gql`
       friendUsername
       todaysDate
       avatarUrl
+      friendAvatarUrl
     }
   }
 `;

@@ -51,8 +51,6 @@ const DeleteModal = ({
   }, [user])
 
   const removeFirebaseUser = () => {
-    // console.log("user", user);
-    console.log("in firebase remove user");
     user
       .delete()
       .then(() => {

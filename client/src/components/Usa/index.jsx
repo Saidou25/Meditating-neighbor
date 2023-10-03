@@ -13,7 +13,7 @@ import { QUERY_LOCATIONS, QUERY_USERS } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useHooks from "../../utils/UseHooks";
+import useMyInfo from "../../utils/UseMyInfo";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Teachers from "../Teachers";
@@ -50,7 +50,7 @@ const Usa = () => {
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const { me } = useHooks();
+  const { me } = useMyInfo();
 
   const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];

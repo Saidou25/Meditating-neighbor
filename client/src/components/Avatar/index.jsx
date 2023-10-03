@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
-import { QUERY_AVATARS } from "../../utils/queries";
+import { QUERY_AVATARS, QUERY_ME } from "../../utils/queries";
 import { storage } from "../../firebase";
 import {
   getDownloadURL,
@@ -10,7 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
-import useHooks from "../../utils/UseHooks";
+import useMyInfo from "../../utils/UseMyInfo";
 import trash from "../../assets/images/trash.jpg";
 import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -26,7 +26,7 @@ const ProfPics = () => {
   const [avatarId, setAvatarId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { me } = useHooks();
+  const { me } = useMyInfo();
 
   const [addAvatar] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
@@ -36,6 +36,15 @@ const ProfPics = () => {
           query: QUERY_AVATARS,
           data: { avatars: [addAvatar, ...avatars] },
           variables: { avatarUrl: url, username: me?.username },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      try {
+        const { me } = cache.readQuery({ query: QUERY_ME });
+        cache.writeQuery({
+          query: QUERY_ME, 
+          data: { me: { ...me, avatar: { ...me.avatar, ...addAvatar } } },
         });
       } catch (e) {
         console.error(e);

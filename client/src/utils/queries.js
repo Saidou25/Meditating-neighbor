@@ -37,6 +37,7 @@ export const QUERY_USERS = gql`
         friendUsername
         todaysDate
         avatarUrl
+        friendAvatarUrl
       }
     }
   }
@@ -78,6 +79,7 @@ export const QUERY_USER = gql`
         friendUsername
         todaysDate
         avatarUrl
+        friendAvatarUrl
       }
     }
   }
@@ -119,6 +121,7 @@ export const QUERY_ME = gql`
         friendUsername
         todaysDate
         avatarUrl
+        friendAvatarUrl
       }
     }
   }
@@ -213,6 +216,7 @@ export const QUERY_CONTACTS = gql`
       friendUsername
       todaysDate
       avatarUrl
+      friendAvatarUrl
     }
   }
 `;
@@ -225,6 +229,7 @@ export const QUERY_CONTACT = gql`
       friendUsername
       todaysDate
       avatarUrl
+      friendAvatarUrl
     }
   }
 `;

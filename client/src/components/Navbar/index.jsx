@@ -1,34 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import {
-  QUERY_AVATARS,
-  QUERY_REQUESTS,
-  QUERY_USERS,
-} from "../../utils/queries";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
-import useHooks from "../../utils/UseHooks";
+import useMyContacts from "../../utils/UseMyContacts";
+import useMyRequests from "../../utils/UseMyRequests";
+import useUsersInfo from "../../utils/UseUsersInfo";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
 const Navbar = () => {
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
-  const { me, myContacts } = useHooks();
 
-  // query all users data
-  const { data: usersData } = useQuery(QUERY_USERS);
-
-  // query all requests
-  const { data: requestsData } = useQuery(QUERY_REQUESTS);
-
-  // getting user's avatar by filtering [avatars] so profile picture in navbar can be updated right away
-  const { data: avatarsData } = useQuery(QUERY_AVATARS);
-  const avatars = avatarsData?.avatars || [];
-  const myAvatar = avatars.filter((avatar) => avatar.username === me?.username);
-  const savedUrl = myAvatar[0]?.avatarUrl;
+  const { me, myContacts, allContacts } = useMyContacts();
+  const { users } = useUsersInfo();
+  const { usersIncomingRequestProfiles, outgoingRequests } = useMyRequests();
 
   const dropDownLinks = [
     {
@@ -59,7 +46,6 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    console.log("in handleLogout");
     try {
       await signOut(auth);
       console.log("firebase signout succes");
@@ -68,47 +54,31 @@ const Navbar = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    if (requestsData && me && usersData && myContacts) {
-      const allRequests = requestsData?.requests || [];
-      const users = usersData?.users || [];
-      // setMyRequests(myData.requests);
-      const requestsToMe = allRequests.filter(
-        (request) => request.destinationName === me.username
-      );
-      const fromUsers = [];
-      //  loop to all request to get profiles of the people requesting my contact and
-      //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
-      for (let userRequest of requestsToMe) {
-        const requestingUsers = users.filter(
-          (user) => user.username === userRequest.myName
-        );
-        fromUsers.push(requestingUsers[0]);
-      }
-      const toOthers = [];
-      //  loop to all request to get profiles of the people i am requesting contact info from and
-      //  push them into a list "toOthers" to set "MyContactRequestsToOthers" so their profiles can be rendered in DOM thru a map()
-      const requestsFromMe = allRequests.filter(
-        (request) => request.myName === me.username
-      );
-      // console.log("requests from me for others", requestsFromMe)
-      for (let requestFromMe of requestsFromMe) {
-        const requestedUsers = users.filter(
-          (user) => user.username === requestFromMe.destinationName
-        );
-        toOthers.push(requestedUsers[0]);
-      }
-
-      if (fromUsers.length || toOthers.length) {
+    if (
+      usersIncomingRequestProfiles ||
+      outgoingRequests ||
+      myContacts ||
+      allContacts ||
+      users ||
+      me
+    ) {
+      if (usersIncomingRequestProfiles.length || outgoingRequests.length) {
         setAnimation("contact-link");
       }
-      if (myContacts) {
+      if (myContacts?.length) {
         setIsContact(true);
       }
     }
-  }, [requestsData, me, usersData, myContacts]);
-
+  }, [
+    usersIncomingRequestProfiles,
+    outgoingRequests,
+    myContacts,
+    allContacts,
+    users,
+    me,
+  ]);
+  
   return (
     <>
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
@@ -196,7 +166,11 @@ const Navbar = () => {
                     <Link className="nav-link text-light fs-4" to="/Profile">
                       <img
                         className="icon-nav"
-                        src={!savedUrl ? profileIcon : savedUrl}
+                        src={
+                          !me.avatar?.avatarUrl
+                            ? profileIcon
+                            : me.avatar?.avatarUrl
+                        }
                         alt="profile icon"
                       />
                     </Link>

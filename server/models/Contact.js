@@ -24,6 +24,10 @@ const contactSchema = new Schema({
     type: String,
     trim: true,
   },
+  friendAvatarUrl: {
+    type: String,
+    trim: true,
+  },
 });
 
 const Contact= model("Contact", contactSchema);

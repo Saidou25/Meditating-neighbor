@@ -181,7 +181,7 @@ const resolvers = {
     deleteProfile: async (_, args) => {
       return await Profile.findOneAndDelete({ _id: args.id });
     },
-    addRequest: async (_, args, context) => {
+    addRequest: async (_, args) => {
       return await Request.create({
         myName: args.myName,
         email: args.email,
@@ -192,23 +192,15 @@ const resolvers = {
     deleteRequest: async (_, args) => {
       return await Request.findOneAndDelete({ _id: args.id });
     },
-    addContact: async (_, args, context) => {
-      if (context.user) {
-        const contact = await Contact.create({
-          username: args.username,
-          friendId: args.friendId,
-          friendUsername: args.friendUsername,
-          todaysDate: args.todaysDate,
-          avatarUrl: args.avatarUrl,
-        });
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { contacts: contact._id } },
-          { new: true }
-        );
-        return contact;
-      }
-      throw new AuthenticationError("You need to be logged in!");
+    addContact: async (_, args) => {
+      return await Contact.create({
+        username: args.username,
+        friendId: args.friendId,
+        friendUsername: args.friendUsername,
+        todaysDate: args.todaysDate,
+        avatarUrl: args.avatarUrl,
+        friendAvatarUrl: args.friendAvatarUrl,
+      });
     },
     deleteContact: async (_, args, context) => {
       if (context.user) {

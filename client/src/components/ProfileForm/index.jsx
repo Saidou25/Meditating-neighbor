@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES } from "../../utils/queries";
+import { QUERY_PROFILES, QUERY_ME } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useHooks from "../../utils/UseHooks";
+import useMyInfo from "../../utils/UseMyInfo";
 // import Spinner from "../Spinner";
 import Success from "../Success";
 import Navbar from "../Navbar";
@@ -21,24 +21,34 @@ const ProfileForm = () => {
   const [lastname, setLastname] = useState("");
   const [story, setStory] = useState("");
   const [message, setMessage] = useState("");
-  const { me } = useHooks();
-
+  const { me } = useMyInfo();
+  // console.log("me", me);
   const navigate = useNavigate();
 
-  const [addProfile] = useMutation(ADD_PROFILE, {
-    update(cache, { data: { addProfile } }) {
-      try {
-        const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
-        cache.writeQuery({
-          query: QUERY_PROFILES,
-          data: { profiles: [...profiles, addProfile] },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-      console.log("profile successfully added to the cache");
-    },
-  });
+const [addProfile] = useMutation(ADD_PROFILE, {
+  update(cache, { data: { addProfile } }) {
+    try {
+      const { profiles } = cache.readQuery({ query: QUERY_PROFILES });
+      cache.writeQuery({
+        query: QUERY_PROFILES,
+        data: { profiles: [...profiles, addProfile] },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    try {
+      const { me } = cache.readQuery({ query: QUERY_ME });
+      cache.writeQuery({
+        query: QUERY_ME, 
+        data: { me: { ...me, profile: { ...me.profile, ...addProfile } } },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    console.log("Profile successfully added to the cache");
+  },
+});
 
   const handleFormSubmit = async (e) => {
     if (teacher === "meditator") {

@@ -4,13 +4,13 @@ import { useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import { v4 } from "uuid";
 import Auth from "../../utils/auth";
-import useHooks from "../../utils/UseHooks";
+import useMyInfo from "../../utils/UseMyInfo";
 import ProfileList from "../ProfileList";
 import Spinner from "../Spinner";
 import "./index.css";
 
 const Neighbors = () => {
-  const { me } = useHooks();
+  const { me } = useMyInfo();
   let noUserYet = "true";
   const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];

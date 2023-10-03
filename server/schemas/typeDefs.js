@@ -48,6 +48,7 @@ const typeDefs = gql`
     friendId: String
     todaysDate: String
     avatarUrl: String
+    friendAvatarUrl: String
     friendUsername: String
   }
   type Auth {
@@ -115,7 +116,7 @@ const typeDefs = gql`
     ): Location
     addRequest(myName: String, email: String, destinationName: String, avatarUrl: String): Request
     deleteRequest(id: String!): Request
-    addContact(username: String, friendId: String!, friendUsername: String, todaysDate: String, avatarUrl: String): Contact
+    addContact(username: String, friendId: String!, friendUsername: String, todaysDate: String, avatarUrl: String, friendAvatarUrl: String): Contact
     deleteUser(id: String!): User
     deleteContact(id: String!): Contact
   }
