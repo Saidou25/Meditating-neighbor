@@ -20,8 +20,7 @@ import Spinner from "../Spinner";
 import "./index.css";
 
 const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
-
+  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"
 const Map = () => {
   const [location, setLocation] = useState("");
   const [notSupported, setNotSupported] = useState("");
@@ -41,7 +40,7 @@ const Map = () => {
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  // console.log("locations", locations);
+  console.log("locations", locations);
 
   const markers = [];
   for (let location of locations) {

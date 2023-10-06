@@ -21,10 +21,10 @@ const Navbar = () => {
       linkName: "Usa",
       linkTo: "/Usa",
     },
-    {
-      linkName: "Map",
-      linkTo: "/Map",
-    },
+    // {
+    //   linkName: "Map",
+    //   linkTo: "/Map",
+    // },
     {
       linkName: "Europe(coming soon)",
       linkTo: "/",
@@ -34,7 +34,7 @@ const Navbar = () => {
       linkTo: "/",
     },
     {
-      linkName: "UK(coming soon",
+      linkName: "UK(coming soon)",
       linkTo: "/",
     },
   ];

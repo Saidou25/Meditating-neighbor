@@ -62,6 +62,7 @@ const Usa = () => {
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
+  // console.log("locations", locations)
   // const userLocation = locations.filter(
   //   (location) => location.username === me.username
   // );

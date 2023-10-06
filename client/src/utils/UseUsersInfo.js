@@ -4,7 +4,8 @@ import { QUERY_USERS } from "./queries";
 
 const useUsers = () => {
   const [users, setUsers] = useState("");
-  // console.log("users", users);
+  // const [locations, setLocations] = useState([]);
+  // console.log("locations", locations);
 
   const { data: usersData } = useQuery(QUERY_USERS);
 
@@ -13,6 +14,7 @@ const useUsers = () => {
       const allUsersData = usersData?.users || [];
 
       setUsers(allUsersData);
+      // setLocations(allUsersData.location);
     }
   }, [usersData]);
 

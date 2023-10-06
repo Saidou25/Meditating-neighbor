@@ -43,20 +43,24 @@ const Signup = () => {
         console.log("user", user);
       }
     } catch (error) {
-      setErrorMessage("Password is shorter than the minimym allowed (6 characters).");
+      setErrorMessage(
+        "Password is shorter than the minimum allowed (6 characters)."
+      );
     }
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (!email || !password || !username) {
         setErrorMessage("All fields need to be filled.");
         return;
-      } 
-      if (password.length < 6 ) {
-        setErrorMessage("Password is shorter than the minimmm allowed (6 characters).");
+      }
+      if (password.length < 6) {
+        setErrorMessage(
+          "Password is shorter than the minimum allowed (6 characters)."
+        );
         return;
       }
       const { data } = await addUser({
