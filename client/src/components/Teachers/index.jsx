@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_USERS } from "../../utils/queries";
 import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
+import useUsersInfo from "../../utils/UseUsersInfo";
 import TeacherMediaScreen from "../TeacherMediaScreen";
 import profileIcon from "../../assets/images/profileicon.png";
 import Spinner from "../Spinner";
@@ -9,27 +9,25 @@ import "./index.css";
 
 const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
-  const [users, setUsers] = useState("");
-  let tmiTeacher = [];
-  // const teachersNum = tmiTeacher?.length;
+  const { users } = useUsersInfo();
 
-  const { data, loading } = useQuery(QUERY_USERS);
+  let tmiTeacher = [];
 
   for (let user of users) {
     if (user.profile?.teacher === "teacher") {
       tmiTeacher.push(user);
     }
   }
-  useEffect(() => {
-    if (data) {
-      const usersInfo = data?.users || [];
-      setUsers(usersInfo);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     const usersInfo = data?.users || [];
+  //     setUsers(usersInfo);
+  //   }
+  // }, [data]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  // if (loading) {
+  //   return <Spinner />;
+  // }
   return (
     <>
       {tmiTeacher.lenght ? (
@@ -54,11 +52,11 @@ const Teachers = () => {
                     <div className="col-12">
                       <div className="card-header">
                         {user.profile.firstname && user.profile.lastname ? (
-                          <h3>
+                          <h5>
                             {user.profile.firstname} {user.profile.lastname}
-                          </h3>
+                          </h5>
                         ) : (
-                          <h3>{user.username}</h3>
+                          <h5>{user.username}</h5>
                         )}
                       </div>
                     </div>
@@ -176,7 +174,7 @@ const Teachers = () => {
                                           selectedTeacher.location?.state && (
                                             <>
                                               <p>
-                                              <FaHome />{" "}
+                                                <FaHome />{" "}
                                                 {selectedTeacher.location?.city}
                                                 ,{" "}
                                                 {

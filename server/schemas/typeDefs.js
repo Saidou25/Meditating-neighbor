@@ -58,10 +58,12 @@ const typeDefs = gql`
   type Query {
     users: [User]!
     user(id: String): User
+     # Because we have the context functionality in place to check a JWT and decode its data, we can use a query that will always find and return the logged in user's data
     me: User
     locations: [Location]
+    location(id: String): Location
     avatars: [Avatar]
-    avatar(id: String): Avatar!
+    avatar(id: String): Avatar
     profiles: [Profile]
     profile(id: String): Profile
     requests: [Request]
@@ -98,25 +100,25 @@ const typeDefs = gql`
     ): Profile
     deleteProfile(id: String!): Profile
     addLocation(
-      username: String!
-      longitude: Float!
-      latitude: Float!
-      city: String!
-      state: String!
-      country: String!
+      username: String
+      longitude: Float
+      latitude: Float
+      city: String
+      state: String
+      country: String
     ): Location
     updateLocation(
-      id: String!
-      username: String!
-      longitude: Float!
-      latitude: Float!
-      city: String!
-      state: String!
-      country: String!
+      id: String
+      username: String
+      longitude: Float
+      latitude: Float
+      city: String
+      state: String
+      country: String
     ): Location
     addRequest(myName: String, email: String, destinationName: String, avatarUrl: String): Request
     deleteRequest(id: String!): Request
-    addContact(username: String, friendId: String!, friendUsername: String, todaysDate: String, avatarUrl: String, friendAvatarUrl: String): Contact
+    addContact(username: String, friendId: String, friendUsername: String, todaysDate: String, avatarUrl: String, friendAvatarUrl: String): Contact
     deleteUser(id: String!): User
     deleteContact(id: String!): Contact
   }

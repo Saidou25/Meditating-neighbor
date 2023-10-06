@@ -12,11 +12,13 @@ import "./index.css";
 const Notifications = () => {
   const [requestId, setRequestId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
+  const [requestedUsersProfiles, setRequestedUsersProfiles] = useState([]);
   const {
     me,
     incomingRequests,
     outgoingRequests,
     usersIncomingRequestProfiles,
+    myOutgoingRequestUserProfile
   } = useMyRequests();
 
   const date = new Date();
@@ -62,10 +64,11 @@ const Notifications = () => {
     },
   });
   useEffect(() => {
-    if (usersIncomingRequestProfiles) {
+    if (usersIncomingRequestProfiles && myOutgoingRequestUserProfile) {
       setRequestingUsersProfiles(usersIncomingRequestProfiles);
+      setRequestedUsersProfiles(myOutgoingRequestUserProfile);
     }
-  }, [usersIncomingRequestProfiles]);
+  }, [usersIncomingRequestProfiles, myOutgoingRequestUserProfile]);
 
   const addFriend = async (user) => {
     const id = user._id;
@@ -104,7 +107,6 @@ const Notifications = () => {
           });
           if (data) {
             console.log("success deleting request");
-            console.log(user);
             addFriend(user);
             setRequestingUsersProfiles([]);
           }
@@ -120,27 +122,27 @@ const Notifications = () => {
   }
   return (
     <>
-      {outgoingRequests?.length ? (
+      {requestedUsersProfiles?.length ? (
         <>
           <h3 className="request-title text-light bg-primary">
             You requested contact info:
           </h3>
-          {outgoingRequests &&
-            outgoingRequests.map((request) => (
+          {requestedUsersProfiles &&
+            requestedUsersProfiles.map((user) => (
               <div
-                key={request._id}
+                key={user._id}
                 className="row response-list bg-primary g-0 text-light"
               >
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={request.avatarUrl ? request.avatarUrl : profileIcon}
+                    src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
                     alt="profile avatar"
                   />
                 </div>
                 <div className="col-10">
                   <p>
-                    Your contact request with {request.destinationName} is
+                    Your contact request with {user.username} is
                     pending.
                   </p>
                 </div>

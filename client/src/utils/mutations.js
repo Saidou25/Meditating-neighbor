@@ -68,7 +68,7 @@ export const ADD_AVATAR = gql`
   }
 `;
 export const UPDATE_AVATAR = gql`
-  mutation updateAvatar($id: String!, $username: String!, $avatarUrl: String) {
+  mutation updateAvatar($id: String, $username: String, $avatarUrl: String) {
     updateAvatar(id: $id, username: $username, avatarUrl: $avatarUrl) {
       _id
       username
@@ -88,12 +88,12 @@ export const DELETE_AVATAR = gql`
 
 export const ADD_LOCATION = gql`
   mutation addLocation(
-    $username: String!
-    $longitude: Float!
-    $latitude: Float!
-    $city: String!
-    $state: String!
-    $country: String!
+    $username: String
+    $longitude: Float
+    $latitude: Float
+    $city: String
+    $state: String
+    $country: String
   ) {
     addLocation(
       username: $username
@@ -115,13 +115,13 @@ export const ADD_LOCATION = gql`
 `;
 export const UPDATE_LOCATION = gql`
   mutation updateLocation(
-    $id: String!
-    $username: String!
-    $longitude: Float!
-    $latitude: Float!
-    $city: String!
-    $state: String!
-    $country: String!
+    $id: String
+    $username: String
+    $longitude: Float
+    $latitude: Float
+    $city: String
+    $state: String
+    $country: String
   ) {
     updateLocation(
       id: $id
@@ -157,7 +157,7 @@ export const DELETE_LOCATION = gql`
 `;
 export const ADD_PROFILE = gql`
   mutation addProfile(
-    $username: String!
+    $username: String
     $firstname: String
     $lastname: String
     $stage: String
@@ -188,7 +188,7 @@ export const ADD_PROFILE = gql`
 export const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $id: String!
-    $username: String!
+    $username: String
     $firstname: String
     $lastname: String
     $stage: String
@@ -267,7 +267,7 @@ export const DELETE_REQUEST = gql`
 export const ADD_CONTACT = gql`
   mutation addContact(
     $username: String
-    $friendId: String!
+    $friendId: String
     $friendUsername: String
     $todaysDate: String
     $avatarUrl: String

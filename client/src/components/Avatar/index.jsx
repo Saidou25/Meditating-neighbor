@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
-import { QUERY_AVATARS, QUERY_ME } from "../../utils/queries";
+import { QUERY_ME } from "../../utils/queries";
 import { storage } from "../../firebase";
 import {
   getDownloadURL,
@@ -31,19 +31,9 @@ const ProfPics = () => {
   const [addAvatar] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
       try {
-        const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
-        cache.writeQuery({
-          query: QUERY_AVATARS,
-          data: { avatars: [addAvatar, ...avatars] },
-          variables: { avatarUrl: url, username: me?.username },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-      try {
         const { me } = cache.readQuery({ query: QUERY_ME });
         cache.writeQuery({
-          query: QUERY_ME, 
+          query: QUERY_ME,
           data: { me: { ...me, avatar: { ...me.avatar, ...addAvatar } } },
         });
       } catch (e) {
@@ -54,18 +44,15 @@ const ProfPics = () => {
   const [deleteAvatar] = useMutation(DELETE_AVATAR, {
     update(cache, { data: { deleteAvatar } }) {
       try {
-        const { avatars } = cache.readQuery({ query: QUERY_AVATARS });
+        const { me } = cache.readQuery({ query: QUERY_ME });
         cache.writeQuery({
-          query: QUERY_AVATARS,
-          data: {
-            avatars: [
-              avatars.filter((avatar) => avatar._id !== deleteAvatar._id),
-            ],
-          },
+          query: QUERY_ME,
+          data: { me: { ...me, avatar: null } },
         });
       } catch (e) {
         console.error(e);
       }
+      console.log("Avatar successfully deleted from the cache");
     },
   });
 
@@ -90,19 +77,18 @@ const ProfPics = () => {
     } else {
       console.log("url not ready");
     }
-    setUrl(null);
+    // setUrl(null);
     setImage(null);
   };
 
   const uploadImage = () => {
-    
     if (image === null) {
-      setError('no image selected');
+      setError("no image selected");
       return;
-    };
+    }
     if (savedUrl) {
       removeAvatar(savedUrl);
-    };
+    }
     setError("");
     setLoading(true);
     const imageRef = ref(storage, `images/${image.name + v4()}`);
@@ -141,12 +127,12 @@ const ProfPics = () => {
   const removeAvatar = async () => {
     try {
       const { data } = await deleteAvatar({
-        variables: { id: avatarId, username: me?.username, avatarUrl: savedUrl },
+        variables: {
+          id: avatarId,
+        },
       });
       if (data) {
-        console.log(
-          `removed avatar for ${me?.username} with the avatar id of ${avatarId}`
-        );
+        console.log("removed avatar", data);
         setUrl(null);
         setSavedUrl(null);
       }
@@ -162,18 +148,13 @@ const ProfPics = () => {
       setIsEdit((current) => !current);
     }
   };
-  const { data: avatarsData } = useQuery(QUERY_AVATARS);
+
   useEffect(() => {
-    if (avatarsData && me) {
-
-      const avatars = avatarsData?.avatars || [];
-      const myAvatar = avatars.filter((avatar) => avatar.username === me?.username);
-      const myAvatarUrl = myAvatar[0]?.avatarUrl;
-
-      setSavedUrl(myAvatarUrl);
-      setAvatarId(myAvatar[0]?._id);
+    if (me) {
+      setSavedUrl(me.avatar?.avatarUrl);
+      setAvatarId(me.avatar?._id);
     }
-  }, [me, avatarsData]);
+  }, [me]);
 
   return (
     <>
@@ -216,8 +197,8 @@ const ProfPics = () => {
           )}
         </div>
         {error && (
-            <div className="save-error bg-danger text-light">{error}</div>
-          )}
+          <div className="save-error bg-danger text-light">{error}</div>
+        )}
         <div className="row g-0 container-avatar mt-5">
           {!savedUrl?.length && (
             <>
@@ -225,7 +206,11 @@ const ProfPics = () => {
                 <button
                   className="btn btn-addaprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => {handleSubmit("add"); setError(""); setImage(null)}}
+                  onClick={() => {
+                    handleSubmit("add");
+                    setError("");
+                    setImage(null);
+                  }}
                 >
                   {isCanceled === true ? <>cancel</> : <>add picture</>}
                 </button>
@@ -238,7 +223,11 @@ const ProfPics = () => {
                 <button
                   className="btn btn-uploadprofile bg-primary rounded-0 text-light"
                   type="submit"
-                  onClick={() => {handleSubmit("add"); setError(""); setImage(null)}}
+                  onClick={() => {
+                    handleSubmit("add");
+                    setError("");
+                    setImage(null);
+                  }}
                 >
                   {isEdit === true ? <>cancel</> : <>edit</>}
                 </button>
@@ -248,8 +237,12 @@ const ProfPics = () => {
           {isShown ? (
             <>
               <div className="col-4 choose-file bg-primary">
-                <label htmlFor="file-button" className="file-label" style={{ cursor: "pointer" }}>
-                  {image ? (<>image selected</>) : (<>select file</>)}
+                <label
+                  htmlFor="file-button"
+                  className="file-label"
+                  style={{ cursor: "pointer" }}
+                >
+                  {image ? <>image selected</> : <>select file</>}
                 </label>
                 <input
                   type="file"

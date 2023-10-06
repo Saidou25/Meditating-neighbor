@@ -22,7 +22,7 @@ const DeleteModal = ({
   locationId,
   userId,
   myContactsIds,
-  contactRequests,
+  myRequestsIds,
 }) => {
   const [message, setMessage] = useState("");
   const [deleteLocation] = useMutation(DELETE_LOCATION);
@@ -44,7 +44,6 @@ const DeleteModal = ({
   const [user] = useAuthState(auth)
 
   useEffect(() => {
-    console.log('in use effect')
     if (user) {
       console.log(`${user.email} logged in!`)
     }
@@ -87,13 +86,13 @@ const DeleteModal = ({
     removeFirebaseUser();
   };
 
-  const removeRequest = async (contactRequest) => {
-    if (!contactRequest) {
+  const removeRequest = async (myRequestId) => {
+    if (!myRequestId) {
       removeUser();
     } else {
       try {
         const { data } = await deleteRequest({
-          variables: { id: contactRequest },
+          variables: { id: myRequestId },
         });
         if (data) {
           console.log("success deleting request", data);
@@ -105,9 +104,9 @@ const DeleteModal = ({
     }
   };
   const requestDispatch = () => {
-    if (contactRequests) {
-      for (let contactRequest of contactRequests) {
-        removeRequest(contactRequest);
+    if (myRequestsIds) {
+      for (let myRequestId of myRequestsIds) {
+        removeRequest(myRequestId);
       }
     }
     removeUser();

@@ -16,9 +16,9 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: "Please provide a 5 digit password",
+    required: "Please provide a 6 digits password",
     unique: true,
-    minlength: 5,
+    minlength: 6,
   },
   avatar: {
     type: Schema.Types.ObjectId,

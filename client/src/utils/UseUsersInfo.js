@@ -4,7 +4,7 @@ import { QUERY_USERS } from "./queries";
 
 const useUsers = () => {
   const [users, setUsers] = useState("");
-  // console.log("me from my info", me);
+  // console.log("users", users);
 
   const { data: usersData } = useQuery(QUERY_USERS);
 

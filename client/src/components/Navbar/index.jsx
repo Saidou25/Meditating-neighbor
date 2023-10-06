@@ -16,7 +16,6 @@ const Navbar = () => {
   const { me, myContacts, allContacts } = useMyContacts();
   const { users } = useUsersInfo();
   const { usersIncomingRequestProfiles, outgoingRequests } = useMyRequests();
-
   const dropDownLinks = [
     {
       linkName: "Usa",

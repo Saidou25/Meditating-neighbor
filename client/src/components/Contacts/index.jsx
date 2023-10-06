@@ -3,7 +3,6 @@ import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import useMyContacts from "../../utils/UseMyContacts";
-import useUsersInfo from "../../utils/UseUsersInfo";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -12,26 +11,31 @@ import "./index.css";
 
 const Contacts = () => {
   const [user, setUser] = useState({ userInfo: "", date: "" });
-  const { users } = useUsersInfo();
-  const { me, myContacts } = useMyContacts();
- 
-  const findUser = (myContact) => {
-    users.filter((user) => {
-      if (
-        user.username === myContact.friendUsername &&
-        myContact.username === me.username
-      ) {
-        console.log(user, myContact.todaysDate);
-        setUser({ userInfo: user, date: myContact.todaysDate });
-      } else if (
-        user.username === myContact.username &&
-        myContact.friendUsername === me.username
-      ) {
-        console.log(user, myContact.todaysDate);
-        setUser({ userInfo: user, date: myContact.todaysDate });
-      }
-    });
-  };
+  // const [mapContacts, setMapContacts] = useState("");
+  // const { users } = useUsersInfo();
+  const { myContactsProfiles } = useMyContacts();
+  // console.log("my myContactsProfiles", myContactsProfiles);
+  // console.log("user", user);
+  // const findUser = (myContact) => {
+  //   for (let user of users) {
+  //     if (
+  //       user.username === myContact.friendUsername &&
+  //       myContact.username === me.username
+  //     ) {
+  //       setUser({ userInfo: user, date: myContact.todaysDate });
+  //     } else if (
+  //       user.username === myContact.username &&
+  //       myContact.friendUsername === me.username
+  //     ) {
+  //       setUser({ userInfo: user, date: myContact.todaysDate });
+  //     }
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (myContacts) {
+  //     setMapContacts(myContacts);
+  //   }
+  // }, [myContacts]);
 
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;
@@ -42,14 +46,14 @@ const Contacts = () => {
       <Navbar />
       <div className="container-fluid contacts bg-primary">
         <Notifications />
-        {myContacts.length ? (
+        {myContactsProfiles.length ? (
           <>
             <h3 className="contact-title text-light">Your contacts</h3>
             <div className="row card-row">
-              {myContacts &&
-                myContacts.map((myContact) => (
+              {myContactsProfiles &&
+                myContactsProfiles.map((myContactProfile) => (
                   <div
-                    key={myContact._id}
+                    key={myContactProfile.friend._id}
                     className="col-xxl-3 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4"
                   >
                     <div className="card-body">
@@ -59,7 +63,10 @@ const Contacts = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal"
                           onClick={() => {
-                            findUser(myContact);
+                            setUser({
+                              userInfo: myContactProfile.friend,
+                              date: myContactProfile.date,
+                            });
                           }}
                         >
                           <FaEllipsisH className="icon" />
@@ -71,10 +78,8 @@ const Contacts = () => {
                             className="contact-pic"
                             // multiple ternary operator: if no avatar then default profileIcon, if i am soneone's contact or someone is my contact then avatarUrl or friendAvatarUrl is displayed
                             src={
-                              myContact.avatarUrl || myContact.friendAvatarUrl
-                                ? myContact.username === me.username
-                                  ? myContact.friendAvatarUrl
-                                  : myContact.avatarUrl
+                              myContactProfile.friend.avatar?.avatarUrl
+                                ? myContactProfile.friend.avatar.avatarUrl
                                 : profileIcon
                             }
                             alt="profile avatar"
@@ -82,11 +87,7 @@ const Contacts = () => {
                         </div>
                         <div className="col-12 profiles-column">
                           <p className="location my-4 text-light">
-                            {myContact.username !== me.username ? (
-                              <>{myContact.username}</>
-                            ) : (
-                              <>{myContact.friendUsername}</>
-                            )}
+                            <>{myContactProfile.friend.username}</>
                           </p>
                         </div>
                       </div>

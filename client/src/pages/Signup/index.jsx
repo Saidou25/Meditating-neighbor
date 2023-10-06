@@ -35,21 +35,28 @@ const Signup = () => {
 
     try {
       if (auth && username && email && password) {
-        const user = await createUserWithEmailAndPassword(auth, email, password);
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         console.log("user", user);
       }
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      setErrorMessage("All fields need to be filled.");
+      setErrorMessage("Password is shorter than the minimym allowed (6 characters).");
     }
   };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    
     try {
-      if (!email || !password || !username || errorMessage) {
+      if (!email || !password || !username) {
         setErrorMessage("All fields need to be filled.");
+        return;
+      } 
+      if (password.length < 6 ) {
+        setErrorMessage("Password is shorter than the minimmm allowed (6 characters).");
         return;
       }
       const { data } = await addUser({
@@ -59,17 +66,13 @@ const Signup = () => {
       if (data) {
         // setMessage(`Welcome ${username}.`);
         console.log(`Welcome ${username}.`);
+        setShowLogin(true);
+        setHideSignup("none");
       }
     } catch (e) {
       console.error(e);
     }
-    // setTimeout(() => {
-    // navigate("/Login");
-    // }, 3000);
-    setShowLogin(true);
-    setHideSignup("none");
   };
-  
 
   // if (loading) return <Spinner />;
   // if (message) return <Success message={message} />;
@@ -98,9 +101,7 @@ const Signup = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <br />
-            <label className="form-label-signup text-light my-4">
-              Email
-            </label>
+            <label className="form-label-signup text-light my-4">Email</label>
             <br />
             <input
               className="form-input email-input"
@@ -126,7 +127,7 @@ const Signup = () => {
             <br />
             {errorMessage && (
               <div className="signup-error-message text-light bg-danger mb-5">
-                <p className="p-message p-3">{errorMessage}</p>
+                <p className="p-message px-1 py-2">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">
@@ -149,7 +150,10 @@ const Signup = () => {
                     className="btn btn-signup text-light rounded-0"
                     type="submit"
                     style={{ cursor: "pointer" }}
-                    onClick={(e) => {handleFormSubmit(e); firebaseSignup(e)}}
+                    onClick={(e) => {
+                      handleFormSubmit(e);
+                      firebaseSignup(e);
+                    }}
                   >
                     Submit
                   </button>

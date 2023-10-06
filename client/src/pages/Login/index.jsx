@@ -63,9 +63,7 @@ const Login = () => {
         return;
       }
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      setErrorMessage(error.message);
     }
   };
   useEffect(() => {
@@ -113,7 +111,7 @@ const Login = () => {
             <div></div>
             {errorMessage && (
               <div className="signup-error-message text-light bg-danger mb-5">
-                <p className="p-message p-3">{errorMessage}</p>
+                <p className="p-message px-1 py-2">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">

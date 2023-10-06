@@ -4,7 +4,7 @@ import { QUERY_ME } from "./queries";
 
 const useMyInfoHook = () => {
   const [me, setMeData] = useState("");
-  // console.log("me from my info", me);
+  // console.log("me profile", me.profile);
 
   const { data: meData } = useQuery(QUERY_ME);
 

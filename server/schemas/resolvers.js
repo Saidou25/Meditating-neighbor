@@ -41,7 +41,7 @@ const resolvers = {
       return await Avatar.find();
     },
     avatar: async () => {
-      return await Avatar.findOneAndUpdate({ id: args._id });
+      return await Avatar.findOne({ _id: args._id });
     },
     profiles: async () => {
       return await Profile.find();
@@ -141,8 +141,15 @@ const resolvers = {
         }
       );
     },
-    deleteAvatar: async (_, args) => {
-      return await Avatar.findOneAndDelete({ _id: args.id });
+    deleteAvatar: async (_, args, context) => {
+      if (context.user) {
+        const avatar = await Avatar.findOneAndDelete({ _id: args.id });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $set: { avatar: null } } // Use $pull to remove the reference
+        );
+        return avatar;
+      }
     },
     addProfile: async (_, args, context) => {
       if (context.user) {
@@ -164,19 +171,27 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-    updateProfile: async (_, args) => {
-      return await Profile.findOneAndUpdate(
-        { _id: args.id },
-        {
-          username: args.username,
-          firstname: args.firstname,
-          lastname: args.lastname,
-          stage: args.stage,
-          years: args.years,
-          teacher: args.teacher,
-          story: args.story,
-        }
-      );
+    updateProfile: async (_, args, context) => {
+      if (context.user) {
+        const profile = await Profile.findOneAndUpdate(
+          { _id: args.id },
+          {
+            username: args.username,
+            firstname: args.firstname,
+            lastname: args.lastname,
+            stage: args.stage,
+            years: args.years,
+            teacher: args.teacher,
+            story: args.story,
+          }
+        );
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $set: { profile: profile._id } },
+          { new: true }
+        );
+        return profile;
+      }
     },
     deleteProfile: async (_, args) => {
       return await Profile.findOneAndDelete({ _id: args.id });

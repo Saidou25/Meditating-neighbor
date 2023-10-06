@@ -16,9 +16,10 @@ import "./index.css";
 
 const Profile = () => {
   const { me, myContacts } = useMyContacts();
-  const { myRequests } = useMyRequests();
-
-  // console.log("me", me);
+  const { myRequestsIds } = useMyRequests();
+  const myAvatarUrl = me.avatar?.avatarUrl;
+  const myLocation = me.location;
+  const myProfile = me.profile;
   // useEffect(() => {
   //   onAuthStateChanged(auth, (user) => {
   //     if (user) {
@@ -30,6 +31,7 @@ const Profile = () => {
   //     }
   //   });
   // }, [user]);
+
   const myContactsIds = [];
   if (myContacts) {
     for (let contact of myContacts) {
@@ -48,11 +50,22 @@ const Profile = () => {
         className="container-fluid profile bg-primary"
         style={{ borderColor: "primary" }}
       >
+        {!myAvatarUrl || !myProfile || !myLocation ? (
+          <p className="profile-warning text-light">
+            Once you have successfully created your profile, uploaded your
+            profile picture and saved your location from within the "locate"
+            page, your profile will be visible to everyone.
+          </p>
+        ) : (
+          <></>
+        )}
         <div className="row">
           <div className="col-12">
             <div className="card profile-card">
               <div className="card-header profile-header mt-3">
-                {me.profile?.firstname && me.profile?.lastname ? (
+                {me.profile?.teacher === "teacher" &&
+                me.profile?.firstname &&
+                me.profile?.lastname ? (
                   <h3>
                     {me.profile?.firstname} {me.profile?.lastname}
                   </h3>
@@ -63,7 +76,7 @@ const Profile = () => {
               <Avatar me={me} />
               <div className="card-body profile-body mt-5">
                 <div className="p-info-body text-light">
-                  {me.profile?.story ? (
+                  {me.profile?.teacher === "teacher" && me.profile?.story ? (
                     <>
                       <h4 className="about-profile mb-5">About</h4>
                       <p className="about-p-story text-light mb-5">
@@ -92,7 +105,7 @@ const Profile = () => {
                         Status: {me.profile?.teacher}
                       </p>
                       <p className="profile-p text-light">
-                        Has been meditating for: {me.pfrofile?.years}
+                        Has been meditating for: {me.profile?.years} years
                       </p>
                       <p className="profile-p text-light mb-5">
                         Currently working on stage {me.profile?.stage}
@@ -120,7 +133,7 @@ const Profile = () => {
               <div className="card-footer profile-footer">
                 <div className="row">
                   <div className="col-12 edit-column">
-                    {me.pfrofile?._id ? (
+                    {me.profile ? (
                       <Link
                         className="btn btn-edit bg-primary rounded-0 text-light"
                         to="/UpdateMyProfileForm"
@@ -150,7 +163,7 @@ const Profile = () => {
               savedUrl={me.avatar?.avatarUrl}
               locationId={me.location?._id}
               myContactsIds={myContactsIds}
-              contactRequests={myRequests}
+              myRequestsIds={myRequestsIds}
               userId={me._id}
             />
             if you wish to delete your account.

@@ -9,11 +9,12 @@ import {
 } from "react-simple-maps";
 // import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, DELETE_LOCATION } from "../../utils/mutations";
-import { QUERY_LOCATIONS, QUERY_USERS } from "../../utils/queries";
+import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import useMyInfo from "../../utils/UseMyInfo";
+import useUsersInfo from "../../utils/UseUsersInfo";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Teachers from "../Teachers";
@@ -51,20 +52,24 @@ const Usa = () => {
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
   const { me } = useMyInfo();
+  const { users } = useUsersInfo();
 
-  const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
-  const users = usersData?.users || [];
+  // const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
+  // const users = usersData?.users || [];
   const {
     data: locationsData,
     locationsError,
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  const userLocation = locations.filter(
-    (location) => location.username === me.username
-  );
-  const myLocation = userLocation[0];
-  const locationId = myLocation?._id;
+  // const userLocation = locations.filter(
+  //   (location) => location.username === me.username
+  // );
+  // const myLocation = userLocation[0];
+  // const locationId = myLocation?._id;
+  const myLocation = me.location;
+  const locationId = me.location?._id;
+
   const markers = [];
   for (let location of locations) {
     const city = {
@@ -93,6 +98,15 @@ const Usa = () => {
         cache.writeQuery({
           query: QUERY_LOCATIONS,
           data: { locations: [...locations, addLocation] },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      try {
+        const { me } = cache.readQuery({ query: QUERY_ME });
+        cache.writeQuery({
+          query: QUERY_ME,
+          data: { me: { ...me, location: { ...me.location, ...addLocation } } },
         });
       } catch (e) {
         console.error(e);
@@ -210,7 +224,7 @@ const Usa = () => {
     return <Navigate to="/" replace />;
   }
 
-  if (loadingLocations || usersLoading) {
+  if (loadingLocations) {
     return <Spinner />;
   }
   if (locationsError) {

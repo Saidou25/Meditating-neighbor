@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  QUERY_USERS,
-  QUERY_PROFILES,
-  QUERY_AVATARS,
-  QUERY_LOCATIONS,
-  QUERY_REQUESTS,
-} from "../../utils/queries";
+import { useMutation } from "@apollo/client";
+import { QUERY_REQUESTS } from "../../utils/queries";
 import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import useMyContacts from "../../utils/UseMyContacts";
+import useMyRequests from "../../utils/UseMyRequests";
+import useUsersInfo from "../../utils/UseUsersInfo";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
-import Spinner from "../Spinner";
+// import Spinner from "../Spinner";
 import "./index.css";
 
 const ProfileList = (props) => {
-  const [outgoingRequest, setOutgoingRequest] = useState(false);
-  const [incomingRequest, setIncomingRequest] = useState(false);
+  const [ongoingRequest, setOngoingRequest] = useState(false);
   const [friends, setFriends] = useState(false);
   const [friendsSince, setFriendsSince] = useState("");
   const [modalClose, setModalClose] = useState("");
@@ -29,37 +24,16 @@ const ProfileList = (props) => {
   const [user, setUser] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { me, myContacts } = useMyContacts();
+  const { incomingRequests, outgoingRequests } = useMyRequests();
+  const { users } = useUsersInfo();
+
   const seventyFiveMiles = props.seventyFiveMiles;
   const overSeventyFiveMiles = props.overSeventyFiveMiles;
 
-  const { data: usersData, usersDataLoading } = useQuery(QUERY_USERS);
+  const myLocation = me.location;
+  const myProfile = me.profile;
+  const myAvatar = me.avatar;
 
-  const { data: profilesData } = useQuery(QUERY_PROFILES);
-  const profiles = profilesData?.profiles || [];
-  const userProfile = profiles.filter(
-    (profile) => profile.username === me.username
-  );
-  const myProfile = userProfile[0];
-
-  const { data: avatarsData, avatarsDataLoading } = useQuery(QUERY_AVATARS);
-  const avatars = avatarsData?.avatars || [];
-  const userAvatar = avatars.filter(
-    (avatar) => avatar.username === me.username
-  );
-  const myAvatar = userAvatar[0];
-
-  const { data: locationsData, locationDataLoading } =
-    useQuery(QUERY_LOCATIONS);
-  const locations = locationsData?.locations || [];
-  const userLocation = locations.filter(
-    (location) => location.username === me.username
-  );
-  const myLocation = userLocation[0];
-
-  const { data: requestsData, requestsDataLoading } = useQuery(QUERY_REQUESTS);
-  const requests = requestsData?.requests || [];
-
-  // Updating the cache with newly created contact
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
       try {
@@ -81,7 +55,7 @@ const ProfileList = (props) => {
   const contact = async () => {
     if (!myAvatar || !myLocation || !myProfile) {
       setErrorMessage(
-        "You need to setup your profile to be able to request a contact."
+        "You need to setup your profile, save your location and add a profile picture before requesting contacts."
       );
       return;
     }
@@ -103,44 +77,43 @@ const ProfileList = (props) => {
   };
   const hasData = () => {
     if (!myAvatar || !myLocation || !myProfile) {
-      // console.log("no data");
       setModalClose("");
     } else {
       setModalClose("modal");
-      // console.log("has data");
     }
   };
 
   useEffect(() => {
-    if (usersData && username) {
-      const users = usersData?.users || [];
+    if (username && users) {
       const selectedUser = users.filter((user) => user.username === username);
       setUser(selectedUser[0]);
     }
-  }, [usersData, username]);
+  }, [username, users]);
   // ----------------------------------------------------------------
 
-  const outgoing = (distanceObj) => {
-    for (let request of requests) {
+  const isRequest = (distanceObj) => {
+    let incomingAndOutgoingRequests = [];
+    for (let outgoinRequest of outgoingRequests) {
       if (
-        request.myName === me.username &&
-        request.destinationName === distanceObj.user.username
+        outgoinRequest.myName === me.username &&
+        outgoinRequest.destinationName === distanceObj.user.username
       ) {
-        setOutgoingRequest(true);
+        incomingAndOutgoingRequests.push(outgoinRequest);
       }
     }
-  };
-  const incoming = (distanceObj) => {
-    for (let request of requests) {
+    for (let incomingRequest of incomingRequests) {
       if (
-        request.destinationName === me.username &&
-        request.myName === distanceObj.user.username
+        incomingRequest.destinationName === me.username &&
+        incomingRequest.myName === distanceObj.user.username
       ) {
-        setIncomingRequest(true);
+        incomingAndOutgoingRequests.push(incomingRequest);
       }
     }
+    if (incomingAndOutgoingRequests.length) {
+      setOngoingRequest(true);
+      console.log(incomingAndOutgoingRequests);
+    }
   };
-
   const areWeFriends = (distanceObj) => {
     for (let contact of myContacts) {
       if (
@@ -157,15 +130,6 @@ const ProfileList = (props) => {
 
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;
-  }
-
-  if (
-    usersDataLoading ||
-    avatarsDataLoading ||
-    locationDataLoading ||
-    requestsDataLoading
-  ) {
-    return <Spinner />;
   }
 
   return (
@@ -192,8 +156,7 @@ const ProfileList = (props) => {
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
                           setUsername(distanceObj.username);
-                          outgoing(distanceObj);
-                          incoming(distanceObj);
+                          isRequest(distanceObj);
                           areWeFriends(distanceObj);
                           hasData();
                         }}
@@ -203,19 +166,15 @@ const ProfileList = (props) => {
                     </div>
                     <div className="row profiles-row">
                       <div className="col-12 profiles-column">
-                        {!distanceObj.avatarUrl ? (
-                          <img
-                            className="container-pic mb-4"
-                            src={profileIcon}
-                            alt="profile icon"
-                          />
-                        ) : (
-                          <img
-                            className="container-pic mb-4"
-                            src={distanceObj.avatarUrl}
-                            alt="profile icon"
-                          />
-                        )}
+                        <img
+                          className="container-pic mb-4"
+                          src={
+                            !distanceObj.avatarUrl
+                              ? profileIcon
+                              : distanceObj.avatarUrl
+                          }
+                          alt="profile icon"
+                        />
                       </div>
                       <div className="col-12 profiles-column">
                         <p className="location text-light">
@@ -249,8 +208,7 @@ const ProfileList = (props) => {
                         onClick={() => {
                           setAvatarUrl(distanceObj.avatarUrl);
                           setUsername(distanceObj.username);
-                          outgoing(distanceObj);
-                          incoming(distanceObj);
+                          isRequest(distanceObj);
                           areWeFriends(distanceObj);
                           hasData(distanceObj);
                         }}
@@ -316,8 +274,7 @@ const ProfileList = (props) => {
                     onClick={() => {
                       setAvatarUrl("");
                       setUsername("");
-                      setOutgoingRequest(false);
-                      setIncomingRequest(false);
+                      setOngoingRequest(false);
                       setFriends(false);
                       setErrorMessage("");
                     }}
@@ -392,8 +349,7 @@ const ProfileList = (props) => {
                       onClick={() => {
                         setAvatarUrl("");
                         setUsername("");
-                        setOutgoingRequest(false);
-                        setIncomingRequest(false);
+                        setOngoingRequest(false);
                         setFriends(false);
                         setErrorMessage("");
                       }}
@@ -401,29 +357,26 @@ const ProfileList = (props) => {
                       Close
                     </button>
                   </div>
-                  {friends === false &&
-                    (outgoingRequest === true || incomingRequest === true) && (
-                      <button type="button" className="col-6 btn btn-primary">
-                        pending
-                      </button>
-                    )}
+                  {friends === false && ongoingRequest === true && (
+                    <button type="button" className="col-6 btn btn-primary">
+                      pending
+                    </button>
+                  )}
                   {friends === true && (
                     <button type="button" className="col-6 btn btn-primary">
                       friend
                     </button>
                   )}
-                  {friends === false &&
-                    outgoingRequest === false &&
-                    incomingRequest === false && (
-                      <button
-                        type="button"
-                        className="col-6 btn btn-primary friendship-request"
-                        onClick={contact}
-                        data-bs-dismiss={modalClose}
-                      >
-                        request friendship
-                      </button>
-                    )}
+                  {friends === false && ongoingRequest === false && (
+                    <button
+                      type="button"
+                      className="col-6 btn btn-primary friendship-request"
+                      onClick={contact}
+                      data-bs-dismiss={modalClose}
+                    >
+                      request friendship
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

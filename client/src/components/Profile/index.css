@@ -1,6 +1,12 @@
 .profile {
-  padding-top: 12%;
+  padding-top: 5%;
   border-style: none;
+}
+.profile-warning {
+  margin-bottom: 7%;
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
 }
 .profile-card {
   width: 40%;
@@ -49,6 +55,22 @@
 @media screen and (max-width: 1600px) {
   .profile-card {
     width: 50%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .profile-card {
+    width: 70%;
+  }
+  .profile-warning {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .profile-card {
+    width: 94%;
+  }
+  .profile-warning {
+    width: 94%;
   }
 }
 @media screen and (max-width: 414px) {
