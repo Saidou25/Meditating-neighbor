@@ -57,9 +57,7 @@ const ResetPassword = () => {
     const params = new URLSearchParams(window.location.href);
     console.log(params);
     const oobCode = params.get("oobCode");
-    
         setCode(oobCode);
-    
   }, []);
 
 
