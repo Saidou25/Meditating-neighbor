@@ -26,6 +26,7 @@ import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import TeacherMediaScreen from "./components/TeacherMediaScreen";
 import Neighbors from "./components/Neighbors";
 import ModalReadMore from "./components/ModalReadMore";
+import ResetPassword from "./components/ResetPassword";
 import VerifyEmail from "./components/VerifyEmail";
 import Success from "./components/Success";
 import Teachers from "./components/Teachers";
@@ -116,8 +117,9 @@ function App() {
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/ModalReadMore" element={<ModalReadMore />} />
-            <Route path="/VerifyEmail" element={<VerifyEmail />} />
+            <Route path="/ResetPassword" element={<ResetPassword />} />
             <Route path="/Success" element={<Success />} />
+            <Route path="/VerifyEmail" element={<VerifyEmail />} />
             <Route path="/Teachers" element={<Teachers />} />
             <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
             <Route path="/" element={<LandingPage />} />

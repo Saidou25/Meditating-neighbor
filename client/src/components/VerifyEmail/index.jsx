@@ -40,10 +40,10 @@ const VerifyEmail = () => {
         </div>
         <div className="card-body">
           <form className="signup-form">
-            <label className="form-label-signup text-light my-4">Email</label>
+            <label className="form-label-signup text-light mb-4">Email</label>
             <br />
             <input
-              className="form-input email-input"
+              className="form-input email-input mb-5"
               placeholder="your email.."
               name="email"
               type="email"
@@ -54,7 +54,7 @@ const VerifyEmail = () => {
             <br />
             {errorMessage && (
               <div className="signup-error-message text-light bg-danger mb-5">
-                <p className="p-message px-1 py-2">{errorMessage}</p>
+                <p className="p-message p-2">{errorMessage}</p>
               </div>
             )}
             <div className="btn-position">
