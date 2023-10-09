@@ -13,8 +13,8 @@ const ResetPassword = () => {
   const [code, setCode] = useState("");
   console.log(code);
 
-  const firebaseResetPassword = async (e) => {
-    e.preventDefault();
+  const firebaseResetPassword = async () => {
+    // e.preventDefault();
     console.log(password1, password2);
     try {
       // if (!password1 || !password2) {
