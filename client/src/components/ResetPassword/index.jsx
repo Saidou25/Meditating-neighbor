@@ -13,31 +13,32 @@ const ResetPassword = () => {
   const [code, setCode] = useState("");
   console.log(code);
 
-  const firebaseResetPassword = async (e) => {
-    e.preventDefault();
-    console.log(password1, password2);
-    try {
-      if (!password1 || !password2) {
-        setErrorMessage("Please provide a valid password.");
-        return;
-      }
-      if (password1.length < 6 || password2.length < 6) {
-        setErrorMessage("Password needs to be 6 characters minimum.");
-        return;
-      }
-      if (password1 !== password2) {
-        setErrorMessage("Your passwords are different.");
-        return;
-      }
-      console.log("good to go");
-      await auth().confirmPasswordReset(code, password1);
-      alert("success.");
-      setShowReset("none");
-      setShowLogin(true);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const firebaseResetPassword = async (e) => {
+  //   e.preventDefault();
+  //   console.log(password1, password2);
+  //   try {
+  //     if (!password1 || !password2) {
+  //       setErrorMessage("Please provide a valid password.");
+  //       return;
+  //     }
+  //     if (password1.length < 6 || password2.length < 6) {
+  //       setErrorMessage("Password needs to be 6 characters minimum.");
+  //       return;
+  //     }
+  //     if (password1 !== password2) {
+  //       setErrorMessage("Your passwords are different.");
+  //       return;
+  //     }
+  //     console.log("good to go");
+  //     await auth().confirmPasswordReset(code, password1);
+  //     alert("success.");
+  //     setShowReset("none");
+  //     setShowLogin(true);
+  //   } catch (e) {
+  //     console.error(e);
+  //     return;
+  //   }
+  // };
 
   const verifyCode = async () => {
     try {
@@ -48,8 +49,9 @@ const ResetPassword = () => {
       await verifyPasswordResetCode(code);
     } catch (error) {
       console.log(error);
+      setErrorMessage(error.message);
     }
-    firebaseResetPassword();
+    // firebaseResetPassword();
     console.log('success');
   };
 
