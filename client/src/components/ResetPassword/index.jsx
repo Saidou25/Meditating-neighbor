@@ -47,13 +47,13 @@ const ResetPassword = () => {
         setErrorMessage("Oops, something happened.");
         return;
       }
-      await verifyPasswordResetCode(code);
+      await verifyPasswordResetCode(auth, code);
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
     }
     // firebaseResetPassword();
-    console.log('success');
+    console.log('success')
   };
 
   useEffect(() => {
