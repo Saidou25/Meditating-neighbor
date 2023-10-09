@@ -43,11 +43,11 @@ const ResetPassword = () => {
   const verifyCode = async (e) => {
     e.preventDefault();
     try {
-      if (!code) {
-        setErrorMessage("Oops, something happened.");
-        return;
-      }
-      await verifyPasswordResetCode(auth, code);
+      
+      await verifyPasswordResetCode(auth, code).then((email) => {
+        const accountEmail = email;
+        console.log(accountEmail);
+      })
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
