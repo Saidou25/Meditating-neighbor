@@ -10,49 +10,58 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
-  const [acode, setAcode] = useState("");
-  console.log(acode);
+  
+  const [code, setCode] = useState("");
+
+    const firebaseResetPassword = async (e) => {
+      e.preventDefault();
+      console.log(password1, password2);
+      try {
+        if (!password1 || !password2) {
+          setErrorMessage("Please provide a valid password.");
+          return;
+        }
+        if (password1.length < 6 || password2.length < 6) {
+          setErrorMessage("Password needs to be 6 characters minimum.");
+          return;
+        }
+        if (password1 !== password2) {
+          setErrorMessage("Your passwords are different.");
+          return;
+        }
+        console.log('good to go');
+        await auth().confirmPasswordReset(code, password1);
+        alert("success.");
+        setShowReset("none");
+        setShowLogin(true);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+  const verifyCode = async () => {
+    if (!code) {
+      setErrorMessage("Oops, something happened.");
+      return;
+    }
+    try {
+        await verifyPasswordResetCode(code);
+      
+    } catch (error) {
+      console.log(error);
+    }
+    firebaseResetPassword();
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.href);
     console.log(params);
-    const code = params.get("oobCode");
-    console.log("code", code);
-    const email = verifyPasswordResetCode(auth, code);
-    console.log(email);
-    setAcode(code);
-    console.log(window.location.href);
-    console.log(window.location.pathname);
-    const info = window.location.pathname;
-    const infos = info.get("oobCode");
-    console.log(infos);
+    const oobCode = params.get("oobCode");
+    if (oobCode) {
+        setCode(oobCode);
+    }
   }, []);
 
-  //   const firebaseResetPassword = async (e) => {
-  //     e.preventDefault();
-  //     console.log(password1, password2);
-  //     try {
-  //       if (!password1 || !password2) {
-  //         setErrorMessage("Please provide a valid password.");
-  //         return;
-  //       }
-  //       if (password1.length < 6 || password2.length < 6) {
-  //         setErrorMessage("Password needs to be 6 characters minimum.");
-  //         return;
-  //       }
-  //       if (password1 !== password2) {
-  //         setErrorMessage("Your passwords are different.");
-  //         return;
-  //       }
-  //       console.log('good to go');
-  //     //   await auth().verifyPasswordResetCode(code);
-  //       alert("Email verification sent! Please check your email.");
-  //       setShowReset("none");
-  //       setShowLogin(true);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
 
   return (
     <>
@@ -113,9 +122,9 @@ const ResetPassword = () => {
                     className="btn btn-signup text-light rounded-0 mt-5"
                     type="submit"
                     style={{ cursor: "pointer" }}
-                    // onClick={(e) => {
-                    //   firebaseResetPassword(e);
-                    // }}
+                    onClick={(e) => {
+                      verifyCode(e);
+                    }}
                     // onClick={findCode}
                   >
                     Reset
