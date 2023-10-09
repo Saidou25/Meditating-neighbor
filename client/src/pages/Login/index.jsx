@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { Link } from "react-router-dom";
+import VerifyEmail from "../../components/VerifyEmail";
 // import useAuth from "../../utils/useAuth";
 import Signup from "../Signup";
 // import Spinner from "../../components/Spinner";
@@ -15,6 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showSignup, setShowSignup] = useState("none");
   const [showLogin, setShowLogin] = useState("block");
+  const [showReset, setShowReset] = useState("none");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [login] = useMutation(LOGIN_USER);
@@ -75,9 +78,7 @@ const Login = () => {
   // if (loading) return <Spinner />;
   return (
     <>
-      <div className="card login-card g-0" 
-      style={{ display: `${showLogin}` }}
-      >
+      <div className="card login-card g-0" style={{ display: `${showLogin}` }}>
         <div className="card-header text-light">
           <h3 className="login-header p-3">login</h3>
         </div>
@@ -159,8 +160,22 @@ const Login = () => {
             </button>
           </p>
         </div>
+        <div>
+          <p className="login-question text-light mt-4">
+            <button
+              className="btn btn-text-signup rounded-0 text-info"
+              onClick={() => {
+                setShowLogin("none");
+                setShowReset("block");
+              }}
+            >
+              Forgot Password?
+            </button>
+          </p>
+        </div>
       </div>
       {showSignup === "block" && <Signup />}
+      {showReset === "block" && <VerifyEmail />}
     </>
   );
 };

@@ -26,6 +26,7 @@ import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import TeacherMediaScreen from "./components/TeacherMediaScreen";
 import Neighbors from "./components/Neighbors";
 import ModalReadMore from "./components/ModalReadMore";
+import VerifyEmail from "./components/VerifyEmail";
 import Success from "./components/Success";
 import Teachers from "./components/Teachers";
 import "bootswatch/dist/lux/bootstrap.min.css";
@@ -115,6 +116,7 @@ function App() {
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
             <Route path="/ModalReadMore" element={<ModalReadMore />} />
+            <Route path="/VerifyEmail" element={<VerifyEmail />} />
             <Route path="/Success" element={<Success />} />
             <Route path="/Teachers" element={<Teachers />} />
             <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
