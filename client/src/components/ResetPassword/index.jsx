@@ -14,14 +14,18 @@ const ResetPassword = () => {
   console.log(acode);
 
   useEffect(() => {
-      const params = new URLSearchParams(window.location.pathname);
-    
-      const code = params.get("oobCode");
-      console.log("code", code);
-      const email = verifyPasswordResetCode(auth, code);
-      console.log(email);
-      setAcode(code);
-    
+    const params = new URLSearchParams(window.location.href);
+    console.log(params);
+    const code = params.get("oobCode");
+    console.log("code", code);
+    const email = verifyPasswordResetCode(auth, code);
+    console.log(email);
+    setAcode(code);
+    console.log(window.location.href);
+    console.log(window.location.pathname);
+    const info = window.location.pathname;
+    const infos = info.get("oobCode");
+    console.log(infos);
   }, []);
 
   //   const firebaseResetPassword = async (e) => {
