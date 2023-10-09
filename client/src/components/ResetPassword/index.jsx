@@ -40,7 +40,8 @@ const ResetPassword = () => {
   //   }
   // };
 
-  const verifyCode = async () => {
+  const verifyCode = async (e) => {
+    e.preventDefault();
     try {
       if (!code) {
         setErrorMessage("Oops, something happened.");
