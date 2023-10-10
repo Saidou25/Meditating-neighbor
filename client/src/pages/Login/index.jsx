@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { Link } from "react-router-dom";
-import VerifyEmail from "../../components/VerifyEmail";
+// import { Link } from "react-router-dom";
+// import VerifyEmail from "../../components/VerifyEmail";
 // import useAuth from "../../utils/useAuth";
-import ResetPassword from "../../components/ResetPassword";
+// import ResetPassword from "../../components/ResetPassword";
 import Signup from "../Signup";
 // import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
@@ -18,8 +18,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showSignup, setShowSignup] = useState("none");
   const [showLogin, setShowLogin] = useState("block");
-  const [showVerifyEmail, setShowVerifyEmail] = useState("none");
-  const [showResetPassword, setShowResetPassword] = useState("none");
+  // const [showVerifyEmail, setShowVerifyEmail] = useState("none");
+  // const [showResetPassword, setShowResetPassword] = useState("none");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [login] = useMutation(LOGIN_USER);
@@ -38,7 +38,6 @@ const Login = () => {
     });
   };
 
-  // submit form
   const handleFormSubmit = async () => {
     // e.preventDefault();
     try {
@@ -62,6 +61,7 @@ const Login = () => {
       if (auth && email && password) {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(" firebaseLogin user", user);
+        console.log("you are logedin in firebase :-)")
         handleFormSubmit();
       } else {
         setErrorMessage("All fields need to be filled.");
@@ -71,11 +71,11 @@ const Login = () => {
       setErrorMessage(error.message);
     }
   };
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log("on AuthStateChange", user);
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     console.log("on AuthStateChange", user);
+  //   });
+  // }, []);
 
   // if (loading) return <Spinner />;
   return (
@@ -162,7 +162,7 @@ const Login = () => {
             </button>
           </p>
         </div>
-        <div>
+        {/* <div>
           <p className="login-question text-light mt-4">
             <button
               className="btn btn-text-signup rounded-0 text-info"
@@ -174,8 +174,8 @@ const Login = () => {
               Forgot Password?
             </button>
           </p>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <p className="login-question text-light mt-4">
             <button
               className="btn btn-text-signup rounded-0 text-info"
@@ -188,11 +188,11 @@ const Login = () => {
               reset Password?
             </button>
           </p>
-        </div>
+        </div> */}
       </div>
       {showSignup === "block" && <Signup />}
-      {showVerifyEmail === "block" && <VerifyEmail />}
-      {showResetPassword === "block" && <ResetPassword />}
+      {/* {showVerifyEmail === "block" && <VerifyEmail />}
+      {showResetPassword === "block" && <ResetPassword />} */}
     </>
   );
 };

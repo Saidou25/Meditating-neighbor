@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
+import useUsersInfo from "../../utils/UseUsersInfo";
 import Login from "../../pages/Login";
 import "./index.css";
 
@@ -9,17 +10,21 @@ const VerifyEmail = () => {
   const [showReset, setShowReset] = useState("block");
   const [showLogin, setShowLogin] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const { userId } = useUsersInfo(email);
+  console.log(userId);
+  
   const firebaseEmailVerify = async (e) => {
     e.preventDefault();
-    console.log(email)
+    console.log(email);
     try {
       if (!email) {
         setErrorMessage("Please provide a valid email.");
         return;
       }
       if (email !== "mosaidou@gmail.com") {
-        setErrorMessage("this email is not authorized for that operation at the moment.");
+        setErrorMessage(
+          "this email is not authorized for that operation at the moment."
+        );
         return;
       }
       await sendPasswordResetEmail(auth, email);

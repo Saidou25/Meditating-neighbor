@@ -81,6 +81,16 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    updatePassword: async (_, args, context) => {
+      if (context.user) {
+        const update = await User.findOneAndUpdate(
+          { id: args._id },
+          { $set: { password: args.password } },
+          { new: true }
+        );
+        return update;
+      }
+    },
     addLocation: async (_, args, context) => {
       if (context.user) {
         const location = await Location.create({
