@@ -6,6 +6,7 @@ const {
   Request,
   Contact,
 } = require("../models");
+const bcrypt = require('bcrypt');
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
@@ -64,6 +65,7 @@ const resolvers = {
   },
 
   Mutation: {
+    
     addUser: async (_, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -81,16 +83,27 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    updatePassword: async (_, args, context) => {
-      if (context.user) {
-        const update = await User.findOneAndUpdate(
-          { id: args._id },
-          { $set: { password: args.password } },
-          { new: true }
-        );
-        return update;
+    updateUser: async (_, args) => {
+      const { id, username, email, password } = args;
+      const SALT_ROUNDS = 10;
+      const updates = {};
+
+      if (username) {
+        updates.username = username;
       }
+
+      if (email) {
+        updates.email = email;
+      }
+
+      if (password) {
+        updates.password = await bcrypt.hash(password, SALT_ROUNDS);
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(id, updates, { new: true });
+      return updatedUser;
     },
+
     addLocation: async (_, args, context) => {
       if (context.user) {
         const location = await Location.create({

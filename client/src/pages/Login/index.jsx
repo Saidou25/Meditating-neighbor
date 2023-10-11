@@ -4,9 +4,9 @@ import { LOGIN_USER } from "../../utils/mutations";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 // import { Link } from "react-router-dom";
-// import VerifyEmail from "../../components/VerifyEmail";
+import VerifyEmail from "../../components/VerifyEmail";
 // import useAuth from "../../utils/useAuth";
-// import ResetPassword from "../../components/ResetPassword";
+import ResetPassword from "../../components/ResetPassword";
 import Signup from "../Signup";
 // import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
@@ -18,8 +18,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showSignup, setShowSignup] = useState("none");
   const [showLogin, setShowLogin] = useState("block");
-  // const [showVerifyEmail, setShowVerifyEmail] = useState("none");
-  // const [showResetPassword, setShowResetPassword] = useState("none");
+  const [showVerifyEmail, setShowVerifyEmail] = useState("none");
+  const [showResetPassword, setShowResetPassword] = useState("none");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [login] = useMutation(LOGIN_USER);
@@ -47,8 +47,8 @@ const Login = () => {
       if (data) {
         Auth.login(data.login.token);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error.message);
     }
     setFormState({
       email: "",
@@ -71,11 +71,6 @@ const Login = () => {
       setErrorMessage(error.message);
     }
   };
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     console.log("on AuthStateChange", user);
-  //   });
-  // }, []);
 
   // if (loading) return <Spinner />;
   return (
@@ -119,7 +114,7 @@ const Login = () => {
             )}
             <div className="btn-position">
               <div className="row row-signup-buttons">
-                {/* <div className="col-6">
+                <div className="col-6">
                   <button
                     className="btn btn-signup text-light rounded-0"
                     type="button"
@@ -131,7 +126,7 @@ const Login = () => {
                   >
                     close
                   </button>
-                </div> */}
+                </div>
                 <div className="col-6">
                   <button
                     className="btn btn-signup text-light rounded-0"
@@ -139,6 +134,7 @@ const Login = () => {
                     type="submit"
                     onClick={(e) => {
                       firebaseLogin(e);
+                      // handleFormSubmit(e);
                     }}
                   >
                     login
@@ -162,7 +158,7 @@ const Login = () => {
             </button>
           </p>
         </div>
-        {/* <div>
+        <div>
           <p className="login-question text-light mt-4">
             <button
               className="btn btn-text-signup rounded-0 text-info"
@@ -174,8 +170,8 @@ const Login = () => {
               Forgot Password?
             </button>
           </p>
-        </div> */}
-        {/* <div>
+        </div>
+        <div>
           <p className="login-question text-light mt-4">
             <button
               className="btn btn-text-signup rounded-0 text-info"
@@ -188,11 +184,11 @@ const Login = () => {
               reset Password?
             </button>
           </p>
-        </div> */}
+        </div>
       </div>
       {showSignup === "block" && <Signup />}
-      {/* {showVerifyEmail === "block" && <VerifyEmail />}
-      {showResetPassword === "block" && <ResetPassword />} */}
+      {showVerifyEmail === "block" && <VerifyEmail />}
+      {showResetPassword === "block" && <ResetPassword />}
     </>
   );
 };

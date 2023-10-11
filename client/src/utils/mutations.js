@@ -59,14 +59,17 @@ export const DELETE_USER = gql`
   }
 `;
 
-export const UPDATE_PASSWORD = gql`
-  mutation updatePassword($id: String, $password: String) {
-    updatePassword(id: $id, password: $password) {
+export const UPDATE_USER = gql`
+  mutation updateUser($id: String!, $username: String!, $email: String!, $password: String!) {
+    updateUser(id: $id, username: $username, email: $email, password: $password) {
       _id
+      email
+      username
       password
     }
   }
 `;
+
 export const ADD_AVATAR = gql`
   mutation addAvatar($username: String, $avatarUrl: String) {
     addAvatar(username: $username, avatarUrl: $avatarUrl) {

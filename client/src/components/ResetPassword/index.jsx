@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useMutation } from "@apollo/client";
-import { UPDATE_PASSWORD } from "../../utils/mutations";
-import useUsersInfo from "../../utils/UseUsersInfo";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPDATE_USER } from "../../utils/mutations";
+import { QUERY_USERS } from "../../utils/queries";
 import Login from "../../pages/Login";
 import "./index.css";
 
@@ -13,31 +13,18 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
-  const [code, setCode] = useState("");
+  // const [code, setCode] = useState("");
   const [accountEmail, setAccountEmail] = useState("");
-  const { userId } = useUsersInfo(accountEmail);
-  console.log('user id', userId);
+  // const [userId, setUserId] = useState("");
+  // const { userId } = useUsersInfo(accountEmail);
+  // console.log("user id", userId);
   // console.log('account email', accountEmail);
+  const { data: usersData } = useQuery(QUERY_USERS);
+  const users = usersData?.users || [];
+  const [updateUser] = useMutation(UPDATE_USER);
+  // console.log(password1);
 
-  const [updatePassword] = useMutation(UPDATE_PASSWORD);
-
-  const update = async (userId) => {
-    console.log('user id from update', userId);
-    console.log('password from update', password1)
-    try {
-      const { data } = await updatePassword({
-        variables: { id: userId, password: password1 }
-      })
-      if (data) {
-        console.log('data', data)
-      }
-    } catch(error) {
-      console.log(error.message);
-    }
-  }
   const firebaseResetPassword = async () => {
-    // e.preventDefault();
-    // console.log(password1, password2);
     try {
       // if (!password1 || !password2) {
       //   setErrorMessage("Please provide a valid password.");
@@ -53,11 +40,9 @@ const ResetPassword = () => {
       // }
       // console.log("good to go");
       await confirmPasswordReset(auth, code, password1).then((resp) => {
-        // console.log(password1);
-        alert("success.");
+        console.log("success.");
         setShowReset("none");
         setShowLogin(true);
-        update(userId);
       });
     } catch (e) {
       console.error(e);
@@ -65,29 +50,50 @@ const ResetPassword = () => {
     }
   };
 
+  const update = async (userId, username, accountEmail) => {
+    try {
+      const { data } = await updateUser({
+        variables: {
+          id: userId,
+          username: username,
+          email: accountEmail,
+          password: password1,
+        },
+      });
+      if (data && data.updateUser) {
+        console.log("update success data", data);
+        firebaseResetPassword();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const params = new URLSearchParams(window.location.href);
+  const code = params.get("oobCode");
+
   const verifyCode = async (e) => {
     e.preventDefault();
     try {
       await verifyPasswordResetCode(auth, code).then((email) => {
         const accountEmail = email;
-        setAccountEmail(accountEmail);
-        // console.log(accountEmail);
+        if (accountEmail) {
+          console.log("accountEmail", accountEmail);
+          setAccountEmail(accountEmail);
+          for (let user of users) {
+            if (user.email === accountEmail) {
+              const userId = user._id;
+              const username = user.username;
+              update(userId, username, accountEmail);
+            }
+          }
+        }
       });
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
     }
-    firebaseResetPassword();
-    // console.log("success");
   };
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.href);
-    console.log(params);
-    const oobCode = params.get("oobCode");
-    console.log("oobCode", oobCode);
-    setCode(oobCode);
-  }, []);
 
   return (
     <>
@@ -151,7 +157,6 @@ const ResetPassword = () => {
                     onClick={(e) => {
                       verifyCode(e);
                     }}
-                    // onClick={findCode}
                   >
                     Reset
                   </button>
