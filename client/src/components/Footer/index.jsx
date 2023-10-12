@@ -9,7 +9,6 @@ const Footer = () => {
         <p className="footer-item text-light">
           Made by Saidou Monta{" "}
         </p>
-        <p className="footer-item text-light pt-0 pb-2">mosaidou@gmail.com </p>
         <div className="linkedin-container">
           <a href="https://www.linkedin.com/in/saidou-monta?trk=profile-badge">
             <img
@@ -20,6 +19,8 @@ const Footer = () => {
             ></img>
           </a>
         </div>
+        <p className="footer-item text-light pt-0 pt-3">For questions, comments, concerns or support please contact:</p>
+        <p className="footer-item text-light pt-0 pb-2">mosaidou@gmail.com</p>
       </div>
     </div>
   );

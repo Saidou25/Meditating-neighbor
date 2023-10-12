@@ -1,45 +1,38 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-import useUsersInfo from "../../utils/UseUsersInfo";
+// import useUsersInfo from "../../utils/UseUsersInfo";
 import Login from "../../pages/Login";
 import "./index.css";
 
 const VerifyEmail = () => {
   const [email, setEmail] = useState("");
-  const [showReset, setShowReset] = useState("block");
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState("none");
+  const [showVerifyEmail, setShowVerifyEmail] = useState("block")
   const [errorMessage, setErrorMessage] = useState("");
-  const { userId } = useUsersInfo(email);
-  console.log(userId);
-  
+  // const { userEmail } = useUsersInfo();
+//  console.log(userEmail)
   const firebaseEmailVerify = async (e) => {
     e.preventDefault();
-    console.log(email);
     try {
-      if (!email) {
-        setErrorMessage("Please provide a valid email.");
-        return;
-      }
-      if (email !== "mosaidou@gmail.com") {
-        setErrorMessage(
-          "this email is not authorized for that operation at the moment."
-        );
-        return;
-      }
+      // if (!userEmail) {
+      //   setErrorMessage("Please provide a valid email.");
+      //   return;
+      // }
       await sendPasswordResetEmail(auth, email);
       alert("Email verification sent! Please check your email.");
       setEmail("");
-      setShowReset("none");
-      setShowLogin(true);
-    } catch (e) {
-      console.error(e);
+      setErrorMessage("");
+      setShowVerifyEmail("none");
+      setShowLogin("block");
+    } catch (error) {
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <>
-      <div className="card signup-card g-0" style={{ display: `${showReset}` }}>
+      <div className="card signup-card g-0" style={{ display: `${showVerifyEmail}` }}>
         <div className="card-header text-light">
           <h3 className="signup-header p-3">Verify your email</h3>
         </div>
@@ -70,8 +63,8 @@ const VerifyEmail = () => {
                     type="button"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      setShowLogin(true);
-                      setShowReset("none");
+                      setShowLogin("block");
+                      setShowVerifyEmail("none");
                     }}
                   >
                     cancel
@@ -94,7 +87,7 @@ const VerifyEmail = () => {
           </form>
         </div>
       </div>
-      {showLogin === true && <Login />}
+      {showLogin === "block" && <Login />}
     </>
   );
 };

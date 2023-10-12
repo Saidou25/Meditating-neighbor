@@ -9,40 +9,32 @@ import "./index.css";
 
 const ResetPassword = () => {
   const [showReset, setShowReset] = useState("block");
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState("none");
   const [errorMessage, setErrorMessage] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
-  // const [code, setCode] = useState("");
-  const [accountEmail, setAccountEmail] = useState("");
-  // const [userId, setUserId] = useState("");
-  // const { userId } = useUsersInfo(accountEmail);
-  // console.log("user id", userId);
-  // console.log('account email', accountEmail);
+
   const { data: usersData } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
   const [updateUser] = useMutation(UPDATE_USER);
-  // console.log(password1);
 
   const firebaseResetPassword = async () => {
     try {
-      // if (!password1 || !password2) {
-      //   setErrorMessage("Please provide a valid password.");
-      //   return;
-      // }
-      // if (password1.length < 6 || password2.length < 6) {
-      //   setErrorMessage("Password needs to be 6 characters minimum.");
-      //   return;
-      // }
-      // if (password1 !== password2) {
-      //   setErrorMessage("Your passwords are different.");
-      //   return;
-      // }
-      // console.log("good to go");
+      if (!password1 || !password2) {
+        setErrorMessage("Please confirm your password.");
+        return;
+      }
+      if (password1.length < 6 || password2.length < 6) {
+        setErrorMessage("Password needs to be 6 characters minimum.");
+        return;
+      }
+      if (password1 !== password2) {
+        setErrorMessage("Your passwords are different.");
+        return;
+      }
       await confirmPasswordReset(auth, code, password1).then((resp) => {
-        console.log("success.");
         setShowReset("none");
-        setShowLogin(true);
+        setShowLogin("block");
       });
     } catch (e) {
       console.error(e);
@@ -61,7 +53,6 @@ const ResetPassword = () => {
         },
       });
       if (data && data.updateUser) {
-        console.log("update success data", data);
         firebaseResetPassword();
       }
     } catch (error) {
@@ -77,21 +68,16 @@ const ResetPassword = () => {
     try {
       await verifyPasswordResetCode(auth, code).then((email) => {
         const accountEmail = email;
-        if (accountEmail) {
-          console.log("accountEmail", accountEmail);
-          setAccountEmail(accountEmail);
-          for (let user of users) {
-            if (user.email === accountEmail) {
-              const userId = user._id;
-              const username = user.username;
-              update(userId, username, accountEmail);
-            }
+        for (let user of users) {
+          if (user.email === accountEmail) {
+            const userId = user._id;
+            const username = user.username;
+            update(userId, username, accountEmail);
           }
         }
       });
     } catch (error) {
-      console.log(error);
-      setErrorMessage(error.message);
+      setErrorMessage("You need to signup first!");
     }
   };
 
@@ -142,7 +128,7 @@ const ResetPassword = () => {
                     type="button"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      setShowLogin(true);
+                      setShowLogin("block");
                       setShowReset("none");
                     }}
                   >
@@ -166,7 +152,7 @@ const ResetPassword = () => {
           </form>
         </div>
       </div>
-      {showLogin === true && <Login />}
+      {showLogin === "block" && <Login />}
     </>
   );
 };

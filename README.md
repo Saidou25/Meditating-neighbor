@@ -11,15 +11,17 @@ This website has been designed to bring together meditators from all around the 
 
 The primary features of this application include geolocating users using the OpenWeather API and allowing users to request contact with other practitioners. Unlike traditional social media platforms, our focus is on fostering connections centered around meditation. Once a friendship has been established, email addresses are displayed, enabling users to continue their interactions on their preferred social media platforms.
 
+Create, get, update and delete queries and mutations operations can be performed on user, profile and location. create, get and delete on requests and contacts.
+
 ## Table of Contents
 
 - [Technologies](#technologies)
 - [Installation](#installation)
 - [Visuals](#visuals)
 - [Contributing](#contributing)
-- [License](#license)
 - [Questions](#questions)
 - [Future development](#future-development)
+- [Questions](#questions)
 
 ## Technologies
 
@@ -39,10 +41,9 @@ The primary features of this application include geolocating users using the Ope
 - `Firebase` (to store profile pictures).
 
 ## Installation
-
-> npm run develop.
-> 
-Concurrently starts client and server.
+Clone the reposatory.
+`npm install`.
+ `npm run develop`. (Concurrently starts client and server).
 
 ## Visuals
 
@@ -57,16 +58,15 @@ Concurrently starts client and server.
 
 ## Future developpment
 
-- Ability for user to also update username and email and change password.
-- Show who is the appointment for in the upcoming appointment card.
 - Error 404 page.
 - Add the "TMI" headquarter on the US map.
 - Optimize the application for maximum speed and scalability.
-
+- Keep on refactoring code.
+- Add comments.
 
 ## Contributing
 
-A great thank you to 'Stack Overflow' and all it's participants as well as 'Google' which helped tremendously for resources and troubleshooting.
+A great thank you to 'Stack Overflow' and all it's participants as well as 'Google' which helped tremendously for resources and troubleshooting. Thank you to Unsplash for fantastic pictures.
 
 ## Questions
 

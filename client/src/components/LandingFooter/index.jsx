@@ -9,9 +9,6 @@ const LandingFooter = () => {
         <p className="landing-footer-item text-light pb-0">
           Made by Saidou Monta{" "}
         </p>
-        <p className="landing-footer-item text-light pt-0 pb-2">
-          mosaidou@gmail.com{" "}
-        </p>
         <a
           href="https://www.linkedin.com/in/saidou-monta?trk=profile-badge"
           className="landing-footer-item"
@@ -23,6 +20,13 @@ const LandingFooter = () => {
             style={{ height: 30 }}
           ></img>
         </a>
+        <p className="landing-footer-item text-light py-3">
+          For questions, comments, concerns or support please contact:{" "}
+        </p>
+        <p className="landing-footer-item text-light pt-0 pb-2">
+          mosaidou@gmail.com{" "}
+        </p>
+       
       </div>
     </div>
   );

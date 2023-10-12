@@ -3,9 +3,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-// import { Link } from "react-router-dom";
 import VerifyEmail from "../../components/VerifyEmail";
-// import useAuth from "../../utils/useAuth";
 import ResetPassword from "../../components/ResetPassword";
 import Signup from "../Signup";
 // import Spinner from "../../components/Spinner";
@@ -16,10 +14,10 @@ const Login = () => {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showSignup, setShowSignup] = useState("none");
+  const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState("block");
-  const [showVerifyEmail, setShowVerifyEmail] = useState("none");
-  const [showResetPassword, setShowResetPassword] = useState("none");
+  const [showVerifyEmail, setShowVerifyEmail] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [login] = useMutation(LOGIN_USER);
@@ -39,7 +37,6 @@ const Login = () => {
   };
 
   const handleFormSubmit = async () => {
-    // e.preventDefault();
     try {
       const { data } = await login({
         variables: { ...formState },
@@ -61,7 +58,7 @@ const Login = () => {
       if (auth && email && password) {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(" firebaseLogin user", user);
-        console.log("you are logedin in firebase :-)")
+        console.log("you are logedin in firebase :-)");
         handleFormSubmit();
       } else {
         setErrorMessage("All fields need to be filled.");
@@ -104,9 +101,8 @@ const Login = () => {
                 handleChange(e);
                 setPassword(e.target.value);
               }}
-            />{" "}
+            />
             <br />
-            <div></div>
             {errorMessage && (
               <div className="signup-error-message text-light bg-danger mb-5">
                 <p className="p-message px-1 py-2">{errorMessage}</p>
@@ -117,24 +113,10 @@ const Login = () => {
                 <div className="col-6">
                   <button
                     className="btn btn-signup text-light rounded-0"
-                    type="button"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      // showSignup(false);
-                      setShowLogin("none");
-                    }}
-                  >
-                    close
-                  </button>
-                </div>
-                <div className="col-6">
-                  <button
-                    className="btn btn-signup text-light rounded-0"
                     style={{ cursor: "pointer" }}
                     type="submit"
                     onClick={(e) => {
                       firebaseLogin(e);
-                      // handleFormSubmit(e);
                     }}
                   >
                     login
@@ -144,51 +126,45 @@ const Login = () => {
             </div>
           </form>
         </div>
-        <div>
-          <p className="login-question text-light mt-4">
+        <div className="card-footer">
+          <p className="login-question mt-4">
             Don't have an account yet?
             <button
-              className="btn btn-text-signup rounded-0 text-info"
+              className="btn btn-text-signup rounded-0 text-info py-0"
               onClick={() => {
                 setShowLogin("none");
-                setShowSignup("block");
+                setShowSignup(true);
               }}
             >
-              Signup
+              Signup.
             </button>
-          </p>
-        </div>
-        <div>
-          <p className="login-question text-light mt-4">
+            If you forgot your password,
             <button
-              className="btn btn-text-signup rounded-0 text-info"
+              className="btn btn-text-signup rounded-0 text-info py-0"
               onClick={() => {
                 setShowLogin("none");
-                setShowVerifyEmail("block");
+                setShowVerifyEmail(true);
               }}
             >
-              Forgot Password?
+              verify
             </button>
-          </p>
-        </div>
-        <div>
-          <p className="login-question text-light mt-4">
+            your email, then
             <button
-              className="btn btn-text-signup rounded-0 text-info"
+              className="btn btn-text-reset rounded-0 text-info py-0"
               onClick={() => {
                 setShowLogin("none");
-                setShowVerifyEmail("none");
-                setShowResetPassword("block")
+                setShowResetPassword(true);
               }}
             >
-              reset Password?
+              reset
             </button>
+            your password.
           </p>
         </div>
       </div>
-      {showSignup === "block" && <Signup />}
-      {showVerifyEmail === "block" && <VerifyEmail />}
-      {showResetPassword === "block" && <ResetPassword />}
+      {showSignup === true && <Signup />}
+      {showVerifyEmail === true && <VerifyEmail />}
+      {showResetPassword === true && <ResetPassword />}
     </>
   );
 };

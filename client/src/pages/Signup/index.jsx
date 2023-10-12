@@ -6,19 +6,16 @@ import Login from "../Login";
 // import Spinner from "../../components/Spinner";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-// import Auth from "../../utils/auth";
 import "./index.css";
 
 const Signup = () => {
-  // const navigate = useNavigate();
 
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  // const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [showLogin, setShowLogin] = useState(false);
-  const [hideSignup, setHideSignup] = useState("block");
+  const [showLogin, setShowLogin] = useState("none");
+  const [showSignup, setShowSignup] = useState("block");
 
   const [addUser] = useMutation(ADD_USER);
 
@@ -70,8 +67,8 @@ const Signup = () => {
       if (data) {
         // setMessage(`Welcome ${username}.`);
         console.log(`Welcome ${username}.`);
-        setShowLogin(true);
-        setHideSignup("none");
+        setShowLogin("block");
+        setShowSignup("none");
       }
     } catch (e) {
       console.error(e);
@@ -85,7 +82,7 @@ const Signup = () => {
     <>
       <div
         className="card signup-card g-0"
-        style={{ display: `${hideSignup}` }}
+        style={{ display: `${showSignup}` }}
       >
         <div className="card-header text-light">
           <h3 className="signup-header p-3">Signup</h3>
@@ -142,8 +139,8 @@ const Signup = () => {
                     type="button"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      setHideSignup("none");
-                      setShowLogin(true);
+                      setShowSignup("none");
+                      setShowLogin("block");
                     }}
                   >
                     cancel
@@ -167,7 +164,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
-      {showLogin === true && <Login />}
+      {showLogin === "block" && <Login />}
     </>
   );
 };

@@ -65,7 +65,6 @@ export const UPDATE_USER = gql`
       _id
       email
       username
-      password
     }
   }
 `;
