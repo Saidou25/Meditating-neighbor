@@ -13,9 +13,12 @@ const Navbar = () => {
   const [animation, setAnimation] = useState("");
   const [isContact, setIsContact] = useState(false);
 
+  // importing hooks to get info that will be used to apply conditional logic on navbar elements display
   const { me, myContacts, allContacts } = useMyContacts();
   const { users } = useUsersInfo();
   const { usersIncomingRequestProfiles, outgoingRequests } = useMyRequests();
+
+  // building dropDownLinds object to map over it later in the code to reduce html code
   const dropDownLinks = [
     {
       linkName: "Usa",
@@ -39,11 +42,12 @@ const Navbar = () => {
     },
   ];
 
+  // logs out user from the navbar
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
-
+  // firebase logout way
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -53,6 +57,7 @@ const Navbar = () => {
       console.log(error);
     }
   };
+  // making sure that these variables stay monitored for immediate response in page display
   useEffect(() => {
     if (
       usersIncomingRequestProfiles ||
@@ -62,6 +67,8 @@ const Navbar = () => {
       users ||
       me
     ) {
+      // if there are contact requests with other users sent by me or by others to me
+      // then the contacts link item in nav will be set to slowly blink from orange to grey until action is done
       if (usersIncomingRequestProfiles.length || outgoingRequests.length) {
         setAnimation("contact-link");
       }
@@ -77,7 +84,7 @@ const Navbar = () => {
     users,
     me,
   ]);
-  
+
   return (
     <>
       <nav className="navbar navbar-expand-lg" data-bs-theme="dark">

@@ -21,9 +21,11 @@ const ProfileForm = () => {
   const [lastname, setLastname] = useState("");
   const [story, setStory] = useState("");
   const [message, setMessage] = useState("");
+  // user context using useMyInfo hook
   const { me } = useMyInfo();
   const navigate = useNavigate();
 
+  // updating cache with newly created profile
   const [addProfile] = useMutation(ADD_PROFILE, {
     update(cache, { data: { addProfile } }) {
       try {
@@ -39,6 +41,7 @@ const ProfileForm = () => {
     },
   });
 
+  // adding profile to MongoDb database using graphql addProfile mutation
   const handleFormSubmit = async (e) => {
     if (teacher === "meditator") {
       if (!teacher || !years || !stage) {

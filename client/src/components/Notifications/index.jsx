@@ -13,17 +13,21 @@ const Notifications = () => {
   const [requestId, setRequestId] = useState("");
   const [requestingUsersProfiles, setRequestingUsersProfiles] = useState([]);
   const [requestedUsersProfiles, setRequestedUsersProfiles] = useState([]);
+
+  // import requests info from hooks to avoid writing four queries in this component
   const {
     me,
     incomingRequests,
     outgoingRequests,
     usersIncomingRequestProfiles,
-    myOutgoingRequestUserProfile
+    myOutgoingRequestUserProfile,
   } = useMyRequests();
 
+  // getting the date to add a "friend since ..." in the friend contact
   const date = new Date();
   const todaysDate = date.toString().slice(0, 15);
 
+  // Updating the cache with newly created contact
   const [addContact] = useMutation(ADD_CONTACT, {
     update(cache, { data: { addContact } }) {
       try {
@@ -41,8 +45,7 @@ const Notifications = () => {
       }
     },
   });
-  // Updating the cache with newly created contact
-
+  // Updating the cache with newly deleted request
   const [deleteRequest] = useMutation(DELETE_REQUEST, {
     variables: { id: requestId },
     update(cache, { data: { deleteRequest } }) {
@@ -63,6 +66,7 @@ const Notifications = () => {
       }
     },
   });
+  // making sure we have all data needed uppon page load and that these datas stay monitored during user's operations in this page
   useEffect(() => {
     if (usersIncomingRequestProfiles && myOutgoingRequestUserProfile) {
       setRequestingUsersProfiles(usersIncomingRequestProfiles);
@@ -70,6 +74,7 @@ const Notifications = () => {
     }
   }, [usersIncomingRequestProfiles, myOutgoingRequestUserProfile]);
 
+  // add contact to MongoDb database using grapgql addContact mutation
   const addFriend = async (user) => {
     const id = user._id;
     try {
@@ -90,7 +95,7 @@ const Notifications = () => {
       console.error(e);
     }
   };
-
+  // delete contact request sent to me from MongoDb database using deleteRequest mutation
   const removeRequest = async (user) => {
     for (let request of incomingRequests) {
       if (
@@ -136,15 +141,16 @@ const Notifications = () => {
                 <div className="col-2">
                   <img
                     className="response-avatar"
-                    src={user.avatar?.avatarUrl ? user.avatar?.avatarUrl : profileIcon}
+                    src={
+                      user.avatar?.avatarUrl
+                        ? user.avatar?.avatarUrl
+                        : profileIcon
+                    }
                     alt="profile avatar"
                   />
                 </div>
                 <div className="col-10">
-                  <p>
-                    Your contact request with {user.username} is
-                    pending.
-                  </p>
+                  <p>Your contact request with {user.username} is pending.</p>
                 </div>
               </div>
             ))}

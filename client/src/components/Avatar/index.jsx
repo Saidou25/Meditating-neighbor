@@ -26,8 +26,11 @@ const ProfPics = () => {
   const [avatarId, setAvatarId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // import me object hook from hooks so we don't need to do this operation again in this component
   const { me } = useMyInfo();
 
+  // update the cache with newly uploaded profile picture
   const [addAvatar] = useMutation(ADD_AVATAR, {
     update(cache, { data: { addAvatar } }) {
       try {
@@ -41,6 +44,7 @@ const ProfPics = () => {
       }
     },
   });
+  // update cache with newly deleted profile picture
   const [deleteAvatar] = useMutation(DELETE_AVATAR, {
     update(cache, { data: { deleteAvatar } }) {
       try {
@@ -55,7 +59,7 @@ const ProfPics = () => {
       console.log("Avatar successfully deleted from the cache");
     },
   });
-
+  // adding profile picture url to MongoDb database using grapgql "addAvatar mutation"
   const add = async (url) => {
     if (url?.length) {
       setUrl(url);
@@ -77,10 +81,9 @@ const ProfPics = () => {
     } else {
       console.log("url not ready");
     }
-    // setUrl(null);
     setImage(null);
   };
-
+  //  encode and upload profile picture to Firebase datastorage
   const uploadImage = () => {
     if (image === null) {
       setError("no image selected");
@@ -108,6 +111,7 @@ const ProfPics = () => {
         console.log(error.message);
       });
   };
+  // geting necessary variables used to delete profile picture from firebase database abd delete picture using firebase indications
   const storageRef = ref(storage, savedUrl);
   const toDelete = storageRef.fullPath;
   const imageRef = ref(storage, `${toDelete}`);
@@ -123,7 +127,7 @@ const ProfPics = () => {
     setUrl(null);
     setSavedUrl(null);
   };
-
+  // remove profile picture from Mongodb database using graphql deleteAvatar mutation
   const removeAvatar = async () => {
     try {
       const { data } = await deleteAvatar({
@@ -148,7 +152,7 @@ const ProfPics = () => {
       setIsEdit((current) => !current);
     }
   };
-
+  // making sure profile picture url and id are available upon page load
   useEffect(() => {
     if (me) {
       setSavedUrl(me.avatar?.avatarUrl);

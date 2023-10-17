@@ -11,7 +11,7 @@ import {
 import { storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth"
+import { useAuthState } from "react-firebase-hooks/auth";
 import Auth from "../../utils/auth";
 import "./index.css";
 
@@ -31,24 +31,24 @@ const DeleteModal = ({
   const [deleteUser] = useMutation(DELETE_USER);
   const [deleteContact] = useMutation(DELETE_CONTACT);
   const [deleteRequest] = useMutation(DELETE_REQUEST);
-  // const [user, setUser] = useState("");
 
   const auth = getAuth();
-  // const user = auth.currentUser;
 
+  // logout user after account deletion
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
-  
-  const [user] = useAuthState(auth)
 
-  useEffect(() => {
-    if (user) {
-      console.log(`${user.email} logged in!`)
-    }
-  }, [user])
+  const [user] = useAuthState(auth);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(`${user.email} logged in!`)
+  //   }
+  // }, [user])
+
+  // delete user from firebase database
   const removeFirebaseUser = () => {
     user
       .delete()
@@ -68,6 +68,7 @@ const DeleteModal = ({
   const toDelete = storageRef.fullPath;
   const imageRef = ref(storage, `${toDelete}`);
 
+  //  delete user's account from MongoDb database using graphql deleteUser mutation
   const removeUser = async () => {
     if (!userId) {
       console.log("no user id", userId);
@@ -86,6 +87,7 @@ const DeleteModal = ({
     removeFirebaseUser();
   };
 
+  // delete from MongoDb database with deleteRequest mutation  the request used between users to request connection contact
   const removeRequest = async (myRequestId) => {
     if (!myRequestId) {
       removeUser();
@@ -103,6 +105,8 @@ const DeleteModal = ({
       }
     }
   };
+
+  //  looping thru all my contact requests and calling removeRequests to remove all requests involving the user
   const requestDispatch = () => {
     if (myRequestsIds) {
       for (let myRequestId of myRequestsIds) {
@@ -111,6 +115,7 @@ const DeleteModal = ({
     }
     removeUser();
   };
+  //  delete all the user's contacts using graphql deleteContact mutation
   const removeContact = async (contactId) => {
     if (!contactId) {
       requestDispatch();
@@ -128,6 +133,7 @@ const DeleteModal = ({
       }
     }
   };
+  // getting all contacts ids and sending to removeContact mutation to delete them from the database
   const contactDispatch = () => {
     if (myContactsIds) {
       for (let contactId of myContactsIds) {
@@ -137,6 +143,7 @@ const DeleteModal = ({
     requestDispatch();
   };
 
+  // deletes user's location
   const removeLocation = async () => {
     if (!locationId) {
       contactDispatch();
@@ -154,6 +161,7 @@ const DeleteModal = ({
     }
   };
 
+  // delete user's profile picture from the firebase database
   const deleteObjAvatar = () => {
     deleteObject(imageRef)
       .then(() => {
@@ -163,7 +171,7 @@ const DeleteModal = ({
         console.log(error);
       });
   };
-
+  // delete user's profile picture from MongoDb databse
   const removeAvatar = async () => {
     if (!avatarId) {
       removeLocation();
@@ -182,7 +190,7 @@ const DeleteModal = ({
       }
     }
   };
-
+  // delete user's profile from MongoDb database using deleteProfile graphql mutation
   const removeProfile = async () => {
     if (!profileId) {
       removeAvatar();

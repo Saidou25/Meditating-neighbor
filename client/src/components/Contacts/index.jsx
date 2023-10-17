@@ -13,6 +13,8 @@ const Contacts = () => {
   const [user, setUser] = useState({ userInfo: "", date: "" });
   // const [mapContacts, setMapContacts] = useState("");
   // const { users } = useUsersInfo();
+
+  // importing profiles of users within my contacts from hooks.
   const { myContactsProfiles } = useMyContacts();
   // console.log("my myContactsProfiles", myContactsProfiles);
   // console.log("user", user);

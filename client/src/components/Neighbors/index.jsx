@@ -14,7 +14,6 @@ const Neighbors = () => {
   let noUserYet = "true";
   const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
-  // console.log("users", users)
 
   // Calculates distance between user's geolocation and other users
   const seventyFiveMiles = [];
@@ -35,8 +34,8 @@ const Neighbors = () => {
         2;
 
     const distance2 = 2 * r * Math.asin(Math.sqrt(a)) * 0.62;
-    // building a distance object to push users data and pass data around in components
 
+    // building a distance object to push users data and pass data around in components
     const distanceObj = {
       id: v4(),
       distance2: distance2,
@@ -60,7 +59,7 @@ const Neighbors = () => {
   const myLat = me.location?.latitude;
   const myLon = me.location?.longitude;
 
-  // gathering each user info (exept signed user) and send data to distance()
+  // gathering each user info (exept loggedin user) and send data to distance()
   const allUsersButMe = users.filter((user) => user.username !== me.username);
 
   for (let user of allUsersButMe) {

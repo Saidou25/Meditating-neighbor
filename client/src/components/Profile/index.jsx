@@ -11,10 +11,10 @@ import Avatar from "../Avatar";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
 // import Spinner from "../Spinner";
-
 import "./index.css";
 
 const Profile = () => {
+  // import hooks to have data ready to go for profile display. This avoids doing and writing 6 queries in this page
   const { me, myContacts } = useMyContacts();
   const { myRequestsIds } = useMyRequests();
   const myAvatarUrl = me.avatar?.avatarUrl;
@@ -32,6 +32,7 @@ const Profile = () => {
   //   });
   // }, [user]);
 
+  // building a list of all user's contacts ids to be passed as props to delete modal for deleting user's account
   const myContactsIds = [];
   if (myContacts) {
     for (let contact of myContacts) {

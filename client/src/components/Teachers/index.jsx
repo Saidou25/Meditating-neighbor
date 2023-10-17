@@ -10,7 +10,7 @@ import "./index.css";
 const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const { users } = useUsersInfo();
-
+console.log('users', users)
   let tmiTeacher = [];
 
   for (let user of users) {
@@ -18,6 +18,7 @@ const Teachers = () => {
       tmiTeacher.push(user);
     }
   }
+
   // useEffect(() => {
   //   if (data) {
   //     const usersInfo = data?.users || [];
