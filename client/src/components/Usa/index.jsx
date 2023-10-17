@@ -7,7 +7,6 @@ import {
   Marker,
   Annotation,
 } from "react-simple-maps";
-// import ReactTooltip from "react-tooltip";
 import { ADD_LOCATION, DELETE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -24,8 +23,9 @@ import Spinner from "../Spinner";
 
 import "./index.css";
 
+// URL for United States map data.
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
+// States that need there name outside of the main map
 const offsets = {
   VT: [50, -8],
   NH: [34, 2],
@@ -54,23 +54,18 @@ const Usa = () => {
   const { me } = useMyInfo();
   const { users } = useUsersInfo();
 
-  // const { data: usersData, usersLoading } = useQuery(QUERY_USERS);
-  // const users = usersData?.users || [];
+  // querying all users' locations. This is the only place in the appliction where this query is used.
   const {
     data: locationsData,
     locationsError,
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  // console.log("locations", locations)
-  // const userLocation = locations.filter(
-  //   (location) => location.username === me.username
-  // );
-  // const myLocation = userLocation[0];
-  // const locationId = myLocation?._id;
+
   const myLocation = me.location;
   const locationId = me.location?._id;
 
+  // Markers are little white dots on the map showing each user's location within the US.
   const markers = [];
   for (let location of locations) {
     const city = {
@@ -90,8 +85,7 @@ const Usa = () => {
   const state = result[0]?.state;
   const country = result[0]?.country;
 
-  // query locations from backend and pushing to [markers] to display meditators location on map
-
+  // updating graphql cache with new user's location then updating the user (in cache)with new location.
   const [addLocation] = useMutation(ADD_LOCATION, {
     update(cache, { data: { addLocation } }) {
       try {
@@ -115,6 +109,7 @@ const Usa = () => {
       console.log("location successfully added to the cache");
     },
   });
+  // updating the cache with deleted location when user's changes location
   const [deleteLocation] = useMutation(DELETE_LOCATION, {
     update(cache, { data: { deleteLocation } }) {
       try {
@@ -146,13 +141,13 @@ const Usa = () => {
           i = 0;
         } else {
           width++;
-          // dynamically setting width for progress bar
+          // dynamically setting width for progress bar. This value is used in html
           setValue(width);
         }
       }
     }
   };
-
+  // finding coordinates of loggedin user
   const searchCity = (longitude, latitude) => {
     API.search(longitude, latitude)
       .then((res) => setResult(res.data))
@@ -161,7 +156,6 @@ const Usa = () => {
   // geolocate user with getCurrentPosition methode
   const getLocation = () => {
     setShowProgressBar("show");
-    // setProgress("40% completed");
     if (navigator.geolocation) {
       setLocation(navigator.geolocation.getCurrentPosition(showPosition));
       move();
@@ -170,7 +164,7 @@ const Usa = () => {
       console.log("not supported", notSupported);
     }
   };
-
+  // showing user's position on the US map by setting up user's latitude and longitude.
   const showPosition = (position) => {
     const lat = position.coords.latitude;
     setLatitude(lat);
@@ -180,6 +174,7 @@ const Usa = () => {
     setValue("100");
     setShowProgressBar("");
   };
+  // Adding new user's location to MongoDb using graphql addLocation mutation.
   const handleSubmit = async () => {
     try {
       const { data } = await addLocation({
@@ -204,7 +199,7 @@ const Usa = () => {
       setConfirm(false);
     }, 4000);
   };
-
+  // Removing user's location from MongoDb database using graphql deleteLocation mutation.
   const remove = async () => {
     try {
       const { data } = await deleteLocation({

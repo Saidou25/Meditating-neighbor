@@ -23,10 +23,12 @@ const ProfileList = (props) => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  // importing data from queries from hooks
   const { me, myContacts } = useMyContacts();
   const { incomingRequests, outgoingRequests } = useMyRequests();
   const { users } = useUsersInfo();
 
+  // getting user's profiles from props depending on if there locations is within a 50 miles radius
   const seventyFiveMiles = props.seventyFiveMiles;
   const overSeventyFiveMiles = props.overSeventyFiveMiles;
 
@@ -34,6 +36,7 @@ const ProfileList = (props) => {
   const myProfile = me.profile;
   const myAvatar = me.avatar;
 
+  // updating cache with new contact request
   const [addRequest] = useMutation(ADD_REQUEST, {
     update(cache, { data: { addRequest } }) {
       try {
@@ -51,7 +54,7 @@ const ProfileList = (props) => {
       }
     },
   });
-
+  // adding contact request to MongoDb database using graphql addRequest mutation
   const contact = async () => {
     if (!myAvatar || !myLocation || !myProfile) {
       setErrorMessage(
@@ -90,7 +93,8 @@ const ProfileList = (props) => {
     }
   }, [username, users]);
   // ----------------------------------------------------------------
-
+  // finding out is there is an ongoing request from loggedin user or to loggedin user. If there are they are pushed in
+  // incomingAndOutgoingRequests which is then used to set ongoingRequests so the "request contact button can be set to "pending".
   const isRequest = (distanceObj) => {
     let incomingAndOutgoingRequests = [];
     for (let outgoinRequest of outgoingRequests) {
@@ -111,9 +115,10 @@ const ProfileList = (props) => {
     }
     if (incomingAndOutgoingRequests.length) {
       setOngoingRequest(true);
-      console.log(incomingAndOutgoingRequests);
     }
   };
+  // finding out if the selected user thru the modal is already a friend or not so we can setup the button with
+  // the appropriate text "friends";
   const areWeFriends = (distanceObj) => {
     for (let contact of myContacts) {
       if (

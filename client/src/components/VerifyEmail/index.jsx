@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-// import useUsersInfo from "../../utils/UseUsersInfo";
 import Login from "../../pages/Login";
 import "./index.css";
 
 const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [showLogin, setShowLogin] = useState("none");
-  const [showVerifyEmail, setShowVerifyEmail] = useState("block")
+  const [showVerifyEmail, setShowVerifyEmail] = useState("block");
   const [errorMessage, setErrorMessage] = useState("");
-  // const { userEmail } = useUsersInfo();
-//  console.log(userEmail)
+
+  // Sending a reset password link to user using firebase(sendPasswordResetEmail) documentation.
   const firebaseEmailVerify = async (e) => {
     e.preventDefault();
     try {
-      // if (!userEmail) {
-      //   setErrorMessage("Please provide a valid email.");
-      //   return;
-      // }
       await sendPasswordResetEmail(auth, email);
       alert("Email verification sent! Please check your email.");
       setEmail("");
@@ -32,7 +27,10 @@ const VerifyEmail = () => {
 
   return (
     <>
-      <div className="card signup-card g-0" style={{ display: `${showVerifyEmail}` }}>
+      <div
+        className="card signup-card g-0"
+        style={{ display: `${showVerifyEmail}` }}
+      >
         <div className="card-header text-light">
           <h3 className="signup-header p-3">Verify your email</h3>
         </div>

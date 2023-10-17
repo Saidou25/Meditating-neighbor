@@ -63,7 +63,6 @@ const Signup = () => {
       const { data } = await addUser({
         variables: { username: username, password: password, email: email },
       });
-      // Auth.login(data.addUser.token);
       if (data) {
         // setMessage(`Welcome ${username}.`);
         console.log(`Welcome ${username}.`);

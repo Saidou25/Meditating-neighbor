@@ -10,12 +10,13 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 
 import "./index.css";
+
 const UpdateMyProfileForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const myProfile = location.state.myProfile;
-
+  // getting all initial values from useLocation() to display in the update form.
   const profileId = myProfile._id;
   const firstname1 = myProfile.firstname;
   const lastname1 = myProfile.lastname;
@@ -24,6 +25,7 @@ const UpdateMyProfileForm = () => {
   const years1 = myProfile.years;
   const story1 = myProfile.story;
 
+  // Tese are the new values that will be used to update the user's profile
   const [firstname, setFirstname] = useState(firstname1);
   const [lastname, setLastname] = useState(lastname1);
   const [stage, setStage] = useState(stage1);
@@ -33,23 +35,26 @@ const UpdateMyProfileForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState("");
-  const [state, setState] = useState("");
+  // const [state, setState] = useState("");
 
+  // update cache by refetchingQueries. Fast, efficient and very little code
   const [updateProfile] = useMutation(UPDATE_PROFILE, {
     variables: { id: profileId },
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      console.log("Enter key was pressed. Run your function.");
-      setState(event.key);
-    }
-    // console.log(story)
-  };
-  console.log("you have pressed a ", state);
+
+  // const handleKeyPress = (event) => {
+  //   if (event.key === "Enter") {
+  //     console.log("Enter key was pressed. Run your function.");
+  //     setState(event.key);
+  //   }
+  // };
+  // console.log("you have pressed a ", state);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    // setting up errorMessages tailored on if the update concerns a "meditator" or a "teacher" then updating user's profile
+    // in MongoDb using updateProfile graphql mutation.
     if (teacher === "meditator") {
       // if (teacher1 === "teacher" && teacher === "meditator") {
       //   setFirstname("");
@@ -110,6 +115,7 @@ const UpdateMyProfileForm = () => {
       console.log(e);
     }
     console.log("profile updated");
+    // setting the "message" to be sent to "Success" component and display Success if everything went well.
     if (
       firstname === firstname1 &&
       lastname === lastname1 &&
@@ -122,6 +128,8 @@ const UpdateMyProfileForm = () => {
     } else {
       setMessage("Your profile has been updated.");
     }
+    // setting "confirm" to true so Success component can be displayed for 3 seconds then redirecting user to "Profile"
+    // so user can see the changes.
     setConfirm(true);
     setTimeout(() => {
       navigate("/Profile");

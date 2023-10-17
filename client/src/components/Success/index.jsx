@@ -1,8 +1,9 @@
 import React from "react";
 import "./index.css";
 
+// This is a reusable confirmation email which accepts a "message" as prop from where ever the component is called.
 const Success = ({ message }) => {
-  console.log("message", message);
+  
 
   return (
     <div className="container-fluid success bg-primary">

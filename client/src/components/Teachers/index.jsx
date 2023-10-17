@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useState } from "react";
 import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import useUsersInfo from "../../utils/UseUsersInfo";
 import TeacherMediaScreen from "../TeacherMediaScreen";
 import profileIcon from "../../assets/images/profileicon.png";
-import Spinner from "../Spinner";
+// import Spinner from "../Spinner";
 import "./index.css";
 
 const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
+  // importing all users from useUsersInfo hook
   const { users } = useUsersInfo();
-console.log('users', users)
   let tmiTeacher = [];
-
+  // getting all teacher from all users using a for of loop and pushing to [tmiTeacher] to display in page using a map().
   for (let user of users) {
     if (user.profile?.teacher === "teacher") {
       tmiTeacher.push(user);
     }
   }
-
-  // useEffect(() => {
-  //   if (data) {
-  //     const usersInfo = data?.users || [];
-  //     setUsers(usersInfo);
-  //   }
-  // }, [data]);
 
   // if (loading) {
   //   return <Spinner />;

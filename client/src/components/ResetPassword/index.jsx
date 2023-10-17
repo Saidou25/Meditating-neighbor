@@ -17,7 +17,7 @@ const ResetPassword = () => {
   const { data: usersData } = useQuery(QUERY_USERS);
   const users = usersData?.users || [];
   const [updateUser] = useMutation(UPDATE_USER);
-
+  //  reseting user's password using Firebase documentation and adding front-end errorMessages
   const firebaseResetPassword = async () => {
     try {
       if (!password1 || !password2) {
@@ -41,7 +41,7 @@ const ResetPassword = () => {
       return;
     }
   };
-
+  // updating user in MongoDb with  new password then calling firebaseResetPassword to update new password in firebase.
   const update = async (userId, username, accountEmail) => {
     try {
       const { data } = await updateUser({
@@ -59,10 +59,13 @@ const ResetPassword = () => {
       console.log(error.message);
     }
   };
-
+  // getting the code provided in firebase reset password link from the URL
   const params = new URLSearchParams(window.location.href);
   const code = params.get("oobCode");
 
+  // verifying code provided in the firebase reset password URL to make sure the password is being reset by the right user.
+  // Then calling the update function to update the user's password only if the user's email is the same as user's firebase
+  // account email from firebase database
   const verifyCode = async (e) => {
     e.preventDefault();
     try {

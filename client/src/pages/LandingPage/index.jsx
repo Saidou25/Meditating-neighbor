@@ -12,15 +12,15 @@ const LandingPage = () => {
   const [showLogin, setShowLogin] = useState("none");
   const [showParallax, setShowParallax] = useState("block");
   const [showLogin2, setShowLogin2] = useState("none");
-  // const [screenSize, setScreenSize] = useState(undefined);
 
+  // loggingout user from the landing page.
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
 
+  // Logging out user using firebase "signOut" methode.
   const handleLogout = async () => {
-    console.log("in handleLogout");
     try {
       await signOut(auth);
       console.log("firebase signout succes");
@@ -32,6 +32,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     const handleResize = () => {
+      // Here we are setting parallax effect depending on the screen width.
       if (showLogin && showParallax) {
         if (window.innerWidth < 640 && showLogin === "block") {
           setShowParallax("none");
@@ -59,7 +60,6 @@ const LandingPage = () => {
         <div className="parallax">
           <div className="login-signup">
             {!Auth.loggedIn() && (
-              // <div className="show-login">
               <button
                 className="btn btn-text signup rounded-0"
                 onClick={() => {
@@ -75,7 +75,6 @@ const LandingPage = () => {
                   <button
                     className="btn btn-text signup rounded-0"
                     onClick={() => {
-                      // logout();
                       handleLogout();
                     }}
                   >
@@ -136,7 +135,6 @@ const LandingPage = () => {
         </div>
         <div className="third"></div>
       </main>
-      {/* {showParallax === "none" && showLogin === "block" && ( */}
       <div
         className="container-nav-login bg-primary"
         style={{ display: `${showLogin2}` }}
@@ -145,7 +143,6 @@ const LandingPage = () => {
           <Login />
         </div>
       </div>
-      {/* )}  */}
       <footer className="landing-footer">
         <LandingFooter />
       </footer>

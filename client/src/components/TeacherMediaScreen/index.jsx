@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-// import { useQuery } from "@apollo/client";
-// import { QUERY_USERS } from "../../utils/queries";
 import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
-// import { Navigate } from "react-router-dom";
-// import Auth from "../../utils/auth";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
+// This component displays profile picture and username for smaller screens. Cards didn't look good for smaller screens.
 const TeacherMediaScreen = ({ tmiTeacher }) => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
 
