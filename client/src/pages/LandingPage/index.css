@@ -1,7 +1,3 @@
-
-/* .container-main {
-  height: 3000px;
-} */
 .landing-nav {
   display: none;
 }
@@ -11,11 +7,6 @@
   padding-top: 2%;
   padding-right: 2%;
 }
-/* .signup-link,
-.site-link {
-  background-color: black !important;
-  margin: 1px;
-} */
 .signup,
 .site {
   font-size: 1.2rem !important;
@@ -31,17 +22,15 @@
   display: flex;
   justify-content: flex-start; 
   font-size: 4rem;
-  /* margin-left: 40px; */
 }
 .landing-tmi {
   display: flex;
   justify-content: flex-end; 
-  /* color: orange; */
   font-size: 4rem;
-  margin-left: -45px;
+  margin-left: -75px;
 }
 .landing-tmiworld {
-  margin-top: 50px;
+  margin-top: 100px !important;
 }
 .container-landing {
   background-color: black;
