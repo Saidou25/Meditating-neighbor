@@ -30,18 +30,18 @@
 .landing-world {
   display: flex;
   justify-content: flex-start; 
-  font-size: 2.5rem;
+  font-size: 4rem;
+  /* margin-left: 40px; */
 }
 .landing-tmi {
   display: flex;
   justify-content: flex-end; 
-  color: orange;
-  font-size: 2.5rem;
+  /* color: orange; */
+  font-size: 4rem;
   margin-left: -45px;
 }
 .landing-tmiworld {
   margin-top: 50px;
-  
 }
 .container-landing {
   background-color: black;
@@ -52,9 +52,12 @@
   margin-left: auto;
   padding: 3%;
 }
-
+.intro-text {
+  color: rgb(171, 171, 176);
+}
 .first-title {
   text-align: center;
+  color: rgb(171, 171, 176);
 }
 .parallax {
   background-image: url("../../assets/images/bowlcroped.jpeg");

@@ -239,7 +239,7 @@ const UpdateMyProfileForm = () => {
                   value={story}
                   placeholder="write about yourself"
                   onChange={(e) => setStory(e.target.value)}
-                  onKeyDown={handleKeyPress}
+                  // onKeyDown={handleKeyPress}
                 />
               </div>
               {errorMessage && (

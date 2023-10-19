@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { motion } from "framer-motion";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
 import Login from "../Login";
@@ -87,10 +88,23 @@ const LandingPage = () => {
               </>
             )}
           </div>
-
           <div className="row landing-tmiworld g-0">
-            <div className="col-6 landing-tmi g-0">TMI</div>
-            <div className="col-6 landing-world g-0">WORLD</div>
+            <motion.h1
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, color: "#ff9f04" }}
+              transition={{ type: "tween", duration: 4 }}
+              className="col-6 landing-tmi g-0"
+            >
+              TMI
+            </motion.h1>
+            <motion.h2
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, color: "#64625f" }}
+              transition={{ type: "tween", duration: 6 }}
+              className="col-6 landing-world g-0 text-secondary"
+            >
+              WORLD
+            </motion.h2>
           </div>
           {showLogin === "block" && showParallax === "block" && (
             <div className="show-login">
@@ -100,12 +114,12 @@ const LandingPage = () => {
         </div>
         <div className="container-landing">
           <div className="text-title fs-4">
-            <h3 className="first-title text-secondary mb-5">
+            <p className="first-title mb-5 fs-1">
               Have you ever wondered how many meditators are currently following
               the book "The Mind Illuminated" by Culadasa (John Yates, PhD) and
               Matthew Immergut, PhD?
-            </h3>
-            <p>
+            </p>
+            <p className="intro-text">
               That's the purpose of this free application we've created. Simply
               sign up, go to the "locate" feature, geolocate your position, and
               save it. That's all it takes to put yourself on the map. Please
@@ -118,12 +132,12 @@ const LandingPage = () => {
         <div className="second"></div>
         <div className="container-landing">
           <div className="text-title fs-4">
-            <h3 className="first-title text-secondary mb-5">
+            <p className="first-title mb-5 fs-1">
               Wouldn't it be wonderful to discover if there are fellow
               practitioners of "The Mind Illuminated" living just a few miles
               away from you?
-            </h3>
-            <p>
+            </p>
+            <p className="intro-text">
               To make this happen, ensure that you've saved your location,
               created your profile, and uploaded a profile picture. This way,
               you can be visible to others in the members' list. Once you've
