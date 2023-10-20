@@ -15,11 +15,11 @@ import Auth from "../../utils/auth";
 import useMyInfo from "../../Hooks/UseMyInfo";
 import useUsersInfo from "../../Hooks/UseUsersInfo";
 import API from "../../utils/API";
-import Navbar from "../Navbar";
-import Teachers from "../Teachers";
-import Footer from "../Footer";
+import Navbar from "../../components/Navbar";
+import Teachers from "../../components/Teachers";
+import Footer from "../../components/Footer";
 import allStates from "../../data/allstates.json";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 
 import "./index.css";
 

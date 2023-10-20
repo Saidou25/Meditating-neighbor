@@ -3,9 +3,9 @@ import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import useMyContacts from "../../Hooks/UseMyContacts";
-import Notifications from "../Notifications";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Notifications from "../../components/Notifications";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 

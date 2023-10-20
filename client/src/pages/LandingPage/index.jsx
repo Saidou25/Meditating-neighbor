@@ -4,7 +4,7 @@ import { signOut } from "firebase/auth";
 import { motion } from "framer-motion";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
-import Login from "../Login";
+import Login from "../../components/Login";
 import Navabar from "../../components/Navbar";
 import LandingFooter from "../../components/LandingFooter";
 import "./index.css";

@@ -13,10 +13,10 @@ import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 
 import { v4 } from "uuid";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import API from "../../utils/API";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import "./index.css";
 
 const geoUrl =

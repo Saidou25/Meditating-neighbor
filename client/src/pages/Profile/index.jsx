@@ -6,10 +6,10 @@ import { Navigate } from "react-router-dom";
 import useMyContacts from "../../Hooks/UseMyContacts";
 import useMyRequests from "../../Hooks/UseMyRequests";
 import Auth from "../../utils/auth";
-import DeleteModal from "../DeleteModal";
-import Avatar from "../Avatar";
-import Footer from "../Footer";
-import Navbar from "../Navbar";
+import DeleteModal from "../../components/DeleteModal";
+import Avatar from "../../components/Avatar";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 // import Spinner from "../Spinner";
 import "./index.css";
 

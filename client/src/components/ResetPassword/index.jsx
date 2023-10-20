@@ -4,7 +4,7 @@ import { auth } from "../../firebase";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER } from "../../utils/mutations";
 import { QUERY_USERS } from "../../utils/queries";
-import Login from "../../pages/Login";
+import Login from "../Login";
 import "./index.css";
 
 const ResetPassword = () => {

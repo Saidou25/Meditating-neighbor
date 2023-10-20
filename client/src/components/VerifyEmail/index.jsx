@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-import Login from "../../pages/Login";
+import Login from "../Login";
 import "./index.css";
 
 const VerifyEmail = () => {

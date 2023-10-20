@@ -5,8 +5,8 @@ import { Navigate } from "react-router-dom";
 import { v4 } from "uuid";
 import Auth from "../../utils/auth";
 import useMyInfo from "../../Hooks/UseMyInfo";
-import ProfileList from "../ProfileList";
-import Spinner from "../Spinner";
+import ProfileList from "../../components/ProfileList";
+import Spinner from "../../components/Spinner";
 import "./index.css";
 
 const Neighbors = () => {
