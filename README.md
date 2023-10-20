@@ -39,6 +39,7 @@ Create, get, update and delete queries and mutations operations can be performed
 - `Jsonwebtoken`
 - `Bcrypt`
 - `Firebase` (to store profile pictures).
+-  `framer-motion` (for animation).
 
 ## Installation
 Clone the reposatory.
