@@ -140,7 +140,7 @@ const ProfileList = (props) => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid neighbors bg-primary">
+      <div className="container-fluid neighbors bg-primary" style={{ minHeight: "100vh"}}>
         {seventyFiveMiles.length ? (
           <h3 className="locations-list-title text-white py-5">
             Within a 50 miles radius

@@ -80,13 +80,13 @@ const Neighbors = () => {
     return <Navigate to="/" replace />;
   }
   return (
-    <>
+    <div style={{ minHeight: "100vh"}}>
       <ProfileList
         seventyFiveMiles={seventyFiveMiles}
         overSeventyFiveMiles={overSeventyFiveMiles}
         me={me}
       />
-    </>
+    </div>
   );
 };
 export default Neighbors;

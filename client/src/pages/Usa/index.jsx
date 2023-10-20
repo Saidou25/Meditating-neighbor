@@ -230,7 +230,7 @@ const Usa = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid main-usa bg-primary px-0">
+      <div className="container-fluid main-usa bg-primary px-0" style={{ minHeight: "100vh"}}>
         <div className="row buttons-row m-0">
           <div className="col-12 btn-locate bg-primary">
             <button

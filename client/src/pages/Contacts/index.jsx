@@ -46,7 +46,7 @@ const Contacts = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid contacts bg-primary pb-5">
+      <div className="container-fluid contacts bg-primary pb-5" style={{ minHeight: "100vh"}}>
         <Notifications />
         {myContactsProfiles.length ? (
           <>
