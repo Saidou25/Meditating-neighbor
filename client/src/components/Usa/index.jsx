@@ -12,8 +12,8 @@ import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useMyInfo from "../../utils/UseMyInfo";
-import useUsersInfo from "../../utils/UseUsersInfo";
+import useMyInfo from "../../Hooks/UseMyInfo";
+import useUsersInfo from "../../Hooks/UseUsersInfo";
 import API from "../../utils/API";
 import Navbar from "../Navbar";
 import Teachers from "../Teachers";
@@ -385,7 +385,7 @@ const Usa = () => {
         </div>
         <Teachers />
         <p className="count-p fs-5 bg-primary text-light mt-5">
-          {users?.length} users within the US.
+          {users?.length} members within the US.
         </p>
       </div>
       <div className="profile-footer bg-primary">

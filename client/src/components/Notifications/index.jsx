@@ -4,7 +4,7 @@ import { QUERY_REQUESTS, QUERY_CONTACTS } from "../../utils/queries";
 import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useMyRequests from "../../utils/UseMyRequests";
+import useMyRequests from "../../Hooks/UseMyRequests";
 import profileIcon from "../../assets/images/profileicon.png";
 
 import "./index.css";
@@ -18,7 +18,6 @@ const Notifications = () => {
   const {
     me,
     incomingRequests,
-    outgoingRequests,
     usersIncomingRequestProfiles,
     myOutgoingRequestUserProfile,
   } = useMyRequests();
@@ -45,6 +44,7 @@ const Notifications = () => {
       }
     },
   });
+
   // Updating the cache with newly deleted request
   const [deleteRequest] = useMutation(DELETE_REQUEST, {
     variables: { id: requestId },
@@ -66,13 +66,6 @@ const Notifications = () => {
       }
     },
   });
-  // making sure we have all data needed uppon page load and that these datas stay monitored during user's operations in this page
-  useEffect(() => {
-    if (usersIncomingRequestProfiles && myOutgoingRequestUserProfile) {
-      setRequestingUsersProfiles(usersIncomingRequestProfiles);
-      setRequestedUsersProfiles(myOutgoingRequestUserProfile);
-    }
-  }, [usersIncomingRequestProfiles, myOutgoingRequestUserProfile]);
 
   // add contact to MongoDb database using grapgql addContact mutation
   const addFriend = async (user) => {
@@ -95,6 +88,7 @@ const Notifications = () => {
       console.error(e);
     }
   };
+
   // delete contact request sent to me from MongoDb database using deleteRequest mutation
   const removeRequest = async (user) => {
     for (let request of incomingRequests) {
@@ -121,6 +115,14 @@ const Notifications = () => {
       }
     }
   };
+  
+  // making sure we have all data needed uppon page load and that these datas stay monitored during user's operations in this page
+  useEffect(() => {
+    if (usersIncomingRequestProfiles && myOutgoingRequestUserProfile) {
+      setRequestingUsersProfiles(usersIncomingRequestProfiles);
+      setRequestedUsersProfiles(myOutgoingRequestUserProfile);
+    }
+  }, [usersIncomingRequestProfiles, myOutgoingRequestUserProfile]);
 
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;

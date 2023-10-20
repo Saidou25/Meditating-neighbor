@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
-import useMyContacts from "../../utils/UseMyContacts";
-import useMyRequests from "../../utils/UseMyRequests";
-import useUsersInfo from "../../utils/UseUsersInfo";
+import useMyContacts from "../../Hooks/UseMyContacts";
+import useMyRequests from "../../Hooks/UseMyRequests";
+import useUsersInfo from "../../Hooks/UseUsersInfo";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 

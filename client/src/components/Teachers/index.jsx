@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
-import useUsersInfo from "../../utils/UseUsersInfo";
+import useUsersInfo from "../../Hooks/UseUsersInfo";
 import TeacherMediaScreen from "../TeacherMediaScreen";
 import profileIcon from "../../assets/images/profileicon.png";
 // import Spinner from "../Spinner";

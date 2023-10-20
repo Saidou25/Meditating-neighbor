@@ -3,8 +3,8 @@ import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 // import { onAuthStateChanged } from "firebase/auth";/
-import useMyContacts from "../../utils/UseMyContacts";
-import useMyRequests from "../../utils/UseMyRequests";
+import useMyContacts from "../../Hooks/UseMyContacts";
+import useMyRequests from "../../Hooks/UseMyRequests";
 import Auth from "../../utils/auth";
 import DeleteModal from "../DeleteModal";
 import Avatar from "../Avatar";

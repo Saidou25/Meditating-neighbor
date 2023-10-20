@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_ME, QUERY_USERS, QUERY_REQUESTS } from "./queries";
+import { QUERY_REQUESTS } from "../utils/queries";
+import useMyInfo from "./UseMyInfo";
+import useUsersInfo from "./UseUsersInfo";
 
 const useMyRequestsHook = () => {
-  //   const [myRequests, setMyRequests] = useState("");
   const [usersIncomingRequestProfiles, setUsersIncomingRequestProfiles] =
     useState([]);
   const [myOutgoingRequestUserProfile, setMyOutgoingRequestUserProfile] =
@@ -11,56 +12,45 @@ const useMyRequestsHook = () => {
   const [myRequestsIds, setMyRequestsIds] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [outgoingRequests, setOutgoingRequests] = useState([]);
-  const [me, setMe] = useState("");
-  // console.log("incomingRequests", incomingRequests);
-  // console.log("outgoing requests", outgoingRequests);
-  // console.log("usersIncomingRequestProfiles", usersIncomingRequestProfiles);
-  // console.log("myOutgoingRequestUserProfile", myOutgoingRequestUserProfile);
 
-  const { data: meData } = useQuery(QUERY_ME);
   const { data: requestsData } = useQuery(QUERY_REQUESTS);
-  const { data: usersData } = useQuery(QUERY_USERS);
+  const { me } = useMyInfo();
+  const { users } = useUsersInfo();
 
   useEffect(() => {
     const allRequests = requestsData?.requests || [];
-    const allUsers = usersData?.users || [];
-    const myData = meData?.me || [];
     const allMyRequests = [];
 
-    if (meData && usersData && requestsData) {
-      setMe(myData);
-
+    if (me && users && requestsData) {
       // filter all contact requests addressed to me
       const requestsToMe = allRequests?.filter(
-        (request) => request.destinationName === myData.username
+        (request) => request.destinationName === me.username
       );
-      // allMyRequests.push(requestsToMe);
-      // console.log("requests to me", requestsToMe);
       setIncomingRequests(requestsToMe);
       const fromUsers = [];
-
       //  loop to all request to get profiles of the people requesting my contact and
       //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
-      for (let userRequest of requestsToMe) {
-        const requestingUsers = allUsers?.filter(
-          (user) => user.username === userRequest.myName
-        );
-        if (requestingUsers[0]) {
+      if (requestsToMe.length) {
+        for (let requestToMe of requestsToMe) {
+          const requestingUsers = users?.filter(
+            (user) => user.username === requestToMe.myName
+          );
           fromUsers.push(requestingUsers[0]);
           setUsersIncomingRequestProfiles(fromUsers);
         }
+      } else {
+        setUsersIncomingRequestProfiles([]);
       }
       // filter all contact requests made by me
       const myRequests = allRequests?.filter(
-        (request) => request.myName === myData.username
+        (request) => request.myName === me.username
       );
-      // allMyRequests.push(myRequests);
-      // console.log("my requests", myRequests);
+
       setOutgoingRequests(myRequests);
       const toUsers = [];
 
       for (let myRequest of myRequests) {
-        const requestedUsers = allUsers.filter(
+        const requestedUsers = users.filter(
           (user) => user.username === myRequest.destinationName
         );
         if (requestedUsers[0]) {
@@ -69,21 +59,18 @@ const useMyRequestsHook = () => {
         }
       }
 
-      // get all requests Ids
+      // get all requests Ids that will be used for deleting requests from non existing user(in case a user deletes his/her account).
       for (let request of allRequests) {
-        if (request.myName === myData.username) {
-          // console.log('request 1', request);
+        if (request.myName === me.username) {
           allMyRequests.push(request._id);
         }
-        if (request.destinationName === myData.username) {
-          // console.log('request 2', request);
+        if (request.destinationName === me.username) {
           allMyRequests.push(request._id);
         }
       }
-      // console.log("all my request", allMyRequests);
       setMyRequestsIds(allMyRequests);
     }
-  }, [meData, usersData, requestsData]);
+  }, [me, users, requestsData]);
 
   return {
     me,

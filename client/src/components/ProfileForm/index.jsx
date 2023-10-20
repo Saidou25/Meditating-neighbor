@@ -5,7 +5,7 @@ import { QUERY_ME } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useMyInfo from "../../utils/UseMyInfo";
+import useMyInfo from "../../Hooks/UseMyInfo";
 // import Spinner from "../Spinner";
 import Success from "../Success";
 import Navbar from "../Navbar";

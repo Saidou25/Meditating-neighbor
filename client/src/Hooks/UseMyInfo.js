@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_ME } from "./queries";
+import { QUERY_ME } from "../utils/queries";
 
 const useMyInfoHook = () => {
   const [me, setMeData] = useState("");

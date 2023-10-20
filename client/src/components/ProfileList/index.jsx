@@ -5,9 +5,9 @@ import { ADD_REQUEST } from "../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useMyContacts from "../../utils/UseMyContacts";
-import useMyRequests from "../../utils/UseMyRequests";
-import useUsersInfo from "../../utils/UseUsersInfo";
+import useMyContacts from "../../Hooks/UseMyContacts";
+import useMyRequests from "../../Hooks/UseMyRequests";
+import useUsersInfo from "../../Hooks/UseUsersInfo";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -141,9 +141,13 @@ const ProfileList = (props) => {
     <>
       <Navbar />
       <div className="container-fluid neighbors bg-primary">
-        <h3 className="locations-list-title text-white py-5">
-          {seventyFiveMiles.length ? <>Within a 50 miles radius</> : <></>}
-        </h3>
+        {seventyFiveMiles.length ? (
+          <h3 className="locations-list-title text-white py-5">
+            Within a 50 miles radius
+          </h3>
+        ) : (
+          <></>
+        )}
         <div className="row card-row">
           {seventyFiveMiles &&
             seventyFiveMiles.map((distanceObj) => (
@@ -192,7 +196,14 @@ const ProfileList = (props) => {
               </div>
             ))}
         </div>
-        {overSeventyFiveMiles.lenght ? <>Over a 50 miles radius</> : <></>}
+
+        {overSeventyFiveMiles.length ? (
+          <h3 className="locations-list-title text-white py-5">
+            Over a 50 miles radius
+          </h3>
+        ) : (
+          <></>
+        )}
         <div className="row card-row">
           {overSeventyFiveMiles &&
             overSeventyFiveMiles.map((distanceObj) => (

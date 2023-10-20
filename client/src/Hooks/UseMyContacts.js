@@ -1,39 +1,37 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_ME, QUERY_CONTACTS, QUERY_USERS } from "./queries";
+import { QUERY_CONTACTS } from "../utils/queries";
+import useMyInfo from "./UseMyInfo"; 
+import useUsersInfo from "./UseUsersInfo";
 
 const useMyContacts = () => {
   const [myContacts, setMyContacts] = useState("");
-  const [me, setMe] = useState("");
   const [allContacts, setAllContacts] = useState([]);
   const [myContactsProfiles, setMyContactProfiles] = useState([]);
 
   const { data: contactsData } = useQuery(QUERY_CONTACTS);
-  const { data: meData } = useQuery(QUERY_ME);
-  const { data: usersData } = useQuery(QUERY_USERS);
+  const { me } = useMyInfo();
+  const { users } = useUsersInfo();
 
   useEffect(() => {
     let allMyContacts = [];
-    const myData = meData?.me || [];
     const contacts = contactsData?.contacts || [];
-    const users = usersData?.users || [];
 
-    setMe(myData);
     setAllContacts(contacts);
 
-    if (meData && contactsData && usersData) {
+    if (me && contactsData && users) {
       const allContactProfiles = [];
       for (let contact of contacts) {
         if (
-          contact.username === myData.username ||
-          contact.friendUsername === myData.username
+          contact.username === me.username ||
+          contact.friendUsername === me.username
         ) {
           allMyContacts.push(contact);
           setMyContacts(allMyContacts);
         }
       }
       for (let allMyContact of allMyContacts) {
-        if (allMyContact.username === myData.username) {
+        if (allMyContact.username === me.username) {
           const myFriends = users.filter(
             (user) => user.username === allMyContact.friendUsername
           );
@@ -41,7 +39,7 @@ const useMyContacts = () => {
             friend: myFriends[0],
             date: allMyContact.todaysDate,
           });
-        } else if (allMyContact.friendUsername === myData.username) {
+        } else if (allMyContact.friendUsername === me.username) {
           const friendOf = users.filter(
             (user) => user.username === allMyContact.username
           );
@@ -54,7 +52,7 @@ const useMyContacts = () => {
         setMyContactProfiles(allContactProfiles);
       }
     }
-  }, [meData, contactsData, usersData]);
+  }, [me, contactsData, users]);
   return { myContacts, me, allContacts, myContactsProfiles };
 };
 export default useMyContacts;

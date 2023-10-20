@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaEnvelope, FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
-import useMyContacts from "../../utils/UseMyContacts";
+import useMyContacts from "../../Hooks/UseMyContacts";
 import Notifications from "../Notifications";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -46,7 +46,7 @@ const Contacts = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid contacts bg-primary">
+      <div className="container-fluid contacts bg-primary pb-5">
         <Notifications />
         {myContactsProfiles.length ? (
           <>

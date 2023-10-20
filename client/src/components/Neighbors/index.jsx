@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
 import { v4 } from "uuid";
 import Auth from "../../utils/auth";
-import useMyInfo from "../../utils/UseMyInfo";
+import useMyInfo from "../../Hooks/UseMyInfo";
 import ProfileList from "../ProfileList";
 import Spinner from "../Spinner";
 import "./index.css";

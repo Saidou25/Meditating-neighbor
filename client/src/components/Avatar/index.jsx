@@ -10,7 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
-import useMyInfo from "../../utils/UseMyInfo";
+import useMyInfo from "../../Hooks/UseMyInfo";
 import trash from "../../assets/images/trash.jpg";
 import ButtonSpinner from "../ButtonSpinner";
 import profileIcon from "../../assets/images/profileicon.png";
