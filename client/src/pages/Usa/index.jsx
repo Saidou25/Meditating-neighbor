@@ -74,7 +74,8 @@ const Usa = () => {
     const longitude = location.longitude;
     const latitude = location.latitude;
 
-    const coordinatesObj = {
+    let coordinatesObj = {
+      markerOffset: -15,
       city: city.cityName,
       coordinates: [longitude, latitude],
     };
@@ -362,16 +363,27 @@ const Usa = () => {
                 </>
               )}
             </Geographies>
-            {markers.map(({ city, coordinates }) => (
+            {markers.map(({ city, coordinates, markerOffset }) => (
               <Marker key={coordinates} coordinates={coordinates}>
-                <circle r={1} fill="#fff" />
-                <text
-                  //  textAnchor="middle"
-                  //  y={markerOffset}
-                  style={{ fontFamily: "system-ui", fill: "#fff" }}
-                >
-                  {/* {city} */}
-                </text>
+                {city === "TMI headquarter" ? (
+                  <>
+                    <circle r={3} fill="#db0e0e" />
+                    <text
+                      textAnchor="middle"
+                      y={markerOffset}
+                      style={{ fill: "#ffffff" }}
+                    >
+                      {city}
+                    </text>
+                  </>
+                ) : (
+                  <>
+                    <circle r={1} fill="#fff" />
+                    <text
+                      style={{ fontFamily: "system-ui", fill: "#fff" }}
+                    ></text>
+                  </>
+                )}
               </Marker>
             ))}
           </ComposableMap>
