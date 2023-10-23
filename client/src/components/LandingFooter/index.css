@@ -9,7 +9,9 @@
   align-items: center;
   justify-content: center;
 }
-
+.landing-footer-concerns {
+  text-align: center;
+}
 @media screen and (max-width: 414px) {
   .landing-footer-container {
     height: 220px;

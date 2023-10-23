@@ -11,7 +11,7 @@ This website has been designed to bring together meditators from all around the 
 
 The primary features of this application include geolocating users using the OpenWeather API and allowing users to request contact with other practitioners. Unlike traditional social media platforms, our focus is on fostering connections centered around meditation. Once a friendship has been established, email addresses are displayed, enabling users to continue their interactions on their preferred social media platforms.
 
-Create, get, update and delete queries and mutations operations can be performed on user, profile and location. create, get and delete on requests and contacts.
+Create, get, update and delete queries and mutations operations can be performed on user, profile and location. Create, get and delete on requests and contacts.
 
 ## Table of Contents
 

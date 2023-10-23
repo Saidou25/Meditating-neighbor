@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
 import useUsersInfo from "../../Hooks/UseUsersInfo";
 import TeacherMediaScreen from "../TeacherMediaScreen";
@@ -8,22 +8,29 @@ import "./index.css";
 
 const Teachers = () => {
   const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [tmiTeacher, setTmiTeacher] = useState("");
   // importing all users from useUsersInfo hook
   const { users } = useUsersInfo();
-  let tmiTeacher = [];
-  // getting all teacher from all users using a for of loop and pushing to [tmiTeacher] to display in page using a map().
-  for (let user of users) {
-    if (user.profile?.teacher === "teacher") {
-      tmiTeacher.push(user);
+
+  useEffect(() => {
+    let teachers = [];
+    if (users) {
+      // getting all teacher from all users using a for of loop and pushing to [tmiTeacher] to display in page using a map().
+      for (let user of users) {
+        if (user.profile?.teacher === "teacher") {
+          teachers.push(user);
+        }
+      }
+      setTmiTeacher(teachers);
     }
-  }
+  }, [users]);
 
   // if (loading) {
   //   return <Spinner />;
   // }
   return (
     <>
-      {tmiTeacher.lenght ? (
+      {tmiTeacher.length ? (
         <h3 className="teachers-title text-light my-5">Teachers in the US</h3>
       ) : (
         <></>
@@ -157,29 +164,18 @@ const Teachers = () => {
                                     <></>
                                   )}
                                   <div className="p-about-teachers mt-5 mb-4">
-                                    {selectedTeacher.location ? (
-                                      <>
-                                        <p>
-                                          <FaIdBadge />{" "}
-                                          {selectedTeacher.username}
-                                        </p>
-                                        {selectedTeacher.location?.city &&
-                                          selectedTeacher.location?.state && (
-                                            <>
-                                              <p>
-                                                <FaHome />{" "}
-                                                {selectedTeacher.location?.city}
-                                                ,{" "}
-                                                {
-                                                  selectedTeacher.location
-                                                    ?.state
-                                                }
-                                              </p>
-                                            </>
-                                          )}
-                                      </>
+                                    <p>
+                                      <FaIdBadge /> {selectedTeacher.username}
+                                    </p>
+                                    {selectedTeacher.location?.city &&
+                                    selectedTeacher.location?.state ? (
+                                      <p>
+                                        <FaHome />{" "}
+                                        {selectedTeacher.location?.city},{" "}
+                                        {selectedTeacher.location?.state}
+                                      </p>
                                     ) : (
-                                      <></>
+                                      <p>No location yet</p>
                                     )}
                                   </div>
                                 </div>

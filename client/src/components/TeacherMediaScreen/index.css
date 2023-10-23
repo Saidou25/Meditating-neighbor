@@ -47,4 +47,13 @@
     width: 150px;
     height: 150px;
   }
+  .teachers-cards {
+  width: 84%;
+  margin-right: auto;
+  margin-left: auto;
+  }
+  .contact-pic {
+    width: 65px;
+    height: 65px;
+  }
 }

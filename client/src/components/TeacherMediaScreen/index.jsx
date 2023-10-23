@@ -9,9 +9,8 @@ const TeacherMediaScreen = ({ tmiTeacher }) => {
 
   return (
     <>
-      <div className="container-fluid bg-primary">
-        {/* {mProfiles.length ? ( */}
-        <>
+      <div className="teachers-cards bg-primary">
+        {/* <> */}
           <div className="row card-row">
             {tmiTeacher &&
               tmiTeacher.map((user) => (
@@ -170,7 +169,7 @@ const TeacherMediaScreen = ({ tmiTeacher }) => {
               </div>
             </div>
           </div>
-        </>
+        {/* </> */}
       </div>
     </>
   );

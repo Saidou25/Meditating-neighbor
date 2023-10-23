@@ -230,7 +230,10 @@ const Usa = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid main-usa bg-primary px-0" style={{ minHeight: "100vh"}}>
+      <div
+        className="container-fluid main-usa bg-primary px-0"
+        style={{ minHeight: "100vh" }}
+      >
         <div className="row buttons-row m-0">
           <div className="col-12 btn-locate bg-primary">
             <button
@@ -288,16 +291,6 @@ const Usa = () => {
               </button>
             </div>
           )}
-          {/* {confirm1 && (
-            <div className="col-12 btn-locate mt-5">
-              <button
-                className="btn-coordinates bg-success text-primary"
-                type="button"
-              >
-                location updated
-              </button>
-            </div>
-          )} */}
         </div>
         <div className="map-container bg-primary">
           <ComposableMap projection="geoAlbersUsa" className="map" data-tip="">

@@ -1,7 +1,7 @@
 .map-container {
   background-color: black;
   padding-top: 5%;
-  padding-bottom: 3%;
+  padding-bottom: 5%;
 }
 .result {
   text-align: center;
@@ -73,6 +73,10 @@
   .main-usa {
     min-height: 70vh !important;
   }
+  .buttons-row {
+    padding-top: 10%;
+    padding-bottom: 10%;
+  }
   .result {
     padding-top: 2% !important;
     padding-bottom: 2% !important;
@@ -89,7 +93,6 @@
     background-color: #ddd;
   }
   .myBar {
-    /* width: 10%; */
     height: 20px;
     border-radius: 25px;
     background-color: orange;
