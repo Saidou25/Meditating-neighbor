@@ -26,6 +26,9 @@ const LandingFooter = () => {
         <p className="landing-footer-item text-light pt-0 pb-2">
           mosaidou@gmail.com{" "}
         </p>
+        <p className="landing-footer-item text-light pt-0 pb-2">
+          Photography by Petr Sidorov and Andrea De Santis
+        </p>
        
       </div>
     </div>

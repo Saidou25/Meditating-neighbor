@@ -2,7 +2,8 @@
   display: none;
 }
 .teachers-title {
-  margin-left: 10%;
+  width: 80%;
+  margin: auto;
 }
 .show-teachers {
   display: block;
@@ -84,16 +85,6 @@
     width: 90px;
     height: 90px;
   }
-  /* .scrolling-row {
-    display: flex !important;
-    flex-direction: row !important;
-  }
- .teachers {
-  width: auto;
-  height: 500px !important;
-  overflow-x: scroll !important; 
-  overflow-y: hidden !important; 
- } */
 }
 @media screen and (max-width: 800px) {
   .teachers-pic {
@@ -129,27 +120,8 @@
     height: 90px;
   }
   .teacher-footer {
-    /* width: 100% !important; */
     display: flex;
     justify-content: center !important;
     justify-content: space-between !important;
   }
-
-  /* div.scrollmenu {
-    background-color: #333;
-    overflow: auto;
-    white-space: nowrap;
-  }
-  
-  div.scrollmenu a {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px;
-    text-decoration: none;
-  }
-  
-  div.scrollmenu a:hover {
-    background-color: #777;
-  } */
 }

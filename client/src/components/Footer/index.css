@@ -1,12 +1,11 @@
 
 .footer {
   background-color: black;
-  height: 250px;
-  padding-top: 3%;
+  height: 265px;
+  padding-top: 1%;
 }
 .footer-item,
 .linkedIn {
-  /* padding-top: 3%; */
   text-align: center;
 }
 .linkedin-container {

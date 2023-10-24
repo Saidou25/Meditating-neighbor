@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaIdBadge, FaHome, FaEllipsisH } from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
+import ModalReuse from "../../components/ModalReuse";
 import useUsersInfo from "../../Hooks/UseUsersInfo";
 import TeacherMediaScreen from "../TeacherMediaScreen";
 import profileIcon from "../../assets/images/profileicon.png";
@@ -7,8 +8,9 @@ import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
 const Teachers = () => {
-  const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [data, setData] = useState({ userInfo: "", date: "" });
   const [tmiTeacher, setTmiTeacher] = useState("");
+  const [showModal, setShowModal] = useState(false);
   // importing all users from useUsersInfo hook
   const { users } = useUsersInfo();
 
@@ -85,10 +87,12 @@ const Teachers = () => {
                           <button
                             type="button"
                             className="btn btn-teacher-modal mt-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
                             onClick={() => {
-                              setSelectedTeacher(user);
+                              setData({
+                                userInfo: user,
+                                date: "",
+                              });
+                              setShowModal(true);
                             }}
                           >
                             <div className="teacher-icon-col">
@@ -96,7 +100,8 @@ const Teachers = () => {
                             </div>
                           </button>
                         </div>
-                        <div
+
+                        {/* <div
                           className="modal fade"
                           id="exampleModal"
                           tabIndex="-1"
@@ -186,7 +191,7 @@ const Teachers = () => {
                                   className="btn btn-secondary"
                                   data-bs-dismiss="modal"
                                   onClick={() => {
-                                    setSelectedTeacher("");
+                                    setData("");
                                   }}
                                 >
                                   Close
@@ -194,7 +199,7 @@ const Teachers = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className="card-footer footer-teacher">
@@ -209,8 +214,8 @@ const Teachers = () => {
               </div>
             ))}
         </div>
+        {showModal && <ModalReuse hideModal={setShowModal} data={data} />}
       </div>
-
       <div className="hide">
         <TeacherMediaScreen tmiTeacher={tmiTeacher} />
       </div>
