@@ -1,26 +1,25 @@
-
 .footer {
   background-color: black;
-  height: 265px;
-  padding-top: 1%;
+  height: 270px;
+  padding-top: 2%;
 }
 .footer-item,
 .linkedIn {
   text-align: center;
 }
 .linkedin-container {
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 @media screen and (max-width: 414px) {
   .footer-container {
-    height: 220px;
+    padding-bottom: 4% !important;
   }
   .footer {
     margin-right: auto;
     margin-left: auto;
     width: 92%;
-    height: 200px;
-   
+    padding-top: 3%;
+    padding-bottom: 2%;
   }
 }

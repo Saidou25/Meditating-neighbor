@@ -19,9 +19,9 @@ const Footer = () => {
             ></img>
           </a>
         </div>
-        <p className="footer-item text-light pt-0 pt-3">For questions, comments, concerns or support please contact:</p>
+        <p className="footer-item text-light pt-0 pt-3 px-5">For questions, comments, concerns or support please contact:</p>
         <p className="footer-item text-light pt-0 pb-2">mosaidou@gmail.com</p>
-        <p className="landing-footer-item text-light pt-0 pb-2">
+        <p className="footer-item text-light pt-0 pb-2 px-5">
           Photography by Petr Sidorov and Andrea De Santis
         </p>
       </div>

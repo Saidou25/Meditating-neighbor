@@ -1,19 +1,21 @@
 .landing-footer {
   background-color: black;
-  height: 265px;
-  padding-top: 1%;
+  height: 290px;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
-.landing-footer-item,
+
 .linkedIn-footer {
   display: flex;
-  align-items: center;
   justify-content: center;
 }
-.landing-footer-concerns {
+.landing-footer-concerns,
+.landing-footer-item {
   text-align: center;
 }
 @media screen and (max-width: 414px) {
-  .landing-footer-container {
-    height: 220px;
+  .landing-footer {
+    height: 300px;
+    padding-top: 3% !important;
   }
 }

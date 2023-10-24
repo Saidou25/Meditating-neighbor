@@ -9,27 +9,25 @@ const LandingFooter = () => {
         <p className="landing-footer-item text-light pb-0">
           Made by Saidou Monta{" "}
         </p>
-        <a
-          href="https://www.linkedin.com/in/saidou-monta?trk=profile-badge"
-          className="landing-footer-item"
-        >
-          <img
-            src={linkedIn}
-            className="linkedIn-footer bg-light text-light"
-            alt="letters linkedIn"
-            style={{ height: 30 }}
-          ></img>
-        </a>
-        <p className="landing-footer-concerns text-light py-3">
-          For questions, comments, concerns or support please contact:{" "}
+        <div className="linkedin-container">
+          <a href="https://www.linkedin.com/in/saidou-monta?trk=profile-badge">
+            <img
+              src={linkedIn}
+              className="linkedIn-footer bg-light text-light"
+              alt="logo linkedIn"
+              style={{ height: 30 }}
+            ></img>
+          </a>
+        </div>
+        <p className="landing-footer-concerns text-light py-3 px-5">
+          For questions, comments, concerns or support please contact:
         </p>
         <p className="landing-footer-item text-light pt-0 pb-2">
-          mosaidou@gmail.com{" "}
+          mosaidou@gmail.com
         </p>
-        <p className="landing-footer-item text-light pt-0 pb-2">
+        <p className="landing-footer-item text-light pt-0 pb-4 px-5">
           Photography by Petr Sidorov and Andrea De Santis
         </p>
-       
       </div>
     </div>
   );
