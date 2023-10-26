@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import {
   DELETE_PROFILE,
@@ -41,13 +41,7 @@ const DeleteModal = ({
   };
 
   const [user] = useAuthState(auth);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(`${user.email} logged in!`)
-  //   }
-  // }, [user])
-
+  
   // delete user from firebase database
   const removeFirebaseUser = () => {
     user

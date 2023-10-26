@@ -1,7 +1,3 @@
-/* .container-login {
-  height: 80vh;
-} */
-
 .login-card {
   width: 400px;
   border-radius: 25px;
@@ -32,16 +28,10 @@
   margin-left: 3%;
   font-size: 1.2rem;
   font-weight: 600;
-  /* width: 100%; */
 }
 .container-login {
   background-color: orange;
 }
-/* .form-input {
-  font-style: oblique;
-  padding: 2px;
-  margin-left: 3%;
-} */
 .email-login-input,
 .password-login-input {
   height: 60px;
@@ -67,7 +57,6 @@
   color: black;
 }
 .btn-text-signup {
-  /* text-transform: lowercase; */
   margin-left: -20px;
   margin-right: -20px;
   margin-top: -2px;
@@ -111,4 +100,3 @@
     margin: auto;
   }
 }
-

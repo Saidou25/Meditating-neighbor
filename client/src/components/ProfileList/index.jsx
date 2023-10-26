@@ -298,16 +298,15 @@ const ProfileList = (props) => {
                 </div>
                 <div className="modal-body list-body">
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-6 pic-column">
                       <img
-                        className="container-pic mb-4"
+                        className="modal-container-pic mb-4"
                         src={
                           user.avatar?.avatarUrl
                             ? user.avatar?.avatarUrl
                             : profileIcon
                         }
                         alt="profile icon"
-                        style={{ width: 150, height: 150 }}
                       />
                     </div>
                     <div className="col-6">
