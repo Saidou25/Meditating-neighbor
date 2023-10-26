@@ -6,9 +6,7 @@ const Footer = () => {
   return (
     <div className="footer-container bg-primary">
       <div className="footer">
-        <p className="footer-item text-light">
-          Made by Saidou Monta{" "}
-        </p>
+        <p className="footer-item text-light">Made by Saidou Monta </p>
         <div className="linkedin-container">
           <a href="https://www.linkedin.com/in/saidou-monta?trk=profile-badge">
             <img
@@ -19,8 +17,10 @@ const Footer = () => {
             ></img>
           </a>
         </div>
-        <p className="footer-item text-light pt-0 pt-3 px-5">For questions, comments, concerns or support please contact:</p>
-        <p className="footer-item text-light pt-0 pb-2">mosaidou@gmail.com</p>
+        <p className="footer-item text-light pt-0 pt-3 px-5">
+          For questions, comments, concerns or support please contact:
+          mosaidou@gmail.com
+        </p>
         <p className="footer-item text-light pt-0 pb-2 px-5">
           Photography by Petr Sidorov and Andrea De Santis
         </p>

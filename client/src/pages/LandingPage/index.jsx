@@ -113,8 +113,8 @@ const LandingPage = () => {
           )}
         </div>
         <div className="container-landing">
-          <div className="text-title fs-4">
-            <p className="first-title mb-5 fs-1">
+          <div className="text-title">
+            <p className="first-title mb-5">
               Have you ever wondered how many meditators are currently following
               the book "The Mind Illuminated" by Culadasa (John Yates, PhD) and
               Matthew Immergut, PhD?
@@ -131,8 +131,8 @@ const LandingPage = () => {
         </div>
         <div className="second"></div>
         <div className="container-landing">
-          <div className="text-title fs-4">
-            <p className="first-title mb-5 fs-1">
+          <div className="text-title">
+            <p className="first-title mb-5">
               Wouldn't it be wonderful to discover if there are fellow
               practitioners of "The Mind Illuminated" living just a few miles
               away from you?

@@ -46,6 +46,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error.message);
+      setErrorMessage(error.message)
     }
     setFormState({
       email: "",

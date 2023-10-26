@@ -325,7 +325,7 @@ const ProfileList = (props) => {
                         )}
                         {user.location ? (
                           <p>
-                            Leaves in {user.location?.city},{" "}
+                            Lives in {user.location?.city},{" "}
                             {user.location?.state}, {user.location?.country}
                           </p>
                         ) : (
