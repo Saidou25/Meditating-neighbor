@@ -61,6 +61,7 @@ Clone the reposatory.
 
 - Error 404 page.
 - Add the "TMI" headquarter on the US map.
+- Increase the countries amount.
 - Optimize the application for maximum speed and scalability.
 - Keep on refactoring code.
 - Add comments.

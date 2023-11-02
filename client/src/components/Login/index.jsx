@@ -15,7 +15,6 @@ import useVerifyEmail from "../../Hooks/UseVerifyEmail";
 import useResetPassword from "../../Hooks/UseResetPassword";
 // import Spinner from "../../components/Spinner";
 import Auth from "../../utils/auth";
-import "./index.css";
 
 const Login = () => {
   const [signupDataValues, setSignupDataValues] = useState("");
