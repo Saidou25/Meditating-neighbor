@@ -9,11 +9,12 @@ import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FormReuse from "./components/FormReuse";
 import Contacts from "./pages/Contacts";
 import DeleteModal from "./components/DeleteModal";
 import LandingPage from "./pages/LandingPage";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
+// import Signup from "./components/Signup";
 import LandingFooter from "./components/LandingFooter";
 import Map from "./pages/Map";
 import Notifications from "./components/Notifications";
@@ -25,8 +26,8 @@ import Profile from "./pages/Profile";
 import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
 import TeacherMediaScreen from "./components/TeacherMediaScreen";
 import Neighbors from "./pages/Neighbors";
-import ResetPassword from "./components/ResetPassword";
-import VerifyEmail from "./components/VerifyEmail";
+// import ResetPassword from "./components/ResetPassword";
+// import VerifyEmail from "./components/VerifyEmail";
 import Success from "./components/Success";
 import Teachers from "./components/Teachers";
 import "bootswatch/dist/lux/bootstrap.min.css";
@@ -101,10 +102,11 @@ function App() {
           <Routes>
             <Route path="/Navbar" element={<Navbar />} />
             <Route path="/Footer" element={<Footer />} />
+            <Route path="/FormReuse" element={<FormReuse />} />
             <Route path="/Contacts" element={<Contacts />} />
             <Route path="/DeleteModal" element={<DeleteModal />} />
             <Route path="/Login" element={<Login />} />
-            <Route path="/Signup" element={<Signup />} />
+            {/* <Route path="/Signup" element={<Signup />} /> */}
             <Route path="/LandingFooter" element={<LandingFooter />} />
             <Route path="/Map" element={<Map />} />
             <Route path="/Notifications" element={<Notifications />} />
@@ -115,9 +117,9 @@ function App() {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Neighbors" element={<Neighbors />} />
-            <Route path="/ResetPassword" element={<ResetPassword />} />
+            {/* <Route path="/ResetPassword" element={<ResetPassword />} /> */}
             <Route path="/Success" element={<Success />} />
-            <Route path="/VerifyEmail" element={<VerifyEmail />} />
+            {/* <Route path="/VerifyEmail" element={<VerifyEmail />} /> */}
             <Route path="/Teachers" element={<Teachers />} />
             <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
             <Route path="/" element={<LandingPage />} />

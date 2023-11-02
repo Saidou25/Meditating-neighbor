@@ -1,38 +1,13 @@
-/* .container-signup {
-    height: 80vh;
-} */
-/* .signup-form-container {
-    padding-top: 10%;
-    
-} */
 .signup-card {
   width: 400px;
   border-radius: 25px;
   background-color: rgba(6, 3, 0, 0.77) !important;
-  margin-top: 200px;
+  margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
 }
-/* .signup-form {
-    width: 40%;
-    background-color: orange;
-    margin: auto;
-} */
-.password-input,
-.username-input,
-.email-input {
-  display: flex;
-  align-items: center !important;
-  width: 95%;
-  height: 60px;
-}
 .container-success {
   height: 50vh;
-}
-.appointment-success {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
 }
 .fa-check {
   margin-top: -7%;
@@ -57,9 +32,6 @@
   margin-left: auto;
   margin-right: auto;
 }
-/* .signup-login-error {
-    text-align: center;
-  } */
 .form-label-signup {
   color: black;
   margin-left: 3%;
@@ -68,32 +40,44 @@
   width: 100% !important;
 }
 .signup-header {
-  text-align: center;
+  text-align: center !important;
 }
-
-.form-input {
-  font-style: oblique;
-  padding: 2px;
-  margin-left: 3%;
-}
-.btn-signup {
+.btn-submit {
   background-color: black !important;
-  width: 95%;
-  /* height: 60px; */
+  width: 96%;
   margin-left: auto;
   margin-right: auto;
 }
-.btn-signup:hover {
+.btn-submit:hover {
   background-color: orange !important;
   color: black !important;
 }
 .row-signup-buttons {
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
 }
-.btn-signup {
-  width: 100%;
+.login-question {
+  text-align: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  color: grey !important;
 }
+.btn-text-signup {
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-top: -4px;
+  font-size: 1.1rem;
+  text-transform: lowercase !important;
+  font-size: 1.2rem !important;
+}
+.btn-text-reset {
+  margin-top: -2px;
+  margin-left: -18px;
+  margin-right: -18px;
+  font-size: 1.2rem !important;
+  text-transform: lowercase !important;
+}
+
 @media screen and (max-width: 640px) {
   .container-signup {
     height: auto;
