@@ -5,6 +5,7 @@ import { auth } from "./../firebase";
 const useVerifyEmail = (verifyEmailDataValues) => {
   const [verifyEmailDdataTemplate, setVerifyEmailTemplate] = useState("");
   const [verifyEmailMessage, setVerifyEmailMessage] = useState("");
+  const [resetErrorMessage, setResetErrorMessage] = useState("");
 
   // Sending a reset password link to user using firebase(sendPasswordResetEmail) documentation.
   const firebaseEmailVerify = useCallback(async () => {
@@ -14,9 +15,10 @@ const useVerifyEmail = (verifyEmailDataValues) => {
       setVerifyEmailMessage(`Email ${verifyEmailDataValues.verifyEmail} verified.`);
       setVerifyEmailTemplate("cancel");
     } catch (error) {
-      console.log(error.message);
+      setResetErrorMessage(error.message);
     }
     if (verifyEmailMessage) {
+      setResetErrorMessage("");
       alert("Email verification sent! Please check your email.");
     }
   }, [verifyEmailDataValues, verifyEmailMessage]);
@@ -28,6 +30,6 @@ const useVerifyEmail = (verifyEmailDataValues) => {
     }
   }, [firebaseEmailVerify, verifyEmailDataValues]);
 
-  return { verifyEmailMessage, verifyEmailDdataTemplate };
+  return { verifyEmailMessage, verifyEmailDdataTemplate, resetErrorMessage };
 };
 export default useVerifyEmail;

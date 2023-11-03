@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 
 const useSignupHook = (signupDataValues) => {
   const [addUser] = useMutation(ADD_USER);
-
+const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [signupDataTemplate, setSignupDataTemplate] = useState("");
   const [signupMessage, setSignupMessage] = useState("");
 
@@ -23,12 +23,13 @@ const useSignupHook = (signupDataValues) => {
         });
         if (data) {
           console.log(`Welcome ${signupDataValues.Username}.`);
+          setSignupErrorMessage("");
           setSignupDataTemplate("cancel");
           setSignupMessage(`Welcome ${signupDataValues.Username}.`);
           return;
         }
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        setSignupErrorMessage(error.message);
       }
     }
   }, [signupDataValues, addUser]);
@@ -38,11 +39,15 @@ const useSignupHook = (signupDataValues) => {
       const email = signupDataValues.signupEmail.toLowerCase();
       const password = signupDataValues.signupPassword;
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+         const { data } = await createUserWithEmailAndPassword(auth, email, password);
+         if (data) {
+          console.log("Firebase welcomes you");
+          setSignupErrorMessage("");
+         }
       } catch (error) {
-        console.log("something went wrong");
+        console.log("error");
+        setSignupErrorMessage(error.message);
       }
-      console.log("Firebase welcomes you");
     }
   }, [signupDataValues]);
 
@@ -51,6 +56,6 @@ const useSignupHook = (signupDataValues) => {
       handleFormSubmit();
   }, [firebaseSignup, handleFormSubmit, signupDataValues]);
 
-  return { signupMessage, signupDataTemplate };
+  return { signupMessage, signupDataTemplate, signupErrorMessage };
 };
 export default useSignupHook;

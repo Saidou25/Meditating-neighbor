@@ -43,36 +43,23 @@ const UpdateMyProfileForm = () => {
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
 
-  // const handleKeyPress = (event) => {
-  //   if (event.key === "Enter") {
-  //     console.log("Enter key was pressed. Run your function.");
-  //     setState(event.key);
-  //   }
-  // };
-  // console.log("you have pressed a ", state);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // setting up errorMessages tailored on if the update concerns a "meditator" or a "teacher" then updating user's profile
     // in MongoDb using updateProfile graphql mutation.
     if (teacher === "meditator") {
-      // if (teacher1 === "teacher" && teacher === "meditator") {
-      //   setFirstname("");
-      //   setLastname("");
-      //   setStory("");
-      //   console.log("was a teacher");
-      // } else
       if (teacher === teacher1 && years === years1 && stage === stage1) {
-        setMessage("you haven't made any changes to your profile...");
+        setMessage("You haven't made any changes to your profile...");
       }
       if (!teacher || !years || !stage) {
-        setErrorMessage("all fields need filled");
+        setErrorMessage("All fields need to befilled");
         return;
       } else if (
         teacher === "meditator" &&
         (/^[0-9]+$/.test(years) === false || /^[0-9]+$/.test(stage) === false)
       ) {
-        setErrorMessage("years and stage must be numbers");
+        setErrorMessage("Years and stage must be numbers");
         return;
       }
     } else if (teacher === "teacher") {
@@ -83,14 +70,13 @@ const UpdateMyProfileForm = () => {
         lastname === lastname1 &&
         story === story1
       ) {
-        setMessage("you haven't made any changes to your profile...");
+        setMessage("You haven't made any changes to your profile...");
       }
       if (!teacher || !years || !firstname || !lastname || !story) {
-        setErrorMessage("all fields need filled");
+        setErrorMessage("All fields need filled");
         return;
       } else if (/^[0-9]+$/.test(years) === false) {
-        setErrorMessage("years must be a number");
-        console.log("years must be a number");
+        setErrorMessage("Years must be a number");
         return;
       }
     }
@@ -124,7 +110,7 @@ const UpdateMyProfileForm = () => {
       years === years1 &&
       story === story1
     ) {
-      setMessage("you haven't made any changes to your profile...");
+      setMessage("You haven't made any changes to your profile...");
     } else {
       setMessage("Your profile has been updated.");
     }

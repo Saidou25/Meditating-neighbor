@@ -45,7 +45,7 @@ const ProfileForm = () => {
   const handleFormSubmit = async (e) => {
     if (teacher === "meditator") {
       if (!teacher || !years || !stage) {
-        setErrorMessage("all fields need filled");
+        setErrorMessage("all fields need to be filled");
         return;
       } else if (
         teacher === "meditator" &&
@@ -56,7 +56,7 @@ const ProfileForm = () => {
       }
     } else if (teacher === "teacher") {
       if (!teacher || !years || !firstname || !lastname || !story) {
-        setErrorMessage("all fields need filled");
+        setErrorMessage("all fields need to be filled");
         return;
       } else if (/^[0-9]+$/.test(years) === false) {
         setErrorMessage("years must be a number");

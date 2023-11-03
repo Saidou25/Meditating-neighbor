@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form } from "react-bootstrap";
+import ButtonSpinner from "../ButtonSpinner";
 import "./index.css";
 
 const FormReuse = ({
@@ -15,11 +16,16 @@ const FormReuse = ({
   validatedPassword,
   validatedSignupPassword,
   validateIdentical,
+  loading,
+  verifyEmailErrorMessage,
+  signupErrorMessage,
+  resetErrorMessage,
+  loginErrorMessage,
+  clearErrorMessage,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const { title, fields } = template;
 
-  // const [validated, setValidated] = useState(false);
   // when message comes backe from signup, reset password or verify email hook useEffect is
   // triggering the reset function so fields can cleared.
   useEffect(() => {
@@ -32,7 +38,6 @@ const FormReuse = ({
     if (verifyEmailMessage) {
       reset();
     }
-
     if (template.title === "cancel") {
       reset();
     }
@@ -73,7 +78,7 @@ const FormReuse = ({
           <p className="text-danger mt-3">{validatedSignupPassword}</p>
         )}
         {validateIdentical && field.name === "password2" && (
-          <p className="text-danger mt-3">{validateIdentical}heloo</p>
+          <p className="text-danger mt-3">{validateIdentical}</p>
         )}
       </div>
     ));
@@ -89,6 +94,24 @@ const FormReuse = ({
             <Form.Group>
               {renderFields(fields)}
               <br />
+
+              {(verifyEmailErrorMessage ||
+                signupErrorMessage ||
+                resetErrorMessage ||
+                loginErrorMessage) &&
+                !clearErrorMessage && (
+                  <div className="error-messages bg-danger  mt-5">
+                    <p
+                      className="text-light py-2"
+                      style={{ textAlign: "center" }}
+                    >
+                      {verifyEmailErrorMessage}
+                      {signupErrorMessage}
+                      {resetErrorMessage}
+                      {loginErrorMessage}
+                    </p>
+                  </div>
+                )}
               <div className="btn-position">
                 <div className="row row-signup-buttons g-0">
                   <div className="col-6 g-0">
@@ -97,7 +120,7 @@ const FormReuse = ({
                       type="submit"
                       style={{ cursor: "pointer" }}
                     >
-                      Submit
+                      {loading === true ? <ButtonSpinner /> : <>submit</>}
                     </button>
                   </div>
                   <div className="col-6 g-0">

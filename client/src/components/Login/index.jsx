@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -26,9 +26,16 @@ const Login = () => {
   const [validatedPassword2, setValidatedPassword2] = useState("");
   const [validatedSignupPassword, setValidatedSignupPassword] = useState("");
   const [validateIdentical, setValidateIdentical] = useState("");
-  const { resetPasswordMessage } = useResetPassword(resetPasswordDataValues);
-  const { signupMessage } = useSignup(signupDataValues);
-  const { verifyEmailMessage } = useVerifyEmail(verifyEmailDataValues);
+  const [loading, setLoading] = useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const [clearErrorMessage, setClearErrorMessage] = useState(false);
+  const { resetPasswordMessage, resetErrorMessage } = useResetPassword(
+    resetPasswordDataValues
+  );
+  const { signupMessage, signupErrorMessage } = useSignup(signupDataValues);
+  const { verifyEmailMessage, verifyEmailErrorMessage } = useVerifyEmail(
+    verifyEmailDataValues
+  );
 
   const getFromChild = (data) => {
     if (data === "cancel") {
@@ -37,6 +44,15 @@ const Login = () => {
       setValidatedPassword2("");
       setValidatedSignupPassword("");
       setTemplate(loginTemplate);
+      if (
+        verifyEmailErrorMessage ||
+        signupErrorMessage ||
+        resetErrorMessage ||
+        loginErrorMessage
+      ) {
+        setClearErrorMessage(true);
+        setLoading(false);
+      }
     }
     if (data === "reset") {
       setValidatedPassword("");
@@ -44,6 +60,15 @@ const Login = () => {
       setValidatedPassword2("");
       setValidatedSignupPassword("");
       setTemplate(resetTemplate);
+      if (
+        verifyEmailErrorMessage ||
+        signupErrorMessage ||
+        resetErrorMessage ||
+        loginErrorMessage
+      ) {
+        setClearErrorMessage(true);
+        setLoading(false);
+      }
     }
     if (data === "verify") {
       setValidatedPassword("");
@@ -51,6 +76,15 @@ const Login = () => {
       setValidatedPassword2("");
       setValidatedSignupPassword("");
       setTemplate(verifyTemplate);
+      if (
+        verifyEmailErrorMessage ||
+        signupErrorMessage ||
+        resetErrorMessage ||
+        loginErrorMessage
+      ) {
+        setClearErrorMessage(true);
+        setLoading(false);
+      }
     }
     if (data === "signup") {
       setValidatedPassword("");
@@ -58,6 +92,15 @@ const Login = () => {
       setValidatedPassword2("");
       setValidatedSignupPassword("");
       setTemplate(signupTemplate);
+      if (
+        verifyEmailErrorMessage ||
+        signupErrorMessage ||
+        resetErrorMessage ||
+        loginErrorMessage
+      ) {
+        setClearErrorMessage(true);
+        setLoading(false);
+      }
     }
   };
   const [login] = useMutation(LOGIN_USER);
@@ -69,11 +112,13 @@ const Login = () => {
           variables: { email: lowerCaseEmail, password: password },
         });
         if (data) {
+          setLoginErrorMessage("");
           console.log("logedin gql");
           Auth.login(data.login.token);
         }
       } catch (error) {
-        console.error(error.message);
+        setLoginErrorMessage(error.message);
+        setLoading(false);
       }
     }
   };
@@ -87,16 +132,19 @@ const Login = () => {
           lowerCaseEmail,
           password
         );
-        console.log("you are logedin in firebase :-)", user);
-        handleFormSubmit(password, lowerCaseEmail);
+        if (user) {
+          setLoginErrorMessage("");
+          console.log("you are logedin in firebase :-)", user);
+          handleFormSubmit(password, lowerCaseEmail);
+        }
       } catch (error) {
-        console.log(error.message);
+        setLoginErrorMessage(error.message);
+        setLoading(false);
       }
     }
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     if (template.title === "Reset your password") {
       if (values.password1.length < 6) {
         setValidatedPassword1("Password must be 6 characters long minimun.");
@@ -117,12 +165,11 @@ const Login = () => {
     }
     if (template.title === "Reset your password") {
       if (values.password1 !== values.password2) {
-        console.log("not identical");
         setValidateIdentical("not identical");
         return;
       } else {
-        console.log("doing it anyway");
         setValidateIdentical("");
+        setLoading(true);
         setResetPasswordDataValues(values);
         getFromChild("cancel");
       }
@@ -135,11 +182,13 @@ const Login = () => {
         return;
       } else {
         setValidatedSignupPassword("");
+        setLoading(true);
         setSignupDataValues(values);
-        getFromChild("cancel");
+        // getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
+      setLoading(true);
       setVerifyEmailDataValues(values);
       getFromChild("cancel");
     }
@@ -149,11 +198,35 @@ const Login = () => {
         return;
       } else {
         setValidatedPassword("");
-        firebaseLogin(values);
       }
+      setValidatedPassword("");
+      setLoading(true);
+      setClearErrorMessage(false);
+      firebaseLogin(values);
     }
   };
-  // if (loading) return <Spinner />;
+  useEffect(() => {
+    if (
+      resetPasswordMessage ||
+      signupMessage ||
+      verifyEmailMessage ||
+      verifyEmailErrorMessage ||
+      signupErrorMessage ||
+      resetErrorMessage ||
+      loginErrorMessage
+    ) {
+      setLoading(false);
+      setClearErrorMessage(false);
+    }
+  }, [
+    resetPasswordMessage,
+    signupMessage,
+    verifyEmailMessage,
+    verifyEmailErrorMessage,
+    signupErrorMessage,
+    resetErrorMessage,
+    loginErrorMessage,
+  ]);
   return (
     <FormReuse
       template={template}
@@ -167,7 +240,12 @@ const Login = () => {
       validatedPassword={validatedPassword}
       validatedSignupPassword={validatedSignupPassword}
       validateIdentical={validateIdentical}
-      
+      loading={loading}
+      verifyEmailErrorMessage={verifyEmailErrorMessage}
+      signupErrorMessage={signupErrorMessage}
+      resetErrorMessage={resetErrorMessage}
+      loginErrorMessage={loginErrorMessage}
+      clearErrorMessage={clearErrorMessage}
     />
   );
 };

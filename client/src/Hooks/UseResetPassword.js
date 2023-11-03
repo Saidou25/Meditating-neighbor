@@ -8,6 +8,7 @@ import { QUERY_USERS } from "../utils/queries";
 const useResetPassword = (resetPasswordDataValues) => {
   const [resetDataTemplate, setResetDataTemplate] = useState("");
   const [resetPasswordMessage, setResetPasswordMessage] = useState("");
+  const [resetErrorMessage, setResetErrorMessage] = useState("");
 
   const { data: usersData } = useQuery(QUERY_USERS);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -27,11 +28,12 @@ const useResetPassword = (resetPasswordDataValues) => {
           code,
           resetPasswordDataValues.password1
         ).then((resp) => {
+          setResetErrorMessage("");
           setResetDataTemplate("cancel");
           setResetPasswordMessage("password reset with success");
         });
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        setResetErrorMessage(error.message);
         return;
       }
     };
@@ -47,10 +49,11 @@ const useResetPassword = (resetPasswordDataValues) => {
           },
         });
         if (data && data.updateUser) {
+          setResetErrorMessage("");
           firebaseResetPassword();
         }
       } catch (error) {
-        console.log(error.message);
+        setResetErrorMessage(error.message);
       }
     };
     // verifying email where code was sent matches the attempting user then updating user with new password.
@@ -68,7 +71,7 @@ const useResetPassword = (resetPasswordDataValues) => {
         }
       });
     } catch (error) {
-      console.log("You don't have an accoutn yet!");
+      setResetErrorMessage(error.message);
     }
   }, [resetPasswordDataValues, code, usersData, updateUser]);
 
@@ -78,6 +81,6 @@ const useResetPassword = (resetPasswordDataValues) => {
     }
   }, [verifyCode, resetPasswordDataValues]);
 
-  return { resetDataTemplate, resetPasswordMessage, resetPasswordDataValues };
+  return { resetDataTemplate, resetPasswordMessage, resetPasswordDataValues, resetErrorMessage };
 };
 export default useResetPassword;
