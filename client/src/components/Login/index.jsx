@@ -184,7 +184,7 @@ const Login = () => {
         setValidatedSignupPassword("");
         setLoading(true);
         setSignupDataValues(values);
-        // getFromChild("cancel");
+        getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
