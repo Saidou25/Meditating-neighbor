@@ -87,6 +87,7 @@
   .third {
     background-attachment: scroll;
   }
+
 }
 @media screen and (max-width: 640px) {
   .container-main {
@@ -95,7 +96,7 @@
   .parallax {
     background-attachment: scroll;
     width: 100%;
-    height: 400px;
+    min-height: 400px;
   }
   .second {
     background-attachment: scroll;
