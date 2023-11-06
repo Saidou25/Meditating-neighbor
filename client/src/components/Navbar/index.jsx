@@ -47,7 +47,7 @@ const Navbar = () => {
     Auth.logout();
     console.log("logout success!");
   };
-  // firebase logout way
+  // firebase logout documentation
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -57,7 +57,7 @@ const Navbar = () => {
       console.log(error);
     }
   };
-  // making sure that these variables stay monitored for immediate response in page display
+  // making sure that these variables stay monitored for immediate response in page display.
   useEffect(() => {
     if (
       usersIncomingRequestProfiles ||
@@ -68,7 +68,7 @@ const Navbar = () => {
       me
     ) {
       // if there are contact requests with other users sent by me or by others to me
-      // then the contacts link item in nav will be set to slowly blink from orange to grey until action is done
+      // then the contacts link item in nav will be set to slowly blink from orange to grey until action is taken from user.
       if (usersIncomingRequestProfiles.length || outgoingRequests.length) {
         setAnimation("contact-link");
       }
@@ -111,7 +111,7 @@ const Navbar = () => {
               <div className="collapse navbar-collapse" id="navbarColor01">
                 <ul className="navbar-nav me-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to="/Neighbors">
+                    <Link className="nav-link" to="/Members">
                       members
                     </Link>
                   </li>

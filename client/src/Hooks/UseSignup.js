@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 
 const useSignupHook = (signupDataValues) => {
   const [addUser] = useMutation(ADD_USER);
-const [signupErrorMessage, setSignupErrorMessage] = useState("");
+  const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [signupDataTemplate, setSignupDataTemplate] = useState("");
   const [signupMessage, setSignupMessage] = useState("");
 
@@ -39,11 +39,15 @@ const [signupErrorMessage, setSignupErrorMessage] = useState("");
       const email = signupDataValues.signupEmail.toLowerCase();
       const password = signupDataValues.signupPassword;
       try {
-         const { data } = await createUserWithEmailAndPassword(auth, email, password);
-         if (data) {
+        const { data } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        if (data) {
           console.log("Firebase welcomes you");
           setSignupErrorMessage("");
-         }
+        }
       } catch (error) {
         console.log("error");
         setSignupErrorMessage(error.message);
@@ -52,8 +56,8 @@ const [signupErrorMessage, setSignupErrorMessage] = useState("");
   }, [signupDataValues]);
 
   useEffect(() => {
-      firebaseSignup();
-      handleFormSubmit();
+    firebaseSignup();
+    handleFormSubmit();
   }, [firebaseSignup, handleFormSubmit, signupDataValues]);
 
   return { signupMessage, signupDataTemplate, signupErrorMessage };

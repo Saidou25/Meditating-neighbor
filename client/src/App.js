@@ -11,25 +11,22 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FormReuse from "./components/FormReuse";
 import Contacts from "./pages/Contacts";
-import DeleteModal from "./components/DeleteModal";
+import Notifications from "./pages/Contacts/Notifications";
 import LandingPage from "./pages/LandingPage";
-import Login from "./components/Login";
-// import Signup from "./components/Signup";
-import LandingFooter from "./components/LandingFooter";
+import Login from "./pages/LandingPage/Login";
+import LandingFooter from "./pages/LandingPage/LandingFooter";
 import Map from "./pages/Map";
-import Notifications from "./components/Notifications";
 import Usa from "./pages/Usa";
-import Avatar from "./components/Avatar";
-import ProfileForm from "./components/ProfileForm";
-import ProfileList from "./components/ProfileList";
+import Teachers from "./pages/Usa/Teachers";
 import Profile from "./pages/Profile";
-import UpdateMyProfileForm from "./components/UpdateMyProfileForm";
-import TeacherMediaScreen from "./components/TeacherMediaScreen";
-import Neighbors from "./pages/Neighbors";
-// import ResetPassword from "./components/ResetPassword";
-// import VerifyEmail from "./components/VerifyEmail";
+import Avatar from "./pages/Profile/Avatar";
+import ProfileForm from "./pages/Profile/ProfileForm";
+import UpdateMyProfileForm from "./pages/Profile/UpdateMyProfileForm";
+import DeleteModal from "./pages/Profile/DeleteModal";
+import TeacherMediaScreen from "./pages/Usa/Teachers/TeacherMediaScreen";
+import Members from "./pages/Members";
+import ProfileList from "./pages/Members/ProfileList";
 import Success from "./components/Success";
-import Teachers from "./components/Teachers";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
 
@@ -116,7 +113,7 @@ function App() {
             <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
-            <Route path="/Neighbors" element={<Neighbors />} />
+            <Route path="/Members" element={<Members />} />
             {/* <Route path="/ResetPassword" element={<ResetPassword />} /> */}
             <Route path="/Success" element={<Success />} />
             {/* <Route path="/VerifyEmail" element={<VerifyEmail />} /> */}

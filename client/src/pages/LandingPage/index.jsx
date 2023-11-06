@@ -4,9 +4,9 @@ import { signOut } from "firebase/auth";
 import { motion } from "framer-motion";
 import { auth } from "../../firebase";
 import Auth from "../../utils/auth";
-import Login from "../../components/Login";
+import Login from "./Login";
 import Navabar from "../../components/Navbar";
-import LandingFooter from "../../components/LandingFooter";
+import LandingFooter from "./LandingFooter";
 import "./index.css";
 
 const LandingPage = () => {

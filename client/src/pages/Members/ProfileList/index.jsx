@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { QUERY_REQUESTS } from "../../utils/queries";
-import { ADD_REQUEST } from "../../utils/mutations";
+import { QUERY_REQUESTS } from "../../../utils/queries";
+import { ADD_REQUEST } from "../../../utils/mutations";
 import { FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
-import Auth from "../../utils/auth";
-import useMyContacts from "../../Hooks/UseMyContacts";
-import useMyRequests from "../../Hooks/UseMyRequests";
-import useUsersInfo from "../../Hooks/UseUsersInfo";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
-import profileIcon from "../../assets/images/profileicon.png";
+import Auth from "../../../utils/auth";
+import useMyContacts from "../../../Hooks/UseMyContacts";
+import useMyRequests from "../../../Hooks/UseMyRequests";
+import useUsersInfo from "../../../Hooks/UseUsersInfo";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import profileIcon from "../../../assets/images/profileicon.png";
 // import Spinner from "../Spinner";
 import "./index.css";
 

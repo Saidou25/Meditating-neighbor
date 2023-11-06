@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
-import ModalReuse from "../../components/ModalReuse";
-import profileIcon from "../../assets/images/profileicon.png";
+import ModalReuse from "../../../../components/ModalReuse";
+import profileIcon from "../../../../assets/images/profileicon.png";
 import "./index.css";
 
 // This component displays profile picture and username for smaller screens. Cards didn't look good for smaller screens.

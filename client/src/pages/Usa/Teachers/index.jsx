@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaEllipsisH } from "react-icons/fa";
-import ModalReuse from "../../components/ModalReuse";
-import useUsersInfo from "../../Hooks/UseUsersInfo";
-import TeacherMediaScreen from "../TeacherMediaScreen";
-import profileIcon from "../../assets/images/profileicon.png";
+import ModalReuse from "../../../components/ModalReuse";
+import useUsersInfo from "../../../Hooks/UseUsersInfo";
+import TeacherMediaScreen from "./TeacherMediaScreen";
+import profileIcon from "../../../assets/images/profileicon.png";
 // import Spinner from "../Spinner";
 import "./index.css";
 

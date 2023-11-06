@@ -5,14 +5,14 @@ import { Navigate } from "react-router-dom";
 import { v4 } from "uuid";
 import Auth from "../../utils/auth";
 import useMyInfo from "../../Hooks/UseMyInfo";
-import ProfileList from "../../components/ProfileList";
+import ProfileList from "./ProfileList";
 import Spinner from "../../components/Spinner";
 import "./index.css";
 
 const Neighbors = () => {
   const { me } = useMyInfo();
-  let noUserYet = "true";
   const { data: usersData, usersLaoding, usersError } = useQuery(QUERY_USERS);
+  let noUserYet = "true";
   const users = usersData?.users || [];
 
   // Calculates distance between user's geolocation and other users

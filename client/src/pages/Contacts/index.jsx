@@ -3,7 +3,7 @@ import { FaEllipsisH } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import Auth from "../../utils/auth";
 import useMyContacts from "../../Hooks/UseMyContacts";
-import Notifications from "../../components/Notifications";
+import Notifications from "./Notifications";
 import ModalReuse from "../../components/ModalReuse";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";

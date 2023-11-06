@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_PROFILE } from "../../utils/mutations";
-import { QUERY_ME } from "../../utils/queries";
+import { ADD_PROFILE } from "../../../utils/mutations";
+import { QUERY_ME } from "../../../utils/queries";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Auth from "../../utils/auth";
-import useMyInfo from "../../Hooks/UseMyInfo";
+import Auth from "../../../utils/auth";
+import useMyInfo from "../../../Hooks/UseMyInfo";
 // import Spinner from "../Spinner";
-import Success from "../Success";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Success from "../../../components/Success";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import "./index.css";
 
 const ProfileForm = () => {

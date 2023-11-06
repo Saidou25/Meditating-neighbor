@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { UPDATE_PROFILE } from "../../utils/mutations";
-import { QUERY_PROFILES } from "../../utils/queries";
+import { UPDATE_PROFILE } from "../../../utils/mutations";
+import { QUERY_PROFILES } from "../../../utils/queries";
 import { Navigate } from "react-router-dom";
-import Auth from "../../utils/auth";
-import Success from "../Success";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Auth from "../../../utils/auth";
+import Success from "../../../components/Success";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 
 import "./index.css";
 

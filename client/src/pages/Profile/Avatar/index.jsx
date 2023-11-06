@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_AVATAR, DELETE_AVATAR } from "../../utils/mutations";
-import { QUERY_ME } from "../../utils/queries";
-import { storage } from "../../firebase";
+import { ADD_AVATAR, DELETE_AVATAR } from "../../../utils/mutations";
+import { QUERY_ME } from "../../../utils/queries";
+import { storage } from "../../../firebase";
 import {
   getDownloadURL,
   ref,
@@ -10,10 +10,10 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
-import useMyInfo from "../../Hooks/UseMyInfo";
-import trash from "../../assets/images/trash.jpg";
-import ButtonSpinner from "../ButtonSpinner";
-import profileIcon from "../../assets/images/profileicon.png";
+import useMyInfo from "../../../Hooks/UseMyInfo";
+import trash from "../../../assets/images/trash.jpg";
+import ButtonSpinner from "../../../components/ButtonSpinner";
+import profileIcon from "../../../assets/images/profileicon.png";
 import "./index.css";
 
 const ProfPics = () => {

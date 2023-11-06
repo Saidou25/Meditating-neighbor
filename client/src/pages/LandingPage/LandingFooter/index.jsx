@@ -1,5 +1,5 @@
 import React from "react";
-import linkedIn from "../../assets/images/linkedIn.png";
+import linkedIn from "../../../assets/images/linkedIn.png";
 import "./index.css";
 
 const LandingFooter = () => {

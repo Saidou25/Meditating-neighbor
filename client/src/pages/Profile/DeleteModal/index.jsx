@@ -7,12 +7,12 @@ import {
   DELETE_USER,
   DELETE_CONTACT,
   DELETE_REQUEST,
-} from "../../utils/mutations";
-import { storage } from "../../firebase";
+} from "../../../utils/mutations";
+import { storage } from "../../../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Auth from "../../utils/auth";
+import Auth from "../../../utils/auth";
 import "./index.css";
 
 const DeleteModal = ({

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
+import { LOGIN_USER } from "../../../utils/mutations";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "../../../firebase";
 import {
   loginTemplate,
   resetTemplate,
   verifyTemplate,
   signupTemplate,
-} from "../../data/templatesData";
-import FormReuse from "../../components/FormReuse";
-import useSignup from "../../Hooks/UseSignup";
-import useVerifyEmail from "../../Hooks/UseVerifyEmail";
-import useResetPassword from "../../Hooks/UseResetPassword";
+} from "../../../data/templatesData";
+import FormReuse from "../../../components/FormReuse";
+import useSignup from "../../../Hooks/UseSignup";
+import useVerifyEmail from "../../../Hooks/UseVerifyEmail";
+import useResetPassword from "../../../Hooks/UseResetPassword";
 // import Spinner from "../../components/Spinner";
-import Auth from "../../utils/auth";
+import Auth from "../../../utils/auth";
 
 const Login = () => {
   const [signupDataValues, setSignupDataValues] = useState("");
@@ -36,6 +36,7 @@ const Login = () => {
   const { verifyEmailMessage, verifyEmailErrorMessage } = useVerifyEmail(
     verifyEmailDataValues
   );
+  const [login] = useMutation(LOGIN_USER);
 
   const getFromChild = (data) => {
     if (data === "cancel") {
@@ -103,7 +104,6 @@ const Login = () => {
       }
     }
   };
-  const [login] = useMutation(LOGIN_USER);
 
   const handleFormSubmit = async (password, lowerCaseEmail) => {
     if (password && lowerCaseEmail) {

@@ -1,13 +1,14 @@
 import React from "react";
 import "./index.css";
 
-// This is a reusable confirmation email which accepts a "message" as prop from where ever the component is called.
+// This is a reusable confirmation components which accepts a "message" as prop from where ever the component is called.
 const Success = ({ message }) => {
   
 
   return (
     <div className="container-fluid success bg-primary">
       <div className="container-success">
+       {/* This message doesn't get a fa check. */}
         {message === "You haven't made any changes to your profile..." ? (
           <p className="p-text d-flex text-light justify-content-center fs-3">
             {message}

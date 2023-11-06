@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { QUERY_REQUESTS, QUERY_CONTACTS } from "../../utils/queries";
-import { DELETE_REQUEST, ADD_CONTACT } from "../../utils/mutations";
+import { QUERY_REQUESTS, QUERY_CONTACTS } from "../../../utils/queries";
+import { DELETE_REQUEST, ADD_CONTACT } from "../../../utils/mutations";
 import { Navigate } from "react-router-dom";
-import Auth from "../../utils/auth";
-import useMyRequests from "../../Hooks/UseMyRequests";
-import profileIcon from "../../assets/images/profileicon.png";
+import Auth from "../../../utils/auth";
+import useMyRequests from "../../../Hooks/UseMyRequests";
+import profileIcon from "../../../assets/images/profileicon.png";
 
 import "./index.css";
 
