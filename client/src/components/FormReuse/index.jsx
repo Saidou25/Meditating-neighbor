@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form } from "react-bootstrap";
 import ButtonSpinner from "../ButtonSpinner";
@@ -8,20 +8,15 @@ const FormReuse = ({
   template,
   onSubmit,
   getFromChild,
+  dynamicError,
   resetPasswordMessage,
   signupMessage,
   verifyEmailMessage,
-  validatedPassword1,
-  validatedPassword2,
-  validatedPassword,
-  validatedSignupPassword,
-  validateIdentical,
   loading,
   verifyEmailErrorMessage,
   signupErrorMessage,
   resetErrorMessage,
   loginErrorMessage,
-  clearErrorMessage,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const { title, fields } = template;
@@ -57,7 +52,7 @@ const FormReuse = ({
         </Form.Label>
         <Form.Control
           required
-          className="form-input email-login-input my2"
+          className="form-input email-login-input"
           style={{ fontStyle: "oblique" }}
           type={field.type}
           name={field.name}
@@ -65,20 +60,8 @@ const FormReuse = ({
           id={field.name}
           {...register(`${field.name}`, { required: true })}
         />{" "}
-        {validatedPassword1 && field.name === "password1" && (
-          <p className="text-danger mt-3">{validatedPassword1}</p>
-        )}
-        {validatedPassword2 && field.name === "password2" && (
-          <p className="text-danger mt-3">{validatedPassword2}</p>
-        )}
-        {validatedPassword && field.name === "password" && (
-          <p className="text-danger mt-3">{validatedPassword}</p>
-        )}
-        {validatedSignupPassword && field.name === "signupPassword" && (
-          <p className="text-danger mt-3">{validatedSignupPassword}</p>
-        )}
-        {validateIdentical && field.name === "password2" && (
-          <p className="text-danger mt-3">{validateIdentical}</p>
+        {dynamicError.message && field.name === dynamicError.fieldName && (
+          <p className="text-danger mt-3">{dynamicError.message}</p>
         )}
       </div>
     ));
@@ -99,7 +82,7 @@ const FormReuse = ({
                 signupErrorMessage ||
                 resetErrorMessage ||
                 loginErrorMessage) &&
-                !clearErrorMessage && (
+                !dynamicError && (
                   <div className="error-messages bg-danger  mt-5">
                     <p
                       className="text-light py-2"

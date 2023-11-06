@@ -16,95 +16,68 @@ import useResetPassword from "../../../Hooks/UseResetPassword";
 // import Spinner from "../../components/Spinner";
 import Auth from "../../../utils/auth";
 
+//  In this component we are handleling login, signup, verifyEmail and signup. This components are
+// displayed thru a dynamically generated form called "formReuse".
 const Login = () => {
-  const [signupDataValues, setSignupDataValues] = useState("");
-  const [verifyEmailDataValues, setVerifyEmailDataValues] = useState("");
-  const [resetPasswordDataValues, setResetPasswordDataValues] = useState("");
+  const [dynamicError, setDynamicError] = useState({
+    message: "",
+    fieldName: "",
+  });
+  const [hooksDataValues, setHooksDataValues] = useState("");
   const [template, setTemplate] = useState(loginTemplate);
-  const [validatedPassword, setValidatedPassword] = useState("");
-  const [validatedPassword1, setValidatedPassword1] = useState("");
-  const [validatedPassword2, setValidatedPassword2] = useState("");
-  const [validatedSignupPassword, setValidatedSignupPassword] = useState("");
-  const [validateIdentical, setValidateIdentical] = useState("");
   const [loading, setLoading] = useState(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
-  const [clearErrorMessage, setClearErrorMessage] = useState(false);
-  const { resetPasswordMessage, resetErrorMessage } = useResetPassword(
-    resetPasswordDataValues
-  );
-  const { signupMessage, signupErrorMessage } = useSignup(signupDataValues);
-  const { verifyEmailMessage, verifyEmailErrorMessage } = useVerifyEmail(
-    verifyEmailDataValues
-  );
+
+  const { resetPasswordMessage, resetErrorMessage } =
+    useResetPassword(hooksDataValues);
+  const { signupMessage, signupErrorMessage } = useSignup(hooksDataValues);
+  const { verifyEmailMessage, verifyEmailErrorMessage } =
+    useVerifyEmail(hooksDataValues);
+
   const [login] = useMutation(LOGIN_USER);
 
+  // getFrmonChild handles the forms rendering from the "submit, verify, login and reset" from the bottom of the login card. data
+  // is provided by the reusable form component.
   const getFromChild = (data) => {
-    if (data === "cancel") {
-      setValidatedPassword("");
-      setValidatedPassword1("");
-      setValidatedPassword2("");
-      setValidatedSignupPassword("");
-      setTemplate(loginTemplate);
-      if (
-        verifyEmailErrorMessage ||
-        signupErrorMessage ||
-        resetErrorMessage ||
-        loginErrorMessage
-      ) {
-        setClearErrorMessage(true);
+    switch (data) {
+      case "cancel":
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
+        setTemplate(loginTemplate);
         setLoading(false);
-      }
-    }
-    if (data === "reset") {
-      setValidatedPassword("");
-      setValidatedPassword1("");
-      setValidatedPassword2("");
-      setValidatedSignupPassword("");
-      setTemplate(resetTemplate);
-      if (
-        verifyEmailErrorMessage ||
-        signupErrorMessage ||
-        resetErrorMessage ||
-        loginErrorMessage
-      ) {
-        setClearErrorMessage(true);
+        break;
+      case "reset":
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
+        setTemplate(resetTemplate);
         setLoading(false);
-      }
-    }
-    if (data === "verify") {
-      setValidatedPassword("");
-      setValidatedPassword1("");
-      setValidatedPassword2("");
-      setValidatedSignupPassword("");
-      setTemplate(verifyTemplate);
-      if (
-        verifyEmailErrorMessage ||
-        signupErrorMessage ||
-        resetErrorMessage ||
-        loginErrorMessage
-      ) {
-        setClearErrorMessage(true);
+        break;
+      case "veify":
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
+        setTemplate(verifyTemplate);
         setLoading(false);
-      }
-    }
-    if (data === "signup") {
-      setValidatedPassword("");
-      setValidatedPassword1("");
-      setValidatedPassword2("");
-      setValidatedSignupPassword("");
-      setTemplate(signupTemplate);
-      if (
-        verifyEmailErrorMessage ||
-        signupErrorMessage ||
-        resetErrorMessage ||
-        loginErrorMessage
-      ) {
-        setClearErrorMessage(true);
+        break;
+      case "signup":
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
+        setTemplate(signupTemplate);
         setLoading(false);
-      }
+        break;
+      default:
+        setTemplate(loginTemplate);
     }
   };
-
+  
+  // Handles gql login.
   const handleFormSubmit = async (password, lowerCaseEmail) => {
     if (password && lowerCaseEmail) {
       try {
@@ -122,7 +95,12 @@ const Login = () => {
       }
     }
   };
+  // Handles firebase login.
   const firebaseLogin = async (values) => {
+    if (!values.loginEmail) {
+      setLoginErrorMessage("");
+      return;
+    }
     const lowerCaseEmail = values.loginEmail.toLowerCase();
     const password = values.password;
     if (password && lowerCaseEmail) {
@@ -143,65 +121,90 @@ const Login = () => {
       }
     }
   };
-
+  // Handles values captured in the reusable "reusableForm" component.
   const onSubmit = (values) => {
     if (template.title === "Reset your password") {
       if (values.password1.length < 6) {
-        setValidatedPassword1("Password must be 6 characters long minimun.");
+        setDynamicError({
+          message: "Password must be 6 characters long minimun.",
+          fieldName: "password1",
+        });
         return;
       } else {
-        setValidatedPassword1("");
-        setValidatedPassword2("");
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
       }
-    }
-    if (template.title === "Reset your password") {
       if (values.password2.length < 6) {
-        setValidatedPassword2("Password must be 6 characters long minimun.");
+        setDynamicError({
+          message: "Password must be 6 characters long minimun.",
+          fieldName: "password2",
+        });
         return;
       } else {
-        setValidatedPassword1("");
-        setValidatedPassword2("");
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
       }
-    }
-    if (template.title === "Reset your password") {
       if (values.password1 !== values.password2) {
-        setValidateIdentical("not identical");
+        setDynamicError({
+          message: "Passwords need to be identical.",
+          fieldName: "password2",
+        });
         return;
       } else {
-        setValidateIdentical("");
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
         setLoading(true);
-        setResetPasswordDataValues(values);
+        setHooksDataValues("");
+        firebaseLogin(values);
+        setHooksDataValues(values);
         getFromChild("cancel");
       }
     }
     if (template.title === "Signup") {
       if (values.signupPassword.length < 6) {
-        setValidatedSignupPassword(
-          "Password must be 6 characters long minimun."
-        );
+        setDynamicError({
+          message: "Password must be 6 characters long minimun...",
+          fieldName: "signupPassword",
+        });
         return;
       } else {
-        setValidatedSignupPassword("");
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
         setLoading(true);
-        setSignupDataValues(values);
+        firebaseLogin(values);
+        setHooksDataValues(values);
         getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
       setLoading(true);
-      setVerifyEmailDataValues(values);
+      firebaseLogin(values);
+      setHooksDataValues(values);
       getFromChild("cancel");
     }
     if (template.title === "Login") {
       if (values.password.length < 6) {
-        setValidatedPassword("Password must be 6 characters long minimun.");
+        setDynamicError({
+          message: "Password must be 6 characters long minimun.",
+          fieldName: "password",
+        });
         return;
       } else {
-        setValidatedPassword("");
+        setDynamicError({
+          message: "",
+          fieldName: "",
+        });
       }
-      setValidatedPassword("");
       setLoading(true);
-      setClearErrorMessage(false);
+      setHooksDataValues("");
       firebaseLogin(values);
     }
   };
@@ -216,7 +219,10 @@ const Login = () => {
       loginErrorMessage
     ) {
       setLoading(false);
-      setClearErrorMessage(false);
+      setDynamicError({
+        message: "",
+        fieldName: "",
+      });
     }
   }, [
     resetPasswordMessage,
@@ -235,17 +241,12 @@ const Login = () => {
       resetPasswordMessage={resetPasswordMessage}
       signupMessage={signupMessage}
       verifyEmailMessage={verifyEmailMessage}
-      validatedPassword1={validatedPassword1}
-      validatedPassword2={validatedPassword2}
-      validatedPassword={validatedPassword}
-      validatedSignupPassword={validatedSignupPassword}
-      validateIdentical={validateIdentical}
+      dynamicError={dynamicError}
       loading={loading}
       verifyEmailErrorMessage={verifyEmailErrorMessage}
       signupErrorMessage={signupErrorMessage}
       resetErrorMessage={resetErrorMessage}
       loginErrorMessage={loginErrorMessage}
-      clearErrorMessage={clearErrorMessage}
     />
   );
 };

@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER } from "../utils/mutations";
 import { QUERY_USERS } from "../utils/queries";
 
-const useResetPassword = (resetPasswordDataValues) => {
+const useResetPassword = (hooksDataValues) => {
   const [resetDataTemplate, setResetDataTemplate] = useState("");
   const [resetPasswordMessage, setResetPasswordMessage] = useState("");
   const [resetErrorMessage, setResetErrorMessage] = useState("");
@@ -23,17 +23,17 @@ const useResetPassword = (resetPasswordDataValues) => {
   const verifyCode = useCallback(async () => {
     const firebaseResetPassword = async () => {
       try {
-        await confirmPasswordReset(
-          auth,
-          code,
-          resetPasswordDataValues.password1
-        ).then((resp) => {
-          setResetErrorMessage("");
-          setResetDataTemplate("cancel");
-          setResetPasswordMessage("password reset with success");
-        });
+        await confirmPasswordReset(auth, code, hooksDataValues.password1).then(
+          (resp) => {
+            setResetErrorMessage("");
+            setResetDataTemplate("cancel");
+            setResetPasswordMessage("password reset with success");
+          }
+        );
       } catch (error) {
-        setResetErrorMessage(error.message);
+        setResetErrorMessage(
+          "We have sent you an email with a link. Click the link go to reset and enter your new password."
+        );
         return;
       }
     };
@@ -45,7 +45,7 @@ const useResetPassword = (resetPasswordDataValues) => {
             id: userId,
             username: username,
             email: accountEmail,
-            password: resetPasswordDataValues.password1,
+            password: hooksDataValues.password1,
           },
         });
         if (data && data.updateUser) {
@@ -73,14 +73,16 @@ const useResetPassword = (resetPasswordDataValues) => {
     } catch (error) {
       setResetErrorMessage(error.message);
     }
-  }, [resetPasswordDataValues, code, usersData, updateUser]);
+  }, [hooksDataValues, code, usersData, updateUser]);
 
   useEffect(() => {
-    if (resetPasswordDataValues.password1) {
+    if (!hooksDataValues.password1) {
+      setResetErrorMessage("");
+    } else {
       verifyCode();
     }
-  }, [verifyCode, resetPasswordDataValues]);
+  }, [verifyCode, hooksDataValues]);
 
-  return { resetDataTemplate, resetPasswordMessage, resetPasswordDataValues, resetErrorMessage };
+  return { resetDataTemplate, resetPasswordMessage, resetErrorMessage };
 };
 export default useResetPassword;

@@ -4,40 +4,39 @@ import { ADD_USER } from "../utils/mutations";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
-const useSignupHook = (signupDataValues) => {
+const useSignupHook = (setHooksDataValues) => {
   const [addUser] = useMutation(ADD_USER);
   const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [signupDataTemplate, setSignupDataTemplate] = useState("");
   const [signupMessage, setSignupMessage] = useState("");
 
   const handleFormSubmit = useCallback(async () => {
-    if (signupDataValues) {
-      const lowerCaseEmail = signupDataValues.signupEmail.toLowerCase();
+    if (setHooksDataValues) {
+      const lowerCaseEmail = setHooksDataValues.signupEmail.toLowerCase();
       try {
         const { data } = await addUser({
           variables: {
-            username: signupDataValues.Username,
-            password: signupDataValues.signupPassword,
+            username: setHooksDataValues.Username,
+            password: setHooksDataValues.signupPassword,
             email: lowerCaseEmail,
           },
         });
         if (data) {
-          console.log(`Welcome ${signupDataValues.Username}.`);
           setSignupErrorMessage("");
           setSignupDataTemplate("cancel");
-          setSignupMessage(`Welcome ${signupDataValues.Username}.`);
+          setSignupMessage(`Welcome ${setHooksDataValues.Username}.`);
           return;
         }
       } catch (error) {
         setSignupErrorMessage(error.message);
       }
     }
-  }, [signupDataValues, addUser]);
+  }, [setHooksDataValues, addUser]);
 
   const firebaseSignup = useCallback(async () => {
-    if (signupDataValues) {
-      const email = signupDataValues.signupEmail.toLowerCase();
-      const password = signupDataValues.signupPassword;
+    if (setHooksDataValues) {
+      const email = setHooksDataValues.signupEmail.toLowerCase();
+      const password = setHooksDataValues.signupPassword;
       try {
         const { data } = await createUserWithEmailAndPassword(
           auth,
@@ -45,20 +44,22 @@ const useSignupHook = (signupDataValues) => {
           password
         );
         if (data) {
-          console.log("Firebase welcomes you");
           setSignupErrorMessage("");
         }
       } catch (error) {
-        console.log("error");
         setSignupErrorMessage(error.message);
       }
     }
-  }, [signupDataValues]);
+  }, [setHooksDataValues]);
 
   useEffect(() => {
-    firebaseSignup();
-    handleFormSubmit();
-  }, [firebaseSignup, handleFormSubmit, signupDataValues]);
+    if (!setHooksDataValues.signupEmail) {
+      setSignupErrorMessage("");
+    } else {
+      firebaseSignup();
+      handleFormSubmit();
+    }
+  }, [firebaseSignup, handleFormSubmit, setHooksDataValues]);
 
   return { signupMessage, signupDataTemplate, signupErrorMessage };
 };

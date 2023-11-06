@@ -37,18 +37,15 @@ const DeleteModal = ({
   // logout user after account deletion
   const logout = () => {
     Auth.logout();
-    console.log("logout success!");
   };
 
   const [user] = useAuthState(auth);
-  
+
   // delete user from firebase database
   const removeFirebaseUser = () => {
     user
       .delete()
-      .then(() => {
-        console.log("user deleted");
-      })
+      .then(() => {})
       .catch((error) => {
         console.log(error);
       });
@@ -65,7 +62,6 @@ const DeleteModal = ({
   //  delete user's account from MongoDb database using graphql deleteUser mutation
   const removeUser = async () => {
     if (!userId) {
-      console.log("no user id", userId);
       return;
     }
     try {
@@ -73,12 +69,11 @@ const DeleteModal = ({
         variables: { id: userId },
       });
       if (data) {
-        console.log("success deleting user");
+        removeFirebaseUser();
       }
     } catch (e) {
       console.error(e);
     }
-    removeFirebaseUser();
   };
 
   // delete from MongoDb database with deleteRequest mutation  the request used between users to request connection contact
@@ -91,7 +86,6 @@ const DeleteModal = ({
           variables: { id: myRequestId },
         });
         if (data) {
-          console.log("success deleting request", data);
           removeUser();
         }
       } catch (e) {
