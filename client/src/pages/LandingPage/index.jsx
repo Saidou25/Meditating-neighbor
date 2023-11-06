@@ -57,7 +57,7 @@ const LandingPage = () => {
       <header className="landing-nav">
         <Navabar />
       </header>
-      <main className="container-main" style={{ display: `${showParallax}` }}>
+      <main className="container-main bg-primary" style={{ display: `${showParallax}` }}>
         <div className="parallax">
           <div className="login-signup">
             {!Auth.loggedIn() && (

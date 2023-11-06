@@ -96,7 +96,8 @@
   .parallax {
     background-attachment: scroll;
     width: 100%;
-    min-height: 400px;
+    min-height: 0;
+    height: 400px;
   }
   .second {
     background-attachment: scroll;
