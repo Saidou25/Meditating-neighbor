@@ -27,6 +27,7 @@ const Login = () => {
   const [template, setTemplate] = useState(loginTemplate);
   const [loading, setLoading] = useState(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const [hookErrorMessage, setHookErrorMessage] = useState("");
 
   const { resetPasswordMessage, resetErrorMessage } =
     useResetPassword(hooksDataValues);
@@ -45,6 +46,7 @@ const Login = () => {
           message: "",
           fieldName: "",
         });
+        setHookErrorMessage("");
         setTemplate(loginTemplate);
         setLoading(false);
         break;
@@ -53,6 +55,7 @@ const Login = () => {
           message: "",
           fieldName: "",
         });
+        setHookErrorMessage(false);
         setTemplate(resetTemplate);
         setLoading(false);
         break;
@@ -61,6 +64,7 @@ const Login = () => {
           message: "",
           fieldName: "",
         });
+        setHookErrorMessage(false);
         setTemplate(verifyTemplate);
         setLoading(false);
         break;
@@ -69,6 +73,7 @@ const Login = () => {
           message: "",
           fieldName: "",
         });
+        setHookErrorMessage(false);
         setTemplate(signupTemplate);
         setLoading(false);
         break;
@@ -181,14 +186,14 @@ const Login = () => {
         setLoading(true);
         firebaseLogin(values);
         setHooksDataValues(values);
-        getFromChild("cancel");
+        // getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
       setLoading(true);
       firebaseLogin(values);
       setHooksDataValues(values);
-      getFromChild("cancel");
+      // getFromChild("cancel");
     }
     if (template.title === "Login") {
       if (values.password.length < 6) {
@@ -218,11 +223,8 @@ const Login = () => {
       resetErrorMessage ||
       loginErrorMessage
     ) {
+      setHookErrorMessage(loginErrorMessage || resetPasswordMessage || verifyEmailMessage || signupErrorMessage)
       setLoading(false);
-      setDynamicError({
-        message: "",
-        fieldName: "",
-      });
     }
   }, [
     resetPasswordMessage,
@@ -247,6 +249,7 @@ const Login = () => {
       signupErrorMessage={signupErrorMessage}
       resetErrorMessage={resetErrorMessage}
       loginErrorMessage={loginErrorMessage}
+      hookErrorMessage={hookErrorMessage}
     />
   );
 };

@@ -17,6 +17,8 @@ const FormReuse = ({
   signupErrorMessage,
   resetErrorMessage,
   loginErrorMessage,
+  clearErrorMessage,
+  hookErrorMessage
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const { title, fields } = template;
@@ -78,20 +80,13 @@ const FormReuse = ({
               {renderFields(fields)}
               <br />
 
-              {(verifyEmailErrorMessage ||
-                signupErrorMessage ||
-                resetErrorMessage ||
-                loginErrorMessage) &&
-                !dynamicError && (
+              {hookErrorMessage && (
                   <div className="error-messages bg-danger  mt-5">
                     <p
                       className="text-light py-2"
                       style={{ textAlign: "center" }}
                     >
-                      {verifyEmailErrorMessage}
-                      {signupErrorMessage}
-                      {resetErrorMessage}
-                      {loginErrorMessage}
+                      {hookErrorMessage}
                     </p>
                   </div>
                 )}
