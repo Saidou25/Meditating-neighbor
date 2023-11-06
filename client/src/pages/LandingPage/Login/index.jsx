@@ -186,14 +186,14 @@ const Login = () => {
         setLoading(true);
         firebaseLogin(values);
         setHooksDataValues(values);
-        // getFromChild("cancel");
+        getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
       setLoading(true);
       firebaseLogin(values);
       setHooksDataValues(values);
-      // getFromChild("cancel");
+      getFromChild("cancel");
     }
     if (template.title === "Login") {
       if (values.password.length < 6) {
