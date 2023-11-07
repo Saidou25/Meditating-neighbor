@@ -91,7 +91,6 @@ const Login = () => {
         });
         if (data) {
           setLoginErrorMessage("");
-          console.log("logedin gql");
           Auth.login(data.login.token);
         }
       } catch (error) {
@@ -117,7 +116,6 @@ const Login = () => {
         );
         if (user) {
           setLoginErrorMessage("");
-          console.log("you are logedin in firebase :-)", user);
           handleFormSubmit(password, lowerCaseEmail);
         }
       } catch (error) {

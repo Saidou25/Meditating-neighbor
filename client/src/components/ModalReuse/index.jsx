@@ -71,29 +71,35 @@ const ModalReuse = ({ hideModal, data }) => {
             <div className="col-12">
               <div className="p-info text-primary mb-4">
                 <h4 className="info-teacher text-primary mt-5 mb-4">Info</h4>{" "}
-                {data.userInfo?.profile ? (
-                  <div className="p-about mt-5 mb-4">
-                    <p>
-                      {data.userInfo.username} is a certified meditation{" "}
-                      {data.userInfo.profile.teacher}
-                    </p>
-                    <p>
-                      Has been meditating for {data.userInfo.profile.years}{" "}
-                      years
-                    </p>
-                    {data.userInfo.profile.teacher ? (
-                      <></>
-                    ) : (
+                {/* {data.userInfo?.profile ? ( */}
+                <div className="p-about mt-5 mb-4">
+                  {data.userInfo?.profile.teacher ? (
+                    <>
                       <p>
-                        {" "}
+                        {data.userInfo.profile?.firstname}{" "}
+                        {data.userInfo.profile?.lastname} is a certified
+                        meditation teacher.
+                      </p>{" "}
+                      <br />
+                      <p>
+                        Has been meditating for {data.userInfo.profile.years}{" "}
+                        years.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        Has been meditating for {data.userInfo.profile.years}{" "}
+                        years.
+                      </p>
+                      <br />
+                      <p>
                         Is currently working on stage{" "}
                         {data.userInfo.profile.stage}
                       </p>
-                    )}
-                  </div>
-                ) : (
-                  <></>
-                )}
+                    </>
+                  )}
+                </div>
                 <div className="p-about mt-5 mb-4">
                   <p>
                     <FaIdBadge /> {data.userInfo?.username}
