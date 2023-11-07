@@ -28,7 +28,7 @@ const useSignupHook = (setHooksDataValues) => {
           return;
         }
       } catch (error) {
-        setSignupErrorMessage(error.message);
+        setSignupErrorMessage("Credential not available.");
       }
     }
   }, [setHooksDataValues, addUser]);

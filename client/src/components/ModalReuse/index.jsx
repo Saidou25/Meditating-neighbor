@@ -74,17 +74,22 @@ const ModalReuse = ({ hideModal, data }) => {
                 {data.userInfo?.profile ? (
                   <div className="p-about mt-5 mb-4">
                     <p>
-                      {data.userInfo.username} is a{" "}
+                      {data.userInfo.username} is a certified
                       {data.userInfo.profile.teacher}
                     </p>
                     <p>
                       Has been meditating for {data.userInfo.profile.years}{" "}
                       years
                     </p>
-                    <p>
-                      Is currently working on stage{" "}
-                      {data.userInfo.profile.stage}
-                    </p>
+                    {data.userInfo.profile.teacher ? (
+                      <></>
+                    ) : (
+                      <p>
+                        {" "}
+                        Is currently working on stage{" "}
+                        {data.userInfo.profile.stage}
+                      </p>
+                    )}
                   </div>
                 ) : (
                   <></>

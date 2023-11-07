@@ -95,7 +95,7 @@ const Login = () => {
           Auth.login(data.login.token);
         }
       } catch (error) {
-        setLoginErrorMessage(error.message);
+        setLoginErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
@@ -121,7 +121,7 @@ const Login = () => {
           handleFormSubmit(password, lowerCaseEmail);
         }
       } catch (error) {
-        setLoginErrorMessage(error.message);
+        setLoginErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
