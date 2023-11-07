@@ -80,7 +80,6 @@ const ModalReuse = ({ hideModal, data }) => {
                         {data.userInfo.profile?.lastname} is a certified
                         meditation teacher.
                       </p>{" "}
-                      <br />
                       <p>
                         Has been meditating for {data.userInfo.profile.years}{" "}
                         years.
@@ -92,7 +91,6 @@ const ModalReuse = ({ hideModal, data }) => {
                         Has been meditating for {data.userInfo.profile.years}{" "}
                         years.
                       </p>
-                      <br />
                       <p>
                         Is currently working on stage{" "}
                         {data.userInfo.profile.stage}
