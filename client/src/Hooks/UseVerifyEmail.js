@@ -11,16 +11,15 @@ const useVerifyEmail = (hooksDataValues) => {
   const firebaseEmailVerify = useCallback(async () => {
     try {
       await sendPasswordResetEmail(auth, hooksDataValues.verifyEmail);
-      setVerifyEmailMessage(`Email ${hooksDataValues.verifyEmail} verified.`);
-      setVerifyEmailTemplate("cancel");
     } catch (error) {
       setVerifyEmailErrorMessage(error.message);
+      return;
     }
-    if (verifyEmailMessage) {
-      setVerifyEmailErrorMessage("");
-      alert("Email verification sent! Please check your email.");
-    }
-  }, [hooksDataValues, verifyEmailMessage]);
+    setVerifyEmailMessage(`Email ${hooksDataValues.verifyEmail} verified.`);
+    setVerifyEmailErrorMessage("");
+    setVerifyEmailTemplate("cancel");
+    alert("Email verification sent! Please check your email.");
+  }, [hooksDataValues]);
 
   useEffect(() => {
     if (!hooksDataValues.verifyEmail) {

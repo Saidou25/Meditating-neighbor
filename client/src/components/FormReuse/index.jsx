@@ -80,13 +80,13 @@ const FormReuse = ({
               {renderFields(fields)}
               <br />
 
-              {hookErrorMessage && (
+              {(hookErrorMessage || loginErrorMessage) && (
                   <div className="error-messages bg-danger  mt-5">
                     <p
                       className="text-light py-2"
                       style={{ textAlign: "center" }}
                     >
-                      {hookErrorMessage}
+                      {hookErrorMessage || loginErrorMessage}
                     </p>
                   </div>
                 )}

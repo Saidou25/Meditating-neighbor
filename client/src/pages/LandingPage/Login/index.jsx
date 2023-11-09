@@ -27,6 +27,7 @@ const Login = () => {
   const [template, setTemplate] = useState(loginTemplate);
   const [loading, setLoading] = useState(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
   const [hookErrorMessage, setHookErrorMessage] = useState("");
 
   const { resetPasswordMessage, resetErrorMessage } =
@@ -47,6 +48,7 @@ const Login = () => {
           fieldName: "",
         });
         setHookErrorMessage("");
+        setLoginErrorMessage("");
         setHooksDataValues("");
         setLoading(false);
         setTemplate(loginTemplate);
@@ -57,6 +59,7 @@ const Login = () => {
           fieldName: "",
         });
         setHookErrorMessage("");
+        setLoginErrorMessage("");
         setHooksDataValues("");
         setLoading(false);
         setTemplate(resetTemplate);
@@ -67,6 +70,7 @@ const Login = () => {
           fieldName: "",
         });
         setHookErrorMessage("");
+        setLoginErrorMessage("");
         setHooksDataValues("");
         setLoading(false);
         setTemplate(verifyTemplate);
@@ -77,6 +81,7 @@ const Login = () => {
           fieldName: "",
         });
         setHookErrorMessage("");
+        setLoginErrorMessage("");
         setHooksDataValues("");
         setLoading(false);
         setTemplate(signupTemplate);
@@ -94,11 +99,12 @@ const Login = () => {
           variables: { email: lowerCaseEmail, password: password },
         });
         if (data) {
-          setHookErrorMessage("");
+          setLoginErrorMessage("");
+          setLoginMessage("Login success.")
           Auth.login(data.login.token);
         }
       } catch (error) {
-        setHookErrorMessage("Invalid login credentials.");
+        setLoginErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
@@ -107,7 +113,7 @@ const Login = () => {
   const firebaseLogin = async (values) => {
     // console.log("login values", values.loginEmail);
     if (!values.loginEmail) {
-      setHookErrorMessage("");
+      setLoginErrorMessage("");
       return;
     }
     const lowerCaseEmail = values.loginEmail.toLowerCase();
@@ -120,25 +126,16 @@ const Login = () => {
           password
         );
         if (user) {
-          setHookErrorMessage("");
+          setLoginErrorMessage("");
+          setLoginMessage("Login success.")
           handleFormSubmit(password, lowerCaseEmail);
         }
       } catch (error) {
-        setHookErrorMessage("Invalid login credentials.");
+        setLoginErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
   };
-
-  const validate = useCallback(async () => {
-    // console.log("hook message", hookErrorMessage);
-    if (!hookErrorMessage && loading === false) {
-      // console.log("tere is no error", hookErrorMessage);
-      getFromChild("cancel");
-    } else {
-      // console.log("there is error", hookErrorMessage);
-    }
-  }, [loading, hookErrorMessage]);
 
   // Handles values captured in the reusable "reusableForm" component.
   const onSubmit = (values) => {
@@ -224,27 +221,54 @@ const Login = () => {
       firebaseLogin(values);
     }
   };
+
+  const validate = useCallback(async () => {
+    // console.log("hook message", hookErrorMessage);
+    if (!loginErrorMessage && !hookErrorMessage && loading === false) {
+      // console.log("tere is no error", hookErrorMessage);
+      getFromChild("cancel");
+    } else {
+      // console.log("there is error", hookErrorMessage);
+      setLoading(false);
+      return;
+    }
+  }, [loading, hookErrorMessage, loginErrorMessage]);
+
   useEffect(() => {
     if (
+      verifyEmailMessage ||
       resetPasswordMessage ||
       signupMessage ||
-      verifyEmailMessage ||
+      loginMessage ||
       verifyEmailErrorMessage ||
       signupErrorMessage ||
       resetErrorMessage ||
       loginErrorMessage
     ) {
-      setHookErrorMessage(
-        loginErrorMessage ||
-          resetPasswordMessage ||
-          verifyEmailMessage ||
-          signupErrorMessage
-      );
       setLoading(false);
       validate(
         loginErrorMessage ||
-          resetPasswordMessage ||
-          verifyEmailMessage ||
+          resetErrorMessage ||
+          verifyEmailErrorMessage ||
+          signupErrorMessage
+      );
+    }
+    if (
+      loginErrorMessage ||
+      resetErrorMessage ||
+      verifyEmailErrorMessage ||
+      signupErrorMessage
+    ) {
+      setHookErrorMessage(
+        loginErrorMessage ||
+          resetErrorMessage ||
+          verifyEmailErrorMessage ||
+          signupErrorMessage
+      );
+      validate(
+        loginErrorMessage ||
+          resetErrorMessage ||
+          verifyEmailErrorMessage ||
           signupErrorMessage
       );
     }
@@ -252,6 +276,7 @@ const Login = () => {
     resetPasswordMessage,
     signupMessage,
     verifyEmailMessage,
+    loginMessage,
     verifyEmailErrorMessage,
     signupErrorMessage,
     resetErrorMessage,

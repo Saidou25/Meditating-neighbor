@@ -31,9 +31,7 @@ const useResetPassword = (hooksDataValues) => {
           }
         );
       } catch (error) {
-        setResetErrorMessage(
-          "We have sent you an email with a link. Click the link go to reset and enter your new password."
-        );
+        setResetErrorMessage("Something went wrong.");
         return;
       }
     };
@@ -53,7 +51,9 @@ const useResetPassword = (hooksDataValues) => {
           firebaseResetPassword();
         }
       } catch (error) {
-        setResetErrorMessage(error.message);
+        setResetErrorMessage(
+          "You should have received an email with a link. Click the link go to reset and enter your new password."
+        );
       }
     };
     // verifying email where code was sent matches the attempting user then updating user with new password.
@@ -71,7 +71,9 @@ const useResetPassword = (hooksDataValues) => {
         }
       });
     } catch (error) {
-      setResetErrorMessage(error.message);
+      setResetErrorMessage(
+        "You should have received an email with a link. Click the link, go to reset and enter your new password."
+      );
     }
   }, [hooksDataValues, code, usersData, updateUser]);
 
