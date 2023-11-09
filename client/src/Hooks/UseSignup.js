@@ -4,39 +4,39 @@ import { ADD_USER } from "../utils/mutations";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
-const useSignupHook = (setHooksDataValues) => {
+const useSignupHook = (hooksDataValues) => {
   const [addUser] = useMutation(ADD_USER);
   const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [signupDataTemplate, setSignupDataTemplate] = useState("");
   const [signupMessage, setSignupMessage] = useState("");
 
   const handleFormSubmit = useCallback(async () => {
-    if (setHooksDataValues) {
-      const lowerCaseEmail = setHooksDataValues.signupEmail.toLowerCase();
+    if (hooksDataValues) {
+      const lowerCaseEmail = hooksDataValues.signupEmail.toLowerCase();
       try {
         const { data } = await addUser({
           variables: {
-            username: setHooksDataValues.Username,
-            password: setHooksDataValues.signupPassword,
+            username: hooksDataValues.Username,
+            password: hooksDataValues.signupPassword,
             email: lowerCaseEmail,
           },
         });
         if (data) {
           setSignupErrorMessage("");
           setSignupDataTemplate("cancel");
-          setSignupMessage(`Welcome ${setHooksDataValues.Username}.`);
+          setSignupMessage(`Welcome ${hooksDataValues.Username}.`);
           return;
         }
       } catch (error) {
-        setSignupErrorMessage("Credential not available.");
+        setSignupErrorMessage("Credentials not available.");
       }
     }
-  }, [setHooksDataValues, addUser]);
+  }, [hooksDataValues, addUser]);
 
   const firebaseSignup = useCallback(async () => {
-    if (setHooksDataValues) {
-      const email = setHooksDataValues.signupEmail.toLowerCase();
-      const password = setHooksDataValues.signupPassword;
+    if (hooksDataValues) {
+      const email = hooksDataValues.signupEmail.toLowerCase();
+      const password = hooksDataValues.signupPassword;
       try {
         const { data } = await createUserWithEmailAndPassword(
           auth,
@@ -47,19 +47,19 @@ const useSignupHook = (setHooksDataValues) => {
           setSignupErrorMessage("");
         }
       } catch (error) {
-        setSignupErrorMessage(error.message);
+        setSignupErrorMessage("Credentials already in use.");
       }
     }
-  }, [setHooksDataValues]);
+  }, [hooksDataValues]);
 
   useEffect(() => {
-    if (!setHooksDataValues.signupEmail) {
+    if (!hooksDataValues.signupEmail) {
       setSignupErrorMessage("");
     } else {
       firebaseSignup();
       handleFormSubmit();
     }
-  }, [firebaseSignup, handleFormSubmit, setHooksDataValues]);
+  }, [firebaseSignup, handleFormSubmit, hooksDataValues]);
 
   return { signupMessage, signupDataTemplate, signupErrorMessage };
 };

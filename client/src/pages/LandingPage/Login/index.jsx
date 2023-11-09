@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../../utils/mutations";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -47,41 +47,45 @@ const Login = () => {
           fieldName: "",
         });
         setHookErrorMessage("");
-        setTemplate(loginTemplate);
+        setHooksDataValues("");
         setLoading(false);
+        setTemplate(loginTemplate);
         break;
       case "reset":
         setDynamicError({
           message: "",
           fieldName: "",
         });
-        setHookErrorMessage(false);
-        setTemplate(resetTemplate);
+        setHookErrorMessage("");
+        setHooksDataValues("");
         setLoading(false);
+        setTemplate(resetTemplate);
         break;
-      case "veify":
+      case "verify":
         setDynamicError({
           message: "",
           fieldName: "",
         });
-        setHookErrorMessage(false);
-        setTemplate(verifyTemplate);
+        setHookErrorMessage("");
+        setHooksDataValues("");
         setLoading(false);
+        setTemplate(verifyTemplate);
         break;
       case "signup":
         setDynamicError({
           message: "",
           fieldName: "",
         });
-        setHookErrorMessage(false);
-        setTemplate(signupTemplate);
+        setHookErrorMessage("");
+        setHooksDataValues("");
         setLoading(false);
+        setTemplate(signupTemplate);
         break;
       default:
         setTemplate(loginTemplate);
     }
   };
-  
+
   // Handles gql login.
   const handleFormSubmit = async (password, lowerCaseEmail) => {
     if (password && lowerCaseEmail) {
@@ -90,19 +94,20 @@ const Login = () => {
           variables: { email: lowerCaseEmail, password: password },
         });
         if (data) {
-          setLoginErrorMessage("");
+          setHookErrorMessage("");
           Auth.login(data.login.token);
         }
       } catch (error) {
-        setLoginErrorMessage("Invalid login credentials.");
+        setHookErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
   };
   // Handles firebase login.
   const firebaseLogin = async (values) => {
+    // console.log("login values", values.loginEmail);
     if (!values.loginEmail) {
-      setLoginErrorMessage("");
+      setHookErrorMessage("");
       return;
     }
     const lowerCaseEmail = values.loginEmail.toLowerCase();
@@ -115,15 +120,26 @@ const Login = () => {
           password
         );
         if (user) {
-          setLoginErrorMessage("");
+          setHookErrorMessage("");
           handleFormSubmit(password, lowerCaseEmail);
         }
       } catch (error) {
-        setLoginErrorMessage("Invalid login credentials.");
+        setHookErrorMessage("Invalid login credentials.");
         setLoading(false);
       }
     }
   };
+
+  const validate = useCallback(async () => {
+    // console.log("hook message", hookErrorMessage);
+    if (!hookErrorMessage && loading === false) {
+      // console.log("tere is no error", hookErrorMessage);
+      getFromChild("cancel");
+    } else {
+      // console.log("there is error", hookErrorMessage);
+    }
+  }, [loading, hookErrorMessage]);
+
   // Handles values captured in the reusable "reusableForm" component.
   const onSubmit = (values) => {
     if (template.title === "Reset your password") {
@@ -166,7 +182,6 @@ const Login = () => {
         setHooksDataValues("");
         firebaseLogin(values);
         setHooksDataValues(values);
-        getFromChild("cancel");
       }
     }
     if (template.title === "Signup") {
@@ -184,14 +199,12 @@ const Login = () => {
         setLoading(true);
         firebaseLogin(values);
         setHooksDataValues(values);
-        getFromChild("cancel");
       }
     }
     if (template.title === "Verify your email") {
       setLoading(true);
       firebaseLogin(values);
       setHooksDataValues(values);
-      getFromChild("cancel");
     }
     if (template.title === "Login") {
       if (values.password.length < 6) {
@@ -221,8 +234,19 @@ const Login = () => {
       resetErrorMessage ||
       loginErrorMessage
     ) {
-      setHookErrorMessage(loginErrorMessage || resetPasswordMessage || verifyEmailMessage || signupErrorMessage)
+      setHookErrorMessage(
+        loginErrorMessage ||
+          resetPasswordMessage ||
+          verifyEmailMessage ||
+          signupErrorMessage
+      );
       setLoading(false);
+      validate(
+        loginErrorMessage ||
+          resetPasswordMessage ||
+          verifyEmailMessage ||
+          signupErrorMessage
+      );
     }
   }, [
     resetPasswordMessage,
@@ -232,6 +256,7 @@ const Login = () => {
     signupErrorMessage,
     resetErrorMessage,
     loginErrorMessage,
+    validate,
   ]);
   return (
     <FormReuse
