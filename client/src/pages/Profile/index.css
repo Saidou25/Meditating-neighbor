@@ -74,7 +74,15 @@
   }
 }
 @media screen and (max-width: 414px) {
+  .profile-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
   .profile {
+    padding-top: 130px;
     height: auto;
   }
   .profile-card {

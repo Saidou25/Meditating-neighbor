@@ -75,6 +75,7 @@
     top: 0;
     overflow: hidden;
     width: 100%;
+    z-index: 1;
   }
   .main-usa {
     padding-top: 130px;

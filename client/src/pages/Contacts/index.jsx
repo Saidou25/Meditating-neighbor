@@ -24,7 +24,9 @@ const Contacts = () => {
 
   return (
     <>
-      <Navbar />
+      <div className="contacts-nav">
+        <Navbar />
+      </div>
       <div
         className="container-fluid contacts bg-primary pb-5"
         style={{ minHeight: "100vh" }}
@@ -81,10 +83,8 @@ const Contacts = () => {
           </>
         ) : (
           <></>
-          )}
-          {showModal && (
-            <ModalReuse hideModal={setShowModal} data={data} />
-          )}
+        )}
+        {showModal && <ModalReuse hideModal={setShowModal} data={data} />}
       </div>
       <Footer />
     </>

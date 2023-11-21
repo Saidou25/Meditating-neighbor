@@ -63,8 +63,16 @@
   }
 }
 @media screen and (max-width: 414px) {
+  .contacts-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
   .contacts {
-    min-height: 65vh !important;
+    padding-top: 150px;
+    min-height: 70vh !important;
   }
   .p-info-story,
   .about-contact,

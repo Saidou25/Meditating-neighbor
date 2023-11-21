@@ -139,7 +139,7 @@ const ProfileList = (props) => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="container-fluid neighbors bg-primary" style={{ minHeight: "100vh"}}>
         {seventyFiveMiles.length ? (
           <h3 className="locations-list-title text-white py-5">

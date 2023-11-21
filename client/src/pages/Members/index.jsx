@@ -7,6 +7,7 @@ import Auth from "../../utils/auth";
 import useMyInfo from "../../Hooks/UseMyInfo";
 import ProfileList from "./ProfileList";
 import Spinner from "../../components/Spinner";
+import Navbar from "../../components/Navbar";
 import "./index.css";
 
 const Neighbors = () => {
@@ -80,13 +81,18 @@ const Neighbors = () => {
     return <Navigate to="/" replace />;
   }
   return (
-    <div style={{ minHeight: "100vh"}}>
-      <ProfileList
-        seventyFiveMiles={seventyFiveMiles}
-        overSeventyFiveMiles={overSeventyFiveMiles}
-        me={me}
-      />
-    </div>
+    <>
+      <div className="members-nav">
+        <Navbar />
+      </div>
+      <div  className="members bg-primary" style={{ minHeight: "100vh" }}>
+        <ProfileList
+          seventyFiveMiles={seventyFiveMiles}
+          overSeventyFiveMiles={overSeventyFiveMiles}
+          me={me}
+        />
+      </div>
+    </>
   );
 };
 export default Neighbors;

@@ -20,17 +20,6 @@ const Profile = () => {
   const myAvatarUrl = me.avatar?.avatarUrl;
   const myLocation = me.location;
   const myProfile = me.profile;
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log("user from profile", user);
-  //     } else {
-  //       console.log("no firebase user");
-  //       // console.log("auth", auth);
-  //       // signInWithEmailAndPassword(auth, email, password);
-  //     }
-  //   });
-  // }, [user]);
 
   // building a list of all user's contacts ids to be passed as props to delete modal for deleting user's account
   const myContactsIds = [];
@@ -45,8 +34,10 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <Navbar />
+    <>
+      <div className="profile-nav">
+        <Navbar />
+      </div>
       <div
         className="container-fluid profile bg-primary"
         style={{ borderColor: "primary" }}
@@ -174,7 +165,7 @@ const Profile = () => {
       <div className="profile-footer bg-primary">
         <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
