@@ -230,7 +230,9 @@ const Usa = () => {
 
   return (
     <>
-      <Navbar />
+      <div className="navigation">
+        <Navbar />
+      </div>
       <div
         className="container-fluid main-usa bg-primary px-0"
         style={{ minHeight: "100vh" }}

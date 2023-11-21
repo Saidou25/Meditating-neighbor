@@ -70,7 +70,14 @@
 }
 
 @media screen and (max-width: 414px) {
+  .navigation {
+    position: fixed;
+    top: 0;
+    overflow: hidden;
+    width: 100%;
+  }
   .main-usa {
+    padding-top: 130px;
     min-height: 70vh !important;
   }
   .buttons-row {
