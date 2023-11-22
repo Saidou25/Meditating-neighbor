@@ -6,6 +6,7 @@ import { QUERY_PROFILES } from "../../../utils/queries";
 import { Navigate } from "react-router-dom";
 import Auth from "../../../utils/auth";
 import Success from "../../../components/Success";
+import ButtonSpinner from "../../../components/ButtonSpinner";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 
@@ -24,96 +25,158 @@ const UpdateMyProfileForm = () => {
   const teacher1 = myProfile.teacher;
   const years1 = myProfile.years;
   const story1 = myProfile.story;
+  const username = myProfile.username;
 
   // Tese are the new values that will be used to update the user's profile
-  const [firstname, setFirstname] = useState(firstname1);
-  const [lastname, setLastname] = useState(lastname1);
-  const [stage, setStage] = useState(stage1);
-  const [teacher, setTeacher] = useState(teacher1);
-  const [years, setYears] = useState(years1);
-  const [story, setStory] = useState(story1);
   const [errorMessage, setErrorMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  // const [state, setState] = useState("");
+  // Using formState object to manage all user's inputs in one place.
+  // The form is set with the user's info already in the database so he/she can only update what is needed.
+  const [formState, setFormState] = useState({
+    id: profileId,
+    username: username,
+    teacher: teacher1,
+    years: years1,
+    stage: stage1,
+    firstname: firstname1,
+    lastname: lastname1,
+    story: story1,
+  });
 
-  // update cache by refetchingQueries. Fast, efficient and very little code
-  const [updateProfile] = useMutation(UPDATE_PROFILE, {
+  // update cache by refetchingQueries. Fast, efficient and very little code.
+  const [updateProfile, { error }] = useMutation(UPDATE_PROFILE, {
     variables: { id: profileId },
     refetchQueries: [{ query: QUERY_PROFILES }],
   });
 
+  // Setting form fields with user's inputs using switch case.
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case "teacher":
+        if (value) {
+          console.log(value);
+          setFormState({ ...formState, [name]: value });
+        }
+        break;
+
+      case "stage":
+        if (isNaN(value) === true) {
+          setErrorMessage("Stage must be a number");
+          return;
+        }
+        setErrorMessage("");
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "story":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "lastname":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "firstname":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "years":
+        if (isNaN(value) === true) {
+          setErrorMessage("Stage must be a number");
+          return;
+        }
+        setErrorMessage("");
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      default:
+        setFormState({
+          id: profileId,
+          username: username,
+          teacher: teacher1,
+          years: years1,
+          stage: stage1,
+          firstname: firstname1,
+          lastname: lastname1,
+          story: story1,
+        });
+    }
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // setting up errorMessages tailored on if the update concerns a "meditator" or a "teacher" then updating user's profile
     // in MongoDb using updateProfile graphql mutation.
-    if (teacher === "meditator") {
-      if (teacher === teacher1 && years === years1 && stage === stage1) {
-        setMessage("You haven't made any changes to your profile...");
-      }
-      if (!teacher || !years || !stage) {
+    // Making sure all fields are filled.
+    if (formState.teacher === "meditator") {
+      if (!formState.teacher || !formState.years || !formState.stage) {
         setErrorMessage("All fields need to befilled");
         return;
-      } else if (
-        teacher === "meditator" &&
-        (/^[0-9]+$/.test(years) === false || /^[0-9]+$/.test(stage) === false)
-      ) {
-        setErrorMessage("Years and stage must be numbers");
-        return;
       }
-    } else if (teacher === "teacher") {
+      // If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
       if (
-        teacher === teacher1 &&
-        years === years1 &&
-        firstname === firstname1 &&
-        lastname === lastname1 &&
-        story === story1
+        formState.teacher === formState.teacher1 &&
+        formState.years === years1 &&
+        formState.stage === stage1
       ) {
         setMessage("You haven't made any changes to your profile...");
+        setConfirm(true);
+        setTimeout(() => {
+          navigate("/Profile");
+          setConfirm(false);
+        }, 3000);
+        return;
       }
-      if (!teacher || !years || !firstname || !lastname || !story) {
+    } else if (formState.teacher === "teacher") {
+      // Making sure all fields are filled.
+      if (
+        !formState.teacher ||
+        !formState.years ||
+        !formState.firstname ||
+        !formState.lastname ||
+        !formState.story
+      ) {
         setErrorMessage("All fields need filled");
         return;
-      } else if (/^[0-9]+$/.test(years) === false) {
-        setErrorMessage("Years must be a number");
+      }
+      // If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
+      if (
+        formState.teacher === teacher1 &&
+        formState.years === years1 &&
+        formState.firstname === firstname1 &&
+        formState.lastname === lastname1 &&
+        formState.story === story1
+      ) {
+        setMessage("You haven't made any changes to your profile...");
+        setConfirm(true);
+        setTimeout(() => {
+          navigate("/Profile");
+          setConfirm(false);
+        }, 3000);
         return;
       }
     }
-
     try {
       const { data } = await updateProfile({
-        variables: {
-          id: profileId,
-          username: myProfile.username,
-          firstname: firstname,
-          lastname: lastname,
-          stage: stage,
-          years: years,
-          teacher: teacher,
-          story: story,
-        },
+        variables: { ...formState },
       });
       if (data) {
-        console.log("profile updated");
+        console.log("Profile updated", data);
+        // setMessage("Your profile has been updated.");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage(error.message);
+      console.log(error.message);
+      return;
     }
-    console.log("profile updated");
     // setting the "message" to be sent to "Success" component and display Success if everything went well.
-    if (
-      firstname === firstname1 &&
-      lastname === lastname1 &&
-      stage === stage1 &&
-      teacher === teacher1 &&
-      years === years1 &&
-      story === story1
-    ) {
-      setMessage("You haven't made any changes to your profile...");
-    } else {
-      setMessage("Your profile has been updated.");
-    }
+    setMessage("Your profile has been updated.");
+
     // setting "confirm" to true so Success component can be displayed for 3 seconds then redirecting user to "Profile"
     // so user can see the changes.
     setConfirm(true);
@@ -121,10 +184,16 @@ const UpdateMyProfileForm = () => {
       navigate("/Profile");
       setConfirm(false);
     }, 3000);
-    setStage("");
-    setYears("");
-    setTeacher("");
-    setStory("");
+    setLoading(false);
+    setErrorMessage("");
+    setFormState({
+      teacher: "",
+      years: "",
+      stage: "",
+      firstname: "",
+      lastname: "",
+      story: "",
+    });
   };
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;
@@ -147,8 +216,9 @@ const UpdateMyProfileForm = () => {
                 type="radio"
                 name="teacher"
                 value="meditator"
-                checked={teacher === "meditator"}
-                onChange={(e) => setTeacher(e.target.value)}
+                onChange={(event) => {
+                  handleChange(event);
+                }}
               />{" "}
               meditator
               <input
@@ -156,8 +226,9 @@ const UpdateMyProfileForm = () => {
                 type="radio"
                 name="teacher"
                 value="teacher"
-                checked={teacher === "teacher"}
-                onChange={(e) => setTeacher(e.target.value)}
+                onChange={(event) => {
+                  handleChange(event);
+                }}
               />{" "}
               teacher
             </div>
@@ -168,12 +239,12 @@ const UpdateMyProfileForm = () => {
               type="text"
               className="form-control"
               name="years"
-              value={years}
+              value={formState.years}
               placeholder="How many years have you been meditating?"
-              onChange={(e) => setYears(e.target.value)}
+              onChange={handleChange}
             />
           </div>
-          {teacher === "meditator" ? (
+          {formState.teacher === "meditator" ? (
             <>
               <div>
                 <label className="form-label text-light my-4">stage</label>
@@ -181,12 +252,12 @@ const UpdateMyProfileForm = () => {
                   type="text"
                   className="form-control"
                   name="stage"
-                  value={stage}
+                  value={formState.stage}
                   placeholder="What stage are you working on?"
-                  onChange={(e) => setStage(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
-              {errorMessage && (
+              {(errorMessage || error) && (
                 <div className="error-message bg-danger text-light my-5">
                   <p className="p-error p-3">{errorMessage}</p>
                 </div>
@@ -200,9 +271,9 @@ const UpdateMyProfileForm = () => {
                   type="text"
                   className="form-control"
                   name="firstname"
-                  value={firstname}
+                  value={formState.firstname}
                   placeholder="first name"
-                  onChange={(e) => setFirstname(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -211,9 +282,9 @@ const UpdateMyProfileForm = () => {
                   type="text"
                   className="form-control"
                   name="lastname"
-                  value={lastname}
+                  value={formState.lastname}
                   placeholder="last name"
-                  onChange={(e) => setLastname(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -222,10 +293,9 @@ const UpdateMyProfileForm = () => {
                   type="text"
                   className="form-control"
                   name="story"
-                  value={story}
+                  value={formState.story}
                   placeholder="write about yourself"
-                  onChange={(e) => setStory(e.target.value)}
-                  // onKeyDown={handleKeyPress}
+                  onChange={handleChange}
                 />
               </div>
               {errorMessage && (
@@ -240,7 +310,7 @@ const UpdateMyProfileForm = () => {
             type="button"
             onClick={handleFormSubmit}
           >
-            Submmit
+            {loading === true ? <ButtonSpinner /> : <>Submit</>}
           </button>
         </form>
       </div>
