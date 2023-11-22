@@ -125,6 +125,7 @@
     top: 0;
     overflow: hidden;
     width: 100%;
+    z-index: 1;
   }
   .container-main {
     padding-top: 130px;
@@ -145,5 +146,8 @@
   .intro-text {
     text-align: center;
     font-size: 0.9rem;
+  }
+  .container-nav-login {
+    padding-top: 100px;
   }
 }
