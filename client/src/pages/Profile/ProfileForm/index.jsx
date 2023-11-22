@@ -6,21 +6,25 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Auth from "../../../utils/auth";
 import useMyInfo from "../../../Hooks/UseMyInfo";
-// import Spinner from "../Spinner";
+import ButtonSpinner from "../../../components/ButtonSpinner";
 import Success from "../../../components/Success";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import "./index.css";
 
 const ProfileForm = () => {
-  const [teacher, setTeacher] = useState("meditator");
-  const [years, setYears] = useState("");
-  const [stage, setStage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [story, setStory] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formState, setFormState] = useState({
+    username: "",
+    teacher: "meditator",
+    years: "",
+    stage: "",
+    firstname: "",
+    lastname: "",
+    story: "",
+  });
   // user context using useMyInfo hook
   const { me } = useMyInfo();
   const navigate = useNavigate();
@@ -41,58 +45,111 @@ const ProfileForm = () => {
     },
   });
 
+  // Setting form fields with user's inputs using switch case.
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case "teacher":
+        if (value) {
+          console.log(value);
+          setFormState({ ...formState, [name]: value });
+        }
+        break;
+
+      case "stage":
+        if (isNaN(value) === true) {
+          setErrorMessage("Stage must be a number");
+          return;
+        }
+        setErrorMessage("");
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "story":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "lastname":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "firstname":
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      case "years":
+        if (isNaN(value) === true) {
+          setErrorMessage("Stage must be a number");
+          return;
+        }
+        setErrorMessage("");
+        setFormState({ ...formState, [name]: value });
+        break;
+
+      default:
+        setFormState({
+          username: "",
+          teacher: "",
+          years: "",
+          stage: "",
+          firstname: "",
+          lastname: "",
+          story: "",
+        });
+    }
+  };
+
   // adding profile to MongoDb database using graphql addProfile mutation
-  const handleFormSubmit = async (e) => {
-    if (teacher === "meditator") {
-      if (!teacher || !years || !stage) {
-        setErrorMessage("all fields need to be filled");
-        return;
-      } else if (
-        teacher === "meditator" &&
-        (/^[0-9]+$/.test(years) === false || /^[0-9]+$/.test(stage) === false)
-      ) {
-        setErrorMessage("years and stage must be numbers");
-        return;
-      }
-    } else if (teacher === "teacher") {
-      if (!teacher || !years || !firstname || !lastname || !story) {
-        setErrorMessage("all fields need to be filled");
-        return;
-      } else if (/^[0-9]+$/.test(years) === false) {
-        setErrorMessage("years must be a number");
-        return;
-      }
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    if (
+      formState.teacher === "meditator" &&
+      (!formState.teacher || !formState.years || !formState.stage)
+    ) {
+      setErrorMessage("All fields need to be filled.");
+      return;
+    }
+    if (
+      formState.teacher === "teacher" &&
+      (!formState.teacher ||
+        !formState.years ||
+        !formState.firstname ||
+        !formState.lastname ||
+        !formState.story)
+    ) {
+      setErrorMessage("All fields need to be filled.");
+      return;
     }
     try {
       const { data } = await addProfile({
-        variables: {
-          username: me.username,
-          teacher: teacher,
-          years: years,
-          stage: stage,
-          firstname: firstname,
-          lastname: lastname,
-          story: story,
-        },
+        variables: { ...formState, username: me.username },
       });
       if (data) {
-        console.log("profile updated");
+        console.log("profile added");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage(error.message);
+      return;
     }
     setMessage("Your profile has been created");
     setTimeout(() => {
       setMessage("");
       navigate("/Profile");
     }, 3000);
-    setTeacher("meditator");
+    // Resetting all states
     setErrorMessage("");
-    setYears("");
-    setStage("");
-    setFirstname("");
-    setLastname("");
-    setStory("");
+    setLoading(false);
+    setFormState({
+      teacher: "",
+      years: "",
+      stage: "",
+      firstname: "",
+      lastname: "",
+      story: "",
+    });
   };
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;
@@ -115,17 +172,23 @@ const ProfileForm = () => {
                 type="radio"
                 name="teacher"
                 value="meditator"
-                checked={teacher === "meditator"}
-                onChange={(e) => setTeacher(e.target.value)}
+                // checked="meditator"
+                onChange={(event) => {
+                  handleChange(event);
+                  setErrorMessage("");
+                }}
               />{" "}
               meditator
               <input
-                className="radio m-2 ms-4"
+                className="radio m-2 ms-4 text-light"
                 type="radio"
                 name="teacher"
                 value="teacher"
-                checked={teacher === "teacher"}
-                onChange={(e) => setTeacher(e.target.value)}
+                // checked="teacher"
+                onChange={(event) => {
+                  handleChange(event);
+                  setErrorMessage("");
+                }}
               />
               teacher
             </div>
@@ -133,25 +196,27 @@ const ProfileForm = () => {
           <div>
             <label className="form-label text-light my-4">years</label>
             <input
+              required
               type="text"
               className="form-control"
               name="years"
-              value={years}
+              value={formState.years}
               placeholder="How many years have you been meditating?"
-              onChange={(e) => setYears(e.target.value)}
+              onChange={handleChange}
             />
           </div>
-          {teacher === "meditator" ? (
+          {formState.teacher === "meditator" ? (
             <>
               <div>
                 <label className="form-label text-light my-4">stage</label>
                 <input
+                  required
                   type="text"
                   className="form-control"
                   name="stage"
-                  value={stage}
+                  value={formState.stage}
                   placeholder="What stage are you working on?"
-                  onChange={(e) => setStage(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
               {errorMessage && (
@@ -165,35 +230,37 @@ const ProfileForm = () => {
               <div>
                 <label className="form-label text-light my-4">first name</label>
                 <input
+                  required
                   type="text"
                   className="form-control"
                   name="firstname"
-                  value={firstname}
+                  value={formState.firstname}
                   placeholder="first name"
-                  onChange={(e) => setFirstname(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label className="form-label text-light my-4">last name</label>
                 <input
+                  required
                   type="text"
                   className="form-control"
                   name="lastname"
-                  value={lastname}
+                  value={formState.lastname}
                   placeholder="last name"
-                  onChange={(e) => setLastname(e.target.value)}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label className="form-label text-light my-4">story</label>
                 <textarea
+                  required
                   type="text"
                   className="form-control"
                   name="story"
-                  value={story}
+                  value={formState.story}
                   placeholder="write about yourself"
-                  onChange={(e) => setStory(e.target.value)}
-                  // onKeyDown={handleKeyPress}
+                  onChange={handleChange}
                 />
               </div>
               {errorMessage && (
@@ -208,7 +275,7 @@ const ProfileForm = () => {
             type="button"
             onClick={handleFormSubmit}
           >
-            Submit
+            {loading === true ? <ButtonSpinner /> : <>Submit</>}
           </button>
         </form>
       </div>
