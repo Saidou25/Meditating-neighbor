@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useMutation } from "@apollo/client";
-import { UPDATE_PROFILE } from "../../../utils/mutations";
-import { QUERY_PROFILES } from "../../../utils/queries";
 import { Navigate } from "react-router-dom";
+import useMyInfoHook from "../../../Hooks/UseMyInfo";
+import useUpdateProfile from "../../../Hooks/UseUpdateProfile";
+import ProfileFormReuse from "../../../components/ProfileFormReuse";
 import Auth from "../../../utils/auth";
 import Success from "../../../components/Success";
-import ButtonSpinner from "../../../components/ButtonSpinner";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 
@@ -16,185 +15,197 @@ const UpdateMyProfileForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // getting all initial values from useLocation().
   const myProfile = location.state.myProfile;
-  // getting all initial values from useLocation() to display in the update form.
   const profileId = myProfile._id;
-  const firstname1 = myProfile.firstname;
-  const lastname1 = myProfile.lastname;
-  const stage1 = myProfile.stage;
-  const teacher1 = myProfile.teacher;
-  const years1 = myProfile.years;
-  const story1 = myProfile.story;
-  const username = myProfile.username;
 
-  // Tese are the new values that will be used to update the user's profile
-  const [errorMessage, setErrorMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  // Using formState object to manage all user's inputs in one place.
-  // The form is set with the user's info already in the database so he/she can only update what is needed.
-  const [formState, setFormState] = useState({
-    id: profileId,
-    username: username,
-    teacher: teacher1,
-    years: years1,
-    stage: stage1,
-    firstname: firstname1,
-    lastname: lastname1,
-    story: story1,
+  const [updateProfileHookData, setUpdateProfileHookData] = useState("");
+  const [updateMeditatorTemplate, setUpdateMeditatorTemplate] = useState({
+    title: "",
+    fields: [],
   });
-
-  // update cache by refetchingQueries. Fast, efficient and very little code.
-  const [updateProfile, { error }] = useMutation(UPDATE_PROFILE, {
-    variables: { id: profileId },
-    refetchQueries: [{ query: QUERY_PROFILES }],
+  const [updateTeacherTemplate, setUpdateTeacherTemplate] = useState({
+    title: "",
+    fields: [],
   });
+  const { me } = useMyInfoHook();
+  const { updateProfileMessage, updateProfileErrorMessage } = useUpdateProfile(
+    updateProfileHookData
+  );
 
-  // Setting form fields with user's inputs using switch case.
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    switch (name) {
-      case "teacher":
-        if (value) {
-          console.log(value);
-          setFormState({ ...formState, [name]: value });
-        }
-        break;
-
-      case "stage":
-        if (isNaN(value) === true) {
-          setErrorMessage("Stage must be a number");
-          return;
-        }
-        setErrorMessage("");
-        setFormState({ ...formState, [name]: value });
-        break;
-
-      case "story":
-        setFormState({ ...formState, [name]: value });
-        break;
-
-      case "lastname":
-        setFormState({ ...formState, [name]: value });
-        break;
-
-      case "firstname":
-        setFormState({ ...formState, [name]: value });
-        break;
-
-      case "years":
-        if (isNaN(value) === true) {
-          setErrorMessage("Stage must be a number");
-          return;
-        }
-        setErrorMessage("");
-        setFormState({ ...formState, [name]: value });
-        break;
-
-      default:
-        setFormState({
-          id: profileId,
-          username: username,
-          teacher: teacher1,
-          years: years1,
-          stage: stage1,
-          firstname: firstname1,
-          lastname: lastname1,
-          story: story1,
-        });
-    }
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    // setting up errorMessages tailored on if the update concerns a "meditator" or a "teacher" then updating user's profile
-    // in MongoDb using updateProfile graphql mutation.
-    // Making sure all fields are filled.
-    if (formState.teacher === "meditator") {
-      if (!formState.teacher || !formState.years || !formState.stage) {
-        setErrorMessage("All fields need to befilled");
-        return;
+  const doMeditatorTemplate = useCallback(() => {
+    let fieldsArr = [];
+    for (let field in me.profile) {
+      if (me.profile[field] === "meditator") {
+        let fieldObj = {
+          name: "meditator",
+          type: "radio",
+          value: "meditator",
+        };
+        fieldsArr.push(fieldObj);
+        let fieldObj1 = {
+          name: "teacher",
+          type: "radio",
+          value: "",
+        };
+        fieldsArr.push(fieldObj1);
       }
-      // If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
-      if (
-        formState.teacher === formState.teacher1 &&
-        formState.years === years1 &&
-        formState.stage === stage1
-      ) {
-        setMessage("You haven't made any changes to your profile...");
-        setConfirm(true);
-        setTimeout(() => {
-          navigate("/Profile");
-          setConfirm(false);
-        }, 3000);
-        return;
+      if (field === "years") {
+        let fieldObj = {
+          name: "years",
+          type: "text",
+          placeholder: "number of years meditating...",
+          value: me.profile[field],
+        };
+        fieldsArr.push(fieldObj);
       }
-    } else if (formState.teacher === "teacher") {
-      // Making sure all fields are filled.
-      if (
-        !formState.teacher ||
-        !formState.years ||
-        !formState.firstname ||
-        !formState.lastname ||
-        !formState.story
-      ) {
-        setErrorMessage("All fields need filled");
-        return;
+      if (field === "stage") {
+        let fieldObj1 = {
+          name: "stage",
+          type: "text",
+          value: me.profile[field],
+          placeholder: "stage you are currently working on...",
+        };
+        fieldsArr.push(fieldObj1);
       }
-      // If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
-      if (
-        formState.teacher === teacher1 &&
-        formState.years === years1 &&
-        formState.firstname === firstname1 &&
-        formState.lastname === lastname1 &&
-        formState.story === story1
-      ) {
-        setMessage("You haven't made any changes to your profile...");
-        setConfirm(true);
-        setTimeout(() => {
-          navigate("/Profile");
-          setConfirm(false);
-        }, 3000);
-        return;
-      }
-    }
-    try {
-      const { data } = await updateProfile({
-        variables: { ...formState },
+      setUpdateMeditatorTemplate({
+        title: "Update your meditator's profile",
+        fields: fieldsArr,
       });
-      if (data) {
-        console.log("Profile updated", data);
-        // setMessage("Your profile has been updated.");
-      }
-    } catch (error) {
-      setLoading(false);
-      setErrorMessage(error.message);
-      console.log(error.message);
-      return;
     }
-    // setting the "message" to be sent to "Success" component and display Success if everything went well.
-    setMessage("Your profile has been updated.");
+  }, [me]);
 
-    // setting "confirm" to true so Success component can be displayed for 3 seconds then redirecting user to "Profile"
-    // so user can see the changes.
-    setConfirm(true);
-    setTimeout(() => {
-      navigate("/Profile");
-      setConfirm(false);
-    }, 3000);
-    setLoading(false);
-    setErrorMessage("");
-    setFormState({
-      teacher: "",
-      years: "",
-      stage: "",
-      firstname: "",
-      lastname: "",
-      story: "",
-    });
+  const doTeacherTemplate = useCallback(() => {
+    let fieldsArr = [];
+    for (let field in me.profile) {
+      if (me.profile[field] === "teacher") {
+        let fieldObj1 = {
+          name: "meditator",
+          type: "radio",
+          value: "",
+        };
+        fieldsArr.push(fieldObj1);
+        let fieldObj = {
+          name: "teacher",
+          type: "radio",
+          value: "teacher",
+        };
+        fieldsArr.push(fieldObj);
+      }
+      if (field === "years") {
+        let fieldObj = {
+          name: "years",
+          type: "text",
+          placeholder: "number of years meditating...",
+          value: me.profile[field],
+        };
+        fieldsArr.push(fieldObj);
+      }
+      if (field === "firstname") {
+        let fieldObj = {
+          name: "firstname",
+          type: "text",
+          placeholder: " enter first name...",
+          value: me.profile[field] ? me.profile[field] : "",
+        };
+        fieldsArr.push(fieldObj);
+      }
+      if (field === "lastname") {
+        let fieldObj = {
+          name: "lastname",
+          type: "text",
+          placeholder: "enter last name...",
+          value: me.profile[field] ? me.profile[field] : "",
+        };
+        fieldsArr.push(fieldObj);
+      }
+      if (field === "story") {
+        let fieldObj = {
+          name: "story",
+          type: "text",
+          placeholder: "tell us about you...",
+          value: me.profile[field] ? me.profile[field] : "",
+        };
+        fieldsArr.push(fieldObj);
+      }
+      setUpdateTeacherTemplate({
+        title: "Update your teacher's profile",
+        fields: fieldsArr,
+      });
+    }
+  }, [me]);
+
+  const getFromChild = (formState) => {
+    switch (formState.teacher) {
+      case "meditator":
+        if (formState.teacher === "meditator") {
+          // If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
+          if (
+            (JSON.stringify(myProfile) === JSON.stringify(formState)) ===
+            true
+          ) {
+            setMessage("You haven't made any changes to your profile...");
+            setConfirm(true);
+            setTimeout(() => {
+              navigate("/Profile");
+              setConfirm(false);
+            }, 3000);
+            return;
+          }
+        }
+        break;
+      case "teacher":
+        if (formState.teacher === "teacher") {
+          // Comparing myProfile from saved data to new data sent from child component "profileFormReuse" as formState.
+          //  If no changes have been made then no need to perform updateProfile mutation, let's just let the user know and redirect to Profile.
+          if (
+            (JSON.stringify(myProfile) === JSON.stringify(formState)) ===
+            true
+          ) {
+            setMessage("You haven't made any changes to your profile...");
+            setConfirm(true);
+            setTimeout(() => {
+              navigate("/Profile");
+              setConfirm(false);
+            }, 3000);
+            return;
+          }
+        }
+        break;
+      default:
+        setMessage("");
+    }
+
+    // activating "useUpdateProfile" by changing the state of "setUpdateProfileHookData".
+    if (formState && me) {
+      setUpdateProfileHookData({
+        ...formState,
+        username: me.username,
+        id: profileId,
+      });
+    }
   };
+
+  useEffect(() => {
+    // if there already is a "meditator" or "teacher" profile we use the data to build a "template", using "do...Template",
+    // which will be send to child component's form in order to be dynamiclly rendered.
+    if (me.profile?.teacher === "meditator") {
+      doMeditatorTemplate();
+    }
+    if (me.profile?.teacher === "teacher") {
+      doTeacherTemplate();
+    }
+    // When "updateProfile" mutation is successfully completed "useUpdateProfile" hook returns a
+    // "updateProfileMessage" which we use to trigger "Success" component and set the message to
+    // be displayed in it.
+    if (updateProfileMessage) {
+      setConfirm(true);
+      setMessage(updateProfileMessage);
+    }
+  }, [me, updateProfileMessage, doMeditatorTemplate, doTeacherTemplate]);
+
   if (!Auth.loggedIn()) {
     return <Navigate to="/" replace />;
   }
@@ -205,115 +216,14 @@ const UpdateMyProfileForm = () => {
   return (
     <>
       <Navbar />
-      <div className="update-profile-form bg-primary">
-        <h3 className="profile-title text-light">Update profile form</h3>
-        <form className="my-form bg-primary">
-          <div className="radio-text text-light">
-            <label className="form-label text-light mb-4">status</label>
-            <div>
-              <input
-                className="radio m-2 ms-4"
-                type="radio"
-                name="teacher"
-                value="meditator"
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-              />{" "}
-              meditator
-              <input
-                className="radio m-2 ms-4"
-                type="radio"
-                name="teacher"
-                value="teacher"
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-              />{" "}
-              teacher
-            </div>
-          </div>
-          <div>
-            <label className="form-label text-light my-4">years</label>
-            <input
-              type="text"
-              className="form-control"
-              name="years"
-              value={formState.years}
-              placeholder="How many years have you been meditating?"
-              onChange={handleChange}
-            />
-          </div>
-          {formState.teacher === "meditator" ? (
-            <>
-              <div>
-                <label className="form-label text-light my-4">stage</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="stage"
-                  value={formState.stage}
-                  placeholder="What stage are you working on?"
-                  onChange={handleChange}
-                />
-              </div>
-              {(errorMessage || error) && (
-                <div className="error-message bg-danger text-light my-5">
-                  <p className="p-error p-3">{errorMessage}</p>
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <div>
-                <label className="form-label text-light my-4">first name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="firstname"
-                  value={formState.firstname}
-                  placeholder="first name"
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label className="form-label text-light my-4">last name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="lastname"
-                  value={formState.lastname}
-                  placeholder="last name"
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label className="form-label text-light my-4">story</label>
-                <textarea
-                  type="text"
-                  className="form-control"
-                  name="story"
-                  value={formState.story}
-                  placeholder="write about yourself"
-                  onChange={handleChange}
-                />
-              </div>
-              {errorMessage && (
-                <div className="error-message bg-danger text-light my-5">
-                  <p className="p-error p-3">{errorMessage}</p>
-                </div>
-              )}
-            </>
-          )}
-          <button
-            className="btn btn-update-profile rounded-0 text-light"
-            type="button"
-            onClick={handleFormSubmit}
-          >
-            {loading === true ? <ButtonSpinner /> : <>Submit</>}
-          </button>
-        </form>
-      </div>
+      <ProfileFormReuse
+        myProfile={myProfile}
+        updateProfileMessage={updateProfileMessage}
+        updateProfileErrorMessage={updateProfileErrorMessage}
+        updateMeditatorTemplate={updateMeditatorTemplate}
+        updateTeacherTemplate={updateTeacherTemplate}
+        getFromChild={getFromChild}
+      />
       <Footer />
     </>
   );

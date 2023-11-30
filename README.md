@@ -1,4 +1,5 @@
-# TMIWORLD 
+# TMIWORLD
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ##### Link to [TMIWORLD](https://tmiworld-5f7c04c2f838.herokuapp.com/) (MERN + GraphQl + Firebase web site).
@@ -39,12 +40,13 @@ Create, get, update and delete queries and mutations operations can be performed
 - `Jsonwebtoken`
 - `Bcrypt`
 - `Firebase` (to store profile pictures).
--  `framer-motion` (for animation).
+- `framer-motion` (for animation).
 
 ## Installation
+
 Clone the reposatory.
 `npm install`.
- `npm run develop`. (Concurrently starts client and server).
+`npm run develop`. (Concurrently starts client and server).
 
 ## Visuals
 
@@ -56,12 +58,11 @@ Clone the reposatory.
 
 ![Screenshot](./client/src/assets/images/tmiworldusa.jpg)
 
-
 ## Future developpment
 
 - Error 404 page.
-- Add the "TMI" headquarter on the US map.
-- Increase the countries amount.
+- Increase the countries amount of pages if there is demand for it.
+- Update "Profile" model and schema with additional fields which would reduce the amount of code for creating "updateMeditatorProfileTemplate" and "updateTeacherProfileTemplate" as these are dynamically rendered in "ProfileFormReuse". For example we could add properties like: "placeholder text", "type", "meditator", "teacher"... .
 - Optimize the application for maximum speed and scalability.
 - Keep on refactoring code.
 - Add comments.

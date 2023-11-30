@@ -1,4 +1,4 @@
-const loginTemplate = {
+let loginTemplate = {
   title: "Login",
   buttonText: "login",
   fields: [
@@ -22,7 +22,7 @@ const loginTemplate = {
     },
   ],
 };
-const resetTemplate = {
+let resetTemplate = {
   title: "Reset your password",
   buttonText: "Reset",
   fields: [
@@ -47,7 +47,7 @@ const resetTemplate = {
     },
   ],
 };
-const verifyTemplate = {
+let verifyTemplate = {
   title: "Verify your email",
   buttonText: "submit",
   fields: [
@@ -62,7 +62,7 @@ const verifyTemplate = {
     },
   ],
 };
-const signupTemplate = {
+let signupTemplate = {
   title: "Signup",
   buttonText: "submit",
   fields: [

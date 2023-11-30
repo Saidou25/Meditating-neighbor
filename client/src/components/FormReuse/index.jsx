@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form } from "react-bootstrap";
 import ButtonSpinner from "../ButtonSpinner";
@@ -13,11 +13,7 @@ const FormReuse = ({
   signupMessage,
   verifyEmailMessage,
   loading,
-  verifyEmailErrorMessage,
-  signupErrorMessage,
-  resetErrorMessage,
   loginErrorMessage,
-  clearErrorMessage,
   hookErrorMessage
 }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -163,3 +159,4 @@ const FormReuse = ({
   );
 };
 export default FormReuse;
+

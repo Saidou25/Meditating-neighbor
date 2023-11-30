@@ -168,12 +168,12 @@ export const DELETE_LOCATION = gql`
 `;
 export const ADD_PROFILE = gql`
   mutation addProfile(
-    $username: String
+    $username: String!
+    $teacher: String
+    $years: String
     $firstname: String
     $lastname: String
     $stage: String
-    $years: String
-    $teacher: String
     $story: String
   ) {
     addProfile(
@@ -199,7 +199,7 @@ export const ADD_PROFILE = gql`
 export const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $id: String!
-    $username: String
+    $username: String!
     $firstname: String
     $lastname: String
     $stage: String

@@ -14,11 +14,11 @@ export const QUERY_USERS = gql`
       profile {
         _id
         username
+        teacher
+        years
+        stage
         firstname
         lastname
-        stage
-        years
-        teacher
         story
       }
       location {
@@ -56,11 +56,11 @@ export const QUERY_USER = gql`
       profile {
         _id
         username
+        teacher
+        years
+        stage
         firstname
         lastname
-        stage
-        years
-        teacher
         story
       }
       location {
@@ -98,11 +98,11 @@ export const QUERY_ME = gql`
       profile {
         _id
         username
+        teacher
+        years
+        stage
         firstname
         lastname
-        stage
-        years
-        teacher
         story
       }
       location {
@@ -175,12 +175,12 @@ export const QUERY_PROFILE = gql`
   query profile($id: String) {
     profile(id: $id) {
       _id
-      uername
+      username
+      teacher
+      years
+      stage
       firstname
       lastname
-      stage
-      years
-      teacher
       story
     }
   }

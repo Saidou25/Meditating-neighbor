@@ -21,6 +21,7 @@ import Teachers from "./pages/Usa/Teachers";
 import Profile from "./pages/Profile";
 import Avatar from "./pages/Profile/Avatar";
 import ProfileForm from "./pages/Profile/ProfileForm";
+import ProfileFormReuse from "./components/ProfileFormReuse";
 import UpdateMyProfileForm from "./pages/Profile/UpdateMyProfileForm";
 import DeleteModal from "./pages/Profile/DeleteModal";
 import TeacherMediaScreen from "./pages/Usa/Teachers/TeacherMediaScreen";
@@ -110,13 +111,12 @@ function App() {
             <Route path="/Usa" element={<Usa />} />
             <Route path="/Avatar" element={<Avatar />} />
             <Route path="/ProfileForm" element={<ProfileForm />} />
+            <Route path="/ProfileFormReuse" element={<ProfileFormReuse />} />
             <Route path="/ProfileList" element={<ProfileList />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
             <Route path="/Members" element={<Members />} />
-            {/* <Route path="/ResetPassword" element={<ResetPassword />} /> */}
             <Route path="/Success" element={<Success />} />
-            {/* <Route path="/VerifyEmail" element={<VerifyEmail />} /> */}
             <Route path="/Teachers" element={<Teachers />} />
             <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
             <Route path="/" element={<LandingPage />} />

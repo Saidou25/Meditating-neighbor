@@ -81,7 +81,7 @@ const typeDefs = gql`
     deleteLocation(id: String!): Location
     updateAvatar(id: String, username: String, avatarUrl: String): Avatar
     addProfile(
-      username: String
+      username: String!
       firstname: String
       lastname: String
       stage: String
@@ -91,7 +91,7 @@ const typeDefs = gql`
     ): Profile
     updateProfile(
       id: String!
-      username: String
+      username: String!
       firstname: String
       lastname: String
       stage: String
