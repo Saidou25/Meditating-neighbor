@@ -11,9 +11,10 @@ import { ADD_LOCATION, DELETE_LOCATION } from "../../utils/mutations";
 import { QUERY_LOCATIONS, QUERY_ME } from "../../utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { Navigate } from "react-router-dom";
+import Button from "../../components/Button";
 import Auth from "../../utils/auth";
-import useMyInfo from "../../Hooks/UseMyRequests";
 import useUsersInfo from "../../Hooks/UseUsersInfo";
+import useMyInfoHook from "../../Hooks/UseMyInfo";
 import API from "../../utils/API";
 import Navbar from "../../components/Navbar";
 import Teachers from "./Teachers";
@@ -51,9 +52,9 @@ const Usa = () => {
   const [value, setValue] = useState("10");
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const { me } = useMyInfo();
+  
+  const { me } = useMyInfoHook();
   const { users } = useUsersInfo();
-
   // querying all users' locations. This is the only place in the appliction where this query is used.
   const {
     data: locationsData,
@@ -148,6 +149,7 @@ const Usa = () => {
       }
     }
   };
+
   // finding coordinates of loggedin user
   const searchCity = (longitude, latitude) => {
     API.search(longitude, latitude)
@@ -162,7 +164,7 @@ const Usa = () => {
       move();
     } else {
       setNotSupported("Geolocation is not supported by this browser.");
-      console.log("not supported", notSupported);
+      console.log("not supported");
     }
   };
   // showing user's position on the US map by setting up user's latitude and longitude.
@@ -189,7 +191,7 @@ const Usa = () => {
         },
       });
       if (data) {
-        console.log("success adding location", data);
+        console.log("success adding location");
       }
     } catch (err) {
       console.log(err);
@@ -209,7 +211,7 @@ const Usa = () => {
         },
       });
       if (data) {
-        console.log("success deleting location", data);
+        console.log("success deleting location");
         handleSubmit();
       }
     } catch (e) {
@@ -239,13 +241,13 @@ const Usa = () => {
       >
         <div className="row buttons-row m-0">
           <div className="col-12 btn-locate bg-primary">
-            <button
+            <Button
               className="btn-coordinates text-white"
               type="button"
               onClick={getLocation}
             >
               locate me
-            </button>
+            </Button>
           </div>
           {showProgressBar === "show" && !result.length && (
             <div className="col-12 bar bg-primary p-0 my-5">
@@ -264,34 +266,34 @@ const Usa = () => {
           )}
           {result[0]?.country === "US" && !myLocation && (
             <div className=" col-12 btn-locate bg-primary">
-              <button
+              <Button
                 className="btn-coordinates text-white"
                 type="button"
                 onClick={handleSubmit}
               >
                 save location
-              </button>
+              </Button>
             </div>
           )}
           {result[0]?.country === "US" && myLocation && (
             <div className="col-12 btn-locate bg-primary">
-              <button
+              <Button
                 className="btn-coordinates text-white"
                 type="button"
                 onClick={remove}
               >
                 update location
-              </button>
+              </Button>
             </div>
           )}
           {confirm && (
             <div className="col-12 btn-locate mt-5">
-              <button
+              <Button
                 className="btn-coordinates bg-success text-primary"
                 type="button"
               >
                 location saved
-              </button>
+              </Button>
             </div>
           )}
         </div>

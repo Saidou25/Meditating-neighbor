@@ -6,11 +6,10 @@ const useMyInfoHook = () => {
   const [me, setMeData] = useState("");
 
   const { data: meData } = useQuery(QUERY_ME);
-
+  
   useEffect(() => {
     if (meData) {
       const myData = meData?.me || [];
-
       setMeData(myData);
     }
   }, [meData]);

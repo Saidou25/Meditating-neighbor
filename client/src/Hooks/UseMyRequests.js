@@ -7,7 +7,7 @@ import useUsersInfo from "./UseUsersInfo";
 const useMyRequestsHook = () => {
   const [usersIncomingRequestProfiles, setUsersIncomingRequestProfiles] =
     useState([]);
-  const [myOutgoingRequestUserProfile, setMyOutgoingRequestUserProfile] =
+  const [myOutgoingRequestUserProfiles, setMyOutgoingRequestUserProfiles] =
     useState([]);
   const [myRequestsIds, setMyRequestsIds] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
@@ -19,17 +19,21 @@ const useMyRequestsHook = () => {
 
   useEffect(() => {
     const allRequests = requestsData?.requests || [];
-    const allMyRequests = [];
 
     if (me && users && requestsData) {
       // filter all contact requests addressed to me
       const requestsToMe = allRequests?.filter(
         (request) => request.destinationName === me.username
       );
-      setIncomingRequests(requestsToMe);
-      const fromUsers = [];
+
+      if (requestsToMe.length) {
+        setIncomingRequests(requestsToMe);
+      } else {
+        setIncomingRequests([]);
+      }
       //  loop to all request to get profiles of the people requesting my contact and
       //  push them into a list "fromUsers" to set "setRequestingUsersProfiles()" so profiles can be rendered in DOM.
+      const fromUsers = [];
       if (requestsToMe.length) {
         for (let requestToMe of requestsToMe) {
           const requestingUsers = users?.filter(
@@ -45,21 +49,29 @@ const useMyRequestsHook = () => {
       const myRequests = allRequests?.filter(
         (request) => request.myName === me.username
       );
+      if (myRequests.length) {
+        setOutgoingRequests(myRequests);
+      } else {
+        setOutgoingRequests([]);
+        setMyOutgoingRequestUserProfiles([]);
+      }
 
-      setOutgoingRequests(myRequests);
       const toUsers = [];
-
       for (let myRequest of myRequests) {
         const requestedUsers = users.filter(
           (user) => user.username === myRequest.destinationName
         );
-        if (requestedUsers[0]) {
+
+        if (requestedUsers) {
           toUsers.push(requestedUsers[0]);
-          setMyOutgoingRequestUserProfile(toUsers);
+          setMyOutgoingRequestUserProfiles(toUsers);
+        } else {
+          setMyOutgoingRequestUserProfiles([]);
         }
       }
 
       // get all requests Ids that will be used for deleting requests from non existing user(in case a user deletes his/her account).
+      const allMyRequests = [];
       for (let request of allRequests) {
         if (request.myName === me.username) {
           allMyRequests.push(request._id);
@@ -73,12 +85,12 @@ const useMyRequestsHook = () => {
   }, [me, users, requestsData]);
 
   return {
-    me,
     usersIncomingRequestProfiles,
-    myOutgoingRequestUserProfile,
+    myOutgoingRequestUserProfiles,
     incomingRequests,
     outgoingRequests,
     myRequestsIds,
+    me,
   };
 };
 export default useMyRequestsHook;

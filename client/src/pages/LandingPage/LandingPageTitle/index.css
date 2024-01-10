@@ -1,0 +1,149 @@
+.main {
+  min-height: 25vh;
+}
+.word {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  font-size: 1px;
+}
+
+.effect {
+  animation: magnifying 3s forwards linear 0.5s;
+}
+@keyframes magnifying {
+  0% {
+    font-size: 0;
+  }
+  50% {
+    font-size: 7em;
+  }
+  100% {
+    font-size: 5em;
+  }
+}
+
+.lili {
+  list-style: none !important;
+  letter-spacing: 0 !important;
+  text-transform: capitalize;
+  font-weight: 600;
+  animation: lighting 3s linear;
+  color: grey;
+}
+@keyframes lighting {
+  0% {
+    color: grey;
+    text-shadow: none;
+  }
+  90% {
+    color: grey;
+    text-shadow: none;
+  }
+  100% {
+    color: #ffa500;
+    text-shadow: 0 0 7px #ffa500, 0 0 15px #ffa500, 0 0 25px #ffa500,
+      0 0 50px #ffa500, 0 0 120px #e3bf7b;
+  }
+}
+.ready0 {
+  animation-delay: 1.35s;
+}
+.ready1 {
+  animation-delay: 1.55s;
+}
+.ready2 {
+  animation-delay: 1.75s;
+}
+.ready3 {
+  animation-delay: 1.95s;
+}
+.ready4 {
+  animation-delay: 2.15s;
+}
+.ready5 {
+  animation-delay: 2.35s;
+}
+.ready6 {
+  animation-delay: 2.55s;
+}
+.ready7 {
+  animation-delay: 2.75s;
+}
+
+.solid-letter {
+  color: grey;
+  animation: filling 3s linear forwards;
+}
+@keyframes filling {
+  0% {
+    color: grey;
+  }
+  90% {
+    color: grey;
+  }
+
+  100% {
+    color: #ffa500;
+  }
+}
+
+.solid-letter0 {
+  animation-delay: 1.35s;
+}
+.solid-letter1 {
+  animation-delay: 1.55s;
+}
+.solid-letter2 {
+  animation-delay: 1.75s;
+}
+
+/* @keyframes moving {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(500px, 0);
+  }
+} */
+/* @keyframes solid-letter {
+  0% {
+    color: grey;
+    text-shadow: none;
+  }
+  90% {
+    color: grey;
+    text-shadow: none;
+  }
+  100% {
+    /* color: orange; */
+/* color: #ffa500; */
+/* text-shadow: none; */
+/* } */
+/* } */
+@media only screen and (max-device-width: 414px) {
+  /* .main {
+    min-height: 15vh;
+  } */
+  .word {
+    margin-top: 5%;
+  }
+  .effect {
+    animation: magnifying 3s forwards linear 0.5s;
+  }
+  @keyframes magnifying {
+    0% {
+      font-size: 0;
+    }
+    50% {
+      font-size: 3em;
+    }
+    100% {
+      font-size: 2em;
+    }
+  }
+}

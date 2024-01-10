@@ -1,0 +1,26 @@
+.profile-title {
+  padding-top: 10%;
+  padding-bottom: 5%;
+}
+.btn-profile-form {
+  background-color: black !important;
+  color: white;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+.btn-profile-form:hover {
+  background-color: orange !important;
+  color: black !important;
+}
+.form-check-input:checked {
+  background-color: black;
+  border-color: white;
+}
+/* @media screen and (max-width:414px) {
+    .main-form {
+        width: 96%;
+        margin: auto;
+        padding-top: 15%;
+        padding-bottom: 15%;
+    }
+  } */

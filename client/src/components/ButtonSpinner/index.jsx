@@ -9,4 +9,5 @@ const ButtonSpinner = () => {
     ></span>
   );
 };
+
 export default ButtonSpinner;

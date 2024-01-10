@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import ModalReuse from "../../../../components/ModalReuse";
 import profileIcon from "../../../../assets/images/profileicon.png";
+import Image from "../../../../components/Image";
 import "./index.css";
 
 // This component displays profile picture and username for smaller screens. Cards didn't look good for smaller screens.
@@ -36,15 +37,34 @@ const TeacherMediaScreen = ({ tmiTeacher }) => {
                   </div>
                   <div className="row profiles-row">
                     <div className="col-12 profiles-column">
-                      <img
-                        className="contact-pic"
+                      <div className="container-fluid" style={{ maxWidth: "100px", maxHeight: "100px" }}>
+                      <Image
                         src={
                           user.avatar?.avatarUrl
                             ? user.avatar?.avatarUrl
                             : profileIcon
                         }
-                        alt="profile avatar"
+                        alt="default profile icon or user's profile picture"
+                        style={{
+                          // width: "100px",
+                          // height: "100px",
+                          borderRadius: "50%",
+                        }}
                       />
+                      </div>
+                      {/* <Image
+                        src={
+                          user.avatar?.avatarUrl
+                            ? user.avatar?.avatarUrl
+                            : profileIcon
+                        }
+                        alt="default profile icon or user's profile picture"
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          borderRadius: "50%",
+                        }}
+                      /> */}
                     </div>
                     <div className="col-12 profiles-column">
                       <p className="location my-4 text-light">

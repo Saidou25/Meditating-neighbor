@@ -63,7 +63,7 @@ let teacherTemplate = {
     },
     {
       title: "story",
-      type: "text",
+      type: "textarea",
       name: "story",
       placeholder: "tell us about you...",
     },

@@ -22,7 +22,7 @@ const Footer = () => {
           mosaidou@gmail.com
         </p>
         <p className="footer-item text-light pt-0 pb-2 px-5">
-          Photography by Petr Sidorov and Andrea De Santis
+          Photography by Petr Sidorov, Andrea De Santis and Christina Deravedisian
         </p>
       </div>
     </div>

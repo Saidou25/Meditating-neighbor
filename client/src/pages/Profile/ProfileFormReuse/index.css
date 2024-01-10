@@ -1,0 +1,36 @@
+.add-profile-container {
+  min-height: 70vh;
+  padding-right: 30%;
+  padding-left: 30%;
+  padding-bottom: 8%;
+  padding-top: 5%;
+}
+/* .reuse {
+  width: 100% !important;
+} */
+.profile-form-reuse {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  /* margin-left: 30%;
+  margin-right: 30%; */
+ width: 30%; 
+  margin: auto;
+}
+@media screen and (max-width: 1300px) {
+  .profile-form-reuse {
+    width: 45%;
+    padding-bottom: 15%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .profile-form-reuse {
+    width: 55%;
+    padding-bottom: 15%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .profile-form-reuse {
+    width: 96%;
+    padding-bottom: 15%;
+  }
+}

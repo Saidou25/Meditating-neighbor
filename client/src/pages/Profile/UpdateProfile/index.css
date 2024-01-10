@@ -1,0 +1,32 @@
+.update-profile-form {
+    padding-right: 10%;
+    padding-left: 10%;
+}
+.btn-update-profile {
+    color: white !important;
+    background-color: black !important;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+.btn-update-profile:hover {
+    color: black !important;
+    background-color: orange !important;
+}
+.profile-form-error {
+    text-align: center;
+}
+/* input[type="radio"] {
+    accent-color: #232323;
+  } */
+  .form-check-input:checked {
+    background-color: black;
+    border-color: white;
+  }
+@media screen and (max-width:414px) {
+    .main-form {
+        width: 96%;
+        margin: auto;
+        padding-top: 15%;
+        padding-bottom: 15%;
+    }
+  }

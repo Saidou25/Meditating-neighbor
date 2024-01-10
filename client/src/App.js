@@ -7,27 +7,18 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import FormReuse from "./components/FormReuse";
 import Contacts from "./pages/Contacts";
-import Notifications from "./pages/Contacts/Notifications";
 import LandingPage from "./pages/LandingPage";
-import Login from "./pages/LandingPage/Login";
-import LandingFooter from "./pages/LandingPage/LandingFooter";
-import Map from "./pages/Map";
 import Usa from "./pages/Usa";
-import Teachers from "./pages/Usa/Teachers";
 import Profile from "./pages/Profile";
-import Avatar from "./pages/Profile/Avatar";
-import ProfileForm from "./pages/Profile/ProfileForm";
-import ProfileFormReuse from "./components/ProfileFormReuse";
-import UpdateMyProfileForm from "./pages/Profile/UpdateMyProfileForm";
-import DeleteModal from "./pages/Profile/DeleteModal";
-import TeacherMediaScreen from "./pages/Usa/Teachers/TeacherMediaScreen";
+import AddProfile from "./pages/Profile/AddProfile";
+import UpdateProfile from "./pages/Profile/UpdateProfile";
 import Members from "./pages/Members";
-import ProfileList from "./pages/Members/ProfileList";
-import Success from "./components/Success";
+import Login from "./pages/LandingPage/Login";
+import VerifyEmail from "./pages/LandingPage/VerifyEmail";
+import ResetPassword from "./pages/LandingPage/ResetPassword";
+import Signup from "./pages/LandingPage/Signup";
+import PageNotFound from "./pages/PageNotFound";
 import "bootswatch/dist/lux/bootstrap.min.css";
 import "./App.css";
 
@@ -85,7 +76,7 @@ const cache = new InMemoryCache({
       },
     },
   },
-})
+});
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
@@ -96,32 +87,21 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <>
-          <Routes>
-            <Route path="/Navbar" element={<Navbar />} />
-            <Route path="/Footer" element={<Footer />} />
-            <Route path="/FormReuse" element={<FormReuse />} />
-            <Route path="/Contacts" element={<Contacts />} />
-            <Route path="/DeleteModal" element={<DeleteModal />} />
-            <Route path="/Login" element={<Login />} />
-            {/* <Route path="/Signup" element={<Signup />} /> */}
-            <Route path="/LandingFooter" element={<LandingFooter />} />
-            <Route path="/Map" element={<Map />} />
-            <Route path="/Notifications" element={<Notifications />} />
-            <Route path="/Usa" element={<Usa />} />
-            <Route path="/Avatar" element={<Avatar />} />
-            <Route path="/ProfileForm" element={<ProfileForm />} />
-            <Route path="/ProfileFormReuse" element={<ProfileFormReuse />} />
-            <Route path="/ProfileList" element={<ProfileList />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/UpdateMyProfileForm" element={<UpdateMyProfileForm />} />
-            <Route path="/Members" element={<Members />} />
-            <Route path="/Success" element={<Success />} />
-            <Route path="/Teachers" element={<Teachers />} />
-            <Route path="/TeacherMediaScreen" element={<TeacherMediaScreen />} />
-            <Route path="/" element={<LandingPage />} />
-          </Routes>
-        </>
+        <Routes>
+          <Route path="/" element={<LandingPage />}>
+            <Route path="Login" element={<Login />} />
+            <Route path="Signup" element={<Signup />} />
+            <Route path="VerifyEmail" element={<VerifyEmail />} />
+            <Route path="ResetPassword" element={<ResetPassword />} />
+          </Route>
+          <Route path="/Members" element={<Members />} />
+          <Route path="/Usa" element={<Usa />} />
+          <Route path="/Contacts" element={<Contacts />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/AddProfile" element={<AddProfile />} />
+          <Route path="/UpdateProfile" element={<UpdateProfile />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </Router>
     </ApolloProvider>
   );

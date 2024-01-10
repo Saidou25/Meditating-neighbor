@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import {
   DELETE_PROFILE,
@@ -10,21 +10,18 @@ import {
 } from "../../../utils/mutations";
 import { storage } from "../../../firebase";
 import { ref, deleteObject } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { auth } from "../../../firebase";
+import Button from "../../../components/Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Auth from "../../../utils/auth";
+import { UserContext } from "../../../utils/userContext";
+
 import "./index.css";
 
-const DeleteModal = ({
-  profileId,
-  savedUrl,
-  avatarId,
-  locationId,
-  userId,
-  myContactsIds,
-  myRequestsIds,
-}) => {
+const DeleteModal = ({ myContactsIds, myRequestsIds }) => {
   const [message, setMessage] = useState("");
+  const me = useContext(UserContext);
+
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
   const [deleteAvatar] = useMutation(DELETE_AVATAR);
@@ -32,14 +29,12 @@ const DeleteModal = ({
   const [deleteContact] = useMutation(DELETE_CONTACT);
   const [deleteRequest] = useMutation(DELETE_REQUEST);
 
-  const auth = getAuth();
+  const user = auth.currentUser;
 
   // logout user after account deletion
   const logout = () => {
     Auth.logout();
   };
-
-  const [user] = useAuthState(auth);
 
   // delete user from firebase database
   const removeFirebaseUser = () => {
@@ -55,18 +50,19 @@ const DeleteModal = ({
     }, 2500);
   };
 
-  const storageRef = ref(storage, savedUrl);
+  const storageRef = ref(storage, me.avatar?.avatarUrl);
   const toDelete = storageRef.fullPath;
   const imageRef = ref(storage, `${toDelete}`);
 
   //  delete user's account from MongoDb database using graphql deleteUser mutation
   const removeUser = async () => {
-    if (!userId) {
+    const myId = me._id;
+    if (!myId) {
       return;
     }
     try {
       const { data } = await deleteUser({
-        variables: { id: userId },
+        variables: { id: myId },
       });
       if (data) {
         removeFirebaseUser();
@@ -113,7 +109,6 @@ const DeleteModal = ({
           variables: { id: contactId },
         });
         if (data) {
-          console.log("success deleting contact", data);
           requestDispatch();
         }
       } catch (e) {
@@ -133,12 +128,12 @@ const DeleteModal = ({
 
   // deletes user's location
   const removeLocation = async () => {
-    if (!locationId) {
+    if (!me.location?._id) {
       contactDispatch();
     } else {
       try {
         const { data } = await deleteLocation({
-          variables: { id: locationId },
+          variables: { id: me.location._id },
         });
         if (data) {
           contactDispatch();
@@ -161,12 +156,12 @@ const DeleteModal = ({
   };
   // delete user's profile picture from MongoDb databse
   const removeAvatar = async () => {
-    if (!avatarId) {
+    if (!me.avatar?._id) {
       removeLocation();
     } else {
       try {
         const { data } = await deleteAvatar({
-          variables: { id: avatarId },
+          variables: { id: me.avatar?._id },
         });
         if (data) {
           console.log("success deleting avatar");
@@ -180,12 +175,12 @@ const DeleteModal = ({
   };
   // delete user's profile from MongoDb database using deleteProfile graphql mutation
   const removeProfile = async () => {
-    if (!profileId) {
+    if (!me.profile?._id) {
       removeAvatar();
     } else {
       try {
         const { data } = await deleteProfile({
-          variables: { id: profileId },
+          variables: { id: me.profile?._id },
         });
         if (data) {
           console.log("success deleting profile");
@@ -198,15 +193,22 @@ const DeleteModal = ({
   };
 
   return (
-    <div className="footer-container-here bg-primary">
-      <button
-        type="button"
-        className="btn btn-primary here-botton text-info px-2 pt-0"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        here
-      </button>
+    <>
+      <div className="bottom-text">
+        <span style={{ verticalAlign: "text-bottom" }}> Click</span>
+        <button
+          type="button here-button"
+          className="btn btn-primary here-botton text-info px-2 py-0"
+          style={{ verticalAlign: "text-bottom" }}
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          here
+        </button>
+        <span style={{ verticalAlign: "text-bottom" }}>
+          if you wish to delete your account.
+        </span>
+      </div>
       <div
         className="modal fade"
         id="exampleModal"
@@ -264,7 +266,7 @@ const DeleteModal = ({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default DeleteModal;

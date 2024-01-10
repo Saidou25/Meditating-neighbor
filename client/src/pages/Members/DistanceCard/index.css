@@ -1,0 +1,17 @@
+.locations-list-title {
+  margin-left: 10%;
+  padding-top: 7%;
+  padding-bottom: 4%;
+}
+
+@media screen and (max-width: 414px) {
+  .locations-list-title {
+    text-align: center;
+    font-size: 1rem;
+    padding-top: 0;
+    padding-bottom: 5%;
+  }
+  .neighbors {
+    padding-top: 45%;
+  }
+}

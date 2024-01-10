@@ -5,7 +5,7 @@ import { QUERY_ME } from "../utils/queries";
 import { useNavigate } from "react-router-dom";
 
 const useAddProfile = (addProfileHookData) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [addProfileErrorMessage, setAddProfileErrorMessage] = useState("");
   const [addProfileMessage, setAddProfileMessage] = useState("");
 
@@ -20,27 +20,27 @@ const useAddProfile = (addProfileHookData) => {
       } catch (e) {
         console.error(e);
       }
-      console.log("Profile successfully added to the cache");
     },
   });
 
   const handleFormSubmit = useCallback(async () => {
+    setAddProfileErrorMessage("");
     try {
       const { data } = await addProfile({
         variables: { ...addProfileHookData },
       });
       if (data) {
-        console.log("profile added");
+        setAddProfileMessage("Your profile has been created");
       }
     } catch (error) {
       setAddProfileErrorMessage(error);
       return;
     }
     // Resetting all states
-    setAddProfileMessage("Your profile has been created");
     setAddProfileErrorMessage("");
-     setTimeout(() => {
-        setAddProfileMessage("");
+    setTimeout(() => {
+      setAddProfileMessage("");
+      setAddProfileMessage("");
       navigate("/Profile");
     }, 3000);
   }, [addProfileHookData, addProfile, navigate]);

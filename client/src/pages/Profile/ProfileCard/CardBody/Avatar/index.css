@@ -1,0 +1,49 @@
+.pic {
+  display: flex;
+  justify-content: center;
+  margin-right: 30%;
+  margin-left: 30%;
+}
+.choose-file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.file-label {
+  cursor: pointer;
+  transition: 1s;
+  width: 100%;
+  padding: 14px;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  font-weight: bold;
+}
+.file-label:hover {
+  color: black !important;
+  background-color: orange !important;
+}
+/* hidding default type=file setup */
+#file-button {
+  display: none;
+}
+.save-error {
+  text-align: center;
+  padding: 2.5%;
+}
+
+@media screen and (max-width: 630px) {
+  .trash {
+    max-height: 35px !important;
+  }
+}
+@media screen and (max-width: 414px) {
+  .trash {
+    max-height: 25px !important;
+  }
+  .file-label {
+    font-size: 0.7rem !important;
+  }
+}

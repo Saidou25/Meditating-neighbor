@@ -9,7 +9,6 @@
   text-align: center;
   display: flex;
   justify-content: center !important;
-
 }
 .world {
   display: flex;
@@ -25,41 +24,42 @@
 .navbar-nav {
   display: flex;
   align-items: center;
+  justify-content: center !important;
 }
+
+.nav-link {
+  font-size: 1.25rem !important;
+  text-decoration: none !important;
+  text-align: center !important;
+}
+.blinking-link {
+  font-size: 1.25rem !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
 .navbar-collapse {
   flex-basis: 0 !important;
   flex-grow: 0 !important;
 }
 .icon-nav {
   border-radius: 50%;
-  height: 43px;
-  width: 43px;
+  height: 50px;
+  width: 50px;
 }
-.btn-logout {
-  background-color: black;
-  border: none;
-  color: white;
-  display: flex;
-  align-items: center;
-}
+
 .dropdown-menu {
   font-size: 1rem !important;
 }
 .logout {
+  letter-spacing: 2px;
   text-transform: uppercase;
   font-size: 1.25rem;
-  font-weight: 600;
-  padding-top: 0.715rem;
-  padding-bottom: 0.715rem;
 }
-.nav-link {
-  font-size: 1.25rem !important;
-}
-.contact-link {
-  animation-name: example;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
-}
+
 @keyframes example {
   0% {
     color: grey;
@@ -90,9 +90,12 @@
     height: 80px;
   }
   .nav-link,
+  .blinking-link,
   .logout {
     font-size: 1rem !important;
   }
+
+  
   .dropdown-menu {
     font-size: 0.9rem !important;
   }

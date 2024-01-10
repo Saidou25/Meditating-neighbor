@@ -1,0 +1,11 @@
+.name-in-footer {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 1;
+}
+@media screen and (max-width: 414px) {
+    .name-in-footer {
+        font-size: 0.6em;
+    }
+    
+}

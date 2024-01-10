@@ -1,37 +1,6 @@
 .landing-nav {
   display: none;
 }
-.login-signup {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 2%;
-  padding-right: 2%;
-}
-.signup,
-.site {
-  font-size: 1.2rem !important;
-  color: white !important;
-  background-color: black !important;
-  margin: 2px;
-}
-.signup:hover,
-.site:hover {
-  color: orange !important;
-}
-.landing-world {
-  display: flex;
-  justify-content: flex-start;
-  font-size: 4rem;
-}
-.landing-tmi {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 4rem;
-  margin-left: -75px;
-}
-.landing-tmiworld {
-  margin-top: 100px !important;
-}
 .container-landing {
   background-color: black;
 }
@@ -80,6 +49,7 @@
   width: 100% !important;
   min-height: 20%;
 }
+
 /* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
 @media only screen and (max-device-width: 1366px) {
   .parallax,
@@ -119,7 +89,9 @@
   }
 }
 @media screen and (max-width: 414px) {
-
+.title {
+  display: none;
+}
   .landing-nav {
     position: fixed;
     top: 0;
@@ -149,5 +121,17 @@
   }
   .container-nav-login {
     padding-top: 100px;
+  }
+  .signup {
+    border-width: 1px !important;
+    font-size: 0.8rem !important;
+    margin-right: 15px;
+  }
+  .sit-link {
+    width: 70px;
+    border-width: 1px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
   }
 }

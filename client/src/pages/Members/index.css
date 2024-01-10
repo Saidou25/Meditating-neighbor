@@ -1,3 +1,14 @@
+.test-text {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap !important;
+  flex-shrink: 2;
+}
+/* .shrinking {
+  display: flex;
+  flex-shrink: 2;
+} */
 @media screen and (max-width: 414px) {
     .members-nav {
         position: fixed;

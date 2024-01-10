@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { motion } from "framer-motion";
 import { auth } from "../../firebase";
+import { useLocation } from "react-router-dom";
 import Auth from "../../utils/auth";
-import Login from "./Login";
-import Navabar from "../../components/Navbar";
+import LandingPageTitle from "./LandingPageTitle";
+import LandingNav from "./LandingNav";
 import LandingFooter from "./LandingFooter";
+import Navabar from "../../components/Navbar";
 import "./index.css";
 
 const LandingPage = () => {
-  const [showLogin, setShowLogin] = useState("none");
+  // Reiceiving "landingPage" loading state set to loading from Navbar so when LandingPage is done rendering
+  // pageLoading get set to false, sent to "LandingPageTirle" component to start css effects.
+  const location = useLocation();
+  const passData = location.state;
+  let followPath = window.location.pathname;
+
+  const [showLogin, setShowLogin] = useState(false);
+
   const [showParallax, setShowParallax] = useState("block");
   const [showLogin2, setShowLogin2] = useState("none");
+  const [pageLoading, setPageLoading] = useState(true);
 
   // loggingout user from the landing page.
   const logout = () => {
@@ -31,7 +40,30 @@ const LandingPage = () => {
     }
   };
 
+  window.onload = () => {
+    setPageLoading(false);
+  };
+  window.onbeforeunload = () => {
+    setPageLoading(true);
+  };
+
   useEffect(() => {
+    if (
+      followPath === "/VerifyEmail" ||
+      followPath === "/Login" ||
+      followPath === "/ResetPassword" ||
+      followPath === "/Signup"
+    ) {
+      setShowLogin("block");
+    } else {
+      setShowLogin("none");
+    }
+  }, [followPath]);
+
+  useEffect(() => {
+    if (passData) {
+      setPageLoading(false);
+    }
     const handleResize = () => {
       // Here we are setting parallax effect depending on the screen width.
       if (showLogin && showParallax) {
@@ -50,67 +82,26 @@ const LandingPage = () => {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [showLogin, showParallax]);
+  }, [showLogin, showParallax, passData]);
 
   return (
     <>
       <header className="landing-nav">
         <Navabar />
       </header>
-      <main className="container-main bg-primary" style={{ display: `${showParallax}` }}>
+      <main
+        className="container-main bg-primary"
+        style={{ display: `${showParallax}` }}
+      >
         <div className="parallax">
-          <div className="login-signup">
-            {!Auth.loggedIn() && (
-              <button
-                className="btn btn-text signup rounded-0"
-                onClick={() => {
-                  setShowLogin("block");
-                }}
-              >
-                login
-              </button>
-            )}
-            {Auth.loggedIn() && (
-              <>
-                <div to="/" className="signup-link">
-                  <button
-                    className="btn btn-text signup rounded-0"
-                    onClick={() => {
-                      handleLogout();
-                    }}
-                  >
-                    logout
-                  </button>
-                </div>
-                <Link to="/USA" className="site-link">
-                  <button className="btn site rounded-0">site</button>
-                </Link>
-              </>
-            )}
+          <LandingNav
+            handleLogout={handleLogout}
+            setShowLogin2={setShowLogin2}
+          />
+          <div className="title">
+            <LandingPageTitle pageLoading={pageLoading} />
           </div>
-          <div className="row landing-tmiworld g-0">
-            <motion.h1
-              initial={{ scale: 0 }}
-              animate={{ scale: 1, color: "#ff9f04" }}
-              transition={{ type: "tween", duration: 4 }}
-              className="col-6 landing-tmi g-0"
-            >
-              TMI
-            </motion.h1>
-            <motion.h2
-              initial={{ scale: 0 }}
-              animate={{ scale: 1, color: "#64625f" }}
-              transition={{ type: "tween", duration: 6 }}
-              className="col-6 landing-world g-0 text-secondary"
-            >
-              WORLD
-            </motion.h2>
-          </div>
-          {showLogin === "block" && showParallax === "block" && (
-            <div className="show-login">
-              <Login />
-            </div>
-          )}
+          <Outlet />
         </div>
         <div className="container-landing">
           <div className="text-title">
@@ -154,7 +145,7 @@ const LandingPage = () => {
         style={{ display: `${showLogin2}` }}
       >
         <div className="show-nav-login py-5">
-          <Login />
+          <Outlet />
         </div>
       </div>
       <footer className="landing-footer">

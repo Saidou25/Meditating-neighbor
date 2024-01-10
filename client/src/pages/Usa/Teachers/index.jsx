@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import ModalReuse from "../../../components/ModalReuse";
+import Image from "../../../components/Image";
 import useUsersInfo from "../../../Hooks/UseUsersInfo";
 import TeacherMediaScreen from "./TeacherMediaScreen";
 import profileIcon from "../../../assets/images/profileicon.png";
@@ -11,6 +12,7 @@ const Teachers = () => {
   const [data, setData] = useState({ userInfo: "", date: "" });
   const [tmiTeacher, setTmiTeacher] = useState("");
   const [showModal, setShowModal] = useState(false);
+
   // importing all users from useUsersInfo hook
   const { users } = useUsersInfo();
 
@@ -25,6 +27,7 @@ const Teachers = () => {
       }
       setTmiTeacher(teachers);
     }
+    
   }, [users]);
 
   // if (loading) {
@@ -37,11 +40,7 @@ const Teachers = () => {
       ) : (
         <></>
       )}
-      <div className="teachers show-teachers bg-primary">
-        {/* {loading ? ( */}
-        {/* <Spinner /> */}
-        {/* ) : ( */}
-
+      <div className="container-fluid teachers show-teachers bg-primary">
         <div className="row">
           {tmiTeacher &&
             tmiTeacher.map((user) => (
@@ -65,15 +64,14 @@ const Teachers = () => {
                     <div className="card-body mt-3 mx-2">
                       <div className="row">
                         <div className="col-4 teachers-pic-col">
-                          <img
-                            className="teachers-pic p-2"
-                            src={
+                          <Image src={
                               user.avatar?.avatarUrl
                                 ? user.avatar?.avatarUrl
                                 : profileIcon
                             }
-                            alt="profile avatar"
-                          />
+                            alt="default profile icon or user's profile picture"
+                            style={{ borderRadius: "50%" }}
+                             />
                         </div>
                         {user.profile.story ? (
                           <div className="col-8 story">

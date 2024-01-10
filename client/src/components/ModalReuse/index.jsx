@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 import useMyContacts from "../../Hooks/UseMyContacts";
 import profileIcon from "../../assets/images/profileicon.png";
+import Image from "../../components/Image";
 import "./index.css";
 
 // Building modal to show profiles, will be used in trhee diferent pages.
@@ -43,16 +44,21 @@ const ModalReuse = ({ hideModal, data }) => {
             )}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="contact-body">
-          <div className="contact-avatar m-4">
-            <img
-              className="modal-pic"
+        <Modal.Body>
+          <div
+            className="container-fluid modal-avatar"
+            // style={{ marginLeft: "30%", marginRight: "30%", width: "30%" }}
+          >
+            <Image
               src={
                 data.userInfo?.avatar?.avatarUrl
                   ? data.userInfo?.avatar.avatarUrl
                   : profileIcon
               }
-              alt="profile icon"
+              style={{
+                borderRadius: "50%",
+              }}
+              alt="default profile icon or user's profile picture"
             />
           </div>
           <div className="row contact-profile-modal">
@@ -70,8 +76,7 @@ const ModalReuse = ({ hideModal, data }) => {
             </div>
             <div className="col-12">
               <div className="p-info text-primary mb-4">
-                <h4 className="info-teacher text-primary mt-5 mb-4">Info</h4>{" "}
-                {/* {data.userInfo?.profile ? ( */}
+                <h4 className="info-teacher text-primary mt-5 mb-4">Info</h4>
                 <div className="p-about mt-5 mb-4">
                   {data.userInfo?.profile.teacher ? (
                     <>

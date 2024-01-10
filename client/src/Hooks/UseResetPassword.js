@@ -5,8 +5,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER } from "../utils/mutations";
 import { QUERY_USERS } from "../utils/queries";
 
-const useResetPassword = (hooksDataValues) => {
-  const [resetDataTemplate, setResetDataTemplate] = useState("");
+const useResetPassword = (resetPasswordData) => {
+  // const [resetDataTemplate, setResetDataTemplate] = useState("");
   const [resetPasswordMessage, setResetPasswordMessage] = useState("");
   const [resetErrorMessage, setResetErrorMessage] = useState("");
 
@@ -23,10 +23,10 @@ const useResetPassword = (hooksDataValues) => {
   const verifyCode = useCallback(async () => {
     const firebaseResetPassword = async () => {
       try {
-        await confirmPasswordReset(auth, code, hooksDataValues.password1).then(
+        await confirmPasswordReset(auth, code, resetPasswordData.password1).then(
           (resp) => {
             setResetErrorMessage("");
-            setResetDataTemplate("cancel");
+            // setResetDataTemplate("cancel");
             setResetPasswordMessage("password reset with success");
           }
         );
@@ -43,7 +43,7 @@ const useResetPassword = (hooksDataValues) => {
             id: userId,
             username: username,
             email: accountEmail,
-            password: hooksDataValues.password1,
+            password: resetPasswordData.password1,
           },
         });
         if (data && data.updateUser) {
@@ -75,16 +75,16 @@ const useResetPassword = (hooksDataValues) => {
         "You should have received an email with a link. Click the link, go to reset and enter your new password."
       );
     }
-  }, [hooksDataValues, code, usersData, updateUser]);
+  }, [resetPasswordData, code, usersData, updateUser]);
 
   useEffect(() => {
-    if (!hooksDataValues.password1) {
+    if (!resetPasswordData.password1) {
       setResetErrorMessage("");
     } else {
       verifyCode();
     }
-  }, [verifyCode, hooksDataValues]);
+  }, [verifyCode, resetPasswordData]);
 
-  return { resetDataTemplate, resetPasswordMessage, resetErrorMessage };
+  return { resetPasswordMessage, resetErrorMessage };
 };
 export default useResetPassword;

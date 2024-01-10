@@ -1,0 +1,18 @@
+.my-button {
+  width: 100%;
+  color: white !important;
+  background-color: black !important;
+  cursor: pointer;
+}
+.my-button:hover {
+  background-color: orange !important;
+  color: black !important;
+  border-radius: 0 !important;
+  transition: 0.7s;
+}
+@media screen and (max-width: 414px) {
+  .my-button {
+    font-size: 0.7rem !important;
+    /* height: 40px; */
+  }
+}

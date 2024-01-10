@@ -40,7 +40,6 @@ const Map = () => {
     loadingLocations,
   } = useQuery(QUERY_LOCATIONS);
   const locations = locationsData?.locations || [];
-  console.log("locations", locations);
 
   const markers = [];
   for (let location of locations) {
@@ -85,10 +84,8 @@ const Map = () => {
   const getLocation = () => {
     if (navigator.geolocation) {
       setLocation(navigator.geolocation.getCurrentPosition(showPosition));
-      console.log("location", location);
     } else {
       setNotSupported("Geolocation is not supported by this browser.");
-      console.log("not supported", notSupported);
     }
   };
 

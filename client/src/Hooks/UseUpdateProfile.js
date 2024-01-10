@@ -21,7 +21,7 @@ const useAddProfile = (updateProfileHookData) => {
         variables: { ...updateProfileHookData },
       });
       if (data) {
-        console.log("profile added");
+        console.log("Profile updated");
       }
     } catch (error) {
       setUpdateProfileErrorMessage(error);
@@ -40,7 +40,6 @@ const useAddProfile = (updateProfileHookData) => {
     if (!updateProfileHookData) {
       return;
     } else {
-      console.log(updateProfileHookData)
       setUpdateProfileErrorMessage("");
       handleFormSubmit();
     }

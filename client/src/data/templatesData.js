@@ -22,7 +22,7 @@ let loginTemplate = {
     },
   ],
 };
-let resetTemplate = {
+let resetPasswordTemplate = {
   title: "Reset your password",
   buttonText: "Reset",
   fields: [
@@ -47,7 +47,7 @@ let resetTemplate = {
     },
   ],
 };
-let verifyTemplate = {
+let verifyEmailTemplate = {
   title: "Verify your email",
   buttonText: "submit",
   fields: [
@@ -95,4 +95,4 @@ let signupTemplate = {
     },
   ],
 };
-export { loginTemplate, resetTemplate, verifyTemplate, signupTemplate };
+export { loginTemplate, resetPasswordTemplate, verifyEmailTemplate, signupTemplate };

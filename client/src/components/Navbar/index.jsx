@@ -1,89 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { QUERY_ME, QUERY_REQUESTS, QUERY_CONTACTS } from "../../utils/queries";
 import { Link } from "react-router-dom";
-import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import dropDownLinks from "../../data/navbarData";
 import Auth from "../../utils/auth";
-import useMyContacts from "../../Hooks/UseMyContacts";
-import useMyRequests from "../../Hooks/UseMyRequests";
-import useUsersInfo from "../../Hooks/UseUsersInfo";
 import profileIcon from "../../assets/images/profileicon.png";
 import "./index.css";
 
 const Navbar = () => {
-  const [animation, setAnimation] = useState("");
-  const [isContact, setIsContact] = useState(false);
+  const { data: meData } = useQuery(QUERY_ME);
+  const me = meData?.me || [];
+  const { data: requestsData } = useQuery(QUERY_REQUESTS);
+  const allRequests = requestsData?.requests || [];
+  const { data: contactsData } = useQuery(QUERY_CONTACTS);
+  const contacts = contactsData?.contacts || [];
 
-  // importing hooks to get info that will be used to apply conditional logic on navbar elements display
-  const { me, myContacts, allContacts } = useMyContacts();
-  const { users } = useUsersInfo();
-  const { usersIncomingRequestProfiles, outgoingRequests } = useMyRequests();
+  const myContacts = contacts?.filter(
+    (contact) =>
+      contact.username === me.username || contact.friendUsername === me.username
+  );
 
-  // building dropDownLinds object to map over it later in the code to reduce html code
-  const dropDownLinks = [
-    {
-      linkName: "Usa",
-      linkTo: "/Usa",
-    },
-    // {
-    //   linkName: "Map",
-    //   linkTo: "/Map",
-    // },
-    {
-      linkName: "Europe(coming soon)",
-      linkTo: "/",
-    },
-    {
-      linkName: "Austalia(coming soon)",
-      linkTo: "/",
-    },
-    {
-      linkName: "UK(coming soon)",
-      linkTo: "/",
-    },
-  ];
+  const requestsToMe = allRequests?.filter(
+    (request) => request.destinationName === me.username
+  );
 
-  // logs out user from the navbar
+  const myRequests = allRequests?.filter(
+    (request) => request.myName === me.username
+  );
+
   const logout = () => {
     Auth.logout();
     console.log("logout success!");
   };
-  // firebase logout documentation
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      console.log("firebase signout succes");
-      logout();
-    } catch (error) {
-      console.log(error);
-    }
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("firebase signout succes");
+        logout();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  // making sure that these variables stay monitored for immediate response in page display.
-  useEffect(() => {
-    if (
-      usersIncomingRequestProfiles ||
-      outgoingRequests ||
-      myContacts ||
-      allContacts ||
-      users ||
-      me
-    ) {
-      // if there are contact requests with other users sent by me or by others to me
-      // then the contacts link item in nav will be set to slowly blink from orange to grey until action is taken from user.
-      if (usersIncomingRequestProfiles.length || outgoingRequests.length) {
-        setAnimation("contact-link");
-      }
-      if (myContacts?.length) {
-        setIsContact(true);
-      }
-    }
-  }, [
-    usersIncomingRequestProfiles,
-    outgoingRequests,
-    myContacts,
-    allContacts,
-    users,
-    me,
-  ]);
 
   return (
     <>
@@ -91,7 +52,7 @@ const Navbar = () => {
         <div className="container-fluid">
           {Auth.loggedIn() ? (
             <>
-              <Link className="navbar-brand" to="/">
+              <Link className="navbar-brand" to="/" state={{ passData: true }}>
                 <div className="row tmiworld">
                   <div className="col-6 tmi g-0">TMI</div>
                   <div className="col-6 world g-0">WORLD</div>
@@ -109,7 +70,7 @@ const Navbar = () => {
                 <span className="navbar-toggler-icon"></span>
               </button>
               <div className="collapse navbar-collapse" id="navbarColor01">
-                <ul className="navbar-nav me-auto">
+                <ul className="navbar-nav">
                   <li className="nav-item">
                     <Link className="nav-link" to="/Members">
                       members
@@ -144,28 +105,32 @@ const Navbar = () => {
                       </Link>
                     </div>
                   </li>
-                  {animation && (
+
+                  {!myContacts.length &&
+                  (requestsToMe.length || myRequests.length) ? (
                     <li className="nav-item">
-                      <Link className={`nav-link ${animation}`} to="/Contacts">
+                      <Link className="nav-link blinking-link" to="/Contacts">
                         contacts
                       </Link>
                     </li>
-                  )}
-                  {isContact === true && !animation && (
+                  ) : null}
+                  {myContacts.length ? (
                     <li className="nav-item">
-                      <Link className="nav-link" to="/Contacts">
+                      <Link
+                        className={
+                          requestsToMe.length || myRequests.length
+                            ? "nav-link blinking-link"
+                            : "nav-link"
+                        }
+                        to="/Contacts"
+                      >
                         contacts
                       </Link>
                     </li>
-                  )}
+                  ) : null}
                   <li className="nav-item">
-                    <button
-                      className="nav-link"
-                      onClick={() => {
-                        handleLogout();
-                      }}
-                    >
-                      <div className="logout">logout</div>
+                    <button className="nav-link" onClick={handleLogout}>
+                      <div className="logout py-0">logout</div>
                     </button>
                   </li>
                   <li className="nav-item">
@@ -173,9 +138,9 @@ const Navbar = () => {
                       <img
                         className="icon-nav"
                         src={
-                          !me.avatar?.avatarUrl
+                          !me?.avatar?.avatarUrl
                             ? profileIcon
-                            : me.avatar?.avatarUrl
+                            : me?.avatar?.avatarUrl
                         }
                         alt="profile icon"
                       />
@@ -186,7 +151,6 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {" "}
               <div className="row tmiworld1 g-0">
                 <div className="col-6 tmi g-0">TMI</div>
                 <div className="col-6 world g-0">WORLD</div>

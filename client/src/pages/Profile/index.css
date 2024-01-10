@@ -1,4 +1,5 @@
 .profile {
+  min-height: 100vh;
   padding-top: 5%;
   border-style: none;
 }
@@ -9,12 +10,19 @@
   margin-left: auto;
 }
 .profile-card {
+ filter: blur(0);
   width: 40%;
   height: auto;
   margin-right: auto;
   margin-left: auto;
   background-color: black !important;
+  animation: fadeIn 0.5s ease forwards;
 }
+@keyframes fadeIn {
+  from { opacity: 0 };
+  to { opacity: 1 }
+}
+
 .p-info-body {
   padding-right: 2rem;
   padding-left: 2rem;
@@ -43,12 +51,11 @@
   width: 100%;
 }
 .bottom-text {
-  margin: 10%;
+  padding-bottom: 10%;
   padding-left: 8% !important;
   margin-top: 10% !important;
-  display: flex;
-  align-items: flex-start;
 }
+
 .delete-btn {
   border: none;
 }
@@ -100,9 +107,8 @@
     padding-left: 1rem;
   }
   .bottom-text {
-    padding: 0 !important;
     margin-top: 10%;
-    margin-bottom: 5%;
+    padding-bottom: 5%;
     justify-content: center;
   }
   .profile-footer {
