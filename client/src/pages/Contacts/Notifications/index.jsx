@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Navigate } from "react-router-dom";
+import { useUser } from "../../../contexts/userContext";
 import Auth from "../../../utils/auth";
 import useDeleteRequest from "../../../Hooks/UseDeleteRequest";
 import useMyRequests from "../../../Hooks/UseMyRequests";
-import useMyInfo from "../../../Hooks/UseMyInfo";
+// import useMyInfo from "../../../Hooks/UseMyInfo";
 import "./index.css";
 
 const Notifications = ({ children, user, handleLoading }) => {
@@ -13,8 +14,10 @@ const Notifications = ({ children, user, handleLoading }) => {
     type: "",
   });
 
+  // UserContext hook
+  const { me } = useUser();
   // import requests info from hooks to avoid writing four queries in this component
-  const { me } = useMyInfo();
+  // const { me } = useMyInfo();
   const { incomingRequests, outgoingRequests } = useMyRequests();
   const { deleteRequestMessage, deleteRequestErrorMessage, loadingDeleteRequest } =
     useDeleteRequest(hookData);

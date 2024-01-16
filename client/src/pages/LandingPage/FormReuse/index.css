@@ -1,32 +1,25 @@
 .signup-card {
   width: 400px;
-  /* width: 100%;
-  height: auto; */
   border-radius: 25px;
   background-color: rgba(6, 3, 0, 0.77) !important;
   margin: auto;
-  margin-bottom: 5%;
+  animation: fadeIn 0.7s ease forwards;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.8);
+  /* z-index: 100; */
 }
-
-/* .signup-error-message {
-  width: 95%;
-  height: 60px;
-  margin-left: auto;
-  margin-right: auto;
-} */
-/* .form-label-signup {
-  color: black;
-  margin-left: 3%;
-  font-size: 1.2rem;
-  font-weight: 600;
-  width: 100% !important;
-} */
+.no-blur {
+  min-height: 100vh;
+}
 .signup-header {
   text-align: center !important;
 }
-
-
-
+.container-main {
+  position: relative;
+}
+.the-one {
+  position: absolute;
+  z-index: 2;
+}
 @media screen and (max-width: 640px) {
   .container-signup {
     height: auto;
@@ -43,6 +36,14 @@
   .container-signup {
     padding-top: 5%;
     height: auto;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 @media screen and (max-width: 450px) {

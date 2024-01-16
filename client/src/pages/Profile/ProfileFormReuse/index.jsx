@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+// import FloatingLabel from "react-bootstrap/FloatingLabel";  
 import Button from "../../../components/Button";
 import ButtonSpinner from "../../../components/ButtonSpinner";
 import {
@@ -12,7 +12,7 @@ import "./index.css";
 const ProfilFormReuse = ({
   getFromChild,
   addProfileMessage,
-  addProfileErrorMessage,
+  addProfileErrorMessage, 
   updateProfileMessage,
   updateProfileErrorMessage,
   myProfile,

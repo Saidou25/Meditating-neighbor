@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { signupTemplate } from "../../../data/templatesData";
+import { useNavigate } from "react-router-dom";
 import useSignup from "../../../Hooks/UseSignup";
 import SignupVerifyReset from "../SignupVerifyReset";
 import FormReuse from "../FormReuse";
 
-const Signup = ({ handleCancelForm, handleChooseForm }) => {
+const Signup = () => {
   const [signupData, setSignupData] = useState("");
   const [loading, setLoading] = useState(false);
   const [dynamicError, setDynamicError] = useState({
     message: "",
     fieldName: "",
   });
+
+  const navigate = useNavigate();
 
   const { signupMessage, signupErrorMessage } = useSignup(signupData);
 
@@ -33,22 +36,28 @@ const Signup = ({ handleCancelForm, handleChooseForm }) => {
   };
 
   useEffect(() => {
-    if (signupMessage || signupErrorMessage) {
+    if (signupMessage) {
+      setLoading(false);
+      navigate("/Login");
+    }
+  }, [signupMessage, navigate]);
+
+  useEffect(() => {
+    if (signupErrorMessage) {
       setLoading(false);
     }
-  }, [signupMessage, signupErrorMessage]);
+  }, [signupErrorMessage]);
 
   return (
     <FormReuse
       template={signupTemplate}
       onSubmit={onSubmit}
-      handleCancelForm={handleCancelForm}
       signupMessage={signupMessage}
       hookErrorMessage={signupErrorMessage}
       dynamicError={dynamicError}
       loading={loading}
     >
-      <SignupVerifyReset handleChooseForm={handleChooseForm} />
+      <SignupVerifyReset />
     </FormReuse>
   );
 };

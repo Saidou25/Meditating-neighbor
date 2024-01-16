@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../../../utils/userContext";
-// import Avatar from "./Avatar";
+import React from "react";
+import { useUser } from "../../../../contexts/userContext";
 import { FaEnvelope, FaIdBadge, FaHome } from "react-icons/fa";
 
 const CardBody = ({ children }) => {
-  const me = useContext(UserContext);
+  const { me } =useUser();
     return (
         <>
         <div>{children}</div>

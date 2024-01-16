@@ -17,10 +17,9 @@ const LandingPage = () => {
   const passData = location.state;
   let followPath = window.location.pathname;
 
-  const [showLogin, setShowLogin] = useState(false);
-
+  const [showLogin, setShowLogin] = useState("none");
+  const [outletBlur, setOutletBlur] = useState("");
   const [showParallax, setShowParallax] = useState("block");
-  const [showLogin2, setShowLogin2] = useState("none");
   const [pageLoading, setPageLoading] = useState(true);
 
   // loggingout user from the landing page.
@@ -55,8 +54,11 @@ const LandingPage = () => {
       followPath === "/Signup"
     ) {
       setShowLogin("block");
+      setOutletBlur("outlet-blur");
     } else {
       setShowLogin("none");
+      // setShowParallax("block");
+      setOutletBlur("");
     }
   }, [followPath]);
 
@@ -69,7 +71,6 @@ const LandingPage = () => {
       if (showLogin && showParallax) {
         if (window.innerWidth < 640 && showLogin === "block") {
           setShowParallax("none");
-          setShowLogin2("block");
         } else if (window.innerWidth < 640 && showLogin === "none") {
           setShowParallax("block");
         }
@@ -89,65 +90,77 @@ const LandingPage = () => {
       <header className="landing-nav">
         <Navabar />
       </header>
-      <main
-        className="container-main bg-primary"
-        style={{ display: `${showParallax}` }}
-      >
-        <div className="parallax">
-          <LandingNav
-            handleLogout={handleLogout}
-            setShowLogin2={setShowLogin2}
-          />
-          <div className="title">
-            <LandingPageTitle pageLoading={pageLoading} />
+      {showParallax === "block" && (
+        <>
+          <main
+            className="container-main bg-primary"
+            // style={{ display: `${showParallax}` }}
+          >
+            <div className="parallax">
+              <LandingNav
+                handleLogout={handleLogout}
+              />
+              <div className={`title ${outletBlur}`}>
+                <LandingPageTitle pageLoading={pageLoading} />
+                <Outlet />
+              </div>
+            </div>
+            <div className="container-landing">
+              <div className="text-title">
+                <p className="first-title">
+                  Have you ever wondered how many meditators are currently
+                  following the book "The Mind Illuminated" by Culadasa (John
+                  Yates, PhD) and Matthew Immergut, PhD?
+                </p>
+              </div>
+            </div>
+            <div className="second">
+              <div className="p-second">
+                <p className="text-second">
+                  That's the purpose of this free application we've created.
+                  Simply sign up, go to the "locate" feature, geolocate your
+                  position, and save it. That's all it takes to put yourself on
+                  the map. Please note that, for now, only practitioners from
+                  within the United States are able to save their locations.
+                  However, we have plans to expand to Australia, the UK, and
+                  Europe in the near future.
+                </p>
+              </div>
+            </div>
+            <div className="container-landing">
+              <div className="text-title">
+                <p className="first-title">
+                  Wouldn't it be wonderful to discover if there are fellow
+                  practitioners of "The Mind Illuminated" living just a few
+                  miles away from you?
+                </p>
+              </div>
+            </div>
+            <div className="third">
+              <div className="p-third">
+                <p className="text-third">
+                  To make this happen, ensure that you've saved your location,
+                  created your profile, and uploaded a profile picture. This
+                  way, you can be visible to others in the members' list. Once
+                  you've completed these steps, you can send contact requests to
+                  anyone you'd like to connect with and even follow up through
+                  your favorite social media platforms.
+                </p>
+              </div>
+            </div>
+          </main>
+        </>
+      )}
+      {showParallax === "none" && showLogin === "block" && (
+        <div
+          className="container-nav-login bg-primary"
+          // style={{ display: `${showLogin2}` }}
+        >
+          <div className="show-nav-login py-5">
+            <Outlet />
           </div>
-          <Outlet />
         </div>
-        <div className="container-landing">
-          <div className="text-title">
-            <p className="first-title">
-              Have you ever wondered how many meditators are currently following
-              the book "The Mind Illuminated" by Culadasa (John Yates, PhD) and
-              Matthew Immergut, PhD?
-            </p>
-            <p className="intro-text">
-              That's the purpose of this free application we've created. Simply
-              sign up, go to the "locate" feature, geolocate your position, and
-              save it. That's all it takes to put yourself on the map. Please
-              note that, for now, only practitioners from within the United
-              States are able to save their locations. However, we have plans to
-              expand to Australia, the UK, and Europe in the near future.
-            </p>
-          </div>
-        </div>
-        <div className="second"></div>
-        <div className="container-landing">
-          <div className="text-title">
-            <p className="first-title">
-              Wouldn't it be wonderful to discover if there are fellow
-              practitioners of "The Mind Illuminated" living just a few miles
-              away from you?
-            </p>
-            <p className="intro-text">
-              To make this happen, ensure that you've saved your location,
-              created your profile, and uploaded a profile picture. This way,
-              you can be visible to others in the members' list. Once you've
-              completed these steps, you can send contact requests to anyone
-              you'd like to connect with and even follow up through your
-              favorite social media platforms.
-            </p>
-          </div>
-        </div>
-        <div className="third"></div>
-      </main>
-      <div
-        className="container-nav-login bg-primary"
-        style={{ display: `${showLogin2}` }}
-      >
-        <div className="show-nav-login py-5">
-          <Outlet />
-        </div>
-      </div>
+      )}
       <footer className="landing-footer">
         <LandingFooter />
       </footer>

@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../../../utils/userContext";
+import React from "react";
+import { useUser } from "../../../../contexts/userContext";
 
 const CardHeader = () => {
-  const me = useContext(UserContext);
+  const { me } = useUser();
   return (
     <>
       <div className="card-header profile-header mt-3">
@@ -13,9 +13,8 @@ const CardHeader = () => {
             {me.profile?.firstname} {me.profile?.lastname}
           </h3>
         ) : (
-          // {/* <h3>{message}</h3> */}
-       <h3>{me.username}</h3> 
-    )} 
+          <h3>{me.username}</h3>
+        )}
       </div>
     </>
   );

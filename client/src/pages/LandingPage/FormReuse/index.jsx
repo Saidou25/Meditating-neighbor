@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +11,15 @@ const FormReuse = ({
   children,
   template,
   onSubmit,
-  handleCancelForm,
   dynamicError,
   loading,
   hookErrorMessage,
-  signupMessage,
 }) => {
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const { title, fields } = template;
 
-  useEffect(() => {
-    if (signupMessage) {
-      handleCancelForm("Signup");
-    }
-  });
+  
 
   const renderFields = (fields) => {
     return fields.map((field) => (
@@ -40,17 +34,18 @@ const FormReuse = ({
           type={field.type}
           name={field.name}
           placeholder={field.placeholder}
-          // id={field.name}
+          autoComplete={field.name === "email" ? "email" : "password"}
+          id={field.name}
           {...register(`${field.name}`, { required: true })}
         />
-        {dynamicError.message && field.name === dynamicError.fieldName && (
+        {dynamicError?.message && field.name === dynamicError?.fieldName && (
           <p className="text-danger mt-3">{dynamicError.message}</p>
         )}
       </div>
     ));
   };
   return (
-    <main className="container-fluid pb-5"
+    <main className="container-fluid no-blur"
     // style={{ width: "30%", height: "auto"}}
     >
       <div className="card signup-card g-0">

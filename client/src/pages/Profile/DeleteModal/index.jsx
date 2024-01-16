@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import {
   DELETE_PROFILE,
@@ -11,16 +11,16 @@ import {
 import { storage } from "../../../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import { auth } from "../../../firebase";
-import Button from "../../../components/Button";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import Button from "../../../components/Button";
+// import { useAuthState } from "react-firebase-hooks/auth";
 import Auth from "../../../utils/auth";
-import { UserContext } from "../../../utils/userContext";
+import { useUser } from "../../../contexts/userContext";
 
 import "./index.css";
 
 const DeleteModal = ({ myContactsIds, myRequestsIds }) => {
   const [message, setMessage] = useState("");
-  const me = useContext(UserContext);
+  const { me } = useUser();
 
   const [deleteLocation] = useMutation(DELETE_LOCATION);
   const [deleteProfile] = useMutation(DELETE_PROFILE);
@@ -195,7 +195,9 @@ const DeleteModal = ({ myContactsIds, myRequestsIds }) => {
   return (
     <>
       <div className="bottom-text">
-        <span style={{ verticalAlign: "text-bottom" }}> Click</span>
+        <span className="text-light" style={{ verticalAlign: "text-bottom" }}>
+          Click
+        </span>
         <button
           type="button here-button"
           className="btn btn-primary here-botton text-info px-2 py-0"
@@ -205,7 +207,7 @@ const DeleteModal = ({ myContactsIds, myRequestsIds }) => {
         >
           here
         </button>
-        <span style={{ verticalAlign: "text-bottom" }}>
+        <span className="text-light" style={{ verticalAlign: "text-bottom" }}>
           if you wish to delete your account.
         </span>
       </div>

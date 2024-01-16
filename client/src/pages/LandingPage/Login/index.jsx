@@ -7,7 +7,7 @@ import SignupVerifyReset from "../SignupVerifyReset";
 
 //  In this component we are handleling login, signup, verifyEmail and signup. This components are
 // displayed thru a dynamically generated form called "formReuse".
-const Login = ({ handleCancelForm, handleChooseForm }) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState("");
   const [dynamicError, setDynamicError] = useState({
@@ -18,7 +18,6 @@ const Login = ({ handleCancelForm, handleChooseForm }) => {
 
   // Handles values captured in the reusable "reusableForm" component.
   const onSubmit = (values) => {
-    
     if (values) {
       if (values?.password.length < 6) {
         setDynamicError({
@@ -38,23 +37,26 @@ const Login = ({ handleCancelForm, handleChooseForm }) => {
   };
 
   useEffect(() => {
-    if (loginErrorMessage || loginMessage) {
+    if (loginMessage) {
       setLoading(false);
     }
-  }, [loginMessage, loginErrorMessage]);
+  }, [loginMessage]);
 
-;
+  useEffect(() => {
+    if (loginErrorMessage) {
+      setLoading(false);
+    }
+  }, [loginErrorMessage]);
 
   return (
     <FormReuse
       template={loginTemplate}
       onSubmit={onSubmit}
       hookErrorMessage={loginErrorMessage}
-      handleCancelForm={handleCancelForm}
       dynamicError={dynamicError}
       loading={loading}
     >
-      <SignupVerifyReset handleChooseForm={handleChooseForm} />
+      <SignupVerifyReset />
     </FormReuse>
   );
 };

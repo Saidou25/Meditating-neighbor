@@ -20,6 +20,11 @@
   color: rgb(171, 171, 176);
   font-size: 1.2rem;
 }
+
+.outlet-blur {
+  backdrop-filter: blur(8px);
+  transition: 0.7s;
+}
 .parallax {
   background-image: url("../../assets/images/bowlcroped.jpeg");
   min-height: 1200px;
@@ -28,13 +33,33 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-.second {
+.second,
+.third {
   background-image: url("../../assets/images/bowlandbudha.jpeg");
   height: 600px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  align-items: center;
+}
+.text-second,
+.text-third {
+  background-color: rgba(212, 209, 209, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  margin: 30px;
+  font-weight: bold;
+  width: 60%;
+  color: black;
+  /* border-radius: 25px; */
+}
+.p-second,
+.p-third {
+  display: flex;
+  justify-content: center;
 }
 .third {
   background-image: url("../../assets/images/buddha.jpeg");
@@ -57,7 +82,6 @@
   .third {
     background-attachment: scroll;
   }
-
 }
 @media screen and (max-width: 640px) {
   .container-main {
@@ -89,9 +113,9 @@
   }
 }
 @media screen and (max-width: 414px) {
-.title {
-  display: none;
-}
+  .title {
+    display: none;
+  }
   .landing-nav {
     position: fixed;
     top: 0;
@@ -133,5 +157,22 @@
     font-size: 0.8rem;
     font-weight: 600;
     color: white;
+  }
+  .second,
+  .third {
+    background-image: url("../../assets/images/bowlandbudha.jpeg");
+    height: 600px;
+  }
+  .text-second,
+  .text-third {
+    background-color: rgba(212, 209, 209, 0.5);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    margin: 30px;
+    font-weight: normal;
+    width: 70%;
+    color: black;
+    /* border-radius: 25px; */
   }
 }

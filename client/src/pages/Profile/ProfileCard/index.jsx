@@ -1,10 +1,11 @@
 import React from "react";
+import "./index.css";
 
 const ProfileCard = ({ children }) => {
   return (
     <div className="row">
       <div className="col-12">
-        <div className="card profile-card">{children}</div>
+        <div className="card shadow profile-card">{children}</div>
       </div>
     </div>
   );

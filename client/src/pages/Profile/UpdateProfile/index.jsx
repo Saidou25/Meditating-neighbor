@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import useMyInfoHook from "../../../Hooks/UseMyInfo";
+// import useMyInfoHook from "../../../Hooks/UseMyInfo";
+import { useUser } from "../../../contexts/userContext";
 import useUpdateProfile from "../../../Hooks/UseUpdateProfile";
 import ProfileFormReuse from "../ProfileFormReuse";
 import Auth from "../../../utils/auth";
@@ -25,7 +26,7 @@ const UpdateProfile = () => {
     title: "",
     fields: [],
   });
-  const { me } = useMyInfoHook();
+  const { me } = useUser();
   const { updateProfileMessage, updateProfileErrorMessage } = useUpdateProfile(
     updateProfileHookData
   );

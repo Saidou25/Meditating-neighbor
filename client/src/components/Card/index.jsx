@@ -1,5 +1,6 @@
 import React from "react";
+import "./index.css";
 
 export default function Card({ children }) {
-  return <>{children}</>;
+  return <div className="main-card">{children}</div>;
 }

@@ -5,7 +5,7 @@ import useResetPassword from "../../../Hooks/UseResetPassword";
 import SignupVerifyReset from "../SignupVerifyReset";
 import FormReuse from "../FormReuse";
 
-const ResePassword = ({ handleCancelForm, handleChooseForm }) => {
+const ResePassword = () => {
   const [resetPasswordData, setResetPasswordData] = useState("");
   const [loading, setLoading] = useState(false);
   const [dynamicError, setDynamicError] = useState({
@@ -78,11 +78,10 @@ const ResePassword = ({ handleCancelForm, handleChooseForm }) => {
       template={resetPasswordTemplate}
       onSubmit={onSubmit}
       hookErrorMessage={resetPasswordErrorMessage}
-      handleCancelForm={handleCancelForm}
       dynamicError={dynamicError}
       loading={loading}
     >
-      <SignupVerifyReset handleChooseForm={handleChooseForm} />
+      <SignupVerifyReset />
     </FormReuse>
   );
 };

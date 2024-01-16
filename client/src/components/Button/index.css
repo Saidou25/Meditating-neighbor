@@ -13,6 +13,5 @@
 @media screen and (max-width: 414px) {
   .my-button {
     font-size: 0.7rem !important;
-    /* height: 40px; */
   }
 }

@@ -3,7 +3,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "./../firebase";
 
 const useVerifyEmail = (verifyEmailData) => {
-  // const [verifyEmailDdataTemplate, setVerifyEmailTemplate] = useState("");
+
   const [verifyEmailMessage, setVerifyEmailMessage] = useState("");
   const [verifyEmailErrorMessage, setVerifyEmailErrorMessage] = useState("");
 
@@ -17,7 +17,6 @@ const useVerifyEmail = (verifyEmailData) => {
     }
     setVerifyEmailMessage(`Email ${verifyEmailData.verifyEmail} verified.`);
     setVerifyEmailErrorMessage("");
-    // setVerifyEmailTemplate("cancel");
     alert("Email verification sent! Please check your email.");
   }, [verifyEmailData]);
 
@@ -31,7 +30,6 @@ const useVerifyEmail = (verifyEmailData) => {
 
   return {
     verifyEmailMessage,
-    // verifyEmailDdataTemplate,
     verifyEmailErrorMessage,
   };
 };

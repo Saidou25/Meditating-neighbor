@@ -4,7 +4,8 @@ import { Navigate } from "react-router-dom";
 import ProfileFormReuse from "../ProfileFormReuse";
 import Auth from "../../../utils/auth";
 import useAddProfile from "../../../Hooks/UseAddProfile";
-import useMyInfoHook from "../../../Hooks/UseMyInfo";
+// import useMyInfoHook from "../../../Hooks/UseMyInfo";
+import { useUser } from "../../../contexts/userContext";
 import Success from "../../../components/Success";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
@@ -14,7 +15,7 @@ const AddProfile = () => {
   const [addProfileHookData, setAddProfileHookData] = useState("");
   const [newPrfofile, setNewProfile] = useState(false);
   const [message, setMessage] = useState("");
-  const { me } = useMyInfoHook();
+  const { me } = useUser();
   const { addProfileMessage, addProfileErrorMessage } =
     useAddProfile(addProfileHookData);
 

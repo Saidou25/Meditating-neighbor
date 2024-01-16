@@ -7,6 +7,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./contexts/userContext";
 import Contacts from "./pages/Contacts";
 import LandingPage from "./pages/LandingPage";
 import Usa from "./pages/Usa";
@@ -86,23 +87,25 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />}>
-            <Route path="Login" element={<Login />} />
-            <Route path="Signup" element={<Signup />} />
-            <Route path="VerifyEmail" element={<VerifyEmail />} />
-            <Route path="ResetPassword" element={<ResetPassword />} />
-          </Route>
-          <Route path="/Members" element={<Members />} />
-          <Route path="/Usa" element={<Usa />} />
-          <Route path="/Contacts" element={<Contacts />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/AddProfile" element={<AddProfile />} />
-          <Route path="/UpdateProfile" element={<UpdateProfile />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Router>
+      <UserProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />}>
+              <Route path="Login" element={<Login />} />
+              <Route path="Signup" element={<Signup />} />
+              <Route path="VerifyEmail" element={<VerifyEmail />} />
+              <Route path="ResetPassword" element={<ResetPassword />} />
+            </Route>
+            <Route path="/Members" element={<Members />} />
+            <Route path="/Usa" element={<Usa />} />
+            <Route path="/Contacts" element={<Contacts />} />
+            <Route path="/Profile" element={<Profile />} />
+            <Route path="/AddProfile" element={<AddProfile />} />
+            <Route path="/UpdateProfile" element={<UpdateProfile />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </UserProvider>
     </ApolloProvider>
   );
 }

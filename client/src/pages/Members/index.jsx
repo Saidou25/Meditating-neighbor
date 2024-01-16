@@ -5,7 +5,8 @@ import { Navigate } from "react-router-dom";
 // import { v4 } from "uuid";
 import { getDistance } from "../../utils/getDistance";
 import Auth from "../../utils/auth";
-import useMyInfo from "../../Hooks/UseMyInfo";
+// import useMyInfo from "../../Hooks/UseMyInfo";
+import { useUser } from "../../contexts/userContext";
 import Footer from "../../components/Footer";
 import ProfileList from "./ProfileList";
 import Navbar from "../../components/Navbar";
@@ -38,7 +39,7 @@ const Neighbors = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const { incomingRequests, outgoingRequests } = useMyRequests();
-  const { me } = useMyInfo();
+  const { me } = useUser();
   const { myContacts } = useMyContacts();
   const { addNewContactRequestMessage, addNewContactRequestError } =
     useNewContactRequest(contactRequestData);

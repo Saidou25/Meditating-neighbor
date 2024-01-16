@@ -14,7 +14,8 @@ import { Navigate } from "react-router-dom";
 import Button from "../../components/Button";
 import Auth from "../../utils/auth";
 import useUsersInfo from "../../Hooks/UseUsersInfo";
-import useMyInfoHook from "../../Hooks/UseMyInfo";
+// import useMyInfoHook from "../../Hooks/UseMyInfo";
+import { useUser } from "../../contexts/userContext";
 import API from "../../utils/API";
 import Navbar from "../../components/Navbar";
 import Teachers from "./Teachers";
@@ -53,7 +54,7 @@ const Usa = () => {
   const [showProgressBar, setShowProgressBar] = useState("");
   const [confirm, setConfirm] = useState(false);
   
-  const { me } = useMyInfoHook();
+  const { me } = useUser();
   const { users } = useUsersInfo();
   // querying all users' locations. This is the only place in the appliction where this query is used.
   const {

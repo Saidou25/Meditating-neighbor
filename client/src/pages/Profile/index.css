@@ -16,7 +16,7 @@
   margin-right: auto;
   margin-left: auto;
   background-color: black !important;
-  animation: fadeIn 0.5s ease forwards;
+  animation: fadeIn 0.7s ease forwards;
 }
 @keyframes fadeIn {
   from { opacity: 0 };

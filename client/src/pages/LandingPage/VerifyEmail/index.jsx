@@ -4,41 +4,41 @@ import useVerifyEmail from "../../../Hooks/UseVerifyEmail";
 import FormReuse from "../FormReuse";
 import SignupVerifyReset from "../SignupVerifyReset";
 
-const VerifyEmail = ({ handleCancelForm, handleChooseForm }) => {
+const VerifyEmail = () => {
   const [verifyEmailData, setVerifyEmailData] = useState("");
   const [loading, setLoading] = useState(false);
-  const [dynamicError, setDynamicError] = useState({
-    message: "",
-    fieldName: "",
-  });
-  const { verifyEmailMessage, verigyEmailErrorMessage } =
+
+  const { verifyEmailMessage, verifyEmailErrorMessage } =
     useVerifyEmail(verifyEmailData);
 
   const onSubmit = (values) => {
     setVerifyEmailData(values);
     if (values.title === "Verify your email") {
       setLoading(true);
-      // firebaseLogin(values);
-    setVerifyEmailData(values);
+      setVerifyEmailData(values);
     }
   };
 
   useEffect(() => {
-    if (verifyEmailMessage || verigyEmailErrorMessage) {
+    if (verifyEmailMessage) {
       setLoading(false);
     }
-  }, [verigyEmailErrorMessage, verifyEmailMessage]);
+  }, [verifyEmailMessage]);
+
+  useEffect(() => {
+    if (verifyEmailErrorMessage) {
+      setLoading(false);
+    }
+  }, [verifyEmailErrorMessage]);
 
   return (
     <FormReuse
       template={verifyEmailTemplate}
       onSubmit={onSubmit}
       loading={loading}
-      dynamicError={dynamicError}
-      hookErrorMessage={verigyEmailErrorMessage}
-      handleCancelForm={handleCancelForm}
+      hookErrorMessage={verifyEmailErrorMessage}
     >
-      <SignupVerifyReset handleChooseForm={handleChooseForm} />
+      <SignupVerifyReset />
     </FormReuse>
   );
 };

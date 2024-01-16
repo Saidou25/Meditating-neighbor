@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../../../utils/userContext";
+import React from "react";
+import { useUser } from "../../../../contexts/userContext";
 import { Link } from "react-router-dom";
 
 const CardFooter = () => {
-const me = useContext(UserContext);
+const { me } = useUser();
 
     return (
         <>

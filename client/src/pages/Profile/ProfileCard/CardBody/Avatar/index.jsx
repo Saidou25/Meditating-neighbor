@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../../../../utils/userContext";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_AVATAR, DELETE_AVATAR } from "../../../../../utils/mutations";
 import { QUERY_ME } from "../../../../../utils/queries";
@@ -11,6 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import { useUser } from "../../../../../contexts/userContext";
 import Image from "../../../../../components/Image";
 import trash from "../../../../../assets/images/trash.jpg";
 import Button from "../../../../../components/Button";
@@ -29,7 +29,7 @@ const Avatar = () => {
   const [loading, setLoading] = useState(false);
   const [hookErrorMessage, setHookErrorMessage] = useState("");
 
-  const me = useContext(UserContext);
+  const { me } = useUser();
 
   // update the cache with newly uploaded profile picture
   const [addAvatar] = useMutation(ADD_AVATAR, {
