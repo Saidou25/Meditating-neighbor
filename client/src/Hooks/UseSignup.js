@@ -53,6 +53,7 @@ const useSignupHook = (signupData) => {
   }, [signupData]);
 
   useEffect(() => {
+    console.log(signupData)
     if (!signupData.signupEmail) {
       setSignupErrorMessage("");
     } else {

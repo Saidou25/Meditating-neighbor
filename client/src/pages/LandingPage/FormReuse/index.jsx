@@ -34,7 +34,7 @@ const FormReuse = ({
           type={field.type}
           name={field.name}
           placeholder={field.placeholder}
-          autoComplete={field.name === "email" ? "email" : "password"}
+          // autoComplete={field.name === "email" ? "email" : "password"}
           id={field.name}
           {...register(`${field.name}`, { required: true })}
         />
@@ -53,7 +53,7 @@ const FormReuse = ({
           <h3 className="signup-header pt-3">{title}</h3>
         </div>
         <div className="card-body">
-          <Form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <Form className="form"  onSubmit={handleSubmit(onSubmit)}>
             <Form.Group>
               {renderFields(fields)}
               <br />
