@@ -27,6 +27,7 @@ const useLogin = (loginData) => {
         }
       } catch (error) {
         console.log("Invalid login credentials from gql.");
+        // console.log(error.message);
       }
     }
   }, [loginData, login]);

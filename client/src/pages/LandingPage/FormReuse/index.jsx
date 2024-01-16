@@ -19,8 +19,6 @@ const FormReuse = ({
   const { register, handleSubmit, reset } = useForm();
   const { title, fields } = template;
 
-  
-
   const renderFields = (fields) => {
     return fields.map((field) => (
       <div key={field.name}>

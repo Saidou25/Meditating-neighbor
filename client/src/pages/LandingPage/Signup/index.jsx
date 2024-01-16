@@ -14,7 +14,6 @@ const Signup = () => {
   });
 
   const navigate = useNavigate();
-console.log(signupData)
   const { signupMessage, signupErrorMessage } = useSignup(signupData);
 
   const onSubmit = (values) => {
