@@ -1,0 +1,9 @@
+.p-fas {
+    display: flex;
+    flex-direction: column;
+}
+.dis {
+    display: flex;
+    align-items: center;
+    padding: 2px !important;
+}

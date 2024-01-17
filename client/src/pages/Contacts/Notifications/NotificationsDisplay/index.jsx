@@ -18,8 +18,8 @@ export default function NotificationsDisplay({
         <>
           <h3 className="request-title text-light">
             {type === "requestingUser"
-              ? "Your contact info is requested:"
-              : "You requested contact info:"}
+              ? "You requested contact info:"
+              : "Your contact info is requested:"}
           </h3>
           {data &&
             data.map((user) => (

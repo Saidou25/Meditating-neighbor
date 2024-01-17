@@ -26,17 +26,28 @@
   transition: 0.7s;
 }
 .parallax {
-  background-image: url("../../assets/images/bowlcroped.jpeg");
+  background-image: url("../../assets/images/smalllandingpic.jpeg");
   min-height: 1200px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.second,
+.second {
+  
+    background-image: url("../../assets/images/pic1small.jpeg");
+    height: 600px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+  
+}
 .third {
-  background-image: url("../../assets/images/bowlandbudha.jpeg");
-  height: 600px;
+  background-image: url("../../assets/images/smallBuddah.jpg");
+  height: 1200px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;

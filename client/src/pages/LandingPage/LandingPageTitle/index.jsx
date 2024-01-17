@@ -9,7 +9,7 @@ const LandingPageTitle = ({ pageLoading }) => {
   const [liliEffect2, setLiliEffect2] = useState("");
 
   let letters = "tmiworld";
-
+// console.log(pageLoading)
   useEffect(() => {
     if (!pageLoading) {
       setMainEffect("effect");
